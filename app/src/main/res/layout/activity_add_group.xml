@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group_screens.AddGroup">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- Group Image / Name -->
+        <LinearLayout
+            style="@style/add_group_common_linear_layout"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:onClick="chooseImage"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+
+            <EditText
+                style="@style/add_group__et_style"
+                android:layout_gravity="center"
+                android:hint="type group name" />
+        </LinearLayout>
+        <!--  Group Description      -->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <ImageView
+                style="@style/add_group_tv_styles"
+
+                android:src="@drawable/ic_description_black_24dp" />
+
+            <EditText
+                style="@style/add_group__et_style"
+                android:hint="type group descritpion"
+                android:maxLines="3" />
+        </LinearLayout>
+        <!--  Group Interests      -->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <TextView
+                style="@style/add_group_tv_styles"
+                android:text="Interest" />
+
+            <Spinner
+                android:id="@+id/sp_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <!--  Group required Level      -->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <TextView
+                style="@style/add_group_tv_styles"
+                android:text="Required Level" />
+
+            <Spinner
+                style="@style/add_group_spinners"
+                android:id="@+id/sp_required_Level"
+              />
+        </LinearLayout>
+        <!-- max members-->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <TextView
+                style="@style/add_group_tv_styles"
+                android:text="Max number of members:" />
+
+            <EditText
+                style="@style/add_group__et_style"
+                android:layout_width="wrap_content"
+                android:hint="number of members"
+                android:inputType="number" />
+
+        </LinearLayout>
+        <!-- duration -->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <TextView
+                style="@style/add_group_tv_styles"
+                android:text="duration (months)" />
+
+            <EditText
+                style="@style/add_group__et_style"
+                android:layout_width="wrap_content"
+                android:hint="duration"
+                android:inputType="number" />
+
+            <TextView
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_gravity="center"
+                android:text="max 3 months"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+        <!-- Group Location-->
+        <LinearLayout style="@style/add_group_common_linear_layout">
+
+            <TextView
+                style="@style/add_group_tv_styles"
+                android:text="Location" />
+
+            <Spinner
+                android:id="@+id/sp_locations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
