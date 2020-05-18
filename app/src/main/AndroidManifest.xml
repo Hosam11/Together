@@ -10,16 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BottomNavigationView">
-
+        </activity>
+      
+        <activity android:name=".group_screens.ViewGroup">
+        </activity
+          
+        <activity android:name=".group_screens.AddGroup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+      
         <activity android:name=".MainActivity">
-
         </activity>
+=
+        <activity android:name=".MainActivity">
+      </activity>
     </application>
 
 </manifest>
