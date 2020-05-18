@@ -32,8 +32,8 @@
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@drawable/group"
                 android:onClick="chooseImage"
+                android:src="@drawable/group"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp" />
 
@@ -45,14 +45,12 @@
         </LinearLayout>
 
         <!--  Group Description      -->
-        <!--  Group Interests      -->
         <LinearLayout
             style="@style/add_group_common_linear_layout"
             android:paddingTop="0dp">
 
             <ImageView
                 style="@style/add_group_icon"
-
                 android:src="@drawable/ic_description_black_24dp" />
 
             <TextView
@@ -64,9 +62,9 @@
                 android:hint="@string/hint_type_group_description"
                 android:inputType="text"
                 android:maxLines="3" />
-
         </LinearLayout>
 
+        <!--  Group Interests      -->
         <LinearLayout style="@style/add_group_common_linear_layout">
 
             <ImageView
@@ -77,12 +75,11 @@
                 style="@style/add_group_tv_styles"
                 android:text="@string/interest" />
 
-            <Spinner
+            <com.weiwangcn.betterspinner.library.BetterSpinner
                 android:id="@+id/sp_interest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alwaysDrawnWithCache="false"
-                android:animateLayoutChanges="true" />
+                style="@style/add_group_spinners"
+                android:hint="Select interest" />
+
         </LinearLayout>
         <!--  Group required Level      -->
         <LinearLayout style="@style/add_group_common_linear_layout">
@@ -95,10 +92,14 @@
                 style="@style/add_group_tv_styles"
                 android:text="Level" />
 
-            <Spinner
+            <com.weiwangcn.betterspinner.library.BetterSpinner
                 android:id="@+id/sp_required_Level"
-                style="@style/add_group_spinners" />
+                style="@style/add_group_spinners"
+                android:hint="Select Level" />
+
+
         </LinearLayout>
+
         <!-- max members-->
         <LinearLayout style="@style/add_group_common_linear_layout">
 
@@ -119,6 +120,7 @@
                 android:inputType="number" />
 
         </LinearLayout>
+
         <!-- duration -->
         <LinearLayout style="@style/add_group_common_linear_layout">
 
@@ -143,11 +145,8 @@
                 android:text="@string/max_3_months"
                 android:textColor="@android:color/holo_red_dark" />
 
-
         </LinearLayout>
         <!-- Group Location-->
-
-
         <LinearLayout style="@style/add_group_common_linear_layout">
 
             <ImageView
@@ -158,10 +157,10 @@
                 style="@style/add_group_tv_styles"
                 android:text="@string/location" />
 
-            <Spinner
+            <com.weiwangcn.betterspinner.library.BetterSpinner
                 android:id="@+id/sp_locations"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/add_group_spinners"
+                android:hint="Select Loctaion" />
 
         </LinearLayout>
 
@@ -174,6 +173,7 @@
             android:background="@color/colorPrimaryDark"
             android:padding="8dp"
             android:text="@string/create_group" />
+
     </LinearLayout>
 
 
