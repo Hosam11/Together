@@ -47,4 +47,9 @@ public class BottomNavigationView extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
 }
