@@ -1,4 +1,4 @@
-package com.example.together.Utils;
+package com.example.together.utils;
 
 public class HelperClass {
 

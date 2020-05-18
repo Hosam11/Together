@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Together</string>
+    <string name="group_image">group image</string>
+    <string name="hint_type_group_name">type group name</string>
+    <string name="hint_type_group_description">type group description</string>
+    <string name="interest">Interest</string>
+    <string name="required_level">Required Level</string>
+    <string name="max_number_of_members">Max number of members</string>
+    <string name="members_number">Members number</string>
+    <string name="duration">duration</string>
+    <string name="duration_months">duration in (months)</string>
+    <string name="max_3_months">max 3 months</string>
+    <string name="location">Location</string>
+    <string name="create_group">create group</string>
 </resources>

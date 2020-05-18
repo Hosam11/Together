@@ -1,4 +1,4 @@
-package com.example.together.Utils;
+package com.example.together.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,7 +9,7 @@ import android.widget.Spinner;
 
 import java.util.List;
 
-import static com.example.together.Utils.HelperClass.TAG;
+import static com.example.together.utils.HelperClass.TAG;
 
 public class CommonSpinner implements AdapterView.OnItemSelectedListener {
 
