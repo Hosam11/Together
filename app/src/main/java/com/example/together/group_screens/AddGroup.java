@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.together.R;
 import com.example.together.utils.CommonSpinner;
+import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,10 @@ public class AddGroup extends AppCompatActivity {
     CommonSpinner levelsSpinner;
 
     // Spinners Objects
-    private Spinner spInterests;
-    private Spinner spLocations;
-    private Spinner spLevels;
+    private BetterSpinner spInterests;
+    private BetterSpinner spLocations;
+    private BetterSpinner spLevels;
+
 
     // List Objects
     private List<String> interests;
