@@ -1,5 +1,6 @@
 package com.example.together.group_screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,12 +9,12 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.together.R;
-import com.example.together.Utils.CommonSpinner;
+import com.example.together.utils.CommonSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.together.Utils.HelperClass.TAG;
+import static com.example.together.utils.HelperClass.TAG;
 
 public class AddGroup extends AppCompatActivity {
 
@@ -69,9 +70,12 @@ public class AddGroup extends AppCompatActivity {
 
     public void chooseImage(View view) {
         Log.i(TAG, "chooseImage: ");
-        Log.i(TAG, "onCreate: interset item selected >> " + interestSpinner.getSpItemSelected());
+        Log.i(TAG, "onCreate: interest item selected >> " + interestSpinner.getSpItemSelected());
         Log.i(TAG, "onCreate: location item selected >> " + locationSpinner.getSpItemSelected());
-        Log.i(TAG, "onCreate: location item selected >> " + levelsSpinner.getSpItemSelected());
+        Log.i(TAG, "onCreate: level item selected >> " + levelsSpinner.getSpItemSelected());
+        Intent intent = new Intent(this, ViewGroup.class);
+        startActivity(intent);
+
     }
 
 
