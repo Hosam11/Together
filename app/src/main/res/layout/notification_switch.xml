@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    >
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Off"
+        android:textSize="50px"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"/>
+
+    <Switch
+        android:id="@+id/notification_sw"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:text=""
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:switchMinWidth="45dp"
+        />
+
+
+
+
+</LinearLayout>
