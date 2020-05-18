@@ -13,7 +13,7 @@
         </activity>
       
         <activity android:name=".group_screens.ViewGroup">
-        </activity
+        </activity>
           
         <activity android:name=".group_screens.AddGroup">
             <intent-filter>
@@ -25,9 +25,6 @@
       
         <activity android:name=".MainActivity">
         </activity>
-=
-        <activity android:name=".MainActivity">
-      </activity>
     </application>
 
 </manifest>
