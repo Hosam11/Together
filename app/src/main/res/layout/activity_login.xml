@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:layout_weight="2"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:src="@drawable/logo"
+        android:background="@color/majorColor"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="1.7"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+
+            android:textColor="@color/majorColor"
+            />
+        <EditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="20dp"
+            android:backgroundTint="@color/majorColor"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textColor="@color/majorColor"
+
+            android:layout_marginHorizontal="20dp"
+            android:autofillHints="@string/email" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:textColor="@color/majorColor"
+
+            />
+        <EditText
+            android:id="@+id/password_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/majorColor"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textColor="@color/majorColor"
+
+            android:autofillHints="@string/password"
+
+
+            />
+
+
+
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight=".7"
+    >
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/login_signup_shape"
+        android:layout_marginTop="15dp"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+
+        />
+
+</LinearLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

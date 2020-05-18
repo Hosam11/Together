@@ -12,4 +12,23 @@
     <string name="max_3_months">max 3 months</string>
     <string name="location">Location</string>
     <string name="create_group">create group</string>
+    <string name="already_have_an_account_login_here">Already have an Account? Login here</string>
+    <string name="create_your_account">Create Your Account</string>
+    <string name="login">Login</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="enter_you_name">Enter you name</string>
+    <string name="address">Address</string>
+    <string name="tab_to_select_address">Tab to select address</string>
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="birthdate">Date of birth</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="create_account">Create Account</string>
+    <string name="interests">Interests:</string>
+    <string name="gender2">Gender:</string>
+    <string name="birthdate2">Date of birth:</string>
 </resources>
