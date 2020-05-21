@@ -4,7 +4,9 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
@@ -16,6 +18,7 @@ public class CommonSpinner implements TextWatcher {
 
     private String spItemSelected;
     private BetterSpinner spinner;
+    private EditText etOther;
 
     /**
      * @param sp:       spinner object from the activity
@@ -23,7 +26,6 @@ public class CommonSpinner implements TextWatcher {
      * @param arrayList list that will fill in array adapter
      */
     public CommonSpinner(BetterSpinner sp, Context context, List<String> arrayList) {
-
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 context, android.R.layout.simple_list_item_1, arrayList);
         spinner = sp;
@@ -33,6 +35,14 @@ public class CommonSpinner implements TextWatcher {
         spinner.setAdapter(arrayAdapter);
 
         spinner.addTextChangedListener(this);
+    }
+
+    public EditText getEtOther() {
+        return etOther;
+    }
+
+    public void setEdOther(EditText edOther) {
+        this.etOther = edOther;
     }
 
     public String getSpItemSelected() {
@@ -50,6 +60,11 @@ public class CommonSpinner implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         spItemSelected = spinner.getText().toString();
+        if (spItemSelected.equals("other") && etOther != null) {
+            etOther.setVisibility(View.VISIBLE);
+        } else if (!spItemSelected.equals("other") && etOther != null) {
+            etOther.setVisibility(View.GONE);
+        }
         Log.i(TAG, "AddGroup -- afterTextChanged: sp_interest >> " + spItemSelected);
     }
 }

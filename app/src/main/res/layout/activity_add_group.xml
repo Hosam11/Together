@@ -80,6 +80,14 @@
                 style="@style/add_group_spinners"
                 android:hint="Select interest" />
 
+            <EditText
+                android:id="@+id/ed_other_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:hint="other"
+                android:visibility="gone" />
+
         </LinearLayout>
         <!--  Group required Level      -->
         <LinearLayout style="@style/add_group_common_linear_layout">
@@ -172,6 +180,7 @@
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimaryDark"
             android:padding="8dp"
+            android:onClick="creatGroup"
             android:text="@string/create_group" />
 
     </LinearLayout>

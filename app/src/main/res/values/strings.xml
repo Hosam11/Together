@@ -31,4 +31,7 @@
     <string name="interests">Interests:</string>
     <string name="gender2">Gender:</string>
     <string name="birthdate2">Date of birth:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
