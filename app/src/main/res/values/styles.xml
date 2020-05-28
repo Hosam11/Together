@@ -16,74 +16,64 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- [Start] AddGroup  -->
-    <style name="add_group_common_linear_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:weightSum">4</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <style name="add_group_et_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">3</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="add_group_icon">
-        <item name="android:layout_height">24dp</item>
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-        <item name="android:layout_gravity">center</item>
-
-    </style>
-
-    <style name="add_group_tv_styles">
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">#000</item>
-    </style>
-
-    <style name="add_group_spinners">
+    <!-- [Start] Create Group Screen-->
+    <style name="create_group_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-    </style>
-    <!-- [End] AddGroup  -->
-
-    <!--[Start]  ViewGroup  -->
-    <style name="view_group_common_outer_linear_layout">
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
-    <style name="view_group_common_inner_linear_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_marginLeft">8dp</item>
-    </style>
-
-    <style name="view_group_icon">
-        <item name="android:layout_marginRight">4dp</item>
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-    </style>
-
-    <style name="view_group_common_tv">
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginLeft">36dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textColor">#000</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">-6sp</item>
+    </style>
+
+    <style name="create_group_common_et">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">18dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:background">#f9f9f9</item>
+        <item name="android:layout_marginBottom">31dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="create_group_tv_counter">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:lineSpacingExtra">-6sp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">22sp</item>
     </style>
-    <!--[End]  ViewGroup  -->
+    <!-- [End] Create Group -->
+
+    <!-- [Start]  Show Group Screen-->
+
+    <style name="view_group_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="view_group_tv_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">14sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+    </style>
+
+    <style name="view_group_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+        <item name="android:layout_marginBottom">13dp</item>
+        <item name="android:background">#f9f9f9</item>
+    </style>
+
+    <!-- [End]  Show Group Screen-->
 
 
     <style name="DialogTheme" parent="@android:style/Theme.Holo.Light">
