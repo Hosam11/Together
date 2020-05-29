@@ -38,12 +38,12 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
-        pojos.add(new POJO("Android Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
-        pojos.add(new POJO("IOS Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
-        pojos.add(new POJO("Kotlin Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
-        pojos.add(new POJO("Flutter Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
-        pojos.add(new POJO("React Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
-        pojos.add(new POJO("Ionic Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Android Developing","Hello, my name is ali, I live in KafrEldawar sdfds sdfsd sdfsds  sdf sdf sdf sdfsd sdf sd sdfds  dsfsd ",R.drawable.default_img));
+        pojos.add(new POJO("IOS Developing","Hello, my name is ali, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Kotlin Developing","Hello, my name is ali, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Flutter Developing","Hello, my name is ali, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("React Developing","Hello, my name is ali, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Ionic Developing","Hello, my name is ali, I live in KafrEldawar",R.drawable.default_img));
 
         return v;
     }
