@@ -43,6 +43,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".ToDoListPachage.ToDoListMain" />
+        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".group_screens.ViewGroup"></activity>
+]
         <activity android:name=".group_screens.AddGroup"></activity>
         <activity android:name=".MainActivity" />
          <!-- crop Activity -->

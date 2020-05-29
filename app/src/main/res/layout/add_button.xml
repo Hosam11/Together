@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_layout"
+    android:layout_width="69dp"
+    android:layout_height="89dp"
+    android:layout_marginLeft="22dp"
+    android:layout_marginTop="22dp"
+    android:layout_marginRight="22dp"
+    android:background="@drawable/corner_without_stroke"
+    android:orientation="horizontal">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_group_FAB"
+        android:layout_width="69dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="7dp"
+        android:layout_marginBottom="2dp"
+
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="#FFFFFF"
+        app:elevation="0dp"
+        android:clickable="false"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+</LinearLayout>

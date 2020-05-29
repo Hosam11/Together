@@ -6,6 +6,11 @@
     <color name="majorColor">#1177da</color>
 <!--    <color name="majorColor">#131a24</color>-->
     <color name="white">#FFFFFFFF</color>
+
+    <color name="list_item_background">#AACCCCCC</color>
+    <color name="app_color">#8EAE3C</color>
+    <color name="backgroundColor">#f9f9f9</color>
+
     <color name="black">#000000</color>
     <color name="baseColor">#1278da</color>
     <color name="primaryColor">#1177da</color>

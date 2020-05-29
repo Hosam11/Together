@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/group_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="0dp"
+    android:layout_marginLeft="22dp"
+    android:layout_marginRight="22dp"
+    android:layout_marginTop="8dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15"
+        >
+
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:layout_weight="14.5"
+                    >
+
+                    <TextView
+                        android:id="@+id/task_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Learn Android"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="@color/majorColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:id="@+id/task_description"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_height="wrap_content"
+                        android:text="We are groups that does some thing in some time and try"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+
+                        android:textSize="15dp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <Button
+            android:layout_marginTop="12dp"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:drawableLeft="@drawable/ic_mode_edit_black_24dp"
+            style="?android:attr/borderlessButtonStyle" />
+            <Button
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:drawableLeft="@drawable/ic_delete_black_24dp"
+                style="?android:attr/borderlessButtonStyle" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
