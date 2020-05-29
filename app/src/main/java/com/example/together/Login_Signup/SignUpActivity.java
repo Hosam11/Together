@@ -71,20 +71,19 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    ImageView profileImage,dateImg;
+    ImageView profileImage;
     EditText dateEt; // 4
     EditText addressEt; //6
     EditText nameEt; // 1
     EditText emailEt; // 2
     EditText passEt; // 3
-    TextView addImgTv;
-    Button nextBtn;
     RadioGroup genderRadioGroup; // 5
     RadioButton maleRadioBtn, femaleRadioBtn;
     Calendar cldr;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
+    UserViewModel userViewModel;
     private String gender = HelperClass.MALE;
 
     @Override
@@ -95,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
 
         Places.initialize(getApplicationContext(), apiKey);
-        addImgTv=findViewById(R.id.add_img_tv);
+       addImgTv=findViewById(R.id.add_img_tv);
         dateImg=findViewById(R.id.date_img);
         nextBtn=findViewById(R.id.next_btn);
         nameEt=findViewById(R.id.name_et);
@@ -137,12 +136,76 @@ public class SignUpActivity extends AppCompatActivity implements
                 startActivity(toInterests);
             }
         });
+//=======
+//        nameEt = findViewById(R.id.name_et);
+//        emailEt = findViewById(R.id.email_et);
+//        passEt = findViewById(R.id.password_et);
+//        profileImage = findViewById(R.id.profile_image);
+//        dateEt = findViewById(R.id.date_et);
+//        addressEt = findViewById(R.id.address_et);
+//        genderRadioGroup = findViewById(R.id.gender_radio_group);
+//        maleRadioBtn = findViewById(R.id.male_radio_btn);
+//        femaleRadioBtn = findViewById(R.id.female_radio_btn);
+//        genderRadioGroup.setOnCheckedChangeListener(this);
+//
+//        dateEt.setOnClickListener(v -> selectDate());
+//>>>>>>> upstream/master
 
+//        addressEt.setOnClickListener(v -> StartAutoCompleteActivity());
+//        profileImage.setOnClickListener(v -> selectImage());
 
-          }
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        findViewById(R.id.btn_createAccount).setOnClickListener(v -> createAccount());
+    }
 
+    private void userSignUpObservable(User user) {
 
+        //progressBar.setVisibility(View.VISIBLE);
+
+        userViewModel.signUp(user).observe(this, res ->
+                {
+                    // remove that observable so when click sign up again dosen't fail
+                    //       userViewModel.signUp(user).removeObservers(this);
+                    //   userViewModel.clearSignUpRes();
+                    Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
+
+                    if (res.equals(HelperClass.SING_UP_SUCCESS)) {
+                        showAlert(res, this);
+                        Intent goHomeIntent = new Intent(this, AddGroup.class);
+                        startActivity(goHomeIntent);
+                    } else {
+                        showAlert(res, this);
+//                        Toast.makeText(this, HelperClass.SING_UP_FAILED,
+//                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        //progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void createAccount() {
+
+        String uName = nameEt.getText().toString();
+        String uEmail = emailEt.getText().toString().trim();
+        String uPass = passEt.getText().toString();
+        // TODO will be String later in db
+        String uAge = nameEt.getText().toString();
+        String address = addressEt.getText().toString();
+        List<String> interests = new ArrayList<>();
+        interests.add("ios");
+        interests.add("php");
+
+        if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
+            showAlert(ERROR_MISSING_FILEDS, this);
+        } else {
+            User user = new User(uName, uEmail, uPass, 5, address, gender, interests);
+            userSignUpObservable(user);
+            Log.i(TAG, "SignUpActivity -- createAccount: #click#");
+        }
+
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
