@@ -1,38 +1,48 @@
 package com.example.together.utils;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.EditText;
+
+import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.List;
 
 import static com.example.together.utils.HelperClass.TAG;
 
-public class CommonSpinner implements AdapterView.OnItemSelectedListener {
+public class CommonSpinner implements TextWatcher {
 
     private String spItemSelected;
-
+    private BetterSpinner spinner;
+    private EditText etOther;
 
     /**
-     * @param spinner:  spinner object from the activity
+     * @param sp:       spinner object from the activity
      * @param context   context that spinner attach to
      * @param arrayList list that will fill in array adapter
      */
-
-    public CommonSpinner(Spinner spinner, Context context, List<String> arrayList) {
-
+    public CommonSpinner(BetterSpinner sp, Context context, List<String> arrayList) {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                context, android.R.layout.simple_spinner_item, arrayList);
-
+                context, android.R.layout.simple_list_item_1, arrayList);
+        spinner = sp;
         // Specify the layout to use when the list of choices appears
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(arrayAdapter);
 
-        spinner.setOnItemSelectedListener(this);
+        spinner.addTextChangedListener(this);
+    }
+
+    public EditText getEtOther() {
+        return etOther;
+    }
+
+    public void setEdOther(EditText edOther) {
+        this.etOther = edOther;
     }
 
     public String getSpItemSelected() {
@@ -40,15 +50,25 @@ public class CommonSpinner implements AdapterView.OnItemSelectedListener {
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        spItemSelected = (String) parent.getItemAtPosition(pos);
-        Log.i(TAG, "AddGroup -- onItemSelected: sp_interest >> " + parent.getItemAtPosition(pos));
-
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
 
+    @Override
+    public void afterTextChanged(Editable s) {
+        spItemSelected = spinner.getText().toString();
+        if (spItemSelected.equals("other") && etOther != null) {
+            Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make ot visibile");
+            etOther.setVisibility(View.VISIBLE);
+           // other
+        } else if (!spItemSelected.equals("other") && etOther != null) {
+            Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make it disappear");
+
+            etOther.setVisibility(View.GONE);
+        }
+        Log.i(TAG, "CommonSpinner -- afterTextChanged: sp_interest >> " + spItemSelected);
+    }
 }
