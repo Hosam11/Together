@@ -6,5 +6,7 @@
     <color name="majorColor">#1177da</color>
 <!--    <color name="majorColor">#131a24</color>-->
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="baseColor">#1278da</color>
     <color name="primaryColor">#1177da</color>
 </resources>

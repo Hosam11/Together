@@ -2,6 +2,8 @@ package com.example.together.Login_Signup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -21,9 +23,10 @@ import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
 public class LoginActivity extends AppCompatActivity {
+    EditText emailEt,passEt;
+    Button loginBtn;
 
-    EditText etEmail;
-    EditText etPass;
+    
 
     UserViewModel userViewModel;
 
@@ -33,17 +36,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        etEmail = findViewById(R.id.email_et);
-        etPass = findViewById(R.id.password_et);
-
-        findViewById(R.id.btn_login).setOnClickListener(v -> login());
+        emailEt=findViewById(R.id.email_et);
+        passEt=findViewById(R.id.password_et);
+        
+       
+        findViewById(R.id.login_btn).setOnClickListener(v -> login());
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
     private void login() {
-        String email = etEmail.getText().toString().trim();
-        String pass = etPass.getText().toString();
+        String email = emailEt.getText().toString().trim();
+        String pass = passEt.getText().toString();
         UserLogin userLogin = new UserLogin(email, pass);
 
         if (email.isEmpty() || pass.isEmpty()) {
