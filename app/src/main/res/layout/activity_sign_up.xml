@@ -305,6 +305,8 @@
                 android:layout_marginLeft="19dp"
                 android:layout_marginTop="22dp">
 
+            android:textColor="@color/majorColor"
+            android:textCursorDrawable="@drawable/cursor_color" />
 
 
                 <RadioButton
@@ -349,10 +351,17 @@
                 />
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/gender"
+            android:textColor="@color/majorColor" />
 
 
         </LinearLayout>
 
+            />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
