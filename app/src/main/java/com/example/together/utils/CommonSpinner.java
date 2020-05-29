@@ -61,10 +61,14 @@ public class CommonSpinner implements TextWatcher {
     public void afterTextChanged(Editable s) {
         spItemSelected = spinner.getText().toString();
         if (spItemSelected.equals("other") && etOther != null) {
+            Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make ot visibile");
             etOther.setVisibility(View.VISIBLE);
+           // other
         } else if (!spItemSelected.equals("other") && etOther != null) {
+            Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make it disappear");
+
             etOther.setVisibility(View.GONE);
         }
-        Log.i(TAG, "AddGroup -- afterTextChanged: sp_interest >> " + spItemSelected);
+        Log.i(TAG, "CommonSpinner -- afterTextChanged: sp_interest >> " + spItemSelected);
     }
 }

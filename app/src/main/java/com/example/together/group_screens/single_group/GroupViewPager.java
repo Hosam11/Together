@@ -2,7 +2,6 @@ package com.example.together.group_screens.single_group;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -28,21 +27,21 @@ public class GroupViewPager extends AppCompatActivity {
 
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
                 tabLayout, viewPager2, (tab, position) -> {
-                    switch (position) {
-                        case 0: {
-                            tab.setText("ToDoList");
-                            break;
-                        }
-                        case 1: {
-                            tab.setText("Discussion");
-                            break;
-                        }
-                        case 2: {
-                            tab.setText("About");
-                            break;
-                        }
-                    }
+            switch (position) {
+                case 0: {
+                    tab.setText("ToDoList");
+                    break;
                 }
+                case 1: {
+                    tab.setText("Discussion");
+                    break;
+                }
+                case 2: {
+                    tab.setText("About");
+                    break;
+                }
+            }
+        }
         );
 
         tabLayoutMediator.attach();
