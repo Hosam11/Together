@@ -19,6 +19,9 @@ public class HelperClass {
     public static final String PAID = "Paid";
     public static final String FREE = "Free";
     public static final String CREATE_GROUP_SUCCESS = "successfully";
+    public static final String ERROR_MISSING_FILEDS = "Please fill all fields";
+
+
 
     public static void showAlert(String msg, Context context) {
 

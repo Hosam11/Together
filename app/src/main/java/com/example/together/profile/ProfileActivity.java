@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.R;
+import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
 import com.example.together.view_model.UserViewModel;
@@ -43,15 +44,27 @@ public class ProfileActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         findViewById(R.id.profile_image).setOnClickListener(v -> displayToken());
 
-
         setProfileDataObservable();
-
     }
 
     private void setProfileDataObservable() {
         Storage storage = new Storage(this);
+        Log.i(TAG, "setProfileDataObservable: storage.getId()" + storage.getId());
         userViewModel.fetchUserData(storage.getId()).observe(this, userData -> {
             Log.i(TAG, "setProfileDataObservable: userData >>  " + userData);
+            for (String interest : userData.getInterests()) {
+                Log.i(TAG, "setProfileDataObservable: #Interest# " + interest + "\n");
+            }
+
+            if (!userData.getGroups().isEmpty()) {
+                for (User.GroupReturned group : userData.getGroups()) {
+                    Log.i(TAG, "setProfileDataObservable: #Groups# name: " + group.getName() +
+                            " -- id: " + group.getId() + "\n");
+                }
+            } else {
+                Log.i(TAG, "setProfileDataObservable: Groups is null");
+            }
+
         });
 
 

@@ -39,9 +39,12 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
+import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
@@ -100,11 +103,12 @@ public class SignUpActivity extends AppCompatActivity implements
         userViewModel.signUp(user).observe(this, res ->
                 {
                     // remove that observable so when click sign up again dosen't fail
-             //       userViewModel.signUp(user).removeObservers(this);
-                 //   userViewModel.clearSignUpRes();
+                    //       userViewModel.signUp(user).removeObservers(this);
+                    //   userViewModel.clearSignUpRes();
                     Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
 
                     if (res.equals(HelperClass.SING_UP_SUCCESS)) {
+                        showAlert(res, this);
                         Intent goHomeIntent = new Intent(this, AddGroup.class);
                         startActivity(goHomeIntent);
                     } else {
@@ -126,20 +130,19 @@ public class SignUpActivity extends AppCompatActivity implements
         // TODO will be String later in db
         String uAge = nameEt.getText().toString();
         String address = addressEt.getText().toString();
+        List<String> interests = new ArrayList<>();
+        interests.add("ios");
+        interests.add("php");
 
         if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
-            showAlert("Pleas fill all fields", this);
+            showAlert(ERROR_MISSING_FILEDS, this);
         } else {
-            User user = new User(uName, uEmail, uPass, 5, address, gender);
+            User user = new User(uName, uEmail, uPass, 5, address, gender, interests);
             userSignUpObservable(user);
             Log.i(TAG, "SignUpActivity -- createAccount: #click#");
         }
 
     }
-
-
-
-
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -206,7 +209,9 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -256,7 +261,6 @@ public class SignUpActivity extends AppCompatActivity implements
 
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-
                         profileImage.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -28,7 +28,7 @@
             android:layout_marginBottom="25dp"
             android:onClick="chooseImage"
             android:src="@drawable/group"
-            app:civ_border_color="@color/primaryColor"
+            app:civ_border_color="#f9f9f9"
             app:civ_border_width="2dp" />
 
         <LinearLayout
@@ -63,7 +63,7 @@
                 style="@style/view_group_tv_content"
                 android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
-                tools:text="group desc" />
+                android:text="group desc" />
 
             <View style="@style/view_group_view" />
 
@@ -76,7 +76,7 @@
                 style="@style/view_group_tv_content"
                 android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
-                tools:text="IOS" />
+                android:text="IOS" />
 
             <View style="@style/view_group_view" />
 
@@ -89,7 +89,7 @@
                 style="@style/view_group_tv_content"
                 android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
-                tools:text="15/5/2019" />
+                android:text="15/5/2019" />
 
             <View style="@style/view_group_view" />
 
@@ -102,7 +102,7 @@
                 style="@style/view_group_tv_content"
                 android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
-                tools:text="Egypt" />
+                android:text="Egypt" />
 
             <View style="@style/view_group_view" />
 
@@ -115,9 +115,10 @@
                 style="@style/view_group_tv_content"
                 android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
-                tools:text="begginer" />
+                android:text="begginer" />
 
             <Button
+                android:id="@+id/btn_join_group"
                 android:text="Join Group"
                 android:layout_marginRight="33dp"
                 android:layout_marginLeft="33dp"
@@ -125,10 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-
         </LinearLayout>
-
-
 
     </LinearLayout>
 

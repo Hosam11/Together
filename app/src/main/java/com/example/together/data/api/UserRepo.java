@@ -4,16 +4,19 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
+import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserLogin;
 
+import java.util.List;
+
 public class UserRepo {
 
-    private ApiProvider provider ;
+    private ApiProvider provider;
 
     public UserRepo() {
-       provider = new ApiProvider();
+        provider = new ApiProvider();
     }
 
 
@@ -33,4 +36,15 @@ public class UserRepo {
         return provider.createGroup(group);
     }
 
+    public MutableLiveData<GeneralResponse> joinGroup(int gpId, int userID) {
+        return provider.requestJoinGroup(gpId, userID);
+    }
+
+    public MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int gpId) {
+        return provider.getAllResponsesForGroup(gpId);
+    }
+
+    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID) {
+        return provider.addGroupMember(gpID, userID, adminID);
+    }
 }

@@ -28,6 +28,7 @@ public class Group {
     @SerializedName("id")
     private int userID;
 
+    // nullable
     @SerializedName("address")
     private String location;
 
@@ -50,14 +51,14 @@ public class Group {
     @SerializedName("level")
     private String levelRequired;
 
-    @SerializedName("interest_id")
-    private int interestId;
+    @SerializedName("interest")
+    private String interest;
 
     public Group(
             int userID, String location,
             int maxMembers, int duration,
             String groupName, String groupDesc,
-            String status, String levelRequired, int interestId
+            String status, String levelRequired, String interest
     ) {
         this.userID = userID;
         this.location = location;
@@ -67,7 +68,7 @@ public class Group {
         this.groupDesc = groupDesc;
         this.status = status;
         this.levelRequired = levelRequired;
-        this.interestId = interestId;
+        this.interest = interest;
     }
 
     @NonNull
@@ -82,7 +83,7 @@ public class Group {
                         "\ndurtaion: " + duration +
                         "\nstatlus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest id: " + interestId
+                        "\ninterest : " + interest
         );
     }
 }

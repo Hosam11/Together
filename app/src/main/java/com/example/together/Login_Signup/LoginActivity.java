@@ -13,6 +13,8 @@ import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.UserLogin;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.ProfileActivity;
+import com.example.together.utils.HelperClass;
+import com.example.together.utils.TestApis;
 import com.example.together.view_model.UserViewModel;
 
 import static com.example.together.utils.HelperClass.TAG;
@@ -44,31 +46,33 @@ public class LoginActivity extends AppCompatActivity {
         String pass = etPass.getText().toString();
         UserLogin userLogin = new UserLogin(email, pass);
 
-//        userViewModel.login(userLogin).observe(this, this::logObserve);
-        userViewModel.login(userLogin).observe(this, logRes -> {
-            if (logRes.isConFailed()) {
-                showAlert("Failed connect to host!", this);
-            } else {
-                if (logRes.isSuccess()) {
-                    Log.i(TAG, "LoginActivity -- signUpObservable: go to home");
-                    //  store id and token in shared preferences
-                    Storage storage = new Storage(this);
-                    storage.saveUserData(logRes.getToken(), logRes.getId());
-                    // TODO change it to home screen
-                    Intent intent = new Intent(this, ProfileActivity.class);
-                    startActivity(intent);
-
-                } else { // not valid user
-                    Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
-                    showAlert(logRes.getResponse(), this);
-                }
-            }
-        });
+        if (email.isEmpty() || pass.isEmpty()) {
+            showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
+        } else {
+            userViewModel.login(userLogin).observe(this, this::logObserve);
+        }
 
     }
 
     private void logObserve(LoginResponse logRes) {
+        if (logRes.isConFailed()) {
+            showAlert("Failed connect to host!", this);
+        } else {
+            if (logRes.isSuccess()) {
+                Log.i(TAG, "LoginActivity -- signUpObservable: go to home");
+                //  store id and token in shared preferences
+                Storage storage = new Storage(this);
+                storage.saveUserData(logRes.getToken(), logRes.getId());
+                // TODO change it to home screen
+//                Intent intent = new Intent(this, ProfileActivity.class);
+                Intent intent = new Intent(this, TestApis.class);
+                startActivity(intent);
 
+            } else { // not valid user
+                Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
+                showAlert(logRes.getResponse(), this);
+            }
+        }
     }
 
 

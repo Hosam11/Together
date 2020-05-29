@@ -109,9 +109,9 @@
             <!-- ET Group Name -->
             <EditText
                 android:id="@+id/ed_other_interest"
-                android:visibility="gone"
                 style="@style/create_group_common_et"
-                android:hint="Other..." />
+                android:hint="Other..."
+                android:visibility="gone" />
 
             <!--  Level Title-->
             <TextView
@@ -147,6 +147,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_member_left_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_chevron_left_black_24dp" />
@@ -155,23 +156,22 @@
                     android:id="@+id/tv_member_number"
                     style="@style/create_group_tv_counter"
                     android:letterSpacing="-0.02"
-                    android:text="0"
-                    />
+                    android:text="0" />
 
                 <TextView
+                    android:id="@+id/tv_member_right_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_chevron_right_black_24dp" />
 
             </LinearLayout>
 
-
-            <!--  Durtaion Title-->
+            <!--  Duration Title-->
             <TextView
                 style="@style/create_group_title"
-                android:text="Duration (Week)" />
+                android:text="Duration (Max 12 Weeks)" />
 
-            <!--  DurtaionGrouping-->
+            <!--  DurationGrouping-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,6 +180,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_duration_left_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_chevron_left_black_24dp" />
@@ -190,9 +191,10 @@
                     android:letterSpacing="-0.02"
                     android:text="0"
 
-                     />
+                    />
 
                 <TextView
+                    android:id="@+id/tv_duration_rigth_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_chevron_right_black_24dp" />

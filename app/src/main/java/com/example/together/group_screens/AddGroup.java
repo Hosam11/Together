@@ -25,6 +25,7 @@ import com.weiwangcn.betterspinner.library.BetterSpinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
@@ -39,8 +40,8 @@ public class AddGroup extends AppCompatActivity {
     // Edit Texts
     EditText edGroupName;
     EditText edGroupDesc;
-    TextView edGroupMaxMembers;
-    TextView edGroupDuration;
+    TextView tvGroupMaxMembers;
+    TextView tvGroupDuration;
     EditText etHiddenOther;
 
     UserViewModel userViewModel;
@@ -68,8 +69,8 @@ public class AddGroup extends AppCompatActivity {
         edGroupName = findViewById(R.id.et_group_name);
         edGroupDesc = findViewById(R.id.ed_group_desc);
 
-        edGroupMaxMembers = findViewById(R.id.tv_member_number);
-        edGroupDuration = findViewById(R.id.tv_duration_week);
+        tvGroupMaxMembers = findViewById(R.id.tv_member_number);
+        tvGroupDuration = findViewById(R.id.tv_duration_week);
 
         etHiddenOther = findViewById(R.id.ed_other_interest);
 
@@ -87,7 +88,6 @@ public class AddGroup extends AppCompatActivity {
         interests.add("other");
         */
 
-
         locations.add("egypt");
         locations.add("german");
         locations.add("spain");
@@ -104,7 +104,17 @@ public class AddGroup extends AppCompatActivity {
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        findViewById(R.id.btn_create_group).setOnClickListener( v -> createGroup() );
+        findViewById(R.id.btn_create_group).setOnClickListener(v -> createGroup());
+
+        //  increment decrement counter
+        findViewById(R.id.tv_duration_rigth_btn).setOnClickListener(v -> increment(tvGroupDuration, true));
+
+        findViewById(R.id.tv_duration_left_btn).setOnClickListener(v -> decrement(tvGroupDuration));
+
+        findViewById(R.id.tv_member_right_btn).setOnClickListener(v -> increment(tvGroupMaxMembers, false));
+
+        findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(tvGroupMaxMembers));
+
 
     }
 
@@ -123,19 +133,22 @@ public class AddGroup extends AppCompatActivity {
         String gpName = edGroupName.getText().toString();
         String gpDesc = edGroupDesc.getText().toString();
         // TODO will get it from maps that return it form db table contain interests
-//        String gpInterest = interestSpinner.getSpItemSelected();
+        String gpInterest = interestSpinner.getSpItemSelected();
         String gpLevel = levelsSpinner.getSpItemSelected();
-        int gpMembers = Integer.parseInt(edGroupMaxMembers.getText().toString());
-        int gpDurtaion = Integer.parseInt(edGroupDuration.getText().toString());
+        int gpMembers = Integer.parseInt(tvGroupMaxMembers.getText().toString());
+        int gpDuration = Integer.parseInt(tvGroupDuration.getText().toString());
         String gpLocation = locationSpinner.getSpItemSelected();
 
         Storage storage = new Storage(this);
 //        FixedDBValues dbValues = new FixedDBValues();
-
+        // TODO interest id leave it for now
+        if (gpName.isEmpty() || gpDesc.isEmpty() || gpLevel.isEmpty()) {
+            showAlert(ERROR_MISSING_FILEDS, this);
+        }
         Group group = new Group(
                 storage.getId(), gpLocation,
-                gpMembers, gpDurtaion, gpName,
-                gpDesc, HelperClass.FREE, gpLevel, 1);
+                gpMembers, gpDuration, gpName,
+                gpDesc, HelperClass.FREE, gpLevel, gpInterest);
 
         userViewModel.createGroup(group).observe(this, this::observCreateGroup);
 
@@ -160,4 +173,24 @@ public class AddGroup extends AppCompatActivity {
     }
 
 
+    public void decrement(TextView tv) {
+        int decrement = Integer.parseInt(tv.getText().toString());
+        Log.i(TAG, "AddGroup -- onCreate: decrement" + decrement);
+        if (decrement != 0) {
+            decrement--;
+            Log.i(TAG, "AddGroup -- onCreate: IF decrement" + decrement);
+            tv.setText(String.valueOf(decrement));
+        }
+    }
+
+    public void increment(TextView tv, boolean isDuration) {
+        int increment = Integer.parseInt(tv.getText().toString());
+        Log.i(TAG, "AddGroup -- onCreate: increment" + increment);
+        if (isDuration & increment == 12) {
+
+        } else {
+            increment++;
+        }
+        tv.setText(String.valueOf(increment));
+    }
 }
