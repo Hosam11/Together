@@ -19,7 +19,6 @@
          android:usesCleartextTraffic="true"
         >
         <activity android:name=".utils.TestApis"></activity>
-        <activity android:name=".BottomNavigationView" />
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity">
 
@@ -30,18 +29,16 @@
 
         </activity>
         <activity android:name=".profile.EditProfile"></activity>
-        <activity android:name=".Login_Signup.SignUpActivity"></activity>
         <activity android:name=".Login_Signup.LoginActivity" />
         <activity android:name=".BottomNavigationView">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
       
-        <activity android:name=".Login_Signup.LoginActivity" />
         <activity android:name=".profile.ProfileActivity"></activity>
         <activity android:name=".group_screens.ViewGroup"></activity>
         <activity android:name=".group_screens.AddGroup"></activity>
