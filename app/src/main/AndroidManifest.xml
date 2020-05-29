@@ -34,17 +34,28 @@
         <activity android:name=".Login_Signup.LoginActivity" />
         <activity android:name=".BottomNavigationView">
 
+
+
+        </activity>
+
+
+      
+        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".group_screens.ViewGroup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      
-        <activity android:name=".Login_Signup.LoginActivity" />
+
+
+
+
+        <activity android:name=".ToDoListPachage.ToDoListMain" />
+
         <activity android:name=".profile.ProfileActivity"></activity>
         <activity android:name=".group_screens.ViewGroup"></activity>
-]
         <activity android:name=".group_screens.AddGroup"></activity>
         <activity android:name=".MainActivity" />
          <!-- crop Activity -->
