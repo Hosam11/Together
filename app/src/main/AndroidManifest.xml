@@ -19,6 +19,7 @@
          android:usesCleartextTraffic="true"
         >
         <activity android:name=".utils.TestApis"></activity>
+        <activity android:name=".BottomNavigationView" />
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity">
 
@@ -29,8 +30,10 @@
 
         </activity>
         <activity android:name=".profile.EditProfile"></activity>
+        <activity android:name=".Login_Signup.SignUpActivity"></activity>
         <activity android:name=".Login_Signup.LoginActivity" />
         <activity android:name=".BottomNavigationView">
+
 
 
         </activity>
@@ -48,7 +51,9 @@
 
 
 
+
         <activity android:name=".ToDoListPachage.ToDoListMain" />
+
         <activity android:name=".profile.ProfileActivity"></activity>
         <activity android:name=".group_screens.ViewGroup"></activity>
         <activity android:name=".group_screens.AddGroup"></activity>
