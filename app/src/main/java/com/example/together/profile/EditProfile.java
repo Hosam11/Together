@@ -1,7 +1,13 @@
-package com.example.together.Login_Signup;
+package com.example.together.profile;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,12 +28,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.together.Login_Signup.SignUpActivity;
 import com.example.together.R;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -38,57 +42,63 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class SignUpActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
-   ImageView profileImage;
-   ImageView dateImg;
-   TextView addImgTv;
-    EditText dateEt;
-    EditText addressEt;
-    EditText nameEt;
+TextView changeImgTv;
     EditText emailEt;
     EditText passEt;
+    EditText nameEt;
+    EditText addressEt;
+    EditText dateEt;
+    ImageView profileImg;
+    ImageView dateImg;
     RadioGroup genderRadioGroup;
     RadioButton maleRadioBtn,femaleRadioBtn;
-    Button nextBtn;
+    Button saveChangesBtn;
     Calendar cldr;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
+    //data
+
+    UserPojo userPojo;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().hide();
 
-
-        Places.initialize(getApplicationContext(), apiKey);
-       addImgTv=findViewById(R.id.add_img_tv);
-        dateImg=findViewById(R.id.date_img);
-        nextBtn=findViewById(R.id.next_btn);
-        nameEt=findViewById(R.id.name_et);
+        changeImgTv=findViewById(R.id.change_img_tv);
         emailEt=findViewById(R.id.email_et);
         passEt=findViewById(R.id.password_et);
-        profileImage=findViewById(R.id.profile_image);
-        dateEt=findViewById(R.id.date_et);
+        nameEt=findViewById(R.id.name_et);
         addressEt=findViewById(R.id.address_et);
+        profileImg=findViewById(R.id.profile_image);
+        dateEt=findViewById(R.id.date_et);
+        dateImg=findViewById(R.id.date_img);
         genderRadioGroup=findViewById(R.id.gender_radio_group);
         maleRadioBtn=findViewById(R.id.male_radio_btn);
         femaleRadioBtn=findViewById(R.id.female_radio_btn);
         genderRadioGroup.setOnCheckedChangeListener(this);
-
-        dateImg.setOnClickListener(new View.OnClickListener() {
+        saveChangesBtn=findViewById(R.id.save_btn);
+        saveChangesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectDate();
+                //Save Request Here
             }
         });
 
+        Places.initialize(getApplicationContext(), apiKey);
         addressEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,40 +107,48 @@ public class SignUpActivity extends AppCompatActivity implements RadioGroup.OnCh
 
             }
         });
-        addImgTv.setOnClickListener(new View.OnClickListener() {
+        profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
             }
         });
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+        dateImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toInterests=new Intent(getApplicationContext(),InterestsActivity.class);
-                startActivity(toInterests);
+                selectDate();
             }
         });
+
+        userPojo = (UserPojo) getIntent().getSerializableExtra("userData");
+emailEt.setText(userPojo.email);
+addressEt.setText(userPojo.Address);
+passEt.setText(userPojo.pass);
+nameEt.setText(userPojo.name);
+//get the image
+dateEt.setText(userPojo.DateOfBirth);
+        if(userPojo.getGender().equalsIgnoreCase("female")){
+            femaleRadioBtn.setChecked(true);
+
+        }
+        else { maleRadioBtn.setChecked(true); }
+
+
+
+
 
 
 
     }
+    public void StartAutoCompleteActivity() {
+        Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG))
+                .setTypeFilter(TypeFilter.ADDRESS)
+                .setCountries(Arrays.asList("EG"))
+                .build(getApplicationContext());
+        startActivityForResult(i,AUTOCOMPLETE_REQUEST_CODE);
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-if(checkedId==R.id.male_radio_btn){
-
-    Toast.makeText(getApplicationContext(),"Male",Toast.LENGTH_SHORT).show();
-
-}
-
-else {
-    Toast.makeText(getApplicationContext(),"Female",Toast.LENGTH_SHORT).show();
-
-
-}
-
-
-   }
+    }
 
     public void   selectDate(){
 
@@ -139,7 +157,7 @@ else {
         int month = cldr.get(Calendar.MONTH);
         int year = cldr.get(Calendar.YEAR);
 
-       DatePickerDialog datePicker = new DatePickerDialog(SignUpActivity.this, R.style.DialogTheme,
+        DatePickerDialog datePicker = new DatePickerDialog(EditProfile.this, R.style.DialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -158,18 +176,12 @@ else {
 
     }
 
-    public void StartAutoCompleteActivity() {
-        Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
-                Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG))
-                .setTypeFilter(TypeFilter.ADDRESS)
-                .setCountries(Arrays.asList("EG"))
-                .build(getApplicationContext());
-        startActivityForResult(i,AUTOCOMPLETE_REQUEST_CODE);
 
-    }
+
+
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -200,6 +212,7 @@ else {
         });
         builder.show();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
@@ -246,13 +259,13 @@ else {
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                profileImage.setImageBitmap(photo);
+                profileImg.setImageBitmap(photo);
 
             }
 
             if (requestCode == GALLERY_REQUEST_CODE) {
                 UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(), "IMG_" + System.currentTimeMillis())))
-                        .start(SignUpActivity.this);
+                        .start(EditProfile.this);
             }
             if (requestCode == UCrop.REQUEST_CROP) {
                 Uri imgUri = UCrop.getOutput(data);
@@ -262,7 +275,7 @@ else {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
 
-                        profileImage.setImageBitmap(bitmap);
+                        profileImg.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -270,13 +283,25 @@ else {
 
                 }
 
-
-
             }
 
 
         }
 
-   }
-}
+    }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if(checkedId==R.id.male_radio_btn){
+
+            Toast.makeText(getApplicationContext(),"Male",Toast.LENGTH_SHORT).show();
+
+        }
+
+        else {
+            Toast.makeText(getApplicationContext(),"Female",Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+}

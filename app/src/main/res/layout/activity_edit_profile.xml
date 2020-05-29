@@ -17,14 +17,14 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:textColor="#000000"
-            android:text="@string/sign_up"
+            android:text="@string/edit_profile"
             android:layout_marginBottom="13dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:text="@string/fill_your_information"
+            android:text="@string/edit_your_profile"
             />
 
         <LinearLayout
@@ -37,47 +37,42 @@
 
 
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="4dp"
-                android:layout_marginLeft="17dp"
 
-                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="4dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"
 
-                <ImageView
-                    android:id="@+id/profile_image"
-                    android:src="@drawable/default_img"
+                    >
 
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    <ImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/default_img"
 
-                    android:scaleType="fitXY"
+                        />
 
-                    />
-
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/add_img_tv"
+                    android:id="@+id/change_img_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="11dp"
                     android:textSize="14sp"
-                    android:layout_marginLeft="20dp"
                     android:textStyle="bold"
                     android:textColor="#1177da"
-                    android:text="@string/add_image"
+                    android:text="@string/change_image"
+                    android:clickable="true"
                     />
 
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -225,7 +220,7 @@
                 android:editable="false"
                 android:clickable="true"
                 android:focusable="false"
-                
+
 
                 />
             <View
@@ -247,36 +242,39 @@
 
                 />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <EditText
-        android:id="@+id/date_et"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-       android:layout_marginLeft="19dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/edit_texts_shapes"
-        android:textColor="#000"
-        android:inputType="text"
-        android:paddingTop="18dp"
-        android:hint="@string/birthdate2"
-        android:paddingLeft="18dp"
-        android:paddingBottom="16dp"
-        android:textCursorDrawable="@drawable/cursor_color"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/date_et"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/edit_texts_shapes"
+                    android:textColor="#000"
+                    android:inputType="text"
+                    android:paddingTop="18dp"
+                    android:hint="@string/birthdate2"
+                    android:paddingLeft="18dp"
+                    android:paddingBottom="16dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusable="false"
 
-        />
-    <ImageView
-        android:id="@+id/date_img"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_date_range_black_24dp"
-        android:layout_marginLeft="15dp"
-        />
+                    />
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_date_range_black_24dp"
+                    android:layout_marginLeft="15dp"
+                    />
 
-</LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="240dp"
@@ -327,19 +325,19 @@
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:buttonTint="#157cde"
-                   />
+                    />
             </RadioGroup>
 
 
 
             <Button
-                android:id="@+id/next_btn"
+                android:id="@+id/save_btn"
                 android:layout_width="204dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/login_signup_shape"
                 android:layout_marginTop="68dp"
-                android:text="@string/next"
+                android:text="@string/save_changes"
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 android:textColor="@color/white"
