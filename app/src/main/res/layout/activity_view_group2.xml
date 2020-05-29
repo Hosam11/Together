@@ -118,6 +118,7 @@
                 android:text="begginer" />
 
             <Button
+                android:background="@drawable/login_signup_shape"
                 android:id="@+id/btn_join_group"
                 android:text="Join Group"
                 android:layout_marginRight="33dp"

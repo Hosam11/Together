@@ -202,13 +202,14 @@
             </LinearLayout>
 
             <Button
+
                 android:id="@+id/btn_create_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="55dp"
                 android:layout_marginRight="55dp"
                 android:layout_marginBottom="55dp"
-                android:background="@color/primaryColor"
+                android:background="@drawable/login_signup_shape"
                 android:text="Create Group" />
 
         </LinearLayout>
