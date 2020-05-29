@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    android:padding="16dp"
+
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Title"
+        android:textSize="20dp"
+
+        />
+
+    <EditText
+        android:id="@+id/task_title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_edit_text"
+        android:gravity="top"
+        android:hint="Enter title"
+        android:minHeight="40dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+
+
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Description"
+        android:textSize="20dp"
+
+
+
+        />
+
+    <EditText
+        android:id="@+id/task_description_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_edit_text"
+        android:gravity="top"
+        android:hint="Enter description"
+        android:minHeight="100dp"
+
+
+        android:padding="10dp" />
+
+    <Button
+
+        android:layout_marginTop="20dp"
+        android:id="@+id/add_task"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="add"
+        android:textColor="@color/white"
+        android:background="@drawable/corners_from_all_without_stroke"
+        android:textAllCaps="false"
+
+
+        />
+
+</LinearLayout>

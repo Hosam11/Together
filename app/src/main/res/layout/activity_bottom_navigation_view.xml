@@ -4,21 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BottomNavigationView">
+    android:background="#F4F4F4"
+    tools:context=".BottomNavigationView"
+    tools:ignore="UnusedAttribute">
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_marginBottom="-1dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-1dp"
+        android:background="#f9f9f9"
+        android:layout_above="@+id/bottom_navigation"
+ />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_navigation" />
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+
+
+        android:background="@drawable/corner_from_top_only"
+        app:menu="@menu/bottom_navigation"
+
+
+        />
+
+
 
 </RelativeLayout>

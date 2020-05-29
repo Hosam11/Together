@@ -4,84 +4,99 @@
     android:id="@+id/group_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
     card_view:cardCornerRadius="20dp"
-
+    card_view:cardElevation="0dp"
+    android:layout_marginLeft="22dp"
+    android:layout_marginRight="22dp"
+    android:layout_marginTop="8dp"
     >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Media -->
-
-
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Title, secondary and supporting text -->
+            <!-- Media -->
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
-                >
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/notification_img"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/default_img"
-                    android:layout_gravity="center"
-                    />
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <!-- Title, secondary and supporting text -->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="10dp"
-                    >
+                    android:weightSum="10">
 
-                    <TextView
-                        android:id="@+id/notification_title"
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/notification_img"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:padding="6dp"
+                            android:src="@drawable/default_img" />
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/corner_for_home_image" />
+
+                    </FrameLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:text="Learn Android"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        android:textColor="@color/majorColor"
-                        android:textSize="25dp" />
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/notification_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="We are groups that does some thing in some time and try"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary"
+                        <TextView
+                            android:id="@+id/notification_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Learn Android"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="@color/majorColor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-                        android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/notification_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:maxLines="1"
+                            android:text="We are groups that does some thing in some time and try"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+
+                            android:textSize="15dp" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
+            </LinearLayout>
 
 
         </LinearLayout>
 
 
-
-    </LinearLayout>
-
-
+    </FrameLayout>
 </androidx.cardview.widget.CardView>
