@@ -26,16 +26,16 @@ android {
     }
 
     viewBinding {
-        enabled = true
+        enabled = false
     }
 
 }
 
 dependencies {
     def lifecycle_version = "2.2.0"
+    implementation 'com.github.woxthebox:draglistview:1.7.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.github.woxthebox:draglistview:1.7.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -47,7 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // [Start] External Libs
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.weiwangcn.betterspinner:library:1.1.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.google.android.material:material:1.2.0-alpha01'

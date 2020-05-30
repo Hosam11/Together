@@ -243,7 +243,7 @@ public class BoardFragment extends Fragment {
 
     private void addColumn(String columnName , final ArrayList<POJO> mItemArray) {
 
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true);
+        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext());
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(columnName);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
