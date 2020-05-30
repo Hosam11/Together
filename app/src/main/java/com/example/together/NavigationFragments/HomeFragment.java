@@ -1,5 +1,6 @@
 package com.example.together.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.together.Adapters.HomeRecyclarViewAdapter;
 import com.example.together.Adapters.POJO;
 import com.example.together.BottomNavigationView;
 import com.example.together.R;
+import com.example.together.group_screens.AddGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -55,7 +57,13 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(recyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter= new HomeRecyclarViewAdapter(pojos);
+        adapter= new HomeRecyclarViewAdapter(pojos, this.getContext());
         recyclerView.setAdapter(adapter);
+
+        getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
+            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            startActivity(createGroup);
+        });
+
     }
 }

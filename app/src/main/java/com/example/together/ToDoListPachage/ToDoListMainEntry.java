@@ -24,7 +24,8 @@ public class ToDoListMainEntry extends Fragment implements GetAddTaskButton {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_to_do_list_main_entry, container, false);
+        View v = inflater.inflate(R.layout.fragment_to_do_list_main_entry,
+                container, false);
         addTask=v.findViewById(R.id.add_task);
         return v;
     }
