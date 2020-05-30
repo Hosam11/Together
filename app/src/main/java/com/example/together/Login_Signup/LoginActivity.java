@@ -10,6 +10,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.together.BottomNavigationView;
+import com.example.together.NavigationFragments.HomeFragment;
 import com.example.together.R;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.UserLogin;
@@ -69,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 storage.saveUserData(logRes.getToken(), logRes.getId());
                 // TODO change it to home screen
 //                Intent intent = new Intent(this, ProfileActivity.class);
-                Intent intent = new Intent(this, TestApis.class);
+//                Intent intent = new Intent(this, TestApis.class);
+                Intent intent = new Intent(this, BottomNavigationView.class);
                 startActivity(intent);
 
             } else { // not valid user

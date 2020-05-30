@@ -1,13 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".group_screens.single_group.AboutGroupFragment">
+    android:background="#f9f9f9"
+    >
 
-    <TextView
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="About Fragment" />
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        >
 
-</FrameLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/group_img"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginHorizontal="53dp"
+            android:layout_marginTop="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/default_img"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/background_shape"
+            android:orientation="vertical"
+            android:paddingBottom="28dp"
+
+            >
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:gravity="center"
+                android:text="Android For Beginners"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/description"
+                android:textColor="@color/baseColor"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/group_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="29dp"
+                android:layout_marginBottom="13dp"
+                android:text="
+        hkjhkgjgjghjghhfhfjknkjnkkbkbjbjbjhbj
+        "
+                android:textSize="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="13.5dp"
+                android:background="#e8e8e8"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="13.5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/members"
+                android:textColor="@color/baseColor"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/members_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+
+                    />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
+

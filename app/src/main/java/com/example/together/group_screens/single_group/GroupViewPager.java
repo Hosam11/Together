@@ -10,6 +10,8 @@ import com.example.together.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.Objects;
+
 
 public class GroupViewPager extends AppCompatActivity {
 
@@ -20,8 +22,10 @@ public class GroupViewPager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager);
 
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         viewPager2 = findViewById(R.id.view_pager);
-        viewPager2.setAdapter(new GroupPagerAdapter(this));
+        viewPager2.setAdapter(new GroupPagerAdapter(this, this));
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
