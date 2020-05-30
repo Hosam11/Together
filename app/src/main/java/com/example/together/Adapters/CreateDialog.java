@@ -3,6 +3,9 @@ package com.example.together.Adapters;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
 import com.example.together.ToDoListPachage.BoardFragment;
@@ -26,6 +30,8 @@ public class CreateDialog  extends AppCompatDialogFragment {
     BoardFragment boardFragment;
     ItemAdapter itemAdapter;
     int position;
+    boolean textChangedInTitle=false;
+    boolean textChangedInDescription=false;
 
     public CreateDialog(String dialogType, BoardFragment boardFragment){
        this.boardFragment=boardFragment;
@@ -59,16 +65,73 @@ public class CreateDialog  extends AppCompatDialogFragment {
         add=v.findViewById(R.id.add_task);
         title= v.findViewById(R.id.task_title_edit_text);
         description= v.findViewById(R.id.task_description_edit_text);
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()!=0) {
+                    textChangedInTitle=true;
+                    if(textChangedInDescription==textChangedInTitle==true) {
+                        add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke));
+                        add.setClickable(true);
+                    }
+                }
+                else {
+                    add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke_grey));
+                    add.setClickable(false);
+                    textChangedInTitle=false;
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()!=0) {
+                    textChangedInDescription=true;
+                    if(textChangedInDescription==textChangedInTitle==true) {
+                        add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke));
+                        add.setClickable(true);
+                    }
+                }
+                else {
+                    add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke_grey));
+                    add.setClickable(false);
+                    textChangedInDescription=false;
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String t = title.getText().toString();
-                String d = description.getText().toString();
-                POJO pojo = new POJO(t,d,0);
-                boardFragment.addTask(pojo);
+                if(add.isClickable()==true) {
+                    String t = title.getText().toString();
+                    String d = description.getText().toString();
+                    POJO pojo = new POJO(t, d, 0);
+                    boardFragment.addTask(pojo);
 
-                CreateDialog.this.dismissAllowingStateLoss();
-
+                    CreateDialog.this.dismissAllowingStateLoss();
+                }
 
             }
         });

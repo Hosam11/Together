@@ -9,7 +9,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>-->
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/majorColor</item>
         <item name="colorPrimaryDark">@color/majorColor</item>
@@ -93,6 +93,14 @@
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/majorColor</item>
+    </style>
+    <!-- [End]  Notification styles-->
+    <style name="SelectableItemTheme">
+        <item name="color">#F44336</item>
+    </style>
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
 
