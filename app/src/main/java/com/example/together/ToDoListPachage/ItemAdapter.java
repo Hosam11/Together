@@ -16,6 +16,8 @@
 
 package com.example.together.ToDoListPachage;
 
+import android.app.Activity;
+import android.content.Context;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,25 +27,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.together.Adapters.CreateDialog;
 import com.example.together.Adapters.POJO;
 import com.example.together.R;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 
-class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
+public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
 
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
-    ArrayList<POJO> list = new ArrayList<>();
+    public ArrayList<POJO> list = new ArrayList<>();
+    Context context;
 
-    ItemAdapter(ArrayList<POJO> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
+    ItemAdapter(ArrayList<POJO> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         this.list=list;
+        this.context=context;
         setItemList(list);
     }
 
@@ -65,6 +71,13 @@ class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
             public void onClick(View v) {
                 list.remove(position);
                 ItemAdapter.this.notifyDataSetChanged();
+            }
+        });
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateDialog editDialoge = new CreateDialog("editTask",ItemAdapter.this,position);
+                editDialoge.show(((AppCompatActivity)ItemAdapter.this.context).getSupportFragmentManager(),"example");
             }
         });
     }
@@ -98,5 +111,10 @@ class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
             Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
             return true;
         }
+
+
+    }
+    public void editTask(POJO pojo,int currentPosition){
+        list.set(currentPosition,pojo);
     }
 }
