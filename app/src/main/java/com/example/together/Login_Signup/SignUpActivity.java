@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -25,13 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.R;
-import com.example.together.data.model.User;
-import com.example.together.group_screens.AddGroup;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -43,10 +38,8 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 //public class SignUpActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 //    private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
@@ -62,16 +55,13 @@ import java.util.List;
 //    RadioButton maleRadioBtn,femaleRadioBtn;
 //    Button nextBtn;
 //=======
-import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
-import static com.example.together.utils.HelperClass.TAG;
-import static com.example.together.utils.HelperClass.showAlert;
 
 public class SignUpActivity extends AppCompatActivity implements
         RadioGroup.OnCheckedChangeListener {
 
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    ImageView profileImage,dateImg;
+    ImageView profileImage, dateImg;
     EditText dateEt; // 4
     EditText addressEt; //6
     EditText nameEt; // 1
@@ -95,18 +85,18 @@ public class SignUpActivity extends AppCompatActivity implements
 
 
         Places.initialize(getApplicationContext(), apiKey);
-        addImgTv=findViewById(R.id.add_img_tv);
-        dateImg=findViewById(R.id.date_img);
-        nextBtn=findViewById(R.id.next_btn);
-        nameEt=findViewById(R.id.name_et);
-        emailEt=findViewById(R.id.email_et);
-        passEt=findViewById(R.id.password_et);
-        profileImage=findViewById(R.id.profile_image);
-        dateEt=findViewById(R.id.date_et);
-        addressEt=findViewById(R.id.address_et);
-        genderRadioGroup=findViewById(R.id.gender_radio_group);
-        maleRadioBtn=findViewById(R.id.male_radio_btn);
-        femaleRadioBtn=findViewById(R.id.female_radio_btn);
+        addImgTv = findViewById(R.id.add_img_tv);
+        dateImg = findViewById(R.id.date_img);
+        nextBtn = findViewById(R.id.next_btn);
+        nameEt = findViewById(R.id.name_et);
+        emailEt = findViewById(R.id.email_et);
+        passEt = findViewById(R.id.password_et);
+        profileImage = findViewById(R.id.profile_image);
+        dateEt = findViewById(R.id.date_et);
+        addressEt = findViewById(R.id.address_et);
+        genderRadioGroup = findViewById(R.id.gender_radio_group);
+        maleRadioBtn = findViewById(R.id.male_radio_btn);
+        femaleRadioBtn = findViewById(R.id.female_radio_btn);
         genderRadioGroup.setOnCheckedChangeListener(this);
 
         dateImg.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +123,13 @@ public class SignUpActivity extends AppCompatActivity implements
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toInterests=new Intent(getApplicationContext(),InterestsActivity.class);
+                Intent toInterests = new Intent(getApplicationContext(), InterestsActivity.class);
                 startActivity(toInterests);
             }
         });
 
 
-          }
-
-
+    }
 
 
     @Override
@@ -152,12 +140,9 @@ public class SignUpActivity extends AppCompatActivity implements
         } else {
             gender = HelperClass.FEMALE;
             Toast.makeText(getApplicationContext(), "Female", Toast.LENGTH_SHORT).show();
-                   }
+        }
 
-   }
-
-           
-    
+    }
 
 
     public void selectDate() {
@@ -278,6 +263,6 @@ public class SignUpActivity extends AppCompatActivity implements
 
         }
 
-   }
+    }
 }
 

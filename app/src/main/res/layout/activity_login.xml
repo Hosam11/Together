@@ -64,6 +64,7 @@ android:text="@string/login_to_join_our_journey"
             />
 
         <EditText
+            android:text="hos"
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,6 +101,7 @@ android:text="@string/login_to_join_our_journey"
 
 
         <EditText
+            android:text="hos"
             android:id="@+id/password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

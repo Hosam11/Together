@@ -55,7 +55,7 @@
 
         <include
             layout="@layout/add_button"
-            android:id="@+id/includedLayout"
+            android:id="@+id/btn_create_group_fragment"
             android:layout_height="100dp"
             android:layout_width="80dp" />
 

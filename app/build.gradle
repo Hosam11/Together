@@ -25,9 +25,12 @@ android {
         targetCompatibility = 1.8
     }
 
-    viewBinding {
-        enabled = false
+
+
+   viewBinding {
+       enabled = false
     }
+
 
 }
 

@@ -153,15 +153,15 @@ public class BoardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
         GetAddTaskButton getAddTaskButton;
-        getAddTaskButton =(GetAddTaskButton) getActivity();
+        /*getAddTaskButton =(GetAddTaskButton) getActivity();
         addTask = getAddTaskButton.getAddTask();
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateDialog dialog = new CreateDialog("addTask",BoardFragment.this);
-                dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(),"example");
+                CreateDialog dialog = new CreateDialog("addTask", BoardFragment.this);
+                dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
             }
-        });
+        });*/
         resetBoard();
     }
 
