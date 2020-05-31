@@ -10,6 +10,7 @@ import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserLogin;
+import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.together.data.Urls.API_URL;
 import static com.example.together.utils.HelperClass.TAG;
 
-public class ApiProvider {
+class ApiProvider {
 
     LoginResponse loginResponse;
     private APIInterface apiInterface;
@@ -41,7 +42,8 @@ public class ApiProvider {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -56,20 +58,24 @@ public class ApiProvider {
 
     /**
      * send userdata to database through calling api sing up
+     *
      * @param user user body that will send to db
      * @return response contain whether sign up failed or success
      */
     MutableLiveData<String> signUp(User user) {
+
         MutableLiveData<String> resSignUp = new MutableLiveData<>();
-//        Log.i(TAG, "ApiProvider -- signUp() user >> " + user.toString());
 
         Call<GeneralResponse> signUpCall = apiInterface.signUp(user);
 
         signUpCall.enqueue(new Callback<GeneralResponse>() {
+
             @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+            public void onResponse(Call<GeneralResponse> call,
+                                   Response<GeneralResponse> res) {
                 Log.i(TAG, "ApiProvider -- signUp() enqueue()  body >> " +
-                        res.body());
+                        res.body().response);
+
                 resSignUp.setValue(res.body().response);
             }
 
@@ -126,13 +132,16 @@ public class ApiProvider {
 
     /**
      * get user data
+     *
      * @param id of the user you want to retrieve data for it
      * @return {@link User} object that carry data
      */
-    MutableLiveData<User> fetchUserData(int id) {
+    MutableLiveData<User> fetchUserData(int id, String token) {
         MutableLiveData<User> userData = new MutableLiveData<>();
 
-        Call<User> userCall = apiInterface.fetchUserData(id);
+        Call<User> userCall = apiInterface.fetchUserData(id,
+                HelperClass.BEARER_HEADER + token);
+
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -145,6 +154,7 @@ public class ApiProvider {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 t.printStackTrace();
+                Log.d(TAG, "onFailure: errMsg " + t.getMessage());
                 call.cancel();
 
             }
@@ -159,10 +169,11 @@ public class ApiProvider {
      * @return {@link GeneralResponse} response that contain whether call success of failed
      * or if something wrong happened
      */
-    MutableLiveData<GeneralResponse> createGroup(Group group) {
+    MutableLiveData<GeneralResponse> createGroup(Group group, String header) {
         MutableLiveData<GeneralResponse> addGroupRes = new MutableLiveData<>();
         Log.i(TAG, "ApiProvider -- createGroup() " + group);
-        Call<GeneralResponse> addGroupCall = apiInterface.createGroup(group);
+
+        Call<GeneralResponse> addGroupCall = apiInterface.createGroup(group, HelperClass.BEARER_HEADER + header);
         addGroupCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {

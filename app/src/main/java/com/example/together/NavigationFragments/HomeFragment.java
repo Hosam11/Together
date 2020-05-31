@@ -33,11 +33,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         fab = v.findViewById(R.id.add_group_FAB);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent To Create Group Screen
-            }
+        fab.setOnClickListener(v1 -> {
+            //Intent To Create Group Screen
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         pojos.add(new POJO("Android Developing","Hello, my name is ali, I live in KafrEldawar sdfds sdfsd sdfsds  sdf sdf sdf sdfsd sdf sd sdfds  dsfsd ",R.drawable.default_img));

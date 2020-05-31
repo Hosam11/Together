@@ -50,22 +50,24 @@ public class ProfileActivity extends AppCompatActivity {
     private void setProfileDataObservable() {
         Storage storage = new Storage(this);
         Log.i(TAG, "setProfileDataObservable: storage.getId()" + storage.getId());
-        userViewModel.fetchUserData(storage.getId()).observe(this, userData -> {
-            Log.i(TAG, "setProfileDataObservable: userData >>  " + userData);
-            for (String interest : userData.getInterests()) {
-                Log.i(TAG, "setProfileDataObservable: #Interest# " + interest + "\n");
-            }
+        userViewModel.fetchUserData(storage.getId(), storage.getToken()).observe(this,
+                userData -> {
+                    Log.i(TAG, "setProfileDataObservable: userData >>  " + userData);
+                    for (String interest : userData.getInterests()) {
+                        Log.i(TAG, "setProfileDataObservable: #Interest# " + interest + "\n");
+                    }
 
-            if (!userData.getGroups().isEmpty()) {
-                for (User.GroupReturned group : userData.getGroups()) {
-                    Log.i(TAG, "setProfileDataObservable: #Groups# name: " + group.getName() +
-                            " -- id: " + group.getId() + "\n");
-                }
-            } else {
-                Log.i(TAG, "setProfileDataObservable: Groups is null");
-            }
+                    if (!userData.getGroups().isEmpty()) {
+                        for (User.GroupReturned group : userData.getGroups()) {
+                            Log.i(TAG, "setProfileDataObservable: #Groups# name: " +
+                                    group.getName() +
+                                    " -- id: " + group.getId() + "\n");
+                        }
+                    } else {
+                        Log.i(TAG, "setProfileDataObservable: Groups is null");
+                    }
 
-        });
+                });
 
 
     }

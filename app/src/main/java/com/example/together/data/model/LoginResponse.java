@@ -7,6 +7,7 @@ public class LoginResponse {
     private String token;
     private int id;
     private String response;
+
     private boolean isSuccess;
 
     public boolean isConFailed() {

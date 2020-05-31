@@ -13,55 +13,50 @@ public class User {
         "name": "ali",
         "email": "sd",
         "password": "asdsad",
-        "age": 20,
+        "BirthDate": "20",
         "gender": "Fasdf",
         "address": "asdsd"
     }
      */
-
-    /*
-        "name": "update ali",
-        "email": "sd",
-        "gender": "update Fasdf",
-        "age": 200,
-        "address": null
-     */
+    public String response;
 
     public String name;
-    public String response;
     private String email;
     private String password;
-    // TODO will be String later in DB and name brith data
-    private int age;
+    @SerializedName("BirthDate")
+    private String birthDate;
     private String address;
     private String gender;
 
     private List<String> interests;
 
-    public List<GroupReturned> getGroups() {
-        return groups;
-    }
-
     @SerializedName("groups")
     private List<GroupReturned> groups;
-    public List<String> getInterests() {
-        return interests;
-    }
 
-
-    public User(String name, String email, String password,
-                int age, String address, String gender,
-                List<String> interests
+    public User(
+            String name, String email,
+            String password, String birthDate,
+            String address, String gender
     ) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.age = age;
+        this.birthDate = birthDate;
         this.address = address;
         this.gender = gender;
+    }
+
+    public List<GroupReturned> getGroups() {
+        return groups;
+    }
+
+    public void setInterests(List<String> interests) {
         this.interests = interests;
     }
 
+    public List<String> getInterests() {
+        return interests;
+    }
 
     @NonNull
     @Override
@@ -70,14 +65,14 @@ public class User {
                 "\nname: " + name +
                         "\nemail: " + email +
                         "\npass: " + password +
-                        "\nage: " + age +
+                        "\nBirthDate: " + birthDate +
                         "\ngender: " + gender +
                         "\naddress: " + address
         );
     }
 
 
-     public  class GroupReturned {
+    public class GroupReturned {
         private String name;
         private int id;
 

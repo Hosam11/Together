@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".group_screens.single_group.GroupViewPager"
-    >
+    tools:context=".group_screens.single_group.GroupViewPager">
 
 
+    <!--        style="@style/Widget.MaterialComponents.TabLayout.PrimarySurface"-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        style="@style/Widget.MaterialComponents.TabLayout.Colored"
+        style="@style/AppTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

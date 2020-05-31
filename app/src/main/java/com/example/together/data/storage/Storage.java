@@ -3,8 +3,14 @@ package com.example.together.data.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.together.data.model.User;
+import com.google.gson.Gson;
+
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.together.utils.HelperClass.ID;
+import static com.example.together.utils.HelperClass.NO_USER;
+import static com.example.together.utils.HelperClass.PASSED_USER;
+import static com.example.together.utils.HelperClass.PASSED_USER_OBJ;
 import static com.example.together.utils.HelperClass.TOKEN;
 import static com.example.together.utils.HelperClass.TOKEN_DEF;
 import static com.example.together.utils.HelperClass.USER_DATA;
@@ -14,10 +20,22 @@ public class Storage {
     Context context;
     SharedPreferences sharedPreferences;
 
+    /**
+     * this version of construct use to store most used user data id and token
+     * start with assgin object to sharPrefs
+     * @param context
+     */
     public Storage(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(USER_DATA,
                 MODE_PRIVATE);
+    }
+
+    /**
+     * this construct used in store and other thing in sharedPrefs
+     */
+    public Storage() {
+
     }
 
     public String getToken() {
@@ -35,5 +53,22 @@ public class Storage {
         editor.apply();
     }
 
+    public void savePassedUser(User user, Context context) {
+        sharedPreferences = context.getSharedPreferences(PASSED_USER, MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user); // myObject - instance of MyObject
+        prefsEditor.putString(PASSED_USER_OBJ, json);
+        prefsEditor.apply();
+    }
 
+    public User getPassUser(Context context) {
+        sharedPreferences = context.getSharedPreferences(PASSED_USER, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(PASSED_USER_OBJ, NO_USER);
+        return gson.fromJson(json, User.class);
+    }
 }
+
+
+
