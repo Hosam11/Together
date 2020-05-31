@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#f9f9f9"
     android:orientation="vertical"
     >
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:id="@+id/add_group_FAB"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"        android:layout_margin="16dp"-->
-    <!--        app:fabSize="normal"-->
-    <!--        app:backgroundTint="@color/majorColor"-->
-    <!--        app:elevation="10dp"-->
-    <!--        android:src="@drawable/ic_add_black_24dp"/>-->
+ <!--       <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_group_FAB"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"        android:layout_margin="16dp"
+            app:fabSize="normal"
+            app:backgroundTint="@color/majorColor"
+            app:elevation="10dp"
+            android:src="@drawable/ic_add_black_24dp"/>-->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        >
+        android:weightSum="10">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="10"
-            >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home"
-            android:textSize="22sp"
-            android:textColor="#000000"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="22dp"/>
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Here is your groups"
-                android:textSize="13sp"
-                android:textColor="#000000"
-                android:layout_marginTop="6dp"
                 android:layout_marginLeft="22dp"
+                android:layout_marginTop="22dp"
+                android:text="Home"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginBottom="15dp"
+                android:text="Here is your groups"
+                android:textColor="#000000"
+                android:textSize="13sp"
 
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include
-            layout="@layout/add_button"
             android:id="@+id/btn_create_group_fragment"
-            android:layout_height="100dp"
-            android:layout_width="80dp" />
+            layout="@layout/add_button"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

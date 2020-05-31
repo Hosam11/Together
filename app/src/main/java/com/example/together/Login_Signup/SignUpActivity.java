@@ -26,6 +26,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.together.R;
+import com.example.together.data.model.User;
+import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -40,6 +42,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+
+import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
+import static com.example.together.utils.HelperClass.showAlert;
 
 //public class SignUpActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 //    private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
@@ -120,14 +125,32 @@ public class SignUpActivity extends AppCompatActivity implements
                 selectImage();
             }
         });
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent toInterests = new Intent(getApplicationContext(), InterestsActivity.class);
-                startActivity(toInterests);
-            }
-        });
+        nextBtn.setOnClickListener(v -> nextScreen());
 
+
+    }
+
+    private void nextScreen() {
+//        User user = new User();
+        String uName = nameEt.getText().toString();
+        String uEmail = emailEt.getText().toString().trim();
+        String uPass = passEt.getText().toString();
+        String birthDate = dateEt.getText().toString();
+        String address = addressEt.getText().toString();
+
+
+        if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
+            showAlert(ERROR_MISSING_FILEDS, this);
+        } else {
+            User user = new User(uName, uEmail, uPass, birthDate, address, gender);
+            Storage storage = new Storage();
+            storage.savePassedUser(user, this);
+            Log.i(HelperClass.TAG, "SignUpActivity -- createAccount: #click#" +
+                    " user  >> " + user);
+            Intent toInterests = new Intent(getApplicationContext(),
+                    InterestsActivity.class);
+            startActivity(toInterests);
+        }
 
     }
 

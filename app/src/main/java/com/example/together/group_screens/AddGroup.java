@@ -140,17 +140,23 @@ public class AddGroup extends AppCompatActivity {
         String gpLocation = locationSpinner.getSpItemSelected();
 
         Storage storage = new Storage(this);
-//        FixedDBValues dbValues = new FixedDBValues();
+        // FixedDBValues dbValues = new FixedDBValues();
         // TODO interest id leave it for now
-        if (gpName.isEmpty() || gpDesc.isEmpty() || gpLevel.isEmpty()) {
+        if (gpName.isEmpty() ||
+                gpDesc.isEmpty() ||
+                gpLevel == null ||
+                gpInterest == null
+        ) {
             showAlert(ERROR_MISSING_FILEDS, this);
-        }
-        Group group = new Group(
-                storage.getId(), gpLocation,
-                gpMembers, gpDuration, gpName,
-                gpDesc, HelperClass.FREE, gpLevel, gpInterest);
+        } else {
+            Group group = new Group(
+                    storage.getId(), gpLocation,
+                    gpMembers, gpDuration, gpName,
+                    gpDesc, HelperClass.FREE, gpLevel, gpInterest);
+            String token = storage.getToken();
+            userViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
 
-        userViewModel.createGroup(group).observe(this, this::observCreateGroup);
+        }
 
     }
 
@@ -175,17 +181,17 @@ public class AddGroup extends AppCompatActivity {
 
     public void decrement(TextView tv) {
         int decrement = Integer.parseInt(tv.getText().toString());
-        Log.i(TAG, "AddGroup -- onCreate: decrement" + decrement);
+//        Log.i(TAG, "AddGroup -- onCreate: decrement" + decrement);
         if (decrement != 0) {
             decrement--;
-            Log.i(TAG, "AddGroup -- onCreate: IF decrement" + decrement);
+//            Log.i(TAG, "AddGroup -- onCreate: IF decrement" + decrement);
             tv.setText(String.valueOf(decrement));
         }
     }
 
     public void increment(TextView tv, boolean isDuration) {
         int increment = Integer.parseInt(tv.getText().toString());
-        Log.i(TAG, "AddGroup -- onCreate: increment" + increment);
+//        Log.i(TAG, "AddGroup -- onCreate: increment" + increment);
         if (isDuration & increment == 12) {
 
         } else {
