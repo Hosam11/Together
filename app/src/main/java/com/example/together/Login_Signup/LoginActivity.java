@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserLogin userLogin = new UserLogin(email, pass);
 
+
         if (email.isEmpty() || pass.isEmpty()) {
             showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
 

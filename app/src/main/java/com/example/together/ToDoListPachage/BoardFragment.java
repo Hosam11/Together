@@ -19,6 +19,7 @@ package com.example.together.ToDoListPachage;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class BoardFragment extends Fragment {
     private int mColumns;
     private boolean mGridLayout;
     int data = 50;
-    Button addTask;
+     public Button addTask;
     final ArrayList<POJO> toDoList = new ArrayList<>();
 
 
@@ -153,15 +154,18 @@ public class BoardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
         GetAddTaskButton getAddTaskButton;
-        /*getAddTaskButton =(GetAddTaskButton) getActivity();
+        getAddTaskButton =(GetAddTaskButton) getActivity();
         addTask = getAddTaskButton.getAddTask();
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreateDialog dialog = new CreateDialog("addTask", BoardFragment.this);
+                if(dialog.getActivity()!=null)
+                    dialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                 dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
             }
-        });*/
+        });
         resetBoard();
     }
 

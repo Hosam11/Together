@@ -68,19 +68,19 @@ public class NotificationFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.notification_status,menu);
-         final TextView status = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.status);
-        final Switch sw = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.notification_sw);
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    status.setText("On");
-                }
-                else{
-                    status.setText("Off");
-                }
-            }
-        });
+//         final TextView status = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.status);
+//        final Switch sw = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.notification_sw);
+//        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    status.setText("On");
+//                }
+//                else{
+//                    status.setText("Off");
+//                }
+//            }
+//        });
     }
 
 

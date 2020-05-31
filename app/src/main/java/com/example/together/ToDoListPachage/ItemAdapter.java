@@ -42,7 +42,7 @@ public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
     public ArrayList<POJO> list = new ArrayList<>();
-    Context context;
+    public Context context;
 
     ItemAdapter(ArrayList<POJO> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context) {
         mLayoutId = layoutId;
