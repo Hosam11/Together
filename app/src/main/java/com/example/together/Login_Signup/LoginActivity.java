@@ -51,12 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEt.getText().toString().trim();
         String pass = passEt.getText().toString();
         UserLogin userLogin = new UserLogin(email, pass);
-
-        if (email.isEmpty() || pass.isEmpty()) {
-            showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
-        } else {
-            userViewModel.login(userLogin).observe(this, this::logObserve);
-        }
+        Intent i = new Intent(this,BottomNavigationView.class);
+        startActivity(i);
+//
+//        if (email.isEmpty() || pass.isEmpty()) {
+//            showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
+//        } else {
+//            userViewModel.login(userLogin).observe(this, this::logObserve);
+//        }
 
     }
 

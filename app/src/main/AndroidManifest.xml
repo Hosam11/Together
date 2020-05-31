@@ -20,10 +20,16 @@
         <activity android:name=".group_screens.single_group.TestTabBar"/>
         <activity android:name=".utils.TestApis" />
         <activity android:name=".Login_Signup.SignUpActivity" />
-        <activity android:name=".Login_Signup.StartActivity"/>
+        <activity android:name=".Login_Signup.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".profile.EditInterests" />
-        <activity android:name=".Login_Signup.InterestsActivity" />
+        <activity android:name=".Login_Signup.InterestsActivity"></activity>
         <activity android:name=".about.About"></activity>
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Login_Signup.LoginActivity" />
@@ -33,11 +39,7 @@
 
         <activity android:name=".ToDoListPachage.ToDoListMain">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".profile.ProfileActivity" />
