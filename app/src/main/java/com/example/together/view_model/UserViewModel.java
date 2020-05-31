@@ -21,6 +21,7 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<GeneralResponse> joinGroup;
     private MutableLiveData<List<JoinGroupResponse>> listRequestJoinForGroup;
     private MutableLiveData<GeneralResponse> addMember;
+
     private UserRepo userRepo = new UserRepo();
 
 
@@ -29,8 +30,7 @@ public class UserViewModel extends ViewModel {
      * @return the response message that contain whether the sing up fail or success
      */
     public MutableLiveData<String> signUp(User user) {
-        MutableLiveData<String> signUpRes = userRepo.signUp(user);
-        return signUpRes;
+        return userRepo.signUp(user);
     }
 
     public MutableLiveData<LoginResponse> login(UserLogin userLogin) {
@@ -38,13 +38,13 @@ public class UserViewModel extends ViewModel {
         return loginRes;
     }
 
-    public MutableLiveData<User> fetchUserData(int id) {
-        userData = userRepo.fetchUserData(id);
+    public MutableLiveData<User> fetchUserData(int id, String token) {
+        userData = userRepo.fetchUserData(id, token);
         return userData;
     }
 
-    public MutableLiveData<GeneralResponse> createGroup(Group group) {
-        createGroupRes = userRepo.createGroup(group);
+    public MutableLiveData<GeneralResponse> createGroup(Group group, String token) {
+        createGroupRes = userRepo.createGroup(group, token);
         return createGroupRes;
     }
 

@@ -19,7 +19,6 @@ public class UserRepo {
         provider = new ApiProvider();
     }
 
-
     public MutableLiveData<String> signUp(User user) {
         return provider.signUp(user);
     }
@@ -28,12 +27,12 @@ public class UserRepo {
         return provider.login(userLogin);
     }
 
-    public MutableLiveData<User> fetchUserData(int id) {
-        return provider.fetchUserData(id);
+    public MutableLiveData<User> fetchUserData(int id, String token) {
+        return provider.fetchUserData(id,token) ;
     }
 
-    public MutableLiveData<GeneralResponse> createGroup(Group group) {
-        return provider.createGroup(group);
+    public MutableLiveData<GeneralResponse> createGroup(Group group, String token) {
+        return provider.createGroup(group,token);
     }
 
     public MutableLiveData<GeneralResponse> joinGroup(int gpId, int userID) {

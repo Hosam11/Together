@@ -99,6 +99,7 @@
 
             <EditText
                 android:id="@+id/name_et"
+                android:text="hos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="19dp"
@@ -134,6 +135,7 @@
 
 
             <EditText
+                android:text="hos"
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,6 +174,7 @@
 
 
             <EditText
+                android:text="hos"
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
