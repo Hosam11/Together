@@ -20,31 +20,36 @@
         <activity android:name=".utils.TestApis" />
         <activity android:name=".BottomNavigationView" />
         <activity android:name=".Login_Signup.SignUpActivity" />
-        <activity android:name=".Login_Signup.StartActivity">
+        
+      <activity android:name=".Login_Signup.StartActivity">
             <!-- TODO start activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+      
         <activity android:name=".profile.EditInterests" />
         <activity android:name=".Login_Signup.InterestsActivity" />
-        <activity android:name=".about.About">
-
-        </activity>
+        <activity android:name=".about.About"> </activity>
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Login_Signup.LoginActivity" />
+        <activity android:name=".BottomNavigationView">
+        </activity>
+
+        <activity android:name=".ToDoListPachage.ToDoListMain"/>
         <activity android:name=".profile.ProfileActivity" />
-        <activity android:name=".group_screens.ViewGroup">
 
+        <activity android:name=".ToDoListPachage.ToDoListMain" >
         </activity>
-        <activity android:name=".ToDoListPachage.ToDoListMain">
 
-        </activity>
-        <activity android:name=".group_screens.AddGroup" >
+        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".group_screens.ViewGroup"></activity>
+        <activity android:name=".group_screens.AddGroup"></activity>
 
-        </activity>
-        <activity android:name=".MainActivity" /> <!-- crop Activity -->
+    
+        <activity android:name=".MainActivity" />
+        <!-- crop Activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
