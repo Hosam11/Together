@@ -61,5 +61,5 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="edit_your_profile">Edit your profile</string>
     <string name="change_image">Change image</string>
-
+    <string name="hint_search">Search Together</string>
 </resources>

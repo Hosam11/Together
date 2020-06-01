@@ -27,7 +27,6 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public HomeRecyclarViewAdapter(ArrayList<POJO> pojos, Context context) {
-
         this.pojos = pojos;
         this.context = context;
     }

@@ -27,7 +27,6 @@ public class About extends AppCompatActivity {
 
         getSupportActionBar().hide();
         members_recycler = findViewById(R.id.members_recycler);
-
         pojos.add(new POJO("Android Developing", "", R.drawable.default_img));
         pojos.add(new POJO("IOS Developing", "", R.drawable.default_img));
         pojos.add(new POJO("Kotlin Developing", "", R.drawable.default_img));

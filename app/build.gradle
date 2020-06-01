@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -26,9 +28,8 @@ android {
     }
 
 
-
-   viewBinding {
-       enabled = false
+    viewBinding {
+        enabled = false
     }
 
 
@@ -51,7 +52,7 @@ dependencies {
 
     // [Start] External Libs
 
-   
+
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation 'com.weiwangcn.betterspinner:library:1.1.0'
@@ -71,4 +72,5 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.5'
 
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
