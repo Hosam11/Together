@@ -68,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if (logRes.isConFailed()) {
             showAlert("Failed connect to host!", this);
+            pbLogin.setVisibility(View.GONE);
+            loginBtn.setEnabled(true);
         } else {
             if (logRes.isSuccess()) {
                 Log.i(TAG, "LoginActivity -- signUpObservable: go to home");
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
             } else {
                 // not valid user
+                pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
                 showAlert(logRes.getResponse(), this);
