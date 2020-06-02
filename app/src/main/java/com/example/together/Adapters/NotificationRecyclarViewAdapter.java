@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,7 +26,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         public TextView not_title;
         public TextView not_description;
         public ImageView not_image;
-        public ConstraintLayout constraintLayout;
+        public LinearLayout friendRequestLayout;
         public View layout;
         public MyViewHolder(View v) {
             super(v);
@@ -33,6 +34,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
             not_image =v.findViewById(R.id.notification_img);
             not_title = v.findViewById(R.id.notification_title);
             not_description = v.findViewById(R.id.notification_description);
+            friendRequestLayout= v.findViewById(R.id.friend_request_layout);
         }
     }
 
@@ -63,6 +65,9 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         holder.not_title.setText(pojos.get(position).title);
         holder.not_description.setText(pojos.get(position).description);
         holder.not_image.setImageResource(pojos.get(position).image);
+        if(position%2>0) {
+            holder.friendRequestLayout.setVisibility(View.GONE);
+        }
 
     }
 

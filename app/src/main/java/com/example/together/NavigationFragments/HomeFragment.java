@@ -40,11 +40,14 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         fab = v.findViewById(R.id.add_group_FAB);
         fab.setOnClickListener(v1 -> {
             //Intent To Create Group Screen
+            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            getContext().startActivity(createGroup);
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -63,6 +66,7 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
        getGroups();
+
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), AddGroup.class);
@@ -89,6 +93,7 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
                 progressDialog.cancel();
             }
         });
+
 
 
 

@@ -49,16 +49,16 @@ public class UserRepo {
         return provider.createGroup(group,token);
     }
 
-    public MutableLiveData<GeneralResponse> joinGroup(int gpId, int userID) {
-        return provider.requestJoinGroup(gpId, userID);
+    public MutableLiveData<GeneralResponse> joinGroup(int gpId, int userID,  String token) {
+        return provider.requestJoinGroup(gpId, userID, token);
     }
 
-    public MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int gpId) {
-        return provider.getAllResponsesForGroup(gpId);
+    public MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int gpId, String token) {
+        return provider.getAllResponsesForGroup(gpId,token);
     }
 
-    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID) {
-        return provider.addGroupMember(gpID, userID, adminID);
+    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID, String token) {
+        return provider.addGroupMember(gpID, userID, adminID,token);
     }
 
     public MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
@@ -74,6 +74,20 @@ public class UserRepo {
     }
    public MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String token){
         return  provider.removeMemberFromGroup(groupId, id, adminId,token);
+   }
+
+    public MutableLiveData<GeneralResponse> updateGroupInfo(int gpID, int adminID, Group group, String token) {
+        return provider.updateGroupInfo(gpID, adminID, group, token);
+    }
+
+
+    public MutableLiveData<GeneralResponse> acceptJoinReqGroup(int reqID, int adminID, String token) {
+        return provider.acceptJoinReqGroup(reqID, adminID, token);
+    }
+
+
+    public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
+        return provider.rejectJoinReqGroup(reqID,  token);
     }
 
 }

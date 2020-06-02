@@ -65,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity implements
     RadioButton maleRadioBtn, femaleRadioBtn;
     Calendar cldr;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
+
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
     private String gender = HelperClass.MALE;

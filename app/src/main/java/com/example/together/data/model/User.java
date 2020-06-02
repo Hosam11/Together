@@ -21,6 +21,7 @@ public class User implements Serializable {
      */
     public String response;
 
+    public String image;
     public String name;
     private String email;
     private String password;

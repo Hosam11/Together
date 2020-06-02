@@ -20,7 +20,7 @@ public class GroupViewPager extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_pager);
+        setContentView(R.layout.view_pager_group);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
@@ -33,17 +33,14 @@ public class GroupViewPager extends AppCompatActivity {
                 tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
                 case 0: {
-                    tab.setText("ToDoList");
+                    tab.setText("Chat");
                     break;
                 }
                 case 1: {
-                    tab.setText("Discussion");
-                    break;
-                }
-                case 2: {
                     tab.setText("About");
                     break;
                 }
+
             }
         }
         );

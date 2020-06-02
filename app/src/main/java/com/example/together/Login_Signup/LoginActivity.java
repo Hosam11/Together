@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserLogin userLogin = new UserLogin(email, pass);
 
+
         if (email.isEmpty() || pass.isEmpty()) {
             showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
 
@@ -74,8 +75,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (logRes.isConFailed()) {
             showAlert("Failed connect to host!", this);
+
             CustomProgressDialog.getInstance(LoginActivity.this).cancel();
 
+
+            loginBtn.setEnabled(true);
         } else {
             if (logRes.isSuccess()) {
                 Log.i(TAG, "LoginActivity -- signUpObservable: go to home");
@@ -93,7 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                 loginBtn.setEnabled(true);
 
             } else {
-                // not valid user
+//                 // not valid user
+//                 pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
                progressdialog.cancel();
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");

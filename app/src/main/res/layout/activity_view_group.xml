@@ -26,7 +26,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="25dp"
-            android:onClick="chooseImage"
             android:src="@drawable/group"
             app:civ_border_color="#f9f9f9"
             app:civ_border_width="2dp" />
@@ -61,7 +60,6 @@
             <!-- Group Desc content -->
             <TextView
                 style="@style/view_group_tv_content"
-                android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
                 android:text="group desc" />
 
@@ -74,7 +72,6 @@
             <!-- Group Interest content -->
             <TextView
                 style="@style/view_group_tv_content"
-                android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
                 android:text="IOS" />
 
@@ -87,7 +84,6 @@
             <!-- Group Created on content -->
             <TextView
                 style="@style/view_group_tv_content"
-                android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
                 android:text="15/5/2019" />
 
@@ -100,7 +96,6 @@
             <!-- Group Location content -->
             <TextView
                 style="@style/view_group_tv_content"
-                android:layout_marginBottom="14dp"
                 android:letterSpacing="-0.02"
                 android:text="Egypt" />
 
@@ -113,19 +108,20 @@
             <!-- Group Required Level content -->
             <TextView
                 style="@style/view_group_tv_content"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="26dp"
                 android:letterSpacing="-0.02"
                 android:text="begginer" />
 
             <Button
+                android:textColor="#fff"
                 android:background="@drawable/login_signup_shape"
                 android:id="@+id/btn_join_group"
                 android:text="Join Group"
                 android:layout_marginRight="33dp"
                 android:layout_marginLeft="33dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="47dp"/>
 
         </LinearLayout>
 

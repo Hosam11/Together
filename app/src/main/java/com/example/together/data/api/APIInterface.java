@@ -44,15 +44,19 @@ public interface APIInterface {
 
     @POST("request/{groupId}/{id}")
     Call<GeneralResponse> requestJoinGroup(@Path("groupId") int groupId,
-                                           @Path("id") int userId);
+                                           @Path("id") int userId,
+                                           @Header("Authorization") String header);
 
     @GET("requests/{groupId}")
-    Call<List<JoinGroupResponse>> getAllResponsesForGroup(@Path("groupId") int groupId);
+    Call<List<JoinGroupResponse>> getAllResponsesForGroup(@Path("groupId") int groupId,
+                                                          @Header("Authorization") String header);
 
-    @GET("add/{groupId}/{userID}/current_user_id?")
+    @GET("add/{groupId}/{userID}?")
     Call<GeneralResponse> addGroupMember(@Path("groupId") int gpID,
                                          @Path("userID") int userID,
-                                         @Query("current_user_id") int adminID);
+                                          @Query("current_user_id") int adminID,
+                                         @Header("Authorization") String header);
+
     @POST("update/{id}")
     Call<GeneralResponse> updateUserProfile(@Path("id") int id,
                                             @Header("Authorization") String header,
@@ -83,6 +87,26 @@ public interface APIInterface {
 
 
 
+                                        
+    @POST("updateGroup/{groupId}?")
+    Call<GeneralResponse> updateGroupInfo(@Path("groupId") int groupId,
+                                          @Query("current_user_id") int adminID,
+                                          @Body Group group,
+                                          @Header("Authorization") String token);
+
+    @GET("accept/{requesID}?")
+    Call<GeneralResponse> acceptJoinReqGroup(@Path("requesID") int reqID,
+                                             @Query("current_user_id") int adminID,
+                                             @Header("Authorization") String token);
+
+
+    @GET("reject/{requesID}")
+    Call<GeneralResponse> rejectJoinReqGroup(@Path("requesID") int reqID,
+                                             @Header("Authorization") String token);
+
+
 }
+
+
 
 
