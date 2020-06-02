@@ -14,6 +14,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
+import com.example.together.ToDoListPachage.BoardFragment;
+import com.example.together.ToDoListPachage.ToDoListMain;
+import com.example.together.group_screens.AddGroup;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.HelperClass;
 
@@ -55,11 +58,19 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
                 Intent goToGroup = new Intent(context, com.example.together.group_screens.ViewGroup.class);
                 context.startActivity(goToGroup);
             });
-        } else {
+        } else if(position==1){
             holder.groupCardView.setOnClickListener(v -> {
-                Intent goToGroup = new Intent(context, GroupViewPager.class);
+                Intent goToGroup = new Intent(context, ToDoListMain.class);
                 context.startActivity(goToGroup);
             });
+        }
+        else {
+            holder.groupCardView.setOnClickListener(v -> {
+                Log.i(HelperClass.TAG, "onBindViewHolder: ");
+                Intent i = new Intent(context, AddGroup.class);
+                context.startActivity(i);
+            });
+
         }
 
     }

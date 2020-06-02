@@ -30,7 +30,9 @@ public class HelperClass {
     public static final String ERROR_INTERESTS = "Please select interest";
     public static final String BEARER_HEADER = "Bearer ";
 
-
+    public static final String TODO ="to do";
+    public static final String ADD_TASK_RESPONSE_SUCCESS ="Task added Successfully";
+    public static final String SUCCESS ="sucess";
 
 
     public static void showAlert(String msg, Context context) {
