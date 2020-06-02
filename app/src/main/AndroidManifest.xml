@@ -40,7 +40,7 @@
         <activity android:name=".profile.EditInterests" />
         <activity android:name=".Login_Signup.InterestsActivity" />
 
-        <activity android:name=".about.About" />
+<!--        <activity android:name=".about.About" />-->
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Login_Signup.LoginActivity" />
         <activity android:name=".ToDoListPachage.ToDoListMain"></activity>
