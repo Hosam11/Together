@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -17,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,10 @@ import android.widget.Toast;
 
 import com.example.together.Login_Signup.SignUpActivity;
 import com.example.together.R;
+import com.example.together.data.model.GeneralResponse;
+import com.example.together.data.model.User;
+import com.example.together.data.storage.Storage;
+import com.example.together.view_model.UserViewModel;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -46,6 +53,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
@@ -68,7 +76,8 @@ TextView changeImgTv;
 
     //data
 
-    UserPojo userPojo;
+    User userPojo;
+    UserViewModel userViewModel;
 
 
 
@@ -91,12 +100,7 @@ TextView changeImgTv;
         femaleRadioBtn=findViewById(R.id.female_radio_btn);
         genderRadioGroup.setOnCheckedChangeListener(this);
         saveChangesBtn=findViewById(R.id.save_btn);
-        saveChangesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Save Request Here
-            }
-        });
+
 
         Places.initialize(getApplicationContext(), apiKey);
         addressEt.setOnClickListener(new View.OnClickListener() {
@@ -120,26 +124,63 @@ TextView changeImgTv;
             }
         });
 
-        userPojo = (UserPojo) getIntent().getSerializableExtra("userData");
-emailEt.setText(userPojo.email);
-addressEt.setText(userPojo.Address);
-passEt.setText(userPojo.pass);
-nameEt.setText(userPojo.name);
+        userPojo = (User)getIntent().getSerializableExtra("userData");
+emailEt.setText(userPojo.getEmail());
+addressEt.setText(userPojo.getAddress());
+passEt.setText(userPojo.getPassword());
+nameEt.setText(userPojo.getName());
 //get the image
-dateEt.setText(userPojo.DateOfBirth);
+dateEt.setText(userPojo.getBirthDate());
         if(userPojo.getGender().equalsIgnoreCase("female")){
             femaleRadioBtn.setChecked(true);
 
         }
         else { maleRadioBtn.setChecked(true); }
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
+        saveChangesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String radiovalue = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId())).getText().toString();
+if(validateForm()) {
+    Toast.makeText(getApplicationContext(), radiovalue, Toast.LENGTH_SHORT).show();
+    List<String> interests=userPojo.getInterests();
+userPojo=new User(nameEt.getText().toString(),emailEt.getText().toString(),passEt.getText().toString(),dateEt.getText().toString(),
+        addressEt.getText().toString(),radiovalue
+        );
+userPojo.setInterests(interests);
+
+
+
+save(userPojo);
+
+
+
+
+}
+            }
+        });
 
 
 
 
 
     }
+
+    public void save(User user){
+        Storage storage = new Storage(getApplicationContext());
+        userViewModel.updateUserProfile(storage.getId(),storage.getToken(),user).observe(this, new Observer<GeneralResponse>() {
+            @Override
+            public void onChanged(GeneralResponse generalResponse) {
+                Toast.makeText(getApplicationContext(),generalResponse.response,Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+    }
+
     public void StartAutoCompleteActivity() {
         Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG))
@@ -294,14 +335,64 @@ dateEt.setText(userPojo.DateOfBirth);
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if(checkedId==R.id.male_radio_btn){
 
-            Toast.makeText(getApplicationContext(),"Male",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(),"Male",Toast.LENGTH_SHORT).show();
+
 
         }
 
         else {
-            Toast.makeText(getApplicationContext(),"Female",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(),"Female",Toast.LENGTH_SHORT).show();
 
 
         }
     }
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String name = nameEt.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            nameEt.setError("Required.");
+            valid = false;
+        } else {
+            nameEt.setError(null);
+        }
+
+        String email = emailEt.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            emailEt.setError("Required.");
+            valid = false;
+        } else {
+            emailEt.setError(null);
+        }
+        String pass = passEt.getText().toString();
+        if (TextUtils.isEmpty(pass)) {
+            passEt.setError("Required.");
+            valid = false;
+        } else {
+            passEt.setError(null);
+        }
+        String address = addressEt.getText().toString();
+        if (TextUtils.isEmpty(address)) {
+            addressEt.setError("Required.");
+            valid = false;
+        } else {
+            addressEt.setError(null);
+        }
+
+
+        String endPoint = dateEt.getText().toString();
+        if (TextUtils.isEmpty(endPoint)) {
+            dateEt.setError("Required.");
+            valid = false;
+        } else {
+            dateEt.setError(null);
+        }
+
+
+
+
+
+        return valid;
+    }
+
 }

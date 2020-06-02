@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.BottomNavigationView;
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
@@ -24,6 +25,8 @@ import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
 import com.example.together.profile.UserPojo;
 import com.example.together.view_model.UserViewModel;
+
+import java.util.List;
 
 import static com.example.together.utils.HelperClass.TAG;
 
@@ -38,8 +41,9 @@ public class ProfileFragment extends Fragment implements
     TextView interestTv;
     TextView editInterests;
     String[] interests;
-    UserPojo user;
+    User user;
     UserViewModel userViewModel;
+    CustomProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -62,12 +66,22 @@ public class ProfileFragment extends Fragment implements
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-        setProfileDataObservable();
+progressDialog=CustomProgressDialog.getInstance(getContext());
+progressDialog.show();
 
 
         // TODO last changed was 31/5/2020
         return v;
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setProfileDataObservable();
+
+
     }
 
     private void setProfileDataObservable() {
@@ -79,9 +93,18 @@ public class ProfileFragment extends Fragment implements
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-                    for (String interest : userData.getInterests()) {
-                        Log.i(TAG, "setProfileDataObservable: #Interest# " + interest + "\n");
-                    }
+
+                    user=userData;
+                    nameTv.setText(userData.getName());
+                    emailTv.setText(userData.getEmail());
+                    addressEt.setText(userData.getAddress());
+                    dateEt.setText(userData.getBirthDate());
+                    genderEt.setText(userData.getGender());
+
+
+                    progressDialog.cancel();
+
+                    displayInterests(userData.getInterests());
 
                     if (!userData.getGroups().isEmpty()) {
                         for (User.GroupReturned group : userData.getGroups()) {
@@ -97,23 +120,17 @@ public class ProfileFragment extends Fragment implements
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        user = new UserPojo();
-        String intereststr = user.getInterests();
-
-        interests = intereststr.split("-");
+    public void displayInterests(List<String> interests){
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < this.interests.length; i++) {
+        for (int i = 0; i < interests.size(); i++) {
 
-            builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + this.interests[i] + "</span>" + "<br/> ");
+            builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
 
 
         }
-        intereststr = builder.toString();
-        interestTv.setText(Html.fromHtml(intereststr));
+        interestTv.setText(Html.fromHtml( builder.toString()));
+
+
     }
 
     @Override

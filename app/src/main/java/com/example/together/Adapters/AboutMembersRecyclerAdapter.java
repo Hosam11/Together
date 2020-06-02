@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
+import com.example.together.data.model.GroupDetails;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembersRecyclerAdapter.MyViewHolder> {
 
 
-    ArrayList<POJO> pojos=new ArrayList<>();
+    ArrayList<GroupDetails.Member> memberArrayList=new ArrayList<>();
     boolean isAdmin;
     Context context;
     private OnItemClickListener mListener;
@@ -65,9 +66,9 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         }
     }
 
-    public AboutMembersRecyclerAdapter(ArrayList<POJO> pojos ,boolean isAdmin,Context context) {
+    public AboutMembersRecyclerAdapter(ArrayList<GroupDetails.Member> memberArrayList ,boolean isAdmin,Context context) {
 
-        this.pojos=pojos;
+        this.memberArrayList=memberArrayList;
         this.isAdmin=isAdmin;
         this.context=context;
 
@@ -91,8 +92,8 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.name.setText(pojos.get(position).title);
-        holder.userImage.setImageResource(pojos.get(position).image);
+        holder.name.setText(memberArrayList.get(position).getName());
+        holder.userImage.setImageResource(R.drawable.default_img);
         if(isAdmin==false){
 
             holder.removeBtn.setVisibility(View.INVISIBLE);
@@ -112,6 +113,6 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return pojos.size();
+        return memberArrayList.size();
     }
 }

@@ -17,10 +17,11 @@ import androidx.core.widget.CompoundButtonCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
+import com.example.together.data.model.Interests;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
-import com.example.together.group_screens.AddGroup;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
 
@@ -34,7 +35,7 @@ import static com.example.together.utils.HelperClass.showAlert;
 
 public class InterestsActivity extends AppCompatActivity {
 
-    final String[] interests = {" PHP", " JAVA", " JSON", " C#", " Objective-C"};
+   ArrayList<Interests> interestsList;
     LinearLayout containerLayout;
     Button signupBtn;
     UserViewModel userViewModel;
@@ -60,6 +61,42 @@ public class InterestsActivity extends AppCompatActivity {
         signupBtn = findViewById(R.id.signup_btn);
         selectedInterest = new ArrayList<>();
 
+
+
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        signupBtn.setOnClickListener(v -> createAccount());
+        Toast.makeText(getApplicationContext(),"cre",Toast.LENGTH_LONG).show();
+        CustomProgressDialog.getInstance(this).show();
+
+        getInterests();
+
+    }
+
+    private void getInterests(){
+        //TODO : After token remove from getAllInterests
+
+        userViewModel.getAllInterests("28|q5bWvcmDnlSibVReVysFonEyPEodovhGF9V3E9OWPT6w27y9hqj4UDYsKeOT3j3CMnlddlNIRSXIW8vL").observe(this, new Observer<ArrayList<Interests>>() {
+          @Override
+          public void onChanged(ArrayList<Interests> interests) {
+              interestsList=interests;
+              if(interests.size()>0){
+
+                  displayInterests();
+
+
+              }
+          }
+      });
+
+
+    }
+
+
+
+    private  void displayInterests(){
+        CustomProgressDialog.getInstance(this).cancel();
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
 //                Toast.makeText(getApplicationContext(),buttonView.getText(), Toast.LENGTH_SHORT).show();
@@ -72,13 +109,12 @@ public class InterestsActivity extends AppCompatActivity {
 
             }
         };
-
-        for (int i = 0; i < interests.length; i++) {
+        for (int i = 0; i < interestsList.size(); i++) {
             CheckBox ch = new CheckBox(this);
             ch.setTextColor(getResources().getColor(R.color.black));
             CompoundButtonCompat.setButtonTintList(ch, colorStateList);
 
-            ch.setText(interests[i]);
+            ch.setText(interestsList.get(i).getName());
             ch.setOnCheckedChangeListener(listener);
             containerLayout.addView(ch);
 
@@ -90,13 +126,10 @@ public class InterestsActivity extends AppCompatActivity {
 
         }
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-        signupBtn.setOnClickListener(v -> createAccount());
-
     }
 
     private void createAccount() {
+        CustomProgressDialog.getInstance(this).show();
         if (selectedInterest.isEmpty()) {
             showAlert(ERROR_INTERESTS, this);
         } else {
@@ -125,10 +158,14 @@ public class InterestsActivity extends AppCompatActivity {
 
         if (res.equals(HelperClass.SING_UP_SUCCESS)) {
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+            CustomProgressDialog.getInstance(this).cancel();
 
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            InterestsActivity.this.finish();
         } else {
+            CustomProgressDialog.getInstance(this).cancel();
             showAlert(res, this);
         }
     }
