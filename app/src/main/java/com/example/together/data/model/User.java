@@ -4,9 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     /*
     // sign up
     {
@@ -47,6 +48,30 @@ public class User {
         this.gender = gender;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
     public List<GroupReturned> getGroups() {
         return groups;
     }
@@ -73,7 +98,7 @@ public class User {
     }
 
 
-    public class GroupReturned {
+    public class GroupReturned implements Serializable {
         private String name;
         private int id;
 
