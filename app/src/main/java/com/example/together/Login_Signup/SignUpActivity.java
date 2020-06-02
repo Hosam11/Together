@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,20 +47,6 @@ import java.util.Calendar;
 import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
 import static com.example.together.utils.HelperClass.showAlert;
 
-//public class SignUpActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
-//    private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
-//   ImageView profileImage;
-//   ImageView dateImg;
-//   TextView addImgTv;
-//    EditText dateEt;
-//    EditText addressEt;
-//    EditText nameEt;
-//    EditText emailEt;
-//    EditText passEt;
-//    RadioGroup genderRadioGroup;
-//    RadioButton maleRadioBtn,femaleRadioBtn;
-//    Button nextBtn;
-//=======
 
 public class SignUpActivity extends AppCompatActivity implements
         RadioGroup.OnCheckedChangeListener {
@@ -131,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void nextScreen() {
-//        User user = new User();
+       if(validateForm()){
         String uName = nameEt.getText().toString();
         String uEmail = emailEt.getText().toString().trim();
         String uPass = passEt.getText().toString();
@@ -151,6 +138,8 @@ public class SignUpActivity extends AppCompatActivity implements
                     InterestsActivity.class);
             startActivity(toInterests);
         }
+
+    }
 
     }
 
@@ -287,5 +276,56 @@ public class SignUpActivity extends AppCompatActivity implements
         }
 
     }
+
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String name = nameEt.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            nameEt.setError("Required.");
+            valid = false;
+        } else {
+            nameEt.setError(null);
+        }
+
+        String email = emailEt.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            emailEt.setError("Required.");
+            valid = false;
+        } else {
+            emailEt.setError(null);
+        }
+        String pass = passEt.getText().toString();
+        if (TextUtils.isEmpty(pass)) {
+            passEt.setError("Required.");
+            valid = false;
+        } else {
+            passEt.setError(null);
+        }
+        String address = addressEt.getText().toString();
+        if (TextUtils.isEmpty(address)) {
+            addressEt.setError("Required.");
+            valid = false;
+        } else {
+            addressEt.setError(null);
+        }
+
+
+        String endPoint = dateEt.getText().toString();
+        if (TextUtils.isEmpty(endPoint)) {
+            dateEt.setError("Required.");
+            valid = false;
+        } else {
+            dateEt.setError(null);
+        }
+
+
+
+
+
+        return valid;
+    }
+
 }
 

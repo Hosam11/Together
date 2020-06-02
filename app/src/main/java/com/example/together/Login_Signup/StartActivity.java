@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.together.BottomNavigationView;
 import com.example.together.R;
+import com.example.together.data.storage.Storage;
 
 public class StartActivity extends AppCompatActivity {
 
     Button createAccountBtn;
     TextView loginTv;
+    Storage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,18 @@ public class StartActivity extends AppCompatActivity {
 
             }
         });
+        storage=new Storage(this);
+        Toast.makeText(getApplicationContext(),"I"+storage.getId(),Toast.LENGTH_LONG).show();
+        if(storage.getId()!=0){
+
+            Intent gotoHome=new Intent(this, BottomNavigationView.class);
+
+            startActivity(gotoHome);
+            StartActivity.this.finish();
+
+
+
+        }
 
     }
 }
