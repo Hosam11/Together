@@ -26,7 +26,7 @@ public class Group {
     // TODO 1- missing interests of other
 
     @SerializedName("id")
-    private int userID;
+    private int adminID;
 
     // nullable
     @SerializedName("address")
@@ -36,6 +36,38 @@ public class Group {
     private int maxMembers;
 
     private int duration;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    public int getCurrentMembers() {
+        return currentMembers;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getLevelRequired() {
+        return levelRequired;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
 
     @SerializedName("name")
     private String groupName;
@@ -60,12 +92,32 @@ public class Group {
             String groupName, String groupDesc,
             String status, String levelRequired, String interest
     ) {
-        this.userID = userID;
+        this.adminID = userID;
         this.location = location;
         this.maxMembers = maxMembers;
         this.duration = duration;
         this.groupName = groupName;
         this.groupDesc = groupDesc;
+        this.status = status;
+        this.levelRequired = levelRequired;
+        this.interest = interest;
+    }
+
+    public int getAdminID() {
+        return adminID;
+    }
+
+    public Group(int adminID,
+                 String location, int duration, String groupName,
+                 String groupDesc, int currentMembers, String status,
+                 String levelRequired, String interest
+    ) {
+        this.adminID = adminID;
+        this.location = location;
+        this.duration = duration;
+        this.groupName = groupName;
+        this.groupDesc = groupDesc;
+        this.currentMembers = currentMembers;
         this.status = status;
         this.levelRequired = levelRequired;
         this.interest = interest;
@@ -77,7 +129,7 @@ public class Group {
         return (
                 "\nname: " + groupName +
                         "\ndesc: " + groupDesc +
-                        "\nuserID: " + userID +
+                        "\nadminID: " + adminID +
                         "\nLocation: " + location +
                         "\nmax Numbers: " + maxMembers +
                         "\ndurtaion: " + duration +
@@ -85,6 +137,14 @@ public class Group {
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest
         );
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
     }
 }
 

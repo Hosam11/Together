@@ -60,14 +60,16 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_groups_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f9f9f9
-
-" />
+        android:background="#f9f9f9" />
+    </RelativeLayout>
 
 
 </LinearLayout>
