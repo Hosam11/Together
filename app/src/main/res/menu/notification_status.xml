@@ -5,7 +5,6 @@
         android:id="@+id/switch_btn"
         android:title=""
         app:showAsAction="always"
-        app:actionLayout="@layout/notification_switch"
         />
 
 </menu>

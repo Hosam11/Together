@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserLogin userLogin = new UserLogin(email, pass);
 
+
         if (email.isEmpty() || pass.isEmpty()) {
             showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
 
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 // not valid user
                 pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
+                pbLogin.setVisibility(View.GONE);
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
                 showAlert(logRes.getResponse(), this);
                 loginBtn.setEnabled(true);

@@ -55,9 +55,11 @@
             android:textColor="@color/white"
             android:background="@drawable/corners_from_all_without_stroke"
             android:textAllCaps="false"
+            android:foreground="?android:selectableItemBackground"
 
 
             ></Button>
+
         </androidx.cardview.widget.CardView>
 
 <!--        <Button-->

@@ -121,6 +121,14 @@
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/majorColor</item>
     </style>
+    <!-- [End]  Notification styles-->
+    <style name="SelectableItemTheme">
+        <item name="color">#F44336</item>
+    </style>
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
 
 
 </resources>
