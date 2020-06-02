@@ -21,6 +21,10 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<GeneralResponse> joinGroup;
     private MutableLiveData<List<JoinGroupResponse>> listRequestJoinForGroup;
     private MutableLiveData<GeneralResponse> addMember;
+    private MutableLiveData<GeneralResponse> updateGroupRes;
+
+    private MutableLiveData<GeneralResponse> resAcceptJoin;
+    private MutableLiveData<GeneralResponse> resRejectJoin;
 
     private UserRepo userRepo = new UserRepo();
 
@@ -48,21 +52,37 @@ public class UserViewModel extends ViewModel {
         return createGroupRes;
     }
 
-    public MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userID) {
-        joinGroup = userRepo.joinGroup(gpId, userID);
+    public MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userID, String token) {
+        joinGroup = userRepo.joinGroup(gpId, userID, token);
         return joinGroup;
     }
 
-    public MutableLiveData<List<JoinGroupResponse>> getAllRequestJoinForGroup(int gpId) {
-        listRequestJoinForGroup = userRepo.getAllResponsesForGroup(gpId);
+    public MutableLiveData<List<JoinGroupResponse>> getAllRequestJoinForGroup(int gpId, String token) {
+        listRequestJoinForGroup = userRepo.getAllResponsesForGroup(gpId, token);
         return listRequestJoinForGroup;
     }
 
-    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID) {
-        addMember = userRepo.addGroupMember(gpID, userID, adminID);
+    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID,
+                                                           int adminID, String token) {
+        addMember = userRepo.addGroupMember(gpID, userID, adminID, token);
         return addMember;
     }
 
+    public MutableLiveData<GeneralResponse> updateGroupInfo(int gpID, int adminID,
+                                                            Group group, String token) {
+        updateGroupRes = userRepo.updateGroupInfo(gpID, adminID, group, token);
+        return updateGroupRes;
+    }
+
+    public MutableLiveData<GeneralResponse> acceptJoinReqGroup(int reqID, int adminID, String token) {
+        resAcceptJoin = userRepo.acceptJoinReqGroup(reqID, adminID, token);
+        return resAcceptJoin;
+    }
+
+    public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
+        resRejectJoin = userRepo.rejectJoinReqGroup(reqID, token);
+        return resRejectJoin;
+    }
 
     public void clearCreateGroupRes() {
         createGroupRes = null;

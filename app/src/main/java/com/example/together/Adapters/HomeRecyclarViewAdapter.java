@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
+import com.example.together.ToDoListPachage.ToDoListMain;
+import com.example.together.group_screens.EditGroupInfo;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.HelperClass;
+import com.example.together.utils.TestApis;
 
 import java.util.ArrayList;
 
@@ -52,13 +54,29 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
         if (position == 0) {
             holder.groupCardView.setOnClickListener(v -> {
                 Log.i(HelperClass.TAG, "onBindViewHolder: ");
-                Intent goToGroup = new Intent(context, com.example.together.group_screens.ViewGroup.class);
+                Intent goToGroup = new Intent(context,
+                        com.example.together.group_screens.ViewGroup.class);
                 context.startActivity(goToGroup);
             });
-        } else {
+        } else if (position == 1) {
             holder.groupCardView.setOnClickListener(v -> {
                 Intent goToGroup = new Intent(context, GroupViewPager.class);
                 context.startActivity(goToGroup);
+            });
+        } else if (position == 2) {
+            holder.groupCardView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, TestApis.class);
+                context.startActivity(intent);
+            });
+        } else if (position == 3) {
+            holder.groupCardView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, EditGroupInfo.class);
+                context.startActivity(intent);
+            });
+        } else {
+            holder.groupCardView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ToDoListMain.class);
+                context.startActivity(intent);
             });
         }
 

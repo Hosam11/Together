@@ -1,14 +1,26 @@
 package com.example.together.group_screens;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.R;
@@ -21,7 +33,10 @@ import com.example.together.utils.CommonSpinner;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
+import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +47,7 @@ import static com.example.together.utils.HelperClass.showAlert;
 public class AddGroup extends AppCompatActivity {
 
 
+    private static final int CAMERA_PERMISSION_CODE = 7;
     private final List<String> levels = new ArrayList<>();
     //
     CommonSpinner interestSpinner;
@@ -40,11 +56,21 @@ public class AddGroup extends AppCompatActivity {
     // Edit Texts
     EditText edGroupName;
     EditText edGroupDesc;
+    // TextView
     TextView tvGroupMaxMembers;
     TextView tvGroupDuration;
     EditText etHiddenOther;
-
+    TextView tvAddImg;
+    // ImageView
+    ImageView groupImg;
     UserViewModel userViewModel;
+    //
+    Bitmap groupImgBitmap;
+
+    boolean isEnterCrop;
+
+    int CAMERA_REQUEST_CODE = 11;
+    int GALLERY_REQUEST_CODE = 12;
     // Spinners Objects
     private BetterSpinner spInterests;
     private BetterSpinner spLocations;
@@ -68,12 +94,18 @@ public class AddGroup extends AppCompatActivity {
         // EditTexts
         edGroupName = findViewById(R.id.et_group_name);
         edGroupDesc = findViewById(R.id.ed_group_desc);
-
+        // etHiddenOther = findViewById(R.id.ed_other_interest);
+        // TextsViews
         tvGroupMaxMembers = findViewById(R.id.tv_member_number);
         tvGroupDuration = findViewById(R.id.tv_duration_week);
+        tvAddImg = findViewById(R.id.tv_add_image);
+        //
+        groupImg = findViewById(R.id.iv_group_img);
 
-        etHiddenOther = findViewById(R.id.ed_other_interest);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
+                    CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
+        }
 
         FixedDBValues dbValues = new FixedDBValues();
 
@@ -117,6 +149,36 @@ public class AddGroup extends AppCompatActivity {
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void selectImage() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Photo");
+        builder.setItems(options, (dialog, item) -> {
+            if (options[item].equals("Take Photo")) {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            CAMERA_PERMISSION_CODE);
+                } else {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_PERMISSION_CODE);
+                }
+            } else if (options[item].equals("Choose from Gallery")) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, CAMERA_PERMISSION_CODE);
+            } else if (options[item].equals("Cancel")) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+   /* private void selectImage() {
+        HelperClass.ser
+    }*/
 
     public void chooseImage(View view) {
         Log.i(TAG, "chooseImage: ");
@@ -162,10 +224,9 @@ public class AddGroup extends AppCompatActivity {
 
     private void observCreateGroup(GeneralResponse generalRes) {
         Log.i(TAG, "observCreateGroup: generalRes.res" + generalRes.response);
-        if (generalRes.response.trim().equals(HelperClass.CREATE_GROUP_SUCCESS)) {
 
+        if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
-
             // 1- Go To Group Screens
 //            userViewModel.clearCreateGroupRes();
             Toast.makeText(this, generalRes.response, Toast.LENGTH_SHORT).show();
@@ -199,4 +260,68 @@ public class AddGroup extends AppCompatActivity {
         }
         tv.setText(String.valueOf(increment));
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_PERMISSION_CODE);
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            groupImgBitmap = getImage(requestCode, data);
+            if (isEnterCrop) {
+                if (groupImgBitmap != null) {
+                    Log.i(TAG, "onActivityResult: groupImgBitmap != null");
+                }
+            }
+        }
+    }
+
+    private Bitmap getImage(int requestCode, @Nullable Intent data) {
+        Bitmap imgBitmap = null;
+        isEnterCrop = false;
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            groupImg.setImageBitmap(photo);
+            imgBitmap = photo;
+        }
+
+        if (requestCode == GALLERY_REQUEST_CODE) {
+            UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(),
+                    "IMG_" + System.currentTimeMillis())))
+                    .start(this);
+        }
+        if (requestCode == UCrop.REQUEST_CROP) {
+            Uri imgUri = UCrop.getOutput(data);
+            if (imgUri != null) {
+                try {
+                    isEnterCrop = true;
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+                    groupImg.setImageBitmap(bitmap);
+                    imgBitmap = bitmap;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return imgBitmap;
+    }
 }
+
+

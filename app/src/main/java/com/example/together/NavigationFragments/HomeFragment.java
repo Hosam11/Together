@@ -30,11 +30,14 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         fab = v.findViewById(R.id.add_group_FAB);
         fab.setOnClickListener(v1 -> {
             //Intent To Create Group Screen
+            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            getContext().startActivity(createGroup);
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         pojos.add(new POJO("Android Developing","Hello, my name is ali, I live in KafrEldawar sdfds sdfsd sdfsds  sdf sdf sdf sdfsd sdf sd sdfds  dsfsd ",R.drawable.default_img));
@@ -57,10 +60,7 @@ public class HomeFragment extends Fragment {
         adapter= new HomeRecyclarViewAdapter(pojos, this.getContext());
         recyclerView.setAdapter(adapter);
 
-        getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
-            Intent createGroup = new Intent(getContext(), AddGroup.class);
-            startActivity(createGroup);
-        });
+
 
     }
 }

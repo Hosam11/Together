@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
             } else {
                 // not valid user
+                pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
                 pbLogin.setVisibility(View.GONE);
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
