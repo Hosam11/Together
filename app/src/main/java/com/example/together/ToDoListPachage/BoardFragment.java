@@ -452,6 +452,7 @@ public class BoardFragment extends Fragment {
                 if (toDoListTask != null) {
                     toDoList=toDoListTask;
                     toDoListAdapter.setList(toDoListTask);
+                    toDoListAdapter.notifyDataSetChanged();
                 }
             });
         }
