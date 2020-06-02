@@ -97,7 +97,7 @@
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
                 android:paddingBottom="16dp"
-                android:text="last"
+                android:text="nahla@gmail.com"
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
 
@@ -134,8 +134,9 @@
                 android:inputType="textPassword"
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
-                android:paddingBottom="16dp"
-                android:text="123"
+
+                android:text="nahlasamir"
+
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
 

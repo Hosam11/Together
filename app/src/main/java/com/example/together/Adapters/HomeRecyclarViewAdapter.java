@@ -43,7 +43,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
     public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
 
         this.userGroups = userGroups;
-        this.context = context;
+
     }
 
     // Create new views (invoked by the layout manager)
