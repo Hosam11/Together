@@ -7,6 +7,7 @@ import com.example.together.data.model.Group;
 import com.example.together.data.model.GroupDetails;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.ListTask;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserGroup;
@@ -19,9 +20,11 @@ import java.util.List;
 public class UserRepo {
 
     private ApiProvider provider;
+    private ToDoListApiProvider toDoListApiProvider;
 
     public UserRepo() {
         provider = new ApiProvider();
+        toDoListApiProvider = new ToDoListApiProvider();
     }
 
     public MutableLiveData<String> signUp(User user) {
@@ -88,6 +91,34 @@ public class UserRepo {
 
     public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
         return provider.rejectJoinReqGroup(reqID,  token);
+    }
+
+    public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
+        return toDoListApiProvider.addTask(task,token);
+    }
+    public MutableLiveData<ArrayList<ListTask>> getToDoListTasks(int groupId, String token){
+        return toDoListApiProvider.getToDoListTasks(groupId,token);
+    }
+    public MutableLiveData<GeneralResponse> moveToProgressList (int id,String token){
+        return toDoListApiProvider.moveToProgressList(id,token);
+    }
+    public MutableLiveData<ArrayList<ListTask>> getInProgressTasks(int groupId, String token) {
+        return toDoListApiProvider.getInProgressTasks(groupId, token);
+    }
+    public MutableLiveData<ArrayList<ListTask>> getDoneTasks(int groupId, String token) {
+        return toDoListApiProvider.getDoneTasks(groupId, token);
+    }
+    public MutableLiveData<GeneralResponse> moveToDoneList (int id,String token) {
+        return toDoListApiProvider.moveToDoneList(id, token);
+    }
+    public MutableLiveData<GeneralResponse> moveToDoList (int id,String token) {
+        return toDoListApiProvider.moveToDoList(id, token);
+    }
+    public MutableLiveData<GeneralResponse> deleteTask (int id,String token) {
+        return toDoListApiProvider.deleteTask(id, token);
+    }
+    public MutableLiveData<GeneralResponse> editTask(int id,ListTask task, String token){
+        return toDoListApiProvider.editTask(id,task,token);
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +30,15 @@ import java.util.ArrayList;
 public class NotificationFragment extends Fragment {
     RecyclerView recyclerView;
     NotificationRecyclarViewAdapter adapter;
+    ToggleButton toggleButton;
     ArrayList<POJO> pojos = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+
 
     }
 
@@ -49,6 +53,19 @@ public class NotificationFragment extends Fragment {
         pojos.add(new POJO("Flutter Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
         pojos.add(new POJO("React Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
         pojos.add(new POJO("Ionic Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        toggleButton = v.findViewById(R.id.togglee_Button);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getContext(), "Iam Checked", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Iam Not Checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return v;
     }
 
@@ -59,7 +76,7 @@ public class NotificationFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(recyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter= new NotificationRecyclarViewAdapter(pojos);
+        adapter= new NotificationRecyclarViewAdapter(pojos,getContext());
         recyclerView.setAdapter(adapter);
     }
 

@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import com.example.together.R;
 import com.example.together.ToDoListPachage.BoardFragment;
 import com.example.together.ToDoListPachage.ItemAdapter;
+import com.example.together.data.model.ListTask;
+import com.example.together.utils.HelperClass;
 
 public class CreateDialog  extends AppCompatDialogFragment {
     String dialogType;
@@ -32,16 +34,19 @@ public class CreateDialog  extends AppCompatDialogFragment {
     int position;
     boolean textChangedInTitle=false;
     boolean textChangedInDescription=false;
+    int id;
+
 
     public CreateDialog(String dialogType, BoardFragment boardFragment){
        this.boardFragment=boardFragment;
        this.dialogType=dialogType;
     }
-    public CreateDialog(String dialogType, ItemAdapter itemAdapter,int position){
+    public CreateDialog(String dialogType, ItemAdapter itemAdapter,int position,int id ){
         this.boardFragment=boardFragment;
         this.dialogType=dialogType;
         this.itemAdapter=itemAdapter;
         this.position=position;
+        this.id=id;
     }
 
     @NonNull
@@ -134,8 +139,8 @@ public class CreateDialog  extends AppCompatDialogFragment {
                 if(add.isEnabled()==true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    POJO pojo = new POJO(t, d, 0);
-                    boardFragment.addTask(pojo);
+                    ListTask task = new ListTask(1,2,t,d, HelperClass.TODO);
+                    boardFragment.addTask(task);
 
                     CreateDialog.this.dismissAllowingStateLoss();
                 }
@@ -153,9 +158,9 @@ public class CreateDialog  extends AppCompatDialogFragment {
         add.setText("Edit");
         title= v.findViewById(R.id.task_title_edit_text);
         description= v.findViewById(R.id.task_description_edit_text);
-        title.setText(itemAdapter.list.get(position).title);
-        description.setText(itemAdapter.list.get(position).description);
-        int id = itemAdapter.list.get(position).image;
+        title.setText(itemAdapter.list.get(position).getTitle());
+        description.setText(itemAdapter.list.get(position).getDescription());
+        int id = itemAdapter.list.get(position).getId();
 
         v.findViewById(R.id.exit_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,8 +230,8 @@ public class CreateDialog  extends AppCompatDialogFragment {
                 if(add.isEnabled()==true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    POJO pojo = new POJO(t, d, id);
-                    itemAdapter.editTask(pojo, position);
+                    ListTask task = new ListTask(1,2,t,d, HelperClass.TODO,id);
+                    itemAdapter.editTask(task, position);
                     itemAdapter.notifyDataSetChanged();
                     CreateDialog.this.dismissAllowingStateLoss();
 

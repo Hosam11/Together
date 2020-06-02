@@ -28,28 +28,43 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.Adapters.CreateDialog;
 import com.example.together.Adapters.POJO;
 import com.example.together.R;
+import com.example.together.data.model.ListTask;
+import com.example.together.data.storage.Storage;
+import com.example.together.utils.HelperClass;
+import com.example.together.view_model.UserViewModel;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
+public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolder> {
 
     private int mLayoutId;
     private int mGrabHandleId;
     private boolean mDragOnLongPress;
-    public ArrayList<POJO> list = new ArrayList<>();
+    public ArrayList<ListTask> list = new ArrayList<>();
     public Context context;
+    BoardFragment boardFragment;
+    Storage storage;
 
-    ItemAdapter(ArrayList<POJO> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context) {
+    public void setList(ArrayList<ListTask> list) {
+        this.list = list;
+        setItemList(list);
+    }
+
+    ItemAdapter(ArrayList<ListTask> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context,BoardFragment boardFragment) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         this.list=list;
         this.context=context;
+        this.boardFragment=boardFragment;
+        storage = new Storage(Objects.requireNonNull(context));
         setItemList(list);
     }
 
@@ -63,12 +78,23 @@ public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
-        holder.title.setText(mItemList.get(position).title);
-        holder.description.setText(mItemList.get(position).description);
+        holder.title.setText(mItemList.get(position).getTitle());
+        holder.description.setText(mItemList.get(position).getDescription());
         holder.itemView.setTag(mItemList.get(position));
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
+                userViewModel.deleteTask(list.get(position).getId(),storage.getToken()).observe(boardFragment,deleteTaskresp->{
+                    if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
+                        Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
+                        TextView itemCount1 = boardFragment.mBoardView.getHeaderView(0).findViewById(R.id.item_count);
+                        itemCount1.setText(String.valueOf(boardFragment.toDoList.size()));
+                    } else {
+                        Toast.makeText(context, deleteTaskresp.response, Toast.LENGTH_SHORT).show();
+                    }
+
+                });
                 list.remove(position);
                 ItemAdapter.this.notifyDataSetChanged();
             }
@@ -76,7 +102,7 @@ public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateDialog editDialoge = new CreateDialog("editTask",ItemAdapter.this,position);
+                CreateDialog editDialoge = new CreateDialog("editTask",ItemAdapter.this,position,list.get(position).getId());
                 editDialoge.show(((AppCompatActivity)ItemAdapter.this.context).getSupportFragmentManager(),"example");
             }
         });
@@ -84,7 +110,7 @@ public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
 
     @Override
     public long getUniqueItemId(int position) {
-        return mItemList.get(position).image;
+        return mItemList.get(position).getId();
     }
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
@@ -114,7 +140,16 @@ public class ItemAdapter extends DragItemAdapter<POJO, ItemAdapter.ViewHolder> {
 
 
     }
-    public void editTask(POJO pojo,int currentPosition){
-        list.set(currentPosition,pojo);
+    public void editTask(ListTask task,int currentPosition){
+       UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
+        userViewModel.editTask(list.get(currentPosition).getId(),task, storage.getToken()).observe(boardFragment, addTaskResp -> {
+            if (addTaskResp.response.equals(HelperClass.updatedTaskSuccess)) {
+                Toast.makeText(context, HelperClass.updatedTaskSuccess, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, addTaskResp.response, Toast.LENGTH_SHORT).show();
+            }
+        });
+        list.set(currentPosition,task);
+        this.notifyDataSetChanged();
     }
 }
