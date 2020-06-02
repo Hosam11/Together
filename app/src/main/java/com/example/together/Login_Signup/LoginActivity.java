@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
         pbLogin = findViewById(R.id.pb_login);
         loginBtn = findViewById(R.id.login_btn);
-
         loginBtn.setOnClickListener(v -> login());
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);

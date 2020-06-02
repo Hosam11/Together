@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".GroupsUnderInterest"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +27,6 @@
         <activity android:name=".group_screens.single_group.TestTabBar" />
         <activity android:name=".utils.TestApis" />
         <activity android:name=".BottomNavigationView">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity">
