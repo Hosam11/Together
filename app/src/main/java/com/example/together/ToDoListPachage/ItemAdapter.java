@@ -84,14 +84,12 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-
                 UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
                 userViewModel.deleteTask(list.get(position).getId(),storage.getToken()).observe(boardFragment,deleteTaskresp->{
-                    if (deleteTaskresp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                        Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show();
+                    if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
+                        Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
+                        TextView itemCount1 = boardFragment.mBoardView.getHeaderView(0).findViewById(R.id.item_count);
+                        itemCount1.setText(String.valueOf(boardFragment.toDoList.size()));
                     } else {
                         Toast.makeText(context, deleteTaskresp.response, Toast.LENGTH_SHORT).show();
                     }
@@ -145,8 +143,8 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
     public void editTask(ListTask task,int currentPosition){
        UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
         userViewModel.editTask(list.get(currentPosition).getId(),task, storage.getToken()).observe(boardFragment, addTaskResp -> {
-            if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                Toast.makeText(context, "Task edited Successfully", Toast.LENGTH_SHORT).show();
+            if (addTaskResp.response.equals(HelperClass.updatedTaskSuccess)) {
+                Toast.makeText(context, HelperClass.updatedTaskSuccess, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, addTaskResp.response, Toast.LENGTH_SHORT).show();
             }

@@ -33,6 +33,8 @@ public class HelperClass {
     public static final String TODO ="to do";
     public static final String ADD_TASK_RESPONSE_SUCCESS ="Task added Successfully";
     public static final String SUCCESS ="sucess";
+    public static final String deleteTaskSuccess ="This task deleted successfully";
+    public static final String updatedTaskSuccess = "Updated successfully";
 
 
     public static void showAlert(String msg, Context context) {
