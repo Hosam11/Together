@@ -1,5 +1,6 @@
 package com.example.together.group_screens.single_group;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.together.R;
+import com.example.together.ToDoListPachage.ToDoListMain;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -21,6 +23,10 @@ public class GroupViewPager extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager_group);
+        findViewById(R.id.goToDoBoard).setOnClickListener((e)->{
+            Intent goToToDoBoard = new Intent(this, ToDoListMain.class);
+            startActivity(goToToDoBoard);
+        });
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
