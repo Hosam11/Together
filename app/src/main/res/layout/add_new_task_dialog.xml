@@ -1,75 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    android:padding="16dp"
 
     >
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Title"
-        android:textSize="20dp"
+        android:background="@color/backgroundColor"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:id="@+id/dialoh_background"
+
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Title"
+            android:textSize="20dp"
+
+            />
+
+
+
+        <EditText
+            android:id="@+id/task_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_edit_text"
+            android:gravity="top"
+            android:hint="Enter title"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:maxLength="50"
+
+
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Description"
+            android:textSize="20dp"
+
+
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+
+            >
+            <EditText
+                android:id="@+id/task_description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_edit_text"
+                android:gravity="top"
+                android:hint="Enter description"
+                android:minHeight="100dp"
+                android:maxLength="255"
+                android:padding="10dp" />
+        </ScrollView>
+
+
+
+        <Button
+
+            android:id="@+id/add_task"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/corners_from_all_without_stroke_grey"
+            android:foreground="?android:selectableItemBackground"
+            android:shadowColor="#D8D8D8"
+            android:text="Add"
+            android:textAllCaps="false"
+
+
+            android:textColor="@color/white" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_black_24dp"
+        android:id="@+id/exit_dialog"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
 
         />
-
-    <EditText
-        android:id="@+id/task_title_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/rounded_edit_text"
-        android:gravity="top"
-        android:hint="Enter title"
-        android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:singleLine="true"
-
-
-        android:paddingBottom="5dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Description"
-        android:textSize="20dp"
-
-
-
-        />
-
-    <EditText
-        android:id="@+id/task_description_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/rounded_edit_text"
-        android:gravity="top"
-        android:hint="Enter description"
-        android:minHeight="100dp"
-
-
-        android:padding="10dp" />
-
-    <Button
-
-        android:layout_marginTop="20dp"
-        android:id="@+id/add_task"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="add"
-        android:textColor="@color/white"
-        android:background="@drawable/corners_from_all_without_stroke"
-        android:textAllCaps="false"
-
-
-        />
-
-</LinearLayout>
+</RelativeLayout>

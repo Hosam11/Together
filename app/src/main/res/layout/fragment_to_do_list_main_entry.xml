@@ -11,4 +11,8 @@
         android:layout_height="match_parent"
         android:text="hello_blank_fragment" />
 
+
+
+
+
 </FrameLayout>

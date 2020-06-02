@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,5 +28,78 @@ import com.example.together.R;
 import java.util.ArrayList;
 
 public class NotificationFragment extends Fragment {
+    RecyclerView recyclerView;
+    NotificationRecyclarViewAdapter adapter;
+    ToggleButton toggleButton;
+    ArrayList<POJO> pojos = new ArrayList<>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_notification,container,false);
+        recyclerView=v.findViewById(R.id.notification_rv);
+        pojos.add(new POJO("Android Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("IOS Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Kotlin Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Flutter Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("React Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        pojos.add(new POJO("Ionic Developing","Hello, my name is mahmoud, I live in KafrEldawar",R.drawable.default_img));
+        toggleButton = v.findViewById(R.id.togglee_Button);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getContext(), "Iam Checked", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "Iam Not Checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((BottomNavigationView)getActivity()).setActionBarTitle("Notification");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(recyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter= new NotificationRecyclarViewAdapter(pojos,getContext());
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.notification_status,menu);
+//         final TextView status = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.status);
+//        final Switch sw = menu.findItem(R.id.switch_btn).getActionView().findViewById(R.id.notification_sw);
+//        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    status.setText("On");
+//                }
+//                else{
+//                    status.setText("Off");
+//                }
+//            }
+//        });
+    }
+
+
 
 }

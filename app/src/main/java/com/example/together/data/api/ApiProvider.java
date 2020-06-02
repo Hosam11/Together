@@ -6,14 +6,20 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
+import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Interests;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.ListTask;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
+import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -25,11 +31,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.together.data.Urls.API_URL;
+import static com.example.together.utils.HelperClass.BEARER_HEADER;
 import static com.example.together.utils.HelperClass.TAG;
 
 class ApiProvider {
 
-    LoginResponse loginResponse;
+    private LoginResponse loginResponse;
     private APIInterface apiInterface;
 
     /**
@@ -140,7 +147,7 @@ class ApiProvider {
         MutableLiveData<User> userData = new MutableLiveData<>();
 
         Call<User> userCall = apiInterface.fetchUserData(id,
-                HelperClass.BEARER_HEADER + token);
+                BEARER_HEADER + token);
 
         userCall.enqueue(new Callback<User>() {
             @Override
@@ -173,7 +180,8 @@ class ApiProvider {
         MutableLiveData<GeneralResponse> addGroupRes = new MutableLiveData<>();
         Log.i(TAG, "ApiProvider -- createGroup() " + group);
 
-        Call<GeneralResponse> addGroupCall = apiInterface.createGroup(group, HelperClass.BEARER_HEADER + header);
+        Call<GeneralResponse> addGroupCall = apiInterface.createGroup(group,
+                BEARER_HEADER + header);
         addGroupCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
@@ -202,9 +210,10 @@ class ApiProvider {
      * @param userId user that make the request
      * @return {@link GeneralResponse} that tell user whether Request sent successfully or something else happened
      */
-    MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userId) {
+    MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userId, String header) {
         MutableLiveData<GeneralResponse> resJoinGroup = new MutableLiveData<>();
-        Call<GeneralResponse> joinGp = apiInterface.requestJoinGroup(gpId, userId);
+        Call<GeneralResponse> joinGp = apiInterface.requestJoinGroup(gpId, userId,
+                BEARER_HEADER + header);
         joinGp.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
@@ -231,10 +240,11 @@ class ApiProvider {
      * @param groupId id for group that have request
      * @return list of all requests {@link JoinGroupResponse}
      */
-    MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int groupId) {
+    MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int groupId, String header) {
         MutableLiveData<List<JoinGroupResponse>> groupResList = new MutableLiveData<>();
 
-        Call<List<JoinGroupResponse>> getGroupResponses = apiInterface.getAllResponsesForGroup(groupId);
+        Call<List<JoinGroupResponse>> getGroupResponses = apiInterface.getAllResponsesForGroup(groupId,
+                BEARER_HEADER + header);
         getGroupResponses.enqueue(new Callback<List<JoinGroupResponse>>() {
             @Override
             public void onResponse(Call<List<JoinGroupResponse>> call,
@@ -255,6 +265,211 @@ class ApiProvider {
 
         return groupResList;
     }
+
+    /**
+     * adding user to  group - the admin of group only can call this function
+     *
+     * @param gpID    groupID that user want to enter it
+     * @param userID  the user who want to enter
+     * @param adminID current user that wil accept request of user
+     * @param header  token that sended in the header of request
+     * @return {@link GeneralResponse} that tell us whether request fails of success
+     */
+    MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID, String header) {
+        MutableLiveData<GeneralResponse> addMemberRes = new MutableLiveData<>();
+
+        Call<GeneralResponse> addMemberCall = apiInterface.addGroupMember(gpID, userID,
+                adminID, BEARER_HEADER + header);
+        addMemberCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+                Log.i(TAG, "ApiProvider -- requestJoinGroup() enqueue()  body >> " +
+                        res.body().response);
+                addMemberRes.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                addMemberRes.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+        return addMemberRes;
+    }
+
+    /**
+     * update group info
+     *
+     * @param gpID    group id that you want to edit it
+     * @param adminID admin will be edith the group
+     * @param group   {@link Group} object that carry data
+     * @param token   used in header of request as authoritarian
+     * @return {@link GeneralResponse} response whether that update request  fail or success
+     */
+    MutableLiveData<GeneralResponse> updateGroupInfo(int gpID, int adminID, Group group, String token) {
+        MutableLiveData<GeneralResponse> resUpdateGroup = new MutableLiveData<>();
+        Call<GeneralResponse> callUpdateGroup = apiInterface.updateGroupInfo(gpID, adminID,
+                group, BEARER_HEADER + token);
+
+        callUpdateGroup.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+                Log.i(TAG, "ApiProvider  -- addGroupMember() enqueue() a body >> "
+                        + res.body());
+                resUpdateGroup.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                resUpdateGroup.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+        return resUpdateGroup;
+    }
+
+
+    /**
+     * accept join to exists group
+     * @param reqID request id for request for joining the group
+     * @param adminID id for admin tha will accept the request
+     * @param token used in header of request as authoritarian
+     * @return {@link GeneralResponse} response whether that request fail or success
+     */
+    MutableLiveData<GeneralResponse> acceptJoinReqGroup(int reqID, int adminID, String token) {
+        MutableLiveData<GeneralResponse> resUJoinReqGroup = new MutableLiveData<>();
+        Call<GeneralResponse> callAcceptJoinReqGorup = apiInterface.acceptJoinReqGroup(reqID, adminID,
+                BEARER_HEADER + token);
+        callAcceptJoinReqGorup.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+                Log.i(TAG, "ApiProvider  -- addGroupMember() enqueue() a body >> "
+                        + res.body());
+                resUJoinReqGroup.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                resUJoinReqGroup.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+
+        return resUJoinReqGroup;
+    }
+
+    /**
+     * reject join to exists group
+     * @param reqID reqID request id for request for joining the group
+     * @param token used in header of request as authoritarian
+     * @return {@link GeneralResponse} response whether that request fail or success
+     */
+    MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token){
+        MutableLiveData<GeneralResponse> rejectUJoinReqGroup = new MutableLiveData<>();
+        Call<GeneralResponse> callRejectJoinReqGorup = apiInterface.rejectJoinReqGroup(reqID,
+                BEARER_HEADER + token);
+        callRejectJoinReqGorup.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+                Log.i(TAG, "ApiProvider  -- addGroupMember() enqueue() a body >> "
+                        + res.body());
+                rejectUJoinReqGroup.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                rejectUJoinReqGroup.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+
+        return rejectUJoinReqGroup;
+    }
+    
+    // FixMe ---------------------
+
+    
+    /**
+     * @param userId update the user data without interests
+     * @param user update the user data without interests
+     * @return {@link GeneralResponse} response that contain whether call success of failed
+     * or if something wrong happened
+     */
+
+    MutableLiveData<GeneralResponse> updateUserProfile (int userId, String header,User user){
+
+        MutableLiveData<GeneralResponse> updateResponse = new MutableLiveData<>();
+        Call<GeneralResponse> updateProfileCall=apiInterface.updateUserProfile(userId,HelperClass.BEARER_HEADER+header,user);
+        updateProfileCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                updateResponse.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                updateResponse.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+        return updateResponse;
+
+
+    }
+
+    /**
+     * @param userId update the user's interests
+     * @param interests update the user's interests
+     * @return {@link GeneralResponse} response that contain whether call success of failed
+     * or if something wrong happened
+     */
+
+    MutableLiveData<GeneralResponse> updateUserInterests (int userId,String header, UserInterests interests){
+
+        MutableLiveData<GeneralResponse> updateInterestsResponse = new MutableLiveData<>();
+        Call<GeneralResponse> updateInterestCall=apiInterface.updateUserInterests(userId,header,interests);
+        updateInterestCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                Log.i(TAG, "ApiProvider -- updateInterests() enqueue()  body >> " +
+                        response.body());
+                updateInterestsResponse.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                updateInterestsResponse.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+        return updateInterestsResponse;
+
+    }
+
 
     MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID) {
         MutableLiveData<GeneralResponse> addMemberRes = new MutableLiveData<>();
@@ -280,4 +495,99 @@ class ApiProvider {
 
         return addMemberRes;
     }
+
+
+    MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String header){
+        MutableLiveData<ArrayList<UserGroup>> groupsRes=new MutableLiveData<>();
+
+        Call<ArrayList<UserGroup>> getAllUserGroupsCall=apiInterface.getAllUserGroups(userId,HelperClass.BEARER_HEADER+header);
+
+        getAllUserGroupsCall.enqueue(new Callback<ArrayList<UserGroup>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserGroup>> call, Response<ArrayList<UserGroup>> response) {
+                groupsRes.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<UserGroup>> call, Throwable t) {
+
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+
+        return  groupsRes;
+
+    }
+    MutableLiveData<ArrayList<Interests>> getAllInterests(String header){
+        MutableLiveData<ArrayList<Interests>> allInterests=new MutableLiveData<>();
+        Call<ArrayList<Interests>> getAllInterestsCall=apiInterface.getAllInterests(HelperClass.BEARER_HEADER+header);
+        getAllInterestsCall.enqueue(new Callback<ArrayList<Interests>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Interests>> call, Response<ArrayList<Interests>> response) {
+                allInterests.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Interests>> call, Throwable t) {
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+
+
+
+        return allInterests;
+
+    }
+
+    MutableLiveData<GroupDetails> getSpecificGroupDetails (int groupId, String header){
+        MutableLiveData<GroupDetails> groupMutableLiveData=new MutableLiveData<>();
+        Call<GroupDetails> groupCall=apiInterface.getSpecificGroupDetails(groupId,HelperClass.BEARER_HEADER+header);
+        groupCall.enqueue(new Callback<GroupDetails>() {
+            @Override
+            public void onResponse(Call<GroupDetails> call, Response<GroupDetails> response) {
+                groupMutableLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GroupDetails> call, Throwable t) {
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+
+        return groupMutableLiveData;
+    }
+
+    MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String header){
+        MutableLiveData<GeneralResponse> removeMemberResponse=new MutableLiveData<>();
+
+        Call<GeneralResponse> removeMemberCall=apiInterface.removeMemberFromGroup(groupId,id,adminId,HelperClass.BEARER_HEADER+header);
+        removeMemberCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                removeMemberResponse.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                removeMemberResponse.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+        return  removeMemberResponse;
+
+
+
+    }
+
+
 }

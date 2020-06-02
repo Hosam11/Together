@@ -20,39 +20,68 @@ public class TestApis extends AppCompatActivity {
     EditText gpId;
     EditText etUserId;
     EditText etGroupId;
-
-
+    EditText reqID;
     UserViewModel userViewModel;
     int etId;
 
     Storage storage;
+    String token;
+    int curUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_apis);
-        storage = new Storage(this);
 
         gpId = findViewById(R.id.test_gp_id);
         etUserId = findViewById(R.id.test_user_id);
         etGroupId = findViewById(R.id.test_group_id);
+        reqID = findViewById(R.id.test_req_id);
 
         findViewById(R.id.test_send_btn).setOnClickListener(v -> requestJoinGroup());
         findViewById(R.id.test_show_requests_btn).setOnClickListener(v -> showAllRequestsForGroup());
         findViewById(R.id.test_add_member).setOnClickListener(v -> addGroupMember());
 
+        findViewById(R.id.test_rej_join).setOnClickListener(v -> rejectReqJoinGroup());
+        findViewById(R.id.test_acc_join).setOnClickListener(v -> acceptReqJoinGroup());
+
+        storage = new Storage(this);
+        token = storage.getToken();
+        curUserID = storage.getId();
+
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
-    private void addGroupMember() {
+    private void acceptReqJoinGroup() {
+        int reqID = Integer.parseInt(this.reqID.getText().toString().trim());
 
-        userViewModel.addGroupMember(Integer.parseInt(etGroupId.getText().toString()),
-                Integer.parseInt(etUserId.getText().toString()) , storage.getId());
+        userViewModel.acceptJoinReqGroup(reqID, curUserID, token).observe(this, acceptRes -> {
+            Log.i(TAG, "rejectReqJoinGrop: " + acceptRes);
+        });
+    }
+
+    private void rejectReqJoinGroup() {
+        int reqID = Integer.parseInt(this.reqID.getText().toString().trim());
+        userViewModel.rejectJoinReqGroup(reqID, token).observe(this, rejecRes -> {
+            Log.i(TAG, "acceptReqJoinGrop: " + rejecRes);
+        });
+
+
+    }
+
+    private void addGroupMember() {
+        int gpID = Integer.parseInt(etGroupId.getText().toString());
+        int userID = Integer.parseInt(etUserId.getText().toString());
+
+        userViewModel.addGroupMember(gpID, userID, curUserID, token).observe(this,
+                addedRes -> {
+                    Log.i(TAG, this.getLocalClassName() + " -- addGroupMember: " + addedRes.response);
+                });
     }
 
     private void showAllRequestsForGroup() {
         etId = Integer.parseInt(gpId.getText().toString().trim());
-        userViewModel.getAllRequestJoinForGroup(etId).observe(this, requestsJoinList -> {
+        userViewModel.getAllRequestJoinForGroup(etId, token).observe(this, requestsJoinList -> {
             for (JoinGroupResponse req : requestsJoinList) {
                 Log.i(TAG, this.getLocalClassName() + " -- getAllResponsesForGroup() enqueue() a req >> " + req);
             }
@@ -61,7 +90,7 @@ public class TestApis extends AppCompatActivity {
 
     private void requestJoinGroup() {
         etId = Integer.parseInt(gpId.getText().toString().trim());
-        userViewModel.requestJoinGroup(etId, storage.getId()).observe(this, genRes -> {
+        userViewModel.requestJoinGroup(etId, curUserID, token).observe(this, genRes -> {
             Toast.makeText(this, genRes.response, Toast.LENGTH_SHORT).show();
             Log.i(TAG, this.getLocalClassName() + " -- requestJoinGroup: " + genRes.response);
         });
