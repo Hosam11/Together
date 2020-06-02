@@ -43,10 +43,12 @@ public class LoginActivity extends AppCompatActivity {
        // pbLogin = findViewById(R.id.progressbar);
         loginBtn = findViewById(R.id.login_btn);
 
+
         loginBtn.setOnClickListener(v -> {
             if(validateForm()){
             login();}
         });
+
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
