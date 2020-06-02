@@ -18,7 +18,7 @@
             android:id="@+id/lblExpenseCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="9dp"
             android:text="Android for begginer"
             android:textColor="#000"
@@ -40,6 +40,7 @@
             />
 
     </RelativeLayout>
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
