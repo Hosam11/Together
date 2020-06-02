@@ -6,15 +6,20 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
+import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Interests;
 import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.ListTask;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
+import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -463,72 +468,8 @@ class ApiProvider {
         });
         return updateInterestsResponse;
 
-
-
-
-
-    }
-    
-    /**
-     * when user want request join to specific group
-     *
-     * @param gpId   group id that uer want to enter it
-     * @param userId user that make the request
-     * @return {@link GeneralResponse} that tell user whether Request sent successfully or something else happened
-     */
-    MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userId) {
-        MutableLiveData<GeneralResponse> resJoinGroup = new MutableLiveData<>();
-        Call<GeneralResponse> joinGp = apiInterface.requestJoinGroup(gpId, userId);
-        joinGp.enqueue(new Callback<GeneralResponse>() {
-            @Override
-            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
-                Log.i(TAG, "ApiProvider -- requestJoinGroup() enqueue()  body >> " +
-                        res.body());
-                resJoinGroup.setValue(res.body());
-            }
-
-            @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
-                GeneralResponse generalRes = new GeneralResponse();
-                generalRes.response = t.getMessage();
-                resJoinGroup.setValue(generalRes);
-                t.printStackTrace();
-                call.cancel();
-            }
-        });
-        return resJoinGroup;
     }
 
-    /**
-     * show all joim request for a group
-     *
-     * @param groupId id for group that have request
-     * @return list of all requests {@link JoinGroupResponse}
-     */
-    MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int groupId) {
-        MutableLiveData<List<JoinGroupResponse>> groupResList = new MutableLiveData<>();
-
-        Call<List<JoinGroupResponse>> getGroupResponses = apiInterface.getAllResponsesForGroup(groupId);
-        getGroupResponses.enqueue(new Callback<List<JoinGroupResponse>>() {
-            @Override
-            public void onResponse(Call<List<JoinGroupResponse>> call,
-                                   Response<List<JoinGroupResponse>> res) {
-
-                Log.i(TAG, "ApiProvider  -- getAllResponsesForGroup() enqueue() a reqSize >> "
-                        + res.body().size());
-                groupResList.setValue(res.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<JoinGroupResponse>> call, Throwable t) {
-                t.printStackTrace();
-                Log.i(TAG, "onFailure: " + t.getMessage());
-                call.cancel();
-            }
-        });
-
-        return groupResList;
-    }
 
     MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID) {
         MutableLiveData<GeneralResponse> addMemberRes = new MutableLiveData<>();
@@ -602,7 +543,7 @@ class ApiProvider {
 
     }
 
-    MutableLiveData<GroupDetails> getSpecificGroupDetails (int groupId,String header){
+    MutableLiveData<GroupDetails> getSpecificGroupDetails (int groupId, String header){
         MutableLiveData<GroupDetails> groupMutableLiveData=new MutableLiveData<>();
         Call<GroupDetails> groupCall=apiInterface.getSpecificGroupDetails(groupId,HelperClass.BEARER_HEADER+header);
         groupCall.enqueue(new Callback<GroupDetails>() {
