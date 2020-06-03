@@ -85,6 +85,21 @@ public class Group {
 
     @SerializedName("interest")
     private String interest;
+    private int image;
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public Group(String name, int image, String description) {
+        this.groupName = name;
+        this.image = image;
+        this.groupDesc = description;
+    }
 
     public Group(
             int userID, String location,
@@ -122,6 +137,88 @@ public class Group {
         this.levelRequired = levelRequired;
         this.interest = interest;
     }
+
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setLevelRequired(String levelRequired) {
+        this.levelRequired = levelRequired;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getMaxMembers() {
+        return maxMembers;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    public int getCurrentMembers() {
+        return currentMembers;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getLevelRequired() {
+        return levelRequired;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
 
     @NonNull
     @Override
