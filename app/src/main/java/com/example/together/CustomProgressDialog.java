@@ -15,7 +15,7 @@ public class CustomProgressDialog extends AlertDialog {
 
     }
 
-    private CustomProgressDialog(Context context) {
+    public CustomProgressDialog(Context context) {
         super(context);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setCancelable(false);

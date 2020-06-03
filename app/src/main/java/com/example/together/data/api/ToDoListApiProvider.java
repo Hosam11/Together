@@ -88,8 +88,7 @@ public class ToDoListApiProvider {
 
             @Override
             public void onFailure(Call<ArrayList<ListTask>> call, Throwable t) {
-                t.printStackTrace();
-                call.cancel();
+              toDoListTasks.setValue(null);
             }
         });
 

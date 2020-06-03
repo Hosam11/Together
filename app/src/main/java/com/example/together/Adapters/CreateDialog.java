@@ -2,14 +2,20 @@ package com.example.together.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,17 +35,21 @@ public class CreateDialog  extends AppCompatDialogFragment {
     Button no;
     EditText title;
     EditText description;
+    ImageView imageView;
     BoardFragment boardFragment;
     ItemAdapter itemAdapter;
     int position;
     boolean textChangedInTitle=false;
     boolean textChangedInDescription=false;
     int id;
+    View v;
+    Context context;
 
 
     public CreateDialog(String dialogType, BoardFragment boardFragment){
        this.boardFragment=boardFragment;
        this.dialogType=dialogType;
+       context=boardFragment.getContext();
     }
     public CreateDialog(String dialogType, ItemAdapter itemAdapter,int position,int id ){
         this.boardFragment=boardFragment;
@@ -47,6 +57,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
         this.itemAdapter=itemAdapter;
         this.position=position;
         this.id=id;
+        context = itemAdapter.context;
     }
 
     @NonNull
@@ -54,6 +65,20 @@ public class CreateDialog  extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder adb=new AlertDialog.Builder(getActivity());
         final LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+         v=layoutInflater.inflate(R.layout.add_new_task_dialog,null);
+        add=v.findViewById(R.id.add_task);
+        title= v.findViewById(R.id.task_title_edit_text);
+        description= v.findViewById(R.id.task_description_edit_text);
+        imageView = v.findViewById(R.id.exit_dialog);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateDialog.this.getDialog().cancel();
+            }
+        });
+        addTextChangeListners();
+        addEnterAction(title);
+        addEnterAction(description);
         switch (dialogType){
             case "addTask":
                 return toAddTaskDialog(adb,layoutInflater);
@@ -66,73 +91,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
     }
 
     public Dialog toAddTaskDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
-        View v=layoutInflater.inflate(R.layout.add_new_task_dialog,null);
-        add=v.findViewById(R.id.add_task);
         add.setEnabled(false);
-        title= v.findViewById(R.id.task_title_edit_text);
-        description= v.findViewById(R.id.task_description_edit_text);
-        v.findViewById(R.id.exit_dialog).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateDialog.this.getDialog().cancel();
-            }
-        });
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInTitle=true;
-                    if(textChangedInDescription==textChangedInTitle==true) {
-                        add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke));
-                        add.setEnabled(true);
-                    }
-                }
-                else {
-                    add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke_grey));
-                    add.setEnabled(false);
-                    textChangedInTitle=false;
-
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInDescription=true;
-                    if(textChangedInDescription==textChangedInTitle==true) {
-                        add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke));
-                        add.setEnabled(true);
-                    }
-                }
-                else {
-                    add.setBackground(ContextCompat.getDrawable(boardFragment.getContext(), R.drawable.corners_from_all_without_stroke_grey));
-                    add.setEnabled(false);
-                    textChangedInDescription=false;
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,77 +112,10 @@ public class CreateDialog  extends AppCompatDialogFragment {
     }
 
     public Dialog toAddDeleteDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
-        View v=layoutInflater.inflate(R.layout.add_new_task_dialog,null);
-        add=v.findViewById(R.id.add_task);
         add.setText("Edit");
-        title= v.findViewById(R.id.task_title_edit_text);
-        description= v.findViewById(R.id.task_description_edit_text);
         title.setText(itemAdapter.list.get(position).getTitle());
         description.setText(itemAdapter.list.get(position).getDescription());
         int id = itemAdapter.list.get(position).getId();
-
-        v.findViewById(R.id.exit_dialog).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateDialog.this.getDialog().cancel();
-            }
-        });
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInTitle=true;
-                    if(textChangedInDescription||textChangedInTitle==true) {
-                        add.setBackground(ContextCompat.getDrawable(itemAdapter.context, R.drawable.corners_from_all_without_stroke));
-                        add.setEnabled(true);
-                    }
-                }
-                else {
-                    add.setBackground(ContextCompat.getDrawable(itemAdapter.context, R.drawable.corners_from_all_without_stroke_grey));
-                    add.setEnabled(false);
-                    textChangedInTitle=false;
-
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInDescription=true;
-                    if(textChangedInDescription||textChangedInTitle==true) {
-                        add.setBackground(ContextCompat.getDrawable(itemAdapter.context, R.drawable.corners_from_all_without_stroke));
-                        add.setEnabled(true);
-                    }
-                }
-                else {
-                    add.setBackground(ContextCompat.getDrawable(itemAdapter.context, R.drawable.corners_from_all_without_stroke_grey));
-                    add.setEnabled(false);
-                    textChangedInDescription=false;
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,4 +135,87 @@ public class CreateDialog  extends AppCompatDialogFragment {
         return adb.create();
     }
 
+    public void addEnterAction(EditText editText){
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    add.performClick();
+                }
+                return false;
+
+            }
+
+        });
+    }
+
+    public void addTextChangeListners(){
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()!=0) {
+                    textChangedInTitle=true;
+                    if(textChangedInDescription==textChangedInTitle==true) {
+                        add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke));
+                        add.setEnabled(true);
+                    }
+                }
+                else {
+                    add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke_grey));
+                    add.setEnabled(false);
+                    textChangedInTitle=false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()!=0) {
+                    textChangedInDescription=true;
+                    if(textChangedInDescription==textChangedInTitle==true) {
+                        add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke));
+                        add.setEnabled(true);
+                    }
+                }
+                else {
+                    add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke_grey));
+                    add.setEnabled(false);
+                    textChangedInDescription=false;
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getDialog().setOnKeyListener((arg0, keyCode, event) -> {
+            // TODO Auto-generated method stub
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                this.dismiss();
+            }
+            return true;
+        });
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 }
