@@ -22,11 +22,13 @@ import com.example.together.R;
 import com.example.together.data.model.UserGroup;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
+import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -67,14 +69,14 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
-       getGroups();
+        CustomProgressDialog.getInstance(getContext()).show();
+        getGroups();
 
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), AddGroup.class);
             startActivity(createGroup);
         });
-        CustomProgressDialog.getInstance(getContext()).show();
 
 
 
@@ -84,18 +86,25 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
     public void getGroups(){
 
-        Storage storage = new Storage(getContext());
-        userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
-            @Override
-            public void onChanged(ArrayList<UserGroup> userGroups) {
-                Toast.makeText(getContext(),"Hey"+userGroups.size(),Toast.LENGTH_LONG).show();
-                userGroupsList.clear();
-                userGroupsList.addAll(userGroups);
-                adapter.notifyDataSetChanged();
-                progressDialog.cancel();
-            }
-        });
-
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext())))
+        {
+            Storage storage = new Storage(getContext());
+            userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
+                @Override
+                public void onChanged(ArrayList<UserGroup> userGroups) {
+                    Toast.makeText(getContext(), "Hey" + userGroups.size(), Toast.LENGTH_LONG).show();
+                    userGroupsList.clear();
+                    userGroupsList.addAll(userGroups);
+                    adapter.notifyDataSetChanged();
+                    progressDialog.cancel();
+                }
+            });
+        }
+        else
+        {
+            progressDialog.cancel();
+            HelperClass.showAlert("Error","Please check your internet connection",getContext());
+        }
 
 
 
