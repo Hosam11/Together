@@ -83,19 +83,25 @@ public class ProfileFragment extends Fragment implements
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-progressDialog=CustomProgressDialog.getInstance(getContext());
-progressDialog.show();
+//progressDialog=CustomProgressDialog.getInstance(getContext());
+//progressDialog.show();
+        CustomProgressDialog.getInstance(getContext()).show();
 
-logoutBtn.setOnClickListener(new View.OnClickListener() {
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+        CustomProgressDialog.getInstance(getContext()).show();
+
         if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-            CustomProgressDialog.getInstance(getContext()).show();
 
             userViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response!=null) {
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
+
                         storage.clearStorage();
 
                         Objects.requireNonNull(getActivity()).finish();
@@ -171,8 +177,7 @@ logoutBtn.setOnClickListener(new View.OnClickListener() {
                     genderEt.setText(userData.getGender());
 
 
-                    progressDialog.cancel();
-
+                 CustomProgressDialog.getInstance(getContext()).cancel();
                     displayInterests(userData.getInterests());
 
                     if (!userData.getGroups().isEmpty()) {
