@@ -28,9 +28,10 @@ import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
+import com.example.together.view_model.UsersViewModel;
 import com.example.together.profile.UserPojo;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UserVieModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
@@ -51,8 +52,11 @@ public class ProfileFragment extends Fragment implements
     Button logoutBtn;
     String[] interests;
     User user;
+
+    UsersViewModel usersViewModel;
+
     Storage storage;
-    UserViewModel userViewModel;
+
     CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
     LinearLayout containerLayout;
@@ -61,7 +65,8 @@ public class ProfileFragment extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_profile,
+                container, false);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Profile");
         ((BottomNavigationView) getActivity()).getSupportActionBar().hide();
 
@@ -81,6 +86,15 @@ public class ProfileFragment extends Fragment implements
         showShimmer();
 
 
+
+
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+       
+
+        v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
+            Intent i = new Intent(getContext(), StartActivity.class);
+            startActivity(i);
+        });
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 //progressDialog=CustomProgressDialog.getInstance(getContext());
@@ -125,10 +139,9 @@ public class ProfileFragment extends Fragment implements
     }
 });
 
-
         // TODO last changed was 31/5/2020
-        return v;
-    }
+      return v;
+ }
 
     private void showShimmer() {
         shimmer.setVisibility(View.VISIBLE);
@@ -140,7 +153,6 @@ public class ProfileFragment extends Fragment implements
         shimmer.stopShimmer();
         containerLayout.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public void onResume() {
@@ -162,14 +174,15 @@ public class ProfileFragment extends Fragment implements
          storage = new Storage(getContext());
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
-        userViewModel.fetchUserData(storage.getId(), storage.getToken())
+        usersViewModel.fetchUserData(storage.getId(), storage.getToken())
                 .observe(this, userData -> {
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     if(userData!=null){
                     Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-                   hideShimmer();
+                    hideShimmer();
                     user=userData;
+
                     nameTv.setText(userData.getName());
                     emailTv.setText(userData.getEmail());
                     addressEt.setText(userData.getAddress());
@@ -200,7 +213,7 @@ public class ProfileFragment extends Fragment implements
     }
 
 
-    public void displayInterests(List<String> interests){
+    public void displayInterests(List<String> interests) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < interests.size(); i++) {
 
@@ -208,7 +221,7 @@ public class ProfileFragment extends Fragment implements
 
 
         }
-        interestTv.setText(Html.fromHtml( builder.toString()));
+        interestTv.setText(Html.fromHtml(builder.toString()));
 
 
     }

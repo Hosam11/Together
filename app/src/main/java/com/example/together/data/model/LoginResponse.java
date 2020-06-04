@@ -9,6 +9,7 @@ public class LoginResponse {
     private String response;
 
     private boolean isSuccess;
+    private boolean isConFailed;
 
     public boolean isConFailed() {
         return isConFailed;
@@ -17,8 +18,6 @@ public class LoginResponse {
     public void setConFailed(boolean conFailed) {
         isConFailed = conFailed;
     }
-
-    private boolean isConFailed;
 
     public boolean isSuccess() {
         return isSuccess;

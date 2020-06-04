@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.GroupViewModel;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 import com.yalantis.ucrop.UCrop;
 
@@ -63,7 +62,7 @@ public class AddGroup extends AppCompatActivity {
     TextView tvAddImg;
     // ImageView
     ImageView groupImg;
-    UserViewModel userViewModel;
+    GroupViewModel groupViewModel;
     //
     Bitmap groupImgBitmap;
 
@@ -79,10 +78,10 @@ public class AddGroup extends AppCompatActivity {
     private List<String> interests;
     private List<String> locations;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_add_group);
         setContentView(R.layout.activity_create_group2);
 
         getSupportActionBar().hide();
@@ -102,16 +101,13 @@ public class AddGroup extends AppCompatActivity {
         //
         groupImg = findViewById(R.id.iv_group_img);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
-                    CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
-        }
 
         FixedDBValues dbValues = new FixedDBValues();
 
         interests = new ArrayList<>(dbValues.getInterests().values());
         locations = new ArrayList<>();
 
+        // TODO get interest form backend
         /*interests.add("android");
         interests.add("ios");
         interests.add("web desing");
@@ -134,7 +130,7 @@ public class AddGroup extends AppCompatActivity {
         locationSpinner = new CommonSpinner(spLocations, this, locations);
         levelsSpinner = new CommonSpinner(spLevels, this, levels);
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
         findViewById(R.id.btn_create_group).setOnClickListener(v -> createGroup());
 
@@ -148,48 +144,17 @@ public class AddGroup extends AppCompatActivity {
         findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(tvGroupMaxMembers));
 
 
+        tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
+                CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose Photo");
-        builder.setItems(options, (dialog, item) -> {
-            if (options[item].equals("Take Photo")) {
-                if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            CAMERA_PERMISSION_CODE);
-                } else {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_PERMISSION_CODE);
-                }
-            } else if (options[item].equals("Choose from Gallery")) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, CAMERA_PERMISSION_CODE);
-            } else if (options[item].equals("Cancel")) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
-
-   /* private void selectImage() {
-        HelperClass.ser
-    }*/
-
-    public void chooseImage(View view) {
+  /*  public void chooseImage(View view) {
         Log.i(TAG, "chooseImage: ");
         Log.i(TAG, "onCreate: interest item selected >> " + interestSpinner.getSpItemSelected());
         Log.i(TAG, "onCreate: location item selected >> " + locationSpinner.getSpItemSelected());
         Log.i(TAG, "onCreate: level item selected >> " + levelsSpinner.getSpItemSelected());
-        Intent intent = new Intent(this, ViewGroup.class);
-        startActivity(intent);
-
-    }
-
+    }*/
 
     public void createGroup() {
         String gpName = edGroupName.getText().toString();
@@ -211,19 +176,29 @@ public class AddGroup extends AppCompatActivity {
         ) {
             showAlert(ERROR_MISSING_FILEDS, this);
         } else {
+            String img = null;
+            if (groupImgBitmap != null) {
+                Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
+                img = HelperClass.encodeTobase64(groupImgBitmap);
+            }
+            Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
+
+            Storage s = new Storage(this);
+            Log.i(TAG, getLocalClassName() + " -- createGroup: token" + s.getToken());
             Group group = new Group(
-                    storage.getId(), gpLocation,
+                    storage.getId(), gpLocation, img,
                     gpMembers, gpDuration, gpName,
                     gpDesc, HelperClass.FREE, gpLevel, gpInterest);
             String token = storage.getToken();
-            userViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
+            groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
 
         }
 
     }
 
     private void observCreateGroup(GeneralResponse generalRes) {
-        Log.i(TAG, "observCreateGroup: generalRes.res" + generalRes.response);
+        Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
+                + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
@@ -231,8 +206,8 @@ public class AddGroup extends AppCompatActivity {
 //            userViewModel.clearCreateGroupRes();
             Toast.makeText(this, generalRes.response, Toast.LENGTH_SHORT).show();
             Intent goToSingleGroup = new Intent(this, GroupViewPager.class);
-            startActivity(goToSingleGroup);
-
+//            startActivity(goToSingleGroup);
+            finish();
         } else {
             Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
             showAlert(generalRes.response, this);
@@ -278,7 +253,6 @@ public class AddGroup extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -294,6 +268,7 @@ public class AddGroup extends AppCompatActivity {
     }
 
     private Bitmap getImage(int requestCode, @Nullable Intent data) {
+
         Bitmap imgBitmap = null;
         isEnterCrop = false;
         if (requestCode == CAMERA_REQUEST_CODE) {

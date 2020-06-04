@@ -40,6 +40,7 @@ public class InterestsActivity extends AppCompatActivity {
     Button signupBtn;
     UserViewModel userViewModel;
     List<String> selectedInterest;
+  UsersViewModel newUsersViewModel;
     ColorStateList colorStateList = new ColorStateList(
             new int[][]{
                     new int[]{-android.R.attr.state_checked}, // unchecked
@@ -65,7 +66,7 @@ public class InterestsActivity extends AppCompatActivity {
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
+   newUsersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         signupBtn.setOnClickListener(v -> createAccount());
         Toast.makeText(getApplicationContext(),"cre",Toast.LENGTH_LONG).show();
         CustomProgressDialog.getInstance(this).show();
@@ -158,7 +159,7 @@ public class InterestsActivity extends AppCompatActivity {
             user.setInterests(selectedInterest);
 
 
-            userViewModel.signUp(user).observe(this, this::userSignUpObservable);
+            newUsersViewModel.signUp(user).observe(this, this::userSignUpObservable);
         }
 
 
@@ -184,13 +185,9 @@ public class InterestsActivity extends AppCompatActivity {
 //            InterestsActivity.this.finish();
         } else {
             HelperClass.showAlert("Error",HelperClass.someThingWrong,this);
-
             CustomProgressDialog.getInstance(this).cancel();
-
         }
     }
 
 
 }
-
-

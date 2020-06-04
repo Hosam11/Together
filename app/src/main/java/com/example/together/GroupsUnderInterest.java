@@ -46,6 +46,7 @@ public class GroupsUnderInterest extends AppCompatActivity {
         prepareGroupsData();
     }
     private void prepareGroupsData() {
+        /*groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
@@ -59,8 +60,7 @@ public class GroupsUnderInterest extends AppCompatActivity {
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
         groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android ",R.drawable.development,"IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android ",R.drawable.development,"IT, CS, Development, Android"));*/
         groupsAdapter.notifyDataSetChanged();
     }
 }

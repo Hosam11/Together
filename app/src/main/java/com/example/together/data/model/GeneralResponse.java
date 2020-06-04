@@ -10,6 +10,7 @@ public class GeneralResponse {
     public String response;
 
 
+
     @NonNull
     @Override
     public String toString() {
