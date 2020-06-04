@@ -69,22 +69,36 @@ public class InterestsActivity extends AppCompatActivity {
         signupBtn.setOnClickListener(v -> createAccount());
         Toast.makeText(getApplicationContext(),"cre",Toast.LENGTH_LONG).show();
         CustomProgressDialog.getInstance(this).show();
+        if(HelperClass.checkInternetState(this)) {
+            getInterests();
+        }
+        else {
 
-        getInterests();
+            HelperClass.showAlert("Error",HelperClass.checkYourCon,this);
+            CustomProgressDialog.getInstance(this).cancel();
 
+        }
     }
 
     private void getInterests(){
         //TODO : After token remove from getAllInterests
 
-        userViewModel.getAllInterests("28|q5bWvcmDnlSibVReVysFonEyPEodovhGF9V3E9OWPT6w27y9hqj4UDYsKeOT3j3CMnlddlNIRSXIW8vL").observe(this, new Observer<ArrayList<Interests>>() {
+        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interests>>() {
           @Override
           public void onChanged(ArrayList<Interests> interests) {
+              if(interests!=null){
               interestsList=interests;
               if(interests.size()>0){
 
                   displayInterests();
 
+
+              }
+          }
+
+          else {
+                  HelperClass.showAlert("Error",HelperClass.someThingWrong,InterestsActivity.this);
+                  CustomProgressDialog.getInstance(InterestsActivity.this).cancel();
 
               }
           }
@@ -130,8 +144,10 @@ public class InterestsActivity extends AppCompatActivity {
 
     private void createAccount() {
         CustomProgressDialog.getInstance(this).show();
+        if(HelperClass.checkInternetState(getApplicationContext())){
         if (selectedInterest.isEmpty()) {
-            showAlert(ERROR_INTERESTS, this);
+            showAlert("Error",ERROR_INTERESTS, this);
+            CustomProgressDialog.getInstance(InterestsActivity.this).cancel();
         } else {
 
             for (String i : selectedInterest) {
@@ -140,15 +156,17 @@ public class InterestsActivity extends AppCompatActivity {
             Storage s = new Storage();
             User user = s.getPassUser(this);
             user.setInterests(selectedInterest);
+
+
             userViewModel.signUp(user).observe(this, this::userSignUpObservable);
+        }
 
-          /*  userViewModel.signUp(user).observe(this, new Observer<String>() {
 
-                @Override
-                public void onChanged(String s) {
+        }
+        else {
 
-                }
-            });*/
+            HelperClass.showAlert("Error",HelperClass.checkYourCon,this);
+            CustomProgressDialog.getInstance(this).cancel();
         }
     }
 
@@ -156,17 +174,19 @@ public class InterestsActivity extends AppCompatActivity {
 
         Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
 
-        if (res.equals(HelperClass.SING_UP_SUCCESS)) {
+        if (res!=null) {
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
             CustomProgressDialog.getInstance(this).cancel();
 
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            InterestsActivity.this.finish();
+//            InterestsActivity.this.finish();
         } else {
+            HelperClass.showAlert("Error",HelperClass.someThingWrong,this);
+
             CustomProgressDialog.getInstance(this).cancel();
-            showAlert(res, this);
+
         }
     }
 

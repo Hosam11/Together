@@ -2,8 +2,10 @@ package com.example.together.data.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.together.data.model.User;
+import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -67,6 +69,15 @@ public class Storage {
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_USER_OBJ, NO_USER);
         return gson.fromJson(json, User.class);
+    }
+
+
+    public  void clearStorage(){
+        SharedPreferences pref = context.getSharedPreferences(USER_DATA, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.apply();
+
     }
 }
 

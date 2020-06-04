@@ -281,6 +281,8 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private boolean validateForm() {
         boolean valid = true;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
 
         String name = nameEt.getText().toString();
         if (TextUtils.isEmpty(name)) {
@@ -296,6 +298,17 @@ public class SignUpActivity extends AppCompatActivity implements
             valid = false;
         } else {
             emailEt.setError(null);
+        }
+
+
+        if(!email.matches(emailPattern)){
+            emailEt.setError("Enter a valid e-mail!");
+            valid = false;
+
+        }
+        else {
+            emailEt.setError(null);
+
         }
         String pass = passEt.getText().toString();
         if (TextUtils.isEmpty(pass)) {

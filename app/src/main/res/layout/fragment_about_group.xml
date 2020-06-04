@@ -17,25 +17,27 @@
 
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/group_img_tv"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:layout_marginHorizontal="53dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="205dp"
+            android:layout_height="250dp"
             android:clickable="true"
             android:focusable="true"
+            android:layout_gravity="center"
             android:src="@drawable/default_img"
             app:civ_border_color="@color/white"
-            app:civ_border_width="2dp" />
+            android:paddingTop="3dp"
+            android:paddingLeft="7dp"
+            />
+
         <TextView
             android:id="@+id/edit_group_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="14sp"
-            android:layout_marginTop="10dp"
 android:layout_marginLeft="5dp"
             android:textStyle="bold"
             android:textColor="#1177da"
+            android:layout_marginBottom="10dp"
             android:text="Edit Group"
             android:visibility="gone"
             />
@@ -43,7 +45,6 @@ android:layout_marginLeft="5dp"
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/background_shape"
             android:orientation="vertical"
@@ -125,6 +126,19 @@ android:layout_marginLeft="5dp"
 
 
         </LinearLayout>
+        
+        <Button
+            android:id="@+id/leave_btn"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@drawable/leave_logout_shape"
+            android:text="@string/leave_group"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

@@ -17,7 +17,6 @@ public class ExploreFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((BottomNavigationView)getActivity()).setActionBarTitle("Explore");
 
         return inflater.inflate(R.layout.fragment_explore,container,false);
     }

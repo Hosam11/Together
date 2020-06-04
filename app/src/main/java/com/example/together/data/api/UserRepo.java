@@ -65,9 +65,9 @@ public class UserRepo {
 
         return  provider.getAllUserGroups(userId,token);
     }
-    public  MutableLiveData<ArrayList<Interests>> getAllInterests(String token){
+    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
 
-        return provider.getAllInterests(token);
+        return provider.getAllInterests();
     }
     public  MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId,String token){
         return  provider.getSpecificGroupDetails(groupId,token);
@@ -90,4 +90,18 @@ public class UserRepo {
         return provider.rejectJoinReqGroup(reqID,  token);
     }
 
-}
+    // :LEAVE GROUP
+    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
+    return provider.leaveGroup(groupId, id, token);
+    }
+
+    // :Logout
+    public MutableLiveData<GeneralResponse> logout(int id){
+        return provider.logout(id);
+
+
+    }
+
+
+
+    }

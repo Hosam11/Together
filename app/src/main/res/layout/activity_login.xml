@@ -94,10 +94,11 @@
                 android:background="@drawable/edit_texts_shapes"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
+
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
                 android:paddingBottom="16dp"
-                android:text="last"
+                android:text="m@m.com"
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
 
