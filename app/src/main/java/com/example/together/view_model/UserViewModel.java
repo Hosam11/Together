@@ -21,19 +21,7 @@ import java.util.List;
 
 public class UserViewModel extends ViewModel {
 
- /*   private MutableLiveData<LoginResponse> loginRes;
-
-    private MutableLiveData<User> userData;*/
-
-/*    private MutableLiveData<GeneralResponse> createGroupRes;
-    private MutableLiveData<GeneralResponse> joinGroup;
-    private MutableLiveData<List<JoinGroupResponse>> listRequestJoinForGroup;
-    private MutableLiveData<GeneralResponse> addMember;
-
-    private MutableLiveData<GeneralResponse> updateGroupRes;
-
-    private MutableLiveData<GeneralResponse> resAcceptJoin;
-    private MutableLiveData<GeneralResponse> resRejectJoin;*/
+ 
 
     private MutableLiveData<GeneralResponse> addTaskRes;
     private MutableLiveData<ArrayList<ListTask>> toDoListTasks;
@@ -66,51 +54,15 @@ public class UserViewModel extends ViewModel {
 
     }
 
-   /* public MutableLiveData<GeneralResponse> createGroup(Group group, String token) {
-        createGroupRes = userRepo.createGroup(group, token);
-        return createGroupRes;
-    }
-
-    public MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userID, String token) {
-        joinGroup = userRepo.joinGroup(gpId, userID, token);
-        return joinGroup;
-    }
-
-    public MutableLiveData<List<JoinGroupResponse>> getAllRequestJoinForGroup(int gpId, String token) {
-        listRequestJoinForGroup = userRepo.getAllResponsesForGroup(gpId, token);
-        return listRequestJoinForGroup;
-    }
-
-    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID,
-                                                           int adminID, String token) {
-        addMember = userRepo.addGroupMember(gpID, userID, adminID, token);
-        return addMember;
-    }
-
-    public MutableLiveData<GeneralResponse> updateGroupInfo(int gpID, int adminID,
-                                                            Group group, String token) {
-        updateGroupRes = userRepo.updateGroupInfo(gpID, adminID, group, token);
-        return updateGroupRes;
-    }
-
-    public MutableLiveData<GeneralResponse> acceptJoinReqGroup(int reqID, int adminID, String token) {
-        resAcceptJoin = userRepo.acceptJoinReqGroup(reqID, adminID, token);
-        return resAcceptJoin;
-    }
-
-    public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
-        resRejectJoin = userRepo.rejectJoinReqGroup(reqID, token);
-        return resRejectJoin;
-    }
-*/
+   
     public  MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
         userGroups=userRepo.getAllUserGroups(userId,token);
         return  userGroups;
 
 
     }
-    public  MutableLiveData<ArrayList<Interests>> getAllInterests(String token){
-        allInterestsList=userRepo.getAllInterests(token);
+    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
+        allInterestsList=userRepo.getAllInterests();
         return  allInterestsList;
     }
 
@@ -125,6 +77,22 @@ public class UserViewModel extends ViewModel {
 
 
 
+    ///LEAVE GROUP
+    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
+
+    return userRepo.leaveGroup(groupId, id, token);
+
+    }
+    public MutableLiveData<GeneralResponse> logout(int id){
+        return userRepo.logout(id);
+
+
+    }
+
+
+    public void clearCreateGroupRes() {
+        createGroupRes = null;
+    }
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
         addTaskRes = userRepo.addTask(task,token);

@@ -22,6 +22,7 @@ import com.example.together.R;
 import com.example.together.data.model.UserGroup;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
+import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,14 +44,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
-//         fab = v.findViewById(R.id.add_group_FAB);
-//         fab.setOnClickListener(v1 -> {
-
-//             //Intent To Create Group Screen
-//             Intent createGroup = new Intent(getContext(), AddGroup.class);
-//             getContext().startActivity(createGroup);
-
-//         });
+        fab = v.findViewById(R.id.add_group_FAB);
+        fab.setOnClickListener(v1 -> {
+            //Intent To Create Group Screen
+            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            getContext().startActivity(createGroup);
+        });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 progressDialog=CustomProgressDialog.getInstance(getContext());
@@ -67,7 +66,7 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
-       getGroups();
+
 
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
@@ -80,7 +79,20 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(HelperClass.checkInternetState(getContext())){
+        getGroups();
+    }
+    else {
 
+        HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+            CustomProgressDialog.getInstance(getContext()).cancel();
+
+        }
+
+    }
 
     public void getGroups(){
 
@@ -88,11 +100,15 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
         userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
             @Override
             public void onChanged(ArrayList<UserGroup> userGroups) {
+                if(userGroups!=null){
                 Toast.makeText(getContext(),"Hey"+userGroups.size(),Toast.LENGTH_LONG).show();
                 userGroupsList.clear();
                 userGroupsList.addAll(userGroups);
                 adapter.notifyDataSetChanged();
-                progressDialog.cancel();
+                progressDialog.cancel();   }
+                else {
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    HelperClass.showAlert("Error",HelperClass.someThingWrong,getContext());}
             }
         });
 

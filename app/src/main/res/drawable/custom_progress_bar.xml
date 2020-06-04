@@ -6,7 +6,7 @@
             android:pivotX="50%"
             android:pivotY="50%"
             android:toDegrees="1080" >
-        <bitmap android:src="@drawable/logo"/>
+        <bitmap android:src="@drawable/together_logo"/>
 
 
         </rotate>

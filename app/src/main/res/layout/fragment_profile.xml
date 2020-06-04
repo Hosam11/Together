@@ -27,14 +27,45 @@
             android:textSize="13sp"
             android:text="@string/your_profile_info"
             />
-
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical"
+
+            >
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+                <include layout="@layout/profile_place_holder" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/background_shape"
             android:orientation="vertical"
+        android:visibility="gone"
 
 
             >
@@ -282,7 +313,18 @@ android:layout_marginBottom="10dp"
 
         </LinearLayout>
 
-
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@drawable/leave_logout_shape"
+            android:text="@string/logout"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

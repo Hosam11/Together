@@ -12,10 +12,17 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+
+import com.example.together.R;
 
 import java.io.ByteArrayOutputStream;
 
@@ -49,6 +56,11 @@ public class HelperClass {
     public static final String deleteTaskSuccess ="This task deleted successfully";
     public static final String updatedTaskSuccess = "Updated successfully";
 
+    public static final String checkYourCon= "Please check your internet connection";
+    public static final String someThingWrong= "Something went wrong please try again!";
+
+
+
 
 
     public static void showAlert(String msg, Context context) {
@@ -59,6 +71,24 @@ public class HelperClass {
 
         builder.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    public static void showAlert(String description,String msg, Context context) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View alertView = inflater.inflate(R.layout.custom_alert,null);
+        builder.setView(alertView);
+        TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
+        TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
+        alertDescription.setText(description);
+        alertMessage.setText(msg);
+        TextView okBtn = alertView.findViewById(R.id.ok_button);
+        AlertDialog alertDialog = builder.create();
+        okBtn.setOnClickListener((v)->{alertDialog.cancel();});
+
         alertDialog.show();
 
     }
