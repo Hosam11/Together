@@ -103,7 +103,7 @@ public void getInterests(){
                 else {
                     CustomProgressDialog.getInstance(EditInterests.this).cancel();
 
-                    HelperClass.showAlert("Error",HelperClass.someThingWrong,EditInterests.this);
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
 
 
                 }
@@ -162,7 +162,7 @@ public void getInterests(){
                    }
                     else {
 
-                       HelperClass.showAlert("Error",HelperClass.someThingWrong,EditInterests.this);
+                       HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
 
 
                    }

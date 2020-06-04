@@ -1,6 +1,5 @@
 package com.example.together.group_screens;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,9 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.R;
@@ -180,8 +177,8 @@ public class AddGroup extends AppCompatActivity {
             if (groupImgBitmap != null) {
                 Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
                 img = HelperClass.encodeTobase64(groupImgBitmap);
+                Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
             }
-            Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
 
             Storage s = new Storage(this);
             Log.i(TAG, getLocalClassName() + " -- createGroup: token" + s.getToken());

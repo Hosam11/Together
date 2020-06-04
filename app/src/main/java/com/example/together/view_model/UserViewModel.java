@@ -21,7 +21,6 @@ import java.util.List;
 
 public class UserViewModel extends ViewModel {
 
- 
 
     private MutableLiveData<GeneralResponse> addTaskRes;
     private MutableLiveData<ArrayList<ListTask>> toDoListTasks;
@@ -90,9 +89,6 @@ public class UserViewModel extends ViewModel {
     }
 
 
-    public void clearCreateGroupRes() {
-        createGroupRes = null;
-    }
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
         addTaskRes = userRepo.addTask(task,token);

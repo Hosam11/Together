@@ -28,8 +28,6 @@ public interface APIInterface {
 
     // http://127.0.0.1:8000/api/
 
-
-
     @POST("add")
     Call<GeneralResponse> addTask(@Body ListTask task,
                                   @Header("Authorization") String header);

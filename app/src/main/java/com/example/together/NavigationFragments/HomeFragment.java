@@ -27,7 +27,6 @@ import com.example.together.view_model.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -52,7 +51,7 @@ public class HomeFragment extends Fragment {
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-progressDialog=CustomProgressDialog.getInstance(getContext());
+        progressDialog=CustomProgressDialog.getInstance(getContext());
         return v;
     }
 
@@ -108,7 +107,7 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
                 progressDialog.cancel();   }
                 else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
-                    HelperClass.showAlert("Error",HelperClass.someThingWrong,getContext());}
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
             }
         });
 
