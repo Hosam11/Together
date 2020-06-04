@@ -11,7 +11,7 @@ public class Urls {
 //  public static final String API_URL = "http://192.168.1.6:8000/api/";
 
 
-    public static final String API_URL = "http://192.168.1.7:8000/api/";
+    public static final String API_URL = "http://192.168.1.4:8000/api/";
 
 
 }

@@ -113,7 +113,7 @@ public interface APIInterface {
     Call<ArrayList<UserGroup>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
 
     @GET("interests")
-    Call<ArrayList<Interests>> getAllInterests(@Header("Authorization") String header);
+    Call<ArrayList<Interests>> getAllInterests();
 
     @GET("show/{groupid}")
     Call<GroupDetails> getSpecificGroupDetails(@Path("groupid") int groupid,
@@ -144,6 +144,20 @@ public interface APIInterface {
     @GET("reject/{requesID}")
     Call<GeneralResponse> rejectJoinReqGroup(@Path("requesID") int reqID,
                                              @Header("Authorization") String token);
+
+
+/////////////////////////
+
+    @GET("leave/{groupid}/{id}")
+    Call<GeneralResponse> leaveGroup(@Path("groupid") int groupId,
+                                     @Path("id") int id,
+                                     @Header("Authorization") String token
+                                     );
+
+    ///////
+
+    @GET("logout/{id}")
+    Call<GeneralResponse> logout(@Path("id") int id);
 
 
 }

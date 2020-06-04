@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 //                 // not valid user
 //                 pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
-               progressdialog.cancel();
+            CustomProgressDialog.getInstance(this).cancel();
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
                 showAlert(logRes.getResponse(), this);
                 loginBtn.setEnabled(true);
@@ -114,6 +114,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validateForm() {
         boolean valid = true;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
 
 
 
@@ -124,6 +126,18 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             emailEt.setError(null);
         }
+
+        if(!email.matches(emailPattern)){
+            emailEt.setError("Enter a valid e-mail!");
+            valid = false;
+
+        }
+        else {
+            emailEt.setError(null);
+
+        }
+
+
         String pass = passEt.getText().toString();
         if (TextUtils.isEmpty(pass)) {
             passEt.setError("Required.");

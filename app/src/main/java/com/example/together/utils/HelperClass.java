@@ -56,6 +56,11 @@ public class HelperClass {
     public static final String deleteTaskSuccess ="This task deleted successfully";
     public static final String updatedTaskSuccess = "Updated successfully";
 
+    public static final String checkYourCon= "Please check your internet connection";
+    public static final String someThingWrong= "Something went wrong please try again!";
+
+
+
 
 
     public static void showAlert(String msg, Context context) {

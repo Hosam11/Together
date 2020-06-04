@@ -107,8 +107,8 @@ public class UserViewModel extends ViewModel {
 
 
     }
-    public  MutableLiveData<ArrayList<Interests>> getAllInterests(String token){
-        allInterestsList=userRepo.getAllInterests(token);
+    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
+        allInterestsList=userRepo.getAllInterests();
         return  allInterestsList;
     }
 
@@ -137,7 +137,20 @@ public class UserViewModel extends ViewModel {
         return resRejectJoin;
     }
 
-        public void clearCreateGroupRes() {
+    ///LEAVE GROUP
+    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
+
+    return userRepo.leaveGroup(groupId, id, token);
+
+    }
+    public MutableLiveData<GeneralResponse> logout(int id){
+        return userRepo.logout(id);
+
+
+    }
+
+
+    public void clearCreateGroupRes() {
         createGroupRes = null;
     }
 

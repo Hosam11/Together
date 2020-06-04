@@ -61,9 +61,15 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="edit_your_profile">Edit your profile</string>
     <string name="change_image">Change image</string>
+
+    <string name="leave_group">Leave group</string>
+    <string name="logout">Logout</string>
+
+
     <string name="hint_search">Search Together</string>
     <string name="slogan">Knowledge for Everyone</string>
     <string name="groups">Groups</string>
     <string name="explore">Explore</string>
     <string name="categories">Categories</string>
+
 </resources>

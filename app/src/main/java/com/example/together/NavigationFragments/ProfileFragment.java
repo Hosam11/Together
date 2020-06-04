@@ -7,26 +7,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
+import com.example.together.Login_Signup.StartActivity;
 import com.example.together.R;
+import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
 import com.example.together.profile.UserPojo;
+import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.together.utils.HelperClass.TAG;
 
@@ -40,10 +48,14 @@ public class ProfileFragment extends Fragment implements
     EditText genderEt;
     TextView interestTv;
     TextView editInterests;
+    Button logoutBtn;
     String[] interests;
     User user;
+    Storage storage;
     UserViewModel userViewModel;
     CustomProgressDialog progressDialog;
+    ShimmerFrameLayout shimmer;
+    LinearLayout containerLayout;
 
     @Nullable
     @Override
@@ -63,37 +75,94 @@ public class ProfileFragment extends Fragment implements
         editInterests = v.findViewById(R.id.edit_interests_tv);
         editInterests.setOnClickListener(this);
         interestTv = v.findViewById(R.id.interests_tv);
+        logoutBtn=v.findViewById(R.id.logout_btn);
+        shimmer=v.findViewById(R.id.shimmer_layout);
+        containerLayout=v.findViewById(R.id.container_layout);
+        showShimmer();
+
 
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 progressDialog=CustomProgressDialog.getInstance(getContext());
 progressDialog.show();
 
+logoutBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+            CustomProgressDialog.getInstance(getContext()).show();
+
+            userViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                @Override
+                public void onChanged(GeneralResponse response) {
+                    if (response!=null) {
+                        storage.clearStorage();
+
+                        Objects.requireNonNull(getActivity()).finish();
+                        Intent backToStart = new Intent(getContext(), StartActivity.class);
+                        Objects.requireNonNull(getContext()).startActivity(backToStart);
+
+                    } else {
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+                        HelperClass.showAlert("Error", HelperClass.someThingWrong, getContext());
+
+                    }
+
+                }
+            });
+        }
+        else {
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+
+        }
+
+    }
+});
+
 
         // TODO last changed was 31/5/2020
         return v;
     }
 
+    private void showShimmer() {
+        shimmer.setVisibility(View.VISIBLE);
+        shimmer.startShimmer();
+    }
+
+    private void hideShimmer() {
+        shimmer.setVisibility(View.GONE);
+        shimmer.stopShimmer();
+        containerLayout.setVisibility(View.VISIBLE);
+    }
 
 
     @Override
     public void onResume() {
         super.onResume();
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
         setProfileDataObservable();
+        }
+        else {
+
+            HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+            CustomProgressDialog.getInstance(getContext()).cancel();
+
+        }
 
 
     }
 
     private void setProfileDataObservable() {
-        Storage storage = new Storage(getContext());
+         storage = new Storage(getContext());
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
         userViewModel.fetchUserData(storage.getId(), storage.getToken())
                 .observe(this, userData -> {
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
+                    if(userData!=null){
                     Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-
+                   hideShimmer();
                     user=userData;
                     nameTv.setText(userData.getName());
                     emailTv.setText(userData.getEmail());
@@ -114,6 +183,12 @@ progressDialog.show();
                         }
                     } else {
                         Log.i(TAG, "setProfileDataObservable: Groups is null");
+                    }}
+                    else {
+                        HelperClass.showAlert("Error",HelperClass.someThingWrong,getContext());
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
+
                     }
 
                 });
@@ -137,7 +212,6 @@ progressDialog.show();
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit_profile_tv:
-                Toast.makeText(getContext(), "Work", Toast.LENGTH_SHORT).show();
                 Intent goToEdit = new Intent(getContext(), EditProfile.class);
                 goToEdit.putExtra("userData", user);
                 startActivity(goToEdit);
