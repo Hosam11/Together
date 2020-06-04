@@ -18,13 +18,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
+import com.example.together.Login_Signup.StartActivity;
 import com.example.together.R;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
-import com.example.together.profile.UserPojo;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import java.util.List;
 
@@ -42,14 +43,15 @@ public class ProfileFragment extends Fragment implements
     TextView editInterests;
     String[] interests;
     User user;
-    UserViewModel userViewModel;
+    UsersViewModel usersViewModel;
     CustomProgressDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_profile,
+                container, false);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Profile");
         ((BottomNavigationView) getActivity()).getSupportActionBar().hide();
 
@@ -65,15 +67,19 @@ public class ProfileFragment extends Fragment implements
         interestTv = v.findViewById(R.id.interests_tv);
 
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-progressDialog=CustomProgressDialog.getInstance(getContext());
-progressDialog.show();
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        progressDialog = CustomProgressDialog.getInstance(getContext());
+        progressDialog.show();
+
+        v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
+            Intent i = new Intent(getContext(), StartActivity.class);
+            startActivity(i);
+        });
 
 
         // TODO last changed was 31/5/2020
         return v;
     }
-
 
 
     @Override
@@ -88,13 +94,13 @@ progressDialog.show();
         Storage storage = new Storage(getContext());
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
-        userViewModel.fetchUserData(storage.getId(), storage.getToken())
+        usersViewModel.fetchUserData(storage.getId(), storage.getToken())
                 .observe(this, userData -> {
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
 
-                    user=userData;
+                    user = userData;
                     nameTv.setText(userData.getName());
                     emailTv.setText(userData.getEmail());
                     addressEt.setText(userData.getAddress());
@@ -120,7 +126,7 @@ progressDialog.show();
     }
 
 
-    public void displayInterests(List<String> interests){
+    public void displayInterests(List<String> interests) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < interests.size(); i++) {
 
@@ -128,7 +134,7 @@ progressDialog.show();
 
 
         }
-        interestTv.setText(Html.fromHtml( builder.toString()));
+        interestTv.setText(Html.fromHtml(builder.toString()));
 
 
     }

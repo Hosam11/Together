@@ -38,7 +38,7 @@ public class HelperClass {
     public static final String SING_UP_SUCCESS = "Signed up Successfully";
     public static final String PAID = "Paid";
     public static final String FREE = "Free";
-    public static final String CREATE_GROUP_SUCCESS = "Group Created Successfully ";
+    public static final String CREATE_GROUP_SUCCESS = "Group Created Successfully";
     public static final String ERROR_MISSING_FILEDS = "Please fill all fields";
     public static final String ERROR_INTERESTS = "Please select interest";
     public static final String BEARER_HEADER = "Bearer ";

@@ -41,9 +41,8 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
-
+        this.context = context;
         this.userGroups = userGroups;
-
     }
 
     // Create new views (invoked by the layout manager)

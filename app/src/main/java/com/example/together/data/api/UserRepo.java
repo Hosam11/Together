@@ -27,7 +27,7 @@ public class UserRepo {
         toDoListApiProvider = new ToDoListApiProvider();
     }
 
-    public MutableLiveData<String> signUp(User user) {
+/*    public MutableLiveData<String> signUp(User user) {
         return provider.signUp(user);
     }
 
@@ -37,8 +37,7 @@ public class UserRepo {
 
     public MutableLiveData<User> fetchUserData(int id, String token) {
         return provider.fetchUserData(id,token) ;
-    }
-
+    }*/
 
     public MutableLiveData<GeneralResponse> updateUserProfile(int id, String token,User user) {
         return provider.updateUserProfile(id,token,user) ;
@@ -48,21 +47,8 @@ public class UserRepo {
         return provider.updateUserInterests(id,token,interests) ;
     }
 
-    public MutableLiveData<GeneralResponse> createGroup(Group group, String token) {
-        return provider.createGroup(group,token);
-    }
 
-    public MutableLiveData<GeneralResponse> joinGroup(int gpId, int userID,  String token) {
-        return provider.requestJoinGroup(gpId, userID, token);
-    }
 
-    public MutableLiveData<List<JoinGroupResponse>> getAllResponsesForGroup(int gpId, String token) {
-        return provider.getAllResponsesForGroup(gpId,token);
-    }
-
-    public MutableLiveData<GeneralResponse> addGroupMember(int gpID, int userID, int adminID, String token) {
-        return provider.addGroupMember(gpID, userID, adminID,token);
-    }
 
     public MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
 
@@ -79,19 +65,8 @@ public class UserRepo {
         return  provider.removeMemberFromGroup(groupId, id, adminId,token);
    }
 
-    public MutableLiveData<GeneralResponse> updateGroupInfo(int gpID, int adminID, Group group, String token) {
-        return provider.updateGroupInfo(gpID, adminID, group, token);
-    }
 
 
-    public MutableLiveData<GeneralResponse> acceptJoinReqGroup(int reqID, int adminID, String token) {
-        return provider.acceptJoinReqGroup(reqID, adminID, token);
-    }
-
-
-    public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
-        return provider.rejectJoinReqGroup(reqID,  token);
-    }
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
         return toDoListApiProvider.addTask(task,token);

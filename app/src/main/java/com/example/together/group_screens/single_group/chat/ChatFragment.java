@@ -106,7 +106,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         messageEdit.addTextChangedListener(this);
 
-        getActivity().findViewById(R.id.ib_send_msg).setOnClickListener(v -> {
+        getActivity().findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("name", name1);

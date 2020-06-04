@@ -70,6 +70,8 @@ public class SignUpActivity extends AppCompatActivity implements
     int GALLERY_REQUEST_CODE = 3;
     private String gender = HelperClass.MALE;
 
+
+    Bitmap userImgBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,31 +121,34 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void nextScreen() {
-       if(validateForm()){
-        String uName = nameEt.getText().toString();
-        String uEmail = emailEt.getText().toString().trim();
-        String uPass = passEt.getText().toString();
-        String birthDate = dateEt.getText().toString();
-        String address = addressEt.getText().toString();
+        if (validateForm()) {
+            String uName = nameEt.getText().toString();
+            String uEmail = emailEt.getText().toString().trim();
+            String uPass = passEt.getText().toString();
+            String birthDate = dateEt.getText().toString();
+            String address = addressEt.getText().toString();
 
 
-        if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
-            showAlert(ERROR_MISSING_FILEDS, this);
-        } else {
-            User user = new User(uName, uEmail, uPass, birthDate, address, gender);
-            Storage storage = new Storage();
-            storage.savePassedUser(user, this);
-            Log.i(HelperClass.TAG, "SignUpActivity -- createAccount: #click#" +
-                    " user  >> " + user);
-            Intent toInterests = new Intent(getApplicationContext(),
-                    InterestsActivity.class);
-            startActivity(toInterests);
+            if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
+                showAlert(ERROR_MISSING_FILEDS, this);
+            } else {
+                User user = new User(uName, uEmail, uPass, birthDate, address, gender);
+                if (userImgBitmap != null) {
+                    user.setImage(HelperClass.encodeTobase64(userImgBitmap));
+
+                }
+                Storage storage = new Storage();
+                storage.savePassedUser(user, this);
+                Log.i(HelperClass.TAG, "SignUpActivity -- createAccount: #click#" +
+                        " user  >> " + user);
+                Intent toInterests = new Intent(getApplicationContext(),
+                        InterestsActivity.class);
+                startActivity(toInterests);
+            }
+
         }
 
     }
-
-    }
-
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -250,6 +255,7 @@ public class SignUpActivity extends AppCompatActivity implements
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+                userImgBitmap = photo;
                 profileImage.setImageBitmap(photo);
             }
 
@@ -264,6 +270,7 @@ public class SignUpActivity extends AppCompatActivity implements
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
                         profileImage.setImageBitmap(bitmap);
+                        userImgBitmap=bitmap;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -320,9 +327,6 @@ public class SignUpActivity extends AppCompatActivity implements
         } else {
             dateEt.setError(null);
         }
-
-
-
 
 
         return valid;

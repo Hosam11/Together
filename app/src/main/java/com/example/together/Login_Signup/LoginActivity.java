@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +18,7 @@ import com.example.together.data.model.UserLogin;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
@@ -27,7 +26,7 @@ import static com.example.together.utils.HelperClass.showAlert;
 public class LoginActivity extends AppCompatActivity {
     EditText emailEt, passEt;
     Button loginBtn;
-    UserViewModel userViewModel;
+    UsersViewModel usersViewModel;
    // private ProgressBar pbLogin;
    CustomProgressDialog progressdialog ;
 
@@ -50,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
     }
 
     private void login() {
@@ -68,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             CustomProgressDialog.getInstance(LoginActivity.this).show();
             loginBtn.setEnabled(false);
-            userViewModel.login(userLogin).observe(this, this::logObserve);
+            usersViewModel.login(userLogin).observe(this, this::logObserve);
         }
 
     }
@@ -77,10 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (logRes.isConFailed()) {
             showAlert("Failed connect to host!", this);
-
             CustomProgressDialog.getInstance(LoginActivity.this).cancel();
-
-
             loginBtn.setEnabled(true);
         } else {
             if (logRes.isSuccess()) {

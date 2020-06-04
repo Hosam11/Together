@@ -45,7 +45,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.MyViewHold
         Group group = groupsList.get(position);
         holder.name.setText(group.getGroupName());
         holder.description.setText(group.getGroupDesc());
-        holder.image.setImageResource(group.getImage());
+//        holder.image.setImageResource(group.getImage());
     }
 
     @Override
