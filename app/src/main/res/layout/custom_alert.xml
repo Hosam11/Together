@@ -32,18 +32,19 @@
             />
 
 
-        <TextView
-            android:id="@+id/alert_message_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:textColor="@color/black"
-            android:gravity="top"
-            android:hint="Enter description"
-            android:minHeight="50dp"
-            android:maxLength="255"
-            android:padding="10dp" />
+            <TextView
+                android:id="@+id/alert_message_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_edit_text"
+                android:textColor="@color/black"
+                android:gravity="top"
+                android:hint="Enter description"
+                android:minHeight="50dp"
+                android:maxLength="255"
+                android:padding="10dp" />
+
 
 
         <TextView

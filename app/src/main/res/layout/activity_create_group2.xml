@@ -140,7 +140,7 @@
             <com.weiwangcn.betterspinner.library.BetterSpinner
                 android:id="@+id/sp_locations"
                 style="@style/create_group_common_et"
-                android:hint="Select Level" />
+                android:hint="Select Location" />
             <View style="@style/create_group_view_edit_text" />
 
             <!--  Member Numbers Title-->

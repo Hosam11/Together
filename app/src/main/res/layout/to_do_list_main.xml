@@ -22,12 +22,15 @@
 "
     android:orientation="vertical">
 
+
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/parent"
-        >
+        android:layout_marginBottom="-2dp">
+
 
     </FrameLayout>
 

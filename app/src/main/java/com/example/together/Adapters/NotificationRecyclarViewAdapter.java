@@ -1,11 +1,14 @@
 package com.example.together.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,15 +21,19 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
 
 
     ArrayList<POJO>pojos=new ArrayList<>();
+    public Context context;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView not_title;
         public TextView not_description;
         public ImageView not_image;
         public LinearLayout friendRequestLayout;
+        public Button acceptRequest;
+        public Button declineRequest;
         public View layout;
         public MyViewHolder(View v) {
             super(v);
@@ -35,13 +42,22 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
             not_title = v.findViewById(R.id.notification_title);
             not_description = v.findViewById(R.id.notification_description);
             friendRequestLayout= v.findViewById(R.id.friend_request_layout);
+            acceptRequest = v.findViewById(R.id.accept_join_request);
+            acceptRequest.setOnClickListener((e)->{
+                Toast.makeText(NotificationRecyclarViewAdapter.this.context, "Accept Request", Toast.LENGTH_SHORT).show();
+            });
+            declineRequest = v.findViewById(R.id.decline_join_request);
+            declineRequest.setOnClickListener((e)->{
+                Toast.makeText(NotificationRecyclarViewAdapter.this.context, "Decline Request", Toast.LENGTH_SHORT).show();
+            });
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NotificationRecyclarViewAdapter(ArrayList<POJO> pojos) {
+    public NotificationRecyclarViewAdapter(ArrayList<POJO> pojos,Context context) {
 
         this.pojos=pojos;
+        this.context = context;
 
     }
 

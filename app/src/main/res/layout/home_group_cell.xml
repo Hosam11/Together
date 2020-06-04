@@ -10,6 +10,8 @@
     android:padding="10dp"
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="0dp"
+    android:foreground="?android:selectableItemBackground"
+
 
 
 

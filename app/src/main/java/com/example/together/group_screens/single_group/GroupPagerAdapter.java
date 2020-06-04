@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.together.ToDoListPachage.BoardFragment;
+import com.example.together.ToDoListPachage.ToDoListMain;
 import com.example.together.group_screens.single_group.chat.ChatFragment;
 
 public class GroupPagerAdapter extends FragmentStateAdapter {

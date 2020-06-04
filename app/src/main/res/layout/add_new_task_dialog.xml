@@ -27,15 +27,7 @@
 
             />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Description"
-            android:textSize="20dp"
 
-
-            />
 
         <EditText
             android:id="@+id/task_title_edit_text"
@@ -49,22 +41,40 @@
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
+            android:maxLength="50"
 
 
             android:singleLine="true" />
 
-        <EditText
-            android:id="@+id/task_description_edit_text"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:gravity="top"
-            android:hint="Enter description"
-            android:minHeight="100dp"
+            android:text="Description"
+            android:textSize="20dp"
 
 
-            android:padding="10dp" />
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+
+            >
+            <EditText
+                android:id="@+id/task_description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_edit_text"
+                android:gravity="top"
+                android:hint="Enter description"
+                android:minHeight="100dp"
+                android:maxLength="255"
+                android:padding="10dp" />
+        </ScrollView>
+
+
 
         <Button
 

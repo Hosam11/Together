@@ -9,6 +9,7 @@ import com.example.together.data.model.Group;
 import com.example.together.data.model.GroupDetails;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.ListTask;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserGroup;
@@ -471,16 +472,11 @@ class ApiProvider {
         });
         return updateInterestsResponse;
 
-
-
-
-
     }
-    
 
 
 
-
+   
 
     MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String header){
         MutableLiveData<ArrayList<UserGroup>> groupsRes=new MutableLiveData<>();
