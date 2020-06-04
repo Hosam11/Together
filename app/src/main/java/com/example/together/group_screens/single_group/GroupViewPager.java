@@ -53,7 +53,7 @@ public class GroupViewPager extends AppCompatActivity {
 
         tabLayoutMediator.attach();
 
-        findViewById(R.id.btn_todo_list).setOnClickListener(v -> {
+        findViewById(R.id.goToDoBoard).setOnClickListener(v -> {
             Intent todoList = new Intent(this, ToDoListMain.class);
             startActivity(todoList);
 

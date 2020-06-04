@@ -101,7 +101,6 @@
 
                 android:text="m@m.com"
 
-                android:text="nahla@gmail.com"
 
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -140,7 +139,7 @@
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
 
-                android:text="nahlasamir"
+                android:text="12345"
 
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
