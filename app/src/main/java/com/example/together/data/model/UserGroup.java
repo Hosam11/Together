@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class UserGroup implements Serializable {
     private int id;
+
     private String photo = null;
     private String address;
     private int max_member_number;

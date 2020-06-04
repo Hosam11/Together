@@ -34,6 +34,11 @@ public class HelperClass {
     // Shared Prefernces consts
     public static final String USER_DATA = "user_data";
     public static final String PASSED_USER = "pass_user";
+
+    public static final String PASSED_GROUP_FILE = "pass_group_file";
+    public static final String PASSED_GROUP_OBJ = "pass_group_obj";
+    public static final String NO_GROUP_DEFULT = "no_group";
+
     public static final String PASSED_USER_OBJ = "pass_user";
     public static final String NO_USER = "invalid user data";
     public static final String ID = "id";
@@ -57,7 +62,7 @@ public class HelperClass {
     public static final String updatedTaskSuccess = "Updated successfully";
 
     public static final String checkYourCon= "Please check your internet connection";
-    public static final String someThingWrong= "Something went wrong please try again!";
+    public static final String SERVER_DOWN = "Failed connect to host!";
 
 
 
@@ -98,7 +103,7 @@ public class HelperClass {
     public static String encodeTobase64(Bitmap image) {
         Bitmap immage = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        immage.compress(Bitmap.CompressFormat.PNG, 10, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
         return imageEncoded;

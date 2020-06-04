@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -32,14 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.together.CustomProgressDialog;
-import com.example.together.Login_Signup.SignUpActivity;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -51,8 +47,6 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -177,7 +171,7 @@ save(userPojo);
                     }
                     else {          CustomProgressDialog.getInstance(EditProfile.this).cancel();
 
-                        HelperClass.showAlert("Error", HelperClass.someThingWrong, EditProfile.this);}
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditProfile.this);}
 
                 }
             });

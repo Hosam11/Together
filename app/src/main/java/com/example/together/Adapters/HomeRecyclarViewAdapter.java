@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.together.R;
 import com.example.together.ToDoListPachage.BoardFragment;
 import com.example.together.ToDoListPachage.ToDoListMain;
+import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
 
 import com.example.together.data.model.UserGroup;
@@ -68,7 +69,9 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
                @Override
                public void onClick(View v) {
                    Intent goToGroup = new Intent(context, GroupViewPager.class);
-                   goToGroup.putExtra("group",userGroups.get(position));
+                   //goToGroup.putExtra("group",userGroups.get(position));
+                   Storage storage = new Storage();
+                   storage.saveGroupObject(userGroups.get(position), context);
                    context.startActivity(goToGroup);
                }
            });

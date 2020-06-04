@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,10 +27,9 @@ import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
+import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
-import com.example.together.profile.UserPojo;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserVieModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
@@ -54,9 +52,9 @@ public class ProfileFragment extends Fragment implements
     User user;
 
     UsersViewModel usersViewModel;
+    UserViewModel userViewModel;
 
     Storage storage;
-
     CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
     LinearLayout containerLayout;
@@ -124,7 +122,7 @@ public class ProfileFragment extends Fragment implements
 
                     } else {
                         CustomProgressDialog.getInstance(getContext()).cancel();
-                        HelperClass.showAlert("Error", HelperClass.someThingWrong, getContext());
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
 
                     }
 
@@ -203,7 +201,7 @@ public class ProfileFragment extends Fragment implements
                         Log.i(TAG, "setProfileDataObservable: Groups is null");
                     }}
                     else {
-                        HelperClass.showAlert("Error",HelperClass.someThingWrong,getContext());
+                        HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
 
