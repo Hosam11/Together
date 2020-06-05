@@ -3,6 +3,7 @@ package com.example.together.data.api;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.GroupOfTasks;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.ListTask;
@@ -65,6 +66,16 @@ public interface APIInterface {
     Call<GeneralResponse> editTask(@Path("id") int id,
                                    @Body ListTask task,
                                    @Header("Authorization") String header);
+
+
+    @POST("dragAdrop")
+    Call<GeneralResponse> sendPositionArrangment (@Body GroupOfTasks tasks,
+                                   @Header("Authorization")String header);
+
+    Call<GeneralResponse> addGroupMember(@Path("groupId") int gpID,
+                                         @Path("userID") int userID,
+                                          @Query("current_user_id") int adminID,
+                                         @Header("Authorization") String header);
 
 
     @POST("update/{id}")

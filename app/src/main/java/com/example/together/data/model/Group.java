@@ -97,6 +97,34 @@ public class Group {
         this.interest = interest;
     }
 
+
+//    public void setUserID(int userID) {
+//        this.userID = userID;
+//    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;
+
     public String getImage() {
         return image;
     }
@@ -109,10 +137,14 @@ public class Group {
         return adminID;
     }
 
-
-    public String getLocation() {
-        return location;
+    public void setInterest(String interest) {
+        this.interest = interest;
     }
+
+//    public int getUserID() {
+//        return userID;
+//    }
+
 
     public void setLocation(String location) {
         this.location = location;
@@ -195,6 +227,7 @@ public class Group {
                         "\nstatlus: " + status +
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest
+
 
         );
     }

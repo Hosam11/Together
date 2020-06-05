@@ -65,6 +65,9 @@ public class HomeFragment extends Fragment {
 
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
+        CustomProgressDialog.getInstance(getContext()).show();
+        getGroups();
+
 
 
 
