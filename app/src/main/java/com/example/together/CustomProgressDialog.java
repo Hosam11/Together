@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 
 public class CustomProgressDialog extends AlertDialog {
     private static CustomProgressDialog single_instance = null;
+
     public static CustomProgressDialog getInstance(Context con){
         if (single_instance == null)
         {

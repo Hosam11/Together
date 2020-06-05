@@ -112,9 +112,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-
-
-
         String email = emailEt.getText().toString();
         if (TextUtils.isEmpty(email)) {
             emailEt.setError("Required.");

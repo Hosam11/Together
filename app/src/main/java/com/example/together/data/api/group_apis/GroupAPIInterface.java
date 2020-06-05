@@ -30,6 +30,7 @@ public interface GroupAPIInterface {
                                                           @Header("Authorization") String header);
 
 
+    @GET("add/{groupId}/{userID}?")
     Call<GeneralResponse> addGroupMember(@Path("groupId") int gpID,
                                          @Path("userID") int userID,
                                          @Query("current_user_id") int adminID,
@@ -51,5 +52,10 @@ public interface GroupAPIInterface {
     @GET("reject/{requesID}")
     Call<GeneralResponse> rejectJoinReqGroup(@Path("requesID") int reqID,
                                              @Header("Authorization") String token);
+
+    @GET("status/{groupId}/{id}")
+    Call<GeneralResponse> userRequestJoinStatus(@Path("groupId") int gpID,
+                                                @Path("id") int userID,
+                                                @Header("Authorization") String token);
 
 }

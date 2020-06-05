@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -19,16 +20,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import static com.example.together.utils.HelperClass.TAG;
+
 public class UploadImageToFireBase {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
     Context context;
+    DownLoadImage downLoadImage;
 
-    UploadImageToFireBase(Context context){
+    public UploadImageToFireBase(Context context){
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         this.context=context;
+        downLoadImage = (DownLoadImage) context;
 
     }
 
@@ -51,16 +56,18 @@ public class UploadImageToFireBase {
                             }, 500);
                             Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
 
-                            mStorageRef.child(s).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            mStorageRef.child(s).getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
 //                                    UploadImage uploadImage = new UploadImage("image",
 //                                            uri.toString());
 //                                    String uploadId = mDatabaseRef.push().getKey();
 //                                    mDatabaseRef.child(uploadId).setValue(uploadImage);
-                                   String ImageUrl=uri.toString();
-                                    //Put your code Here
-
+                                   String imageUrl=uri.toString();
+                                    // TODO Put your code Here
+                                    // call the method in the interface take imgUrl
+                                    downLoadImage.onFinishedDownloadListner(imageUrl);
                                 }
                             });
 
@@ -70,6 +77,7 @@ public class UploadImageToFireBase {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.i(TAG,   "FireBaseImage -- onFailure: msg >> " + e.getMessage());
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -83,6 +91,7 @@ public class UploadImageToFireBase {
             Toast.makeText(context, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
+
     private String getFileExtension(Uri uri) {
         ContentResolver cR = context.getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();

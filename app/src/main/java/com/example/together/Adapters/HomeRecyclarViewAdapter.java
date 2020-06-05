@@ -2,37 +2,26 @@ package com.example.together.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
-import com.example.together.ToDoListPachage.BoardFragment;
-import com.example.together.ToDoListPachage.ToDoListMain;
-import com.example.together.data.storage.Storage;
-import com.example.together.group_screens.AddGroup;
-
 import com.example.together.data.model.UserGroup;
-
-
-import com.example.together.group_screens.EditGroupInfo;
-
+import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.HelperClass;
-import com.example.together.utils.TestApis;
 
 import java.util.ArrayList;
+
+import static com.example.together.utils.HelperClass.TAG;
 
 public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
 
@@ -43,6 +32,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
     // Provide a suitable constructor (depends on the kind of dataset)
     public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
         this.userGroups = userGroups;
+
         this.context=context;
 
     }
@@ -64,51 +54,40 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
         holder.title.setText(userGroups.get(position).getName());
         holder.description.setText(userGroups.get(position).getDescription());
-        holder.groupImage.setImageResource(R.drawable.default_img);
 
-           holder.groupCardView.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent goToGroup = new Intent(context, GroupViewPager.class);
-                   //goToGroup.putExtra("group",userGroups.get(position));
-                   Storage storage = new Storage();
-                   storage.saveGroupObject(userGroups.get(position), context);
-                   context.startActivity(goToGroup);
-               }
-           });
+        if (userGroups.get(position).getPhoto() != null) {
+            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
+            Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
+                    .getPhoto());
+            holder.groupImage.setImageBitmap(photo);
+        } else {
+            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
 
+            holder.groupImage.setImageResource(R.drawable.default_img);
+        }
+        holder.groupCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToGroup = new Intent(context, GroupViewPager.class);
+                //goToGroup.putExtra("group",userGroups.get(position));
+                Storage storage = new Storage();
+                storage.saveGroupObject(userGroups.get(position), context);
+                context.startActivity(goToGroup);
+            }
+        });
 // =======
-//         holder.title.setText(pojos.get(position).title);
-//         holder.description.setText(pojos.get(position).description);
-//         holder.groupImage.setImageResource(pojos.get(position).image);
-//         if (position == 0) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Log.i(HelperClass.TAG, "onBindViewHolder: ");
-//                 Intent goToGroup = new Intent(context,
-//                         com.example.together.group_screens.ViewGroup.class);
-//                 context.startActivity(goToGroup);
-//             });
-//         } else if (position == 1) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent goToGroup = new Intent(context, GroupViewPager.class);
-//                 context.startActivity(goToGroup);
-//             });
-//         } else if (position == 2) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, TestApis.class);
-//                 context.startActivity(intent);
-//             });
-//         } else if (position == 3) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, EditGroupInfo.class);
-//                 context.startActivity(intent);
-//             });
-//         } else {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, ToDoListMain.class);
-//                 context.startActivity(intent);
-//             });
-//         }
+//         holder.groupImage.setImageBitmap(HelperClass.decodeBase64(userGroups.get(position).getPhoto()));
+
+//            holder.groupCardView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent goToGroup = new Intent(context, GroupViewPager.class);
+//                    //goToGroup.putExtra("group",userGroups.get(position));
+//                    Storage storage = new Storage();
+//                    storage.saveGroupObject(userGroups.get(position), context);
+//                    context.startActivity(goToGroup);
+//                }
+//            });
 // >>>>>>> master
 
     }
@@ -136,7 +115,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
             groupImage = v.findViewById(R.id.group_image);
             title = v.findViewById(R.id.group_title);
             description = v.findViewById(R.id.group_description);
-            groupCardView =v.findViewById(R.id.group_card);
+            groupCardView = v.findViewById(R.id.group_card);
         }
     }
 }

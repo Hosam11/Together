@@ -97,7 +97,7 @@
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
                 android:paddingBottom="16dp"
-                android:text="hos"
+                android:text="h@h.com"
 
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
