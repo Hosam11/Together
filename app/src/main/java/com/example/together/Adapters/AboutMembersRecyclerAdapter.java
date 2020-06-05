@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
 import com.example.together.data.model.GroupDetails;
+import com.example.together.utils.HelperClass;
 
 import java.util.ArrayList;
 
@@ -93,7 +94,7 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText(memberArrayList.get(position).getName());
-        holder.userImage.setImageResource(R.drawable.default_img);
+        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
         if(isAdmin==false){
 
             holder.removeBtn.setVisibility(View.INVISIBLE);

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
+import com.example.together.data.model.GroupOfTasks;
 import com.example.together.data.model.ListTask;
 import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
@@ -76,13 +77,14 @@ public class ToDoListApiProvider {
         addTaskCall.enqueue(new Callback<ArrayList<ListTask>>() {
             @Override
             public void onResponse(Call<ArrayList<ListTask>> call, Response<ArrayList<ListTask>> response) {
-
-                toDoListTasks.setValue(response.body());
-                Log.i(TAG, "ToDoListApiProvider -- getToDoListTasks enqueue()  body >> " +
-                        toDoListTasks.getValue());
-                for(ListTask list:response.body()){
+                if(toDoListTasks!=null) {
+                    toDoListTasks.setValue(response.body());
                     Log.i(TAG, "ToDoListApiProvider -- getToDoListTasks enqueue()  body >> " +
-                            list.getTitle());
+                            toDoListTasks.getValue());
+                    for (ListTask list : response.body()) {
+                        Log.i(TAG, "ToDoListApiProvider -- getToDoListTasks enqueue()  body >> " +
+                                list.getTitle());
+                    }
                 }
             }
 
@@ -175,7 +177,7 @@ public class ToDoListApiProvider {
             }
 
             @Override
-            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+            public void onFailure(Call<GeneralResponse> call, Throwable t){
                 GeneralResponse generalRes = new GeneralResponse();
                 generalRes.response = t.getMessage();
                 res.setValue(generalRes);
@@ -254,4 +256,29 @@ public class ToDoListApiProvider {
         });
         return editTaskResp;
     }
+    MutableLiveData<GeneralResponse> sendPositionArrangment(ArrayList<ListTask> tasks , String token){
+        MutableLiveData<GeneralResponse> sendPositionArrangmentResp = new MutableLiveData<>();
+        GroupOfTasks groupOfTasks= new GroupOfTasks();
+        groupOfTasks.tasks=tasks;
+        Call<GeneralResponse> sendPositionArrangmentCall = apiInterface.sendPositionArrangment(groupOfTasks, HelperClass.BEARER_HEADER+token);
+        sendPositionArrangmentCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                Log.i(TAG, "ApiProvider -- AddTask enqueue()  body >> " +
+                        response.body());
+                sendPositionArrangmentResp.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                sendPositionArrangmentResp.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+        return sendPositionArrangmentResp;
+    }
+
 }

@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingTop="37dp"
+        android:paddingTop="25dp"
         android:background="#f9f9f9"
         >
         <TextView
@@ -28,18 +28,20 @@
             android:text="@string/your_profile_info"
             />
         <LinearLayout
+            android:id="@+id/shimmer_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:orientation="vertical"
+            android:visibility="gone"
+
 
             >
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             >
 
             <LinearLayout

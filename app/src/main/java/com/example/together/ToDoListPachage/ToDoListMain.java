@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ public class ToDoListMain extends AppCompatActivity implements GetAddTaskButton 
     ArrayList<Pair<Long, String>> list = new ArrayList<Pair<Long, String>>();
     public Button addTask;
     TextView emptyListPlaceHolder;
+    ProgressBar b;
+    TextView percentageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,8 @@ public class ToDoListMain extends AppCompatActivity implements GetAddTaskButton 
         getSupportActionBar().hide();
 
         addTask=findViewById(R.id.add_task);
+         b = findViewById(R.id.to_do_progress);
+         percentageView=findViewById(R.id.percentage_view);
 
 
         if (savedInstanceState == null) {
@@ -45,6 +50,16 @@ public class ToDoListMain extends AppCompatActivity implements GetAddTaskButton 
 
     public Button getAddTask(){
         return addTask;
+    }
+
+    public TextView getPercentageView(){
+        return percentageView;
+    }
+
+
+    @Override
+    public ProgressBar getProgressBar() {
+        return b;
     }
 
 

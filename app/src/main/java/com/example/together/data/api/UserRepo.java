@@ -28,47 +28,47 @@ public class UserRepo {
     }
 
 
-    public MutableLiveData<GeneralResponse> updateUserProfile(int id, String token,User user) {
-        return provider.updateUserProfile(id,token,user) ;
-    }
+//    public MutableLiveData<GeneralResponse> updateUserProfile(int id, String token,User user) {
+//        return provider.updateUserProfile(id,token,user) ;
+//    }
 
-    public MutableLiveData<GeneralResponse> updateUserInterests(int id,String token, UserInterests interests) {
-        return provider.updateUserInterests(id,token,interests) ;
-    }
-
-
-
-
-    public MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
-
-        return  provider.getAllUserGroups(userId,token);
-    }
-    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
-
-        return provider.getAllInterests();
-    }
-    public  MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId,String token){
-        return  provider.getSpecificGroupDetails(groupId,token);
-    }
-   public MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String token){
-        return  provider.removeMemberFromGroup(groupId, id, adminId,token);
-   }
-
-
-
+//    public MutableLiveData<GeneralResponse> updateUserInterests(int id,String token, UserInterests interests) {
+//        return provider.updateUserInterests(id,token,interests) ;
+//    }
+//
+//
+//
+//
+//    public MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
+//
+//        return  provider.getAllUserGroups(userId,token);
+//    }
+//    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
+//
+//        return provider.getAllInterests();
+//    }
+//    public  MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId,String token){
+//        return  provider.getSpecificGroupDetails(groupId,token);
+//    }
+//   public MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String token){
+//        return  provider.removeMemberFromGroup(groupId, id, adminId,token);
+//   }
+//
 
 
-    // :LEAVE GROUP
-    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
-    return provider.leaveGroup(groupId, id, token);
-    }
 
-    // :Logout
-    public MutableLiveData<GeneralResponse> logout(int id){
-        return provider.logout(id);
-
-
-    }
+//
+//    // :LEAVE GROUP
+//    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
+//    return provider.leaveGroup(groupId, id, token);
+//    }
+//
+//    // :Logout
+//    public MutableLiveData<GeneralResponse> logout(int id){
+//        return provider.logout(id);
+//
+//
+//    }
 
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
@@ -97,6 +97,9 @@ public class UserRepo {
     }
     public MutableLiveData<GeneralResponse> editTask(int id,ListTask task, String token){
         return toDoListApiProvider.editTask(id,task,token);
+    }
+    public MutableLiveData<GeneralResponse> sendPositionArrangment(ArrayList<ListTask> tasks, String token) {
+        return toDoListApiProvider.sendPositionArrangment(tasks, token);
     }
 
 }

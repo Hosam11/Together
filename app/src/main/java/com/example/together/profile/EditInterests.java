@@ -23,6 +23,7 @@ import com.example.together.data.model.UserInterests;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class EditInterests extends AppCompatActivity {
             }
     );
     List<String> selectedInterest;
-    UserViewModel userViewModel;
+    UsersViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class EditInterests extends AppCompatActivity {
         selectedInterest=new ArrayList<>();
 
 
-        userViewModel=new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel=new ViewModelProvider(this).get(UsersViewModel.class);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

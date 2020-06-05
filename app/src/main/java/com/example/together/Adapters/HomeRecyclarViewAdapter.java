@@ -32,7 +32,9 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
     // Provide a suitable constructor (depends on the kind of dataset)
     public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
         this.userGroups = userGroups;
-        this.context = context;
+
+        this.context=context;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -52,6 +54,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
         holder.title.setText(userGroups.get(position).getName());
         holder.description.setText(userGroups.get(position).getDescription());
+
         if (userGroups.get(position).getPhoto() != null) {
             Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
             Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
@@ -72,39 +75,19 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
                 context.startActivity(goToGroup);
             }
         });
-
 // =======
-//         holder.title.setText(pojos.get(position).title);
-//         holder.description.setText(pojos.get(position).description);
-//         holder.groupImage.setImageResource(pojos.get(position).image);
-//         if (position == 0) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Log.i(HelperClass.TAG, "onBindViewHolder: ");
-//                 Intent goToGroup = new Intent(context,
-//                         com.example.together.group_screens.ViewGroup.class);
-//                 context.startActivity(goToGroup);
-//             });
-//         } else if (position == 1) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent goToGroup = new Intent(context, GroupViewPager.class);
-//                 context.startActivity(goToGroup);
-//             });
-//         } else if (position == 2) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, TestApis.class);
-//                 context.startActivity(intent);
-//             });
-//         } else if (position == 3) {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, EditGroupInfo.class);
-//                 context.startActivity(intent);
-//             });
-//         } else {
-//             holder.groupCardView.setOnClickListener(v -> {
-//                 Intent intent = new Intent(context, ToDoListMain.class);
-//                 context.startActivity(intent);
-//             });
-//         }
+//         holder.groupImage.setImageBitmap(HelperClass.decodeBase64(userGroups.get(position).getPhoto()));
+
+//            holder.groupCardView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent goToGroup = new Intent(context, GroupViewPager.class);
+//                    //goToGroup.putExtra("group",userGroups.get(position));
+//                    Storage storage = new Storage();
+//                    storage.saveGroupObject(userGroups.get(position), context);
+//                    context.startActivity(goToGroup);
+//                }
+//            });
 // >>>>>>> master
 
     }

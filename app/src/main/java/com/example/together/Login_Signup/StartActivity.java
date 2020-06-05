@@ -47,7 +47,9 @@ public class StartActivity extends AppCompatActivity {
         storage=new Storage(this);
         Toast.makeText(getApplicationContext(),"I"+storage.getId(),Toast.LENGTH_LONG).show();
 
-        if(storage.getId()!=0){
+
+       if(storage.getId()!=0){
+
 
             Intent gotoHome=new Intent(this, BottomNavigationView.class);
 

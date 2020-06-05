@@ -14,6 +14,7 @@ public class ListTask {
     private String description;
     private String status;
     private int id;
+    private int position;
 
     public ListTask(int groupID, int userId, String title, String description, String status,int id) {
         this.groupID = groupID;
@@ -22,6 +23,15 @@ public class ListTask {
         this.description = description;
         this.status = status;
         this.id =id;
+    }
+    public ListTask(int groupID, int userId, String title, String description,int position, String status) {
+        this.groupID = groupID;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.id =id;
+        this.position=position;
     }
     public ListTask(int groupID, int userId, String title, String description, String status) {
         this.groupID = groupID;
@@ -75,4 +85,11 @@ public class ListTask {
         return id;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

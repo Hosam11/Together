@@ -16,9 +16,7 @@
 
 package com.example.together.ToDoListPachage;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.together.Adapters.CreateDialog;
-import com.example.together.Adapters.POJO;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
@@ -50,6 +46,7 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
     private boolean mDragOnLongPress;
     public ArrayList<ListTask> list = new ArrayList<>();
     public Context context;
+    int columnNumber;
     BoardFragment boardFragment;
     Storage storage;
 
@@ -58,14 +55,16 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         setItemList(list);
     }
 
-    ItemAdapter(ArrayList<ListTask> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context,BoardFragment boardFragment) {
+    ItemAdapter(ArrayList<ListTask> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context,BoardFragment boardFragment, int columnNumber) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         this.list=list;
         this.context=context;
         this.boardFragment=boardFragment;
+        this.
         storage = new Storage(Objects.requireNonNull(context));
+        this.columnNumber=columnNumber;
         setItemList(list);
     }
 
@@ -92,13 +91,18 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
                 userViewModel.deleteTask(list.get(position).getId(), storage.getToken()).observe(boardFragment, deleteTaskresp -> {
                     if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
                         Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
-                        TextView itemCount1 = boardFragment.mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-                        itemCount1.setText(String.valueOf(boardFragment.toDoList.size()));
                         customProgressDialog.cancel();
                         list.remove(position);
                         ItemAdapter.this.notifyDataSetChanged();
+                        boardFragment.rearrangeList(list);
+                        boardFragment.handleViewModelProcess.sendPositionArrangment(list);
+                        boardFragment.handleViewModelProcess.setProgressSize();
+                        boardFragment.handleViewModelProcess.updateHeader(columnNumber);
+
                     } else {
-                        Toast.makeText(context, deleteTaskresp.response, Toast.LENGTH_SHORT).show();
+                        customProgressDialog.cancel();
+                        HelperClass.showAlert("Error","",context);
+
                     }
 
                 });
