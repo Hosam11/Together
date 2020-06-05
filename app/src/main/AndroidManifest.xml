@@ -23,6 +23,11 @@
 
         <activity android:name=".GroupsUnderInterest"></activity>
         <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name=".group_screens.single_group.TestTabBar" />
@@ -34,11 +39,7 @@
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity">
             <!-- TODO start activity -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".profile.EditInterests" />
         <activity android:name=".Login_Signup.InterestsActivity" />

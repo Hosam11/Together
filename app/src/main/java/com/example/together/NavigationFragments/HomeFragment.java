@@ -24,6 +24,7 @@ import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeRecyclarViewAdapter adapter;
     ArrayList<UserGroup> userGroupsList = new ArrayList<>();
-    UserViewModel userViewModel;
+    UsersViewModel userViewModel;
     CustomProgressDialog progressDialog;
 
 
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
             getContext().startActivity(createGroup);
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         progressDialog=CustomProgressDialog.getInstance(getContext());
         return v;
     }
@@ -72,7 +73,6 @@ public class HomeFragment extends Fragment {
             Intent createGroup = new Intent(getContext(), AddGroup.class);
             startActivity(createGroup);
         });
-        CustomProgressDialog.getInstance(getContext()).show();
 
 
 
@@ -81,6 +81,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        CustomProgressDialog.getInstance(getContext()).show();
+
         if(HelperClass.checkInternetState(getContext())){
         getGroups();
     }
@@ -100,11 +102,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<UserGroup> userGroups) {
                 if(userGroups!=null){
-                Toast.makeText(getContext(),"Hey"+userGroups.size(),Toast.LENGTH_LONG).show();
                 userGroupsList.clear();
                 userGroupsList.addAll(userGroups);
                 adapter.notifyDataSetChanged();
-                progressDialog.cancel();   }
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+                }
                 else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
                     HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
@@ -114,5 +116,11 @@ public class HomeFragment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CustomProgressDialog.getInstance(getContext()).cancel();
     }
 }
