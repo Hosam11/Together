@@ -28,9 +28,8 @@ import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
 import com.example.together.profile.EditProfile;
-import com.example.together.view_model.UserViewModel;
-import com.example.together.view_model.UsersViewModel;
 import com.example.together.utils.HelperClass;
+import com.example.together.view_model.UsersViewModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
@@ -70,7 +69,7 @@ public class ProfileFragment extends Fragment implements
                 container, false);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Profile");
         ((BottomNavigationView) getActivity()).getSupportActionBar().hide();
-profileImage=v.findViewById(R.id.profile_image);
+        profileImage = v.findViewById(R.id.profile_image);
         nameTv = v.findViewById(R.id.name_tv);
         emailTv = v.findViewById(R.id.email_tv);
         addressEt = v.findViewById(R.id.address_et);
@@ -81,17 +80,15 @@ profileImage=v.findViewById(R.id.profile_image);
         editInterests = v.findViewById(R.id.edit_interests_tv);
         editInterests.setOnClickListener(this);
         interestTv = v.findViewById(R.id.interests_tv);
-        logoutBtn=v.findViewById(R.id.logout_btn);
-        shimmer=v.findViewById(R.id.shimmer_layout);
-        containerLayout=v.findViewById(R.id.container_layout);
-        shimmerContainer=v.findViewById(R.id.shimmer_container);
+        logoutBtn = v.findViewById(R.id.logout_btn);
+        shimmer = v.findViewById(R.id.shimmer_layout);
+        containerLayout = v.findViewById(R.id.container_layout);
+        shimmerContainer = v.findViewById(R.id.shimmer_container);
         showShimmer();
 
 
-
-
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
-       
+
 
         v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
             Intent i = new Intent(getContext(), StartActivity.class);
@@ -104,45 +101,44 @@ profileImage=v.findViewById(R.id.profile_image);
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        CustomProgressDialog.getInstance(getContext()).show();
+            @Override
+            public void onClick(View v) {
+                CustomProgressDialog.getInstance(getContext()).show();
 
-        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+                if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-            usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
-                @Override
-                public void onChanged(GeneralResponse response) {
-                    if (response!=null) {
-                        CustomProgressDialog.getInstance(getContext()).cancel();
+                    usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                        @Override
+                        public void onChanged(GeneralResponse response) {
+                            if (response != null) {
+                                CustomProgressDialog.getInstance(getContext()).cancel();
 
 
-                        storage.clearStorage();
+                                storage.clearStorage();
 
-                        Objects.requireNonNull(getActivity()).finish();
-                        Intent backToStart = new Intent(getContext(), StartActivity.class);
-                        Objects.requireNonNull(getContext()).startActivity(backToStart);
+                                Objects.requireNonNull(getActivity()).finish();
+                                Intent backToStart = new Intent(getContext(), StartActivity.class);
+                                Objects.requireNonNull(getContext()).startActivity(backToStart);
 
-                    } else {
-                        CustomProgressDialog.getInstance(getContext()).cancel();
-                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                            } else {
+                                CustomProgressDialog.getInstance(getContext()).cancel();
+                                HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
 
-                    }
+                            }
+
+                        }
+                    });
+                } else {
+                    HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
 
                 }
-            });
-        }
-        else {
-            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
 
-        }
-
-    }
-});
+            }
+        });
 
         // TODO last changed was 31/5/2020
-      return v;
- }
+        return v;
+    }
 
     private void showShimmer() {
         shimmerContainer.setVisibility(View.VISIBLE);
@@ -161,12 +157,11 @@ profileImage=v.findViewById(R.id.profile_image);
     @Override
     public void onResume() {
         super.onResume();
-        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
-        setProfileDataObservable();
-        }
-        else {
+        if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+            setProfileDataObservable();
+        } else {
 
-            HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
 
         }
@@ -175,27 +170,29 @@ profileImage=v.findViewById(R.id.profile_image);
     }
 
     private void setProfileDataObservable() {
-         storage = new Storage(getContext());
+        storage = new Storage(getContext());
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
         usersViewModel.fetchUserData(storage.getId(), storage.getToken())
                 .observe(this, userData -> {
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
-                    if(userData!=null){
-                    Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-                    hideShimmer();
-                    user=userData;
+                    if (userData != null) {
+                        Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
+                        hideShimmer();
+                        user = userData;
 
-                    nameTv.setText(userData.getName());
-                    emailTv.setText(userData.getEmail());
-                    addressEt.setText(userData.getAddress());
-                    dateEt.setText(userData.getBirthDate());
-                    genderEt.setText(userData.getGender());
-                    profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
+                        nameTv.setText(userData.getName());
+                        emailTv.setText(userData.getEmail());
+                        addressEt.setText(userData.getAddress());
+                        dateEt.setText(userData.getBirthDate());
+                        genderEt.setText(userData.getGender());
+                        if (userData.image != null) {
+                            profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
+                        }
 
 
-                    displayInterests(userData.getInterests());
+                        displayInterests(userData.getInterests());
 
 //                    if (!userData.getGroups().isEmpty()) {
 //                        for (User.GroupReturned group : userData.getGroups()) {
@@ -209,9 +206,8 @@ profileImage=v.findViewById(R.id.profile_image);
 
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
-                    }
-                    else {
-                        HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
+                    } else {
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
 
@@ -239,8 +235,8 @@ profileImage=v.findViewById(R.id.profile_image);
         switch (v.getId()) {
             case R.id.edit_profile_tv:
                 Intent goToEdit = new Intent(getContext(), EditProfile.class);
-               // goToEdit.putExtra("userData", user);
-                storage.savePassedUser(user,getContext());
+                // goToEdit.putExtra("userData", user);
+                storage.savePassedUser(user, getContext());
                 startActivity(goToEdit);
 
                 break;

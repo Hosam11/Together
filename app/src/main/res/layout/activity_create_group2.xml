@@ -173,9 +173,10 @@
                     android:text="0" />-->
 
                 <EditText
-                    android:id="@+id/et_member_number"
 
+                    android:id="@+id/et_member_number"
                     style="@style/create_group_tv_counter"
+                    android:backgroundTint="@color/majorColor"
                     android:inputType="numberSigned"
                     android:text="0"
                     android:textColorHint="@color/majorColor" />
@@ -193,7 +194,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="#fff" />
+                    android:background="#fff"
+                    android:inputType="none" />
 
 
             </LinearLayout>
@@ -230,6 +232,7 @@
                 <EditText
                     android:id="@+id/et_duration_week"
                     style="@style/create_group_tv_counter"
+                    android:backgroundTint="@color/majorColor"
                     android:inputType="numberSigned"
                     android:text="0"
                     android:textColorHint="@color/majorColor" />
@@ -247,7 +250,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="#fff" />
+                    android:background="#fff"
+                    android:inputType="none" />
 
             </LinearLayout>
 

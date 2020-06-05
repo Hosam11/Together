@@ -106,6 +106,9 @@ public class Group {
     public Group(String learning_android, int development, String description) {
     }
 
+    public Group(int id, String gpLocation, int maxMemberNumber, int duration, String gpName, String gpDesc, String free, String gpLevel, String gpInterest) {
+    }
+
     public int getGroupID() {
         return groupID;
     }
