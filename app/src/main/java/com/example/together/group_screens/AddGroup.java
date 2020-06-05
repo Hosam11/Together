@@ -27,8 +27,10 @@ import com.example.together.data.model.Group;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
+import com.example.together.utils.DownLoadImage;
 import com.example.together.utils.HelperClass;
 import com.example.together.utils.TestApis;
+import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.GroupViewModel;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 import com.yalantis.ucrop.UCrop;
@@ -38,11 +40,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
-public class AddGroup extends AppCompatActivity {
+public class AddGroup extends AppCompatActivity implements DownLoadImage {
 
 
     private static final int CAMERA_PERMISSION_CODE = 7;
@@ -77,10 +78,17 @@ public class AddGroup extends AppCompatActivity {
 
     int CAMERA_REQUEST_CODE = 11;
     int GALLERY_REQUEST_CODE = 12;
+    // Form Strings
     String gpName;
     String gpDesc;
     int maxMemberNumber;
     int duration;
+    String gpInterest;
+    String gpLevel;
+    String gpLocation;
+    // ToDo 1- uri
+    Uri imgUri;
+    Storage storage;
     // Spinners Objects
     private BetterSpinner spInterests;
     private BetterSpinner spLocations;
@@ -100,6 +108,7 @@ public class AddGroup extends AppCompatActivity {
         spInterests = findViewById(R.id.sp_interest);
         spLocations = findViewById(R.id.sp_locations);
         spLevels = findViewById(R.id.sp_required_Level);
+
 
         // EditTexts
         etGroupName = findViewById(R.id.et_group_name);
@@ -145,12 +154,14 @@ public class AddGroup extends AppCompatActivity {
         levels.add("intermediate");
         levels.add("expert");
 
+        storage = new Storage(this);
+
 
         interestSpinner = new CommonSpinner(spInterests, this, interests);
-        interestSpinner.setEdOther(etHiddenOther);
+//        interestSpinner.setEdOther(etHiddenOther);
         locationSpinner = new CommonSpinner(spLocations, this, locations);
         levelsSpinner = new CommonSpinner(spLevels, this, levels);
-
+        locationSpinner.setLocation(true);
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
         findViewById(R.id.btn_create_group).setOnClickListener(v -> createGroup());
@@ -187,57 +198,67 @@ public class AddGroup extends AppCompatActivity {
         int gpMembers = Integer.parseInt(etMaxMembersNumber.getText().toString());
         int gpDuration = Integer.parseInt(etGpDuration.getText().toString());
         */
-        String gpInterest = interestSpinner.getSpItemSelected();
-        String gpLevel = levelsSpinner.getSpItemSelected();
-        String gpLocation = locationSpinner.getSpItemSelected();
 
         Storage storage = new Storage(this);
         // FixedDBValues dbValues = new FixedDBValues();
         // TODO interest id leave it for now
-        if (gpLevel == null || gpInterest == null) {
+    /*    if (gpLevel == null || gpInterest == null) {
             showAlert(ERROR_MISSING_FILEDS, this);
-        } else {
-            if (vaildGroupData()) {
+        } else {*/
+        if (vaildGroupData()) {
 
-                String img = null;
-                if (groupImgBitmap != null) {
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
-                    img = HelperClass.encodeTobase64(groupImgBitmap);
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
-                }
+            if (imgUri != null) {
+                UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
+                imgToFireBase.uploadFile(imgUri);
+            } else {
+                // create group
 
-                Storage s = new Storage(this);
-                Log.i(TAG, getLocalClassName() + " -- createGroup: token" + s.getToken());
+                Log.i(TAG, getLocalClassName() + " -- createGroup: token" + storage.getToken());
                 Group group = new Group(
-                        storage.getId(), gpLocation, img,
+                        storage.getId(), gpLocation,
                         maxMemberNumber, duration, gpName,
                         gpDesc, HelperClass.FREE, gpLevel, gpInterest);
                 String token = storage.getToken();
                 groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
             }
 
+              /*  String img = null;
+                if (groupImgBitmap != null) {
+                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
+                    img = HelperClass.encodeTobase64(groupImgBitmap);
+                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
+                }*/
+
         }
+
+//        }
 
     }
 
     private boolean vaildGroupData() {
         boolean vaild = true;
+        String gpMembersValue = etMaxMembersNumber.getText().toString();
+        String gpDurationValue = etGpDuration.getText().toString();
 
         gpName = etGroupName.getText().toString();
         gpDesc = etGroupDesc.getText().toString();
 
-        String gpMembersValue = etMaxMembersNumber.getText().toString();
-        String gpDurationValue = etGpDuration.getText().toString();
+
+        gpInterest = interestSpinner.getSpItemSelected();
+        gpLevel = levelsSpinner.getSpItemSelected();
+        gpLocation = locationSpinner.getSpItemSelected();
+
+        maxMemberNumber = Integer.parseInt(gpMembersValue);
+        duration = Integer.parseInt(gpDurationValue);
+
 
       /*  maxMemberNumber = 0;
         if (!gpMembersValue.isEmpty()) {*/
-        maxMemberNumber = Integer.parseInt(gpMembersValue);
 //        }
 
 
 //        duration = 0;
 //        if (!gpDurationValue.isEmpty()) {
-        duration = Integer.parseInt(gpDurationValue);
 //        }
 
         // Group Name
@@ -352,21 +373,27 @@ public class AddGroup extends AppCompatActivity {
 
         Bitmap imgBitmap = null;
         isEnterCrop = false;
+
         if (requestCode == CAMERA_REQUEST_CODE) {
+            imgUri = data.getData();
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             groupImg.setImageBitmap(photo);
             imgBitmap = photo;
         }
 
         if (requestCode == GALLERY_REQUEST_CODE) {
+            imgUri = data.getData();
+
             UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(),
                     "IMG_" + System.currentTimeMillis())))
                     .start(this);
         }
         if (requestCode == UCrop.REQUEST_CROP) {
             Uri imgUri = UCrop.getOutput(data);
+
             if (imgUri != null) {
                 try {
+                    this.imgUri = imgUri;
                     isEnterCrop = true;
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
                     groupImg.setImageBitmap(bitmap);
@@ -377,6 +404,18 @@ public class AddGroup extends AppCompatActivity {
             }
         }
         return imgBitmap;
+    }
+
+    @Override
+    public void onFinishedDownloadListner(String imgUrl) {
+        Log.i(TAG, "onFinishedDownloadListner: ");
+        Group group = new Group(
+                storage.getId(), gpLocation, imgUrl,
+                maxMemberNumber, duration, gpName,
+                gpDesc, HelperClass.FREE, gpLevel, gpInterest);
+        String token = storage.getToken();
+        groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
+
     }
 }
 
