@@ -188,7 +188,7 @@ public class ProfileFragment extends Fragment implements
                         dateEt.setText(userData.getBirthDate());
                         genderEt.setText(userData.getGender());
                         if (userData.image != null) {
-                            profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
+                          //  profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
                         }
 
 

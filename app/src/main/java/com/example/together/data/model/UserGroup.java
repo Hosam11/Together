@@ -3,6 +3,7 @@ package com.example.together.data.model;
 import java.io.Serializable;
 
 public class UserGroup implements Serializable {
+
     private int id;
 
     private String photo = null;

@@ -30,6 +30,8 @@ import com.example.together.view_model.UsersViewModel;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.example.together.utils.HelperClass.TAG;
+
 public class AboutGroupFragment extends Fragment {
 
     RecyclerView members_recycler;
@@ -59,7 +61,7 @@ public class AboutGroupFragment extends Fragment {
         Storage s = new Storage();
         UserGroup receivedGroup = s.getGroupUser(getContext());
 
-        Log.i(HelperClass.TAG, "onCreateView: id >> "   );
+        Log.i(TAG, "onCreateView: id >> "   );
 
         View view = inflater.inflate(R.layout.fragment_about_group,
                 container, false);
@@ -107,7 +109,10 @@ public class AboutGroupFragment extends Fragment {
         nameTv.setText(receivedGroup.getName());
         groupDescriptionTv.setText(receivedGroup.getDescription());
         //  groupImgView TODO HERE Getting Image
-        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
+        if (receivedGroup.getPhoto() != null) {
+//        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
+            Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getPhoto());
+        }
 
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
