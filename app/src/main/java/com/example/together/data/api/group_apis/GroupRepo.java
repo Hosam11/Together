@@ -44,5 +44,9 @@ public class GroupRepo {
     public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
         return groupApiProvider.rejectJoinReqGroup(reqID, token);
     }
+
+    public MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
+        return groupApiProvider.userRequestJoinStatus(gpID, userID, token);
+    }
 }
 

@@ -27,35 +27,31 @@ public class Group {
     // admin of group
     @SerializedName("id")
     private int adminID;
-
+    // to make a requests by group id
+    private int groupID;
     // nullable
     @SerializedName("address")
     private String location;
-
     @SerializedName("max_member_number")
     private int maxMembers;
-
     private int duration;
-
     @SerializedName("name")
     private String groupName;
-
     @SerializedName("description")
     private String groupDesc;
-
     @SerializedName("current_number_of_members")
     private int currentMembers = 0;
-
     private String status; // free - paid
-
     @SerializedName("level")
     private String levelRequired;
-
     @SerializedName("interest")
     private String interest;
-
     @SerializedName("photo")
     private String image;
+
+    public Group() {
+
+    }
 
     public Group(String name, String image, String description) {
         this.groupName = name;
@@ -64,12 +60,12 @@ public class Group {
     }
 
     public Group(
-            int userID, String location, String img,
+            int adminID, String location, String img,
             int maxMembers, int duration,
             String groupName, String groupDesc,
             String status, String levelRequired, String interest
     ) {
-        this.adminID = userID;
+        this.adminID = adminID;
         this.location = location;
         this.maxMembers = maxMembers;
         this.duration = duration;
@@ -79,6 +75,16 @@ public class Group {
         this.levelRequired = levelRequired;
         this.interest = interest;
         this.image = img;
+    }
+
+    public Group(int maxMembers, int duration,
+                 String groupName, String groupDesc,
+                 String levelRequired) {
+        this.maxMembers = maxMembers;
+        this.duration = duration;
+        this.groupName = groupName;
+        this.groupDesc = groupDesc;
+        this.levelRequired = levelRequired;
     }
 
     public Group(int adminID,
@@ -97,6 +103,17 @@ public class Group {
         this.interest = interest;
     }
 
+    public Group(String learning_android, int development, String description) {
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
     public String getImage() {
         return image;
     }
@@ -109,6 +126,9 @@ public class Group {
         return adminID;
     }
 
+    public void setAdminID(int adminID) {
+        this.adminID = adminID;
+    }
 
     public String getLocation() {
         return location;

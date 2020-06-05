@@ -64,9 +64,14 @@ public class HelperClass {
     public static final String checkYourCon= "Please check your internet connection";
     public static final String SERVER_DOWN = "Failed connect to host!";
 
+    public static  final String USER_NOT_MEMBER = "Not member and  ";
+    public static final String USER_WATING_JOIN_GROUP
+            = "Not member and This user waiting for admin of group to accept his request of join";
+    public static final String USER_IN_GROUP
+            = "Member of this group and This user waiting for admin of group to accept his request of join";
 
-
-
+    // user send req and accepte it
+    // "Member of this group and"
 
     public static void showAlert(String msg, Context context) {
 

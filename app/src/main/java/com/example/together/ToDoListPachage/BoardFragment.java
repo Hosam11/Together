@@ -17,15 +17,11 @@
 package com.example.together.ToDoListPachage;
 
 import android.animation.ObjectAnimator;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +49,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.Adapters.CreateDialog;
-import com.example.together.Adapters.POJO;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
@@ -67,30 +62,24 @@ import com.woxthebox.draglistview.DragItem;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.example.together.utils.HelperClass.TAG;
-
 public class BoardFragment extends Fragment {
 
     private static int sCreatedItems = 0;
     public BoardView mBoardView;
-    private int mColumns;
-    private boolean mGridLayout;
+    public Button addTask;
     int data = 50;
     ItemAdapter toDoListAdapter;
     ItemAdapter doingListAdapter;
     ItemAdapter doneListAdapter;
-     public Button addTask;
-     UserViewModel userViewModel;
-     ArrayList<ListTask> toDoList = new ArrayList<>();
+    UserViewModel userViewModel;
+    ArrayList<ListTask> toDoList = new ArrayList<>();
     ArrayList<ListTask> doingList = new ArrayList<>();
     ArrayList<ListTask> doneList = new ArrayList<>();
     Storage storage;
     HandleViewModelProcess handleViewModelProcess;
     GetAddTaskButton getAddTaskButton;
-
-
-
-
+    private int mColumns;
+    private boolean mGridLayout;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -101,7 +90,7 @@ public class BoardFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         storage = new Storage(Objects.requireNonNull(getContext()));
-        handleViewModelProcess = new HandleViewModelProcess(userViewModel,this);
+        handleViewModelProcess = new HandleViewModelProcess(userViewModel, this);
 
 
     }
@@ -124,8 +113,8 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
-                Log.i("mahmoud", "onItemDragEnded: "+toDoList.size()+" ");
-                if(HelperClass.checkInternetState(getContext())) {
+                Log.i("mahmoud", "onItemDragEnded: " + toDoList.size() + " ");
+                if (HelperClass.checkInternetState(getContext())) {
                     if (fromColumn == 0 && toColumn == 1) {
                         handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
                     }
@@ -152,7 +141,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
                 Toast.makeText(mBoardView.getContext(), "Position changed - column: " + newColumn + " row: " + newRow, Toast.LENGTH_SHORT).show();
-                Log.i("mahmoud", "onItemChangedPosition: "+toDoList.size());
+                Log.i("mahmoud", "onItemChangedPosition: " + toDoList.size());
 
             }
 
@@ -162,35 +151,35 @@ public class BoardFragment extends Fragment {
                 itemCount1.setText(String.valueOf(mBoardView.getAdapter(oldColumn).getItemCount()));
                 TextView itemCount2 = mBoardView.getHeaderView(newColumn).findViewById(R.id.item_count);
                 itemCount2.setText(String.valueOf(mBoardView.getAdapter(newColumn).getItemCount()));
-                Log.i("mahmoud", "onItemChangedColumn: "+toDoList.size());
+                Log.i("mahmoud", "onItemChangedColumn: " + toDoList.size());
 
             }
 
             @Override
             public void onFocusedColumnChanged(int oldColumn, int newColumn) {
-                Log.i("mahmoud", "onFocusedColumnChanged: "+toDoList.size());
+                Log.i("mahmoud", "onFocusedColumnChanged: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragStarted(int position) {
-                Log.i("mahmoud", "onColumnDragStarted: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragStarted: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragChangedPosition(int oldPosition, int newPosition) {
-                Log.i("mahmoud", "onColumnDragChangedPosition: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragChangedPosition: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragEnded(int position) {
-                Log.i("mahmoud", "onColumnDragEnded: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragEnded: " + toDoList.size());
 
             }
         });
         mBoardView.setBoardCallback(new BoardView.BoardCallback() {
             @Override
             public boolean canDragItemAtPosition(int column, int dragPosition) {
-                if(HelperClass.checkInternetState(getContext()))
+                if (HelperClass.checkInternetState(getContext()))
                     return true;
                 else {
                     HelperClass.showAlert("Error", "Please check your internet connection", getContext());
@@ -201,7 +190,7 @@ public class BoardFragment extends Fragment {
 
             @Override
             public boolean canDropItemAtPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-               return true;
+                return true;
             }
         });
 
@@ -213,17 +202,16 @@ public class BoardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
-        getAddTaskButton =(GetAddTaskButton) getActivity();
+        getAddTaskButton = (GetAddTaskButton) getActivity();
         addTask = getAddTaskButton.getAddTask();
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(HelperClass.checkInternetState(getContext())) {
+                if (HelperClass.checkInternetState(getContext())) {
                     CreateDialog dialog = new CreateDialog("addTask", BoardFragment.this);
                     dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
-                }
-                else {
-                    HelperClass.showAlert("Error","Please check your internet connection",getContext());
+                } else {
+                    HelperClass.showAlert("Error", "Please check your internet connection", getContext());
 
                 }
 
@@ -290,21 +278,19 @@ public class BoardFragment extends Fragment {
         mBoardView.setCustomDragItem(mGridLayout ? null : new MyDragItem(getActivity(), R.layout.column_item));
         mBoardView.setCustomColumnDragItem(mGridLayout ? null : new MyColumnDragItem(getActivity(), R.layout.column_drag_layout));
 
-        addColumn("To Do List",toDoList);
-        addColumn("Doing List",doingList);
-        addColumn("Done List",doneList);
+        addColumn("To Do List", toDoList);
+        addColumn("Doing List", doingList);
+        addColumn("Done List", doneList);
     }
 
-    private void addColumn(String columnName , final ArrayList<ListTask> mItemArray) {
+    private void addColumn(String columnName, final ArrayList<ListTask> mItemArray) {
 
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this);
-        if(columnName.equals("To Do List")) {
+        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true, this.getContext(), this);
+        if (columnName.equals("To Do List")) {
             this.toDoListAdapter = listAdapter;
-        }
-        else if(columnName.equals("Doing List")){
+        } else if (columnName.equals("Doing List")) {
             this.doingListAdapter = listAdapter;
-        }
-        else if(columnName.equals("Done List")){
+        } else if (columnName.equals("Done List")) {
             this.doneListAdapter = listAdapter;
         }
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
@@ -325,16 +311,59 @@ public class BoardFragment extends Fragment {
         });
         LinearLayoutManager layoutManager = mGridLayout ? new GridLayoutManager(getContext(), 4) : new LinearLayoutManager(getContext());
         ColumnProperties columnProperties = ColumnProperties.Builder.newBuilder(listAdapter)
-                                      .setLayoutManager(layoutManager)
-                                      .setHasFixedItemSize(false)
-                                      .setColumnBackgroundColor(Color.TRANSPARENT)
-                                      .setItemsSectionBackgroundColor(Color.TRANSPARENT)
-                                      .setHeader(header)
-                                      .setColumnDragView(header)
-                                      .build();
+                .setLayoutManager(layoutManager)
+                .setHasFixedItemSize(false)
+                .setColumnBackgroundColor(Color.TRANSPARENT)
+                .setItemsSectionBackgroundColor(Color.TRANSPARENT)
+                .setHeader(header)
+                .setColumnDragView(header)
+                .build();
 
         mBoardView.addColumn(columnProperties);
         mColumns++;
+    }
+
+    public void addTask(ListTask task) {
+        if (HelperClass.checkInternetState(getContext())) {
+            CustomProgressDialog customProgressDialog = new CustomProgressDialog(getContext());
+            customProgressDialog.show();
+            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+            userViewModel.addTask(task, storage.getToken()).observe(this, addTaskResp -> {
+                if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
+                    Toast.makeText(getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
+                    customProgressDialog.cancel();
+                    if (HelperClass.checkInternetState(getContext())) {
+                        customProgressDialog.show();
+                        userViewModel.getToDoListTasks(1, storage.getToken()).observe(this, toDoListTask -> {
+                            if (toDoListTask != null) {
+                                toDoList = toDoListTask;
+                                toDoListAdapter.setList(toDoListTask);
+                                toDoListAdapter.notifyDataSetChanged();
+                                customProgressDialog.cancel();
+                                TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
+                                itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
+                            } else {
+                                customProgressDialog.cancel();
+                                HelperClass.showAlert("Error", "Invalid request, please try again later", getContext());
+                            }
+                        });
+                    } else {
+                        HelperClass.showAlert("Error", "Please check your internet connection", getContext());
+                    }
+                } else {
+                    customProgressDialog.cancel();
+                    HelperClass.showAlert("Error", "Invalid request, please try again later", getContext());
+                }
+            });
+
+        }
+//        TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
+//        itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
+
+        else {
+            HelperClass.showAlert("Error", "Please check your internet connection", getContext());
+
+        }
     }
 
     private static class MyColumnDragItem extends DragItem {
@@ -449,50 +478,6 @@ public class BoardFragment extends Fragment {
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();
-        }
-    }
-
-    public void addTask(ListTask task) {
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog customProgressDialog = new CustomProgressDialog(getContext());
-            customProgressDialog.show();
-            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-            userViewModel.addTask(task, storage.getToken()).observe(this, addTaskResp -> {
-                if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                    Toast.makeText(getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
-                    customProgressDialog.cancel();
-                    if (HelperClass.checkInternetState(getContext())) {
-                        customProgressDialog.show();
-                        userViewModel.getToDoListTasks(1, storage.getToken()).observe(this, toDoListTask -> {
-                            if (toDoListTask != null) {
-                                toDoList = toDoListTask;
-                                toDoListAdapter.setList(toDoListTask);
-                                toDoListAdapter.notifyDataSetChanged();
-                                customProgressDialog.cancel();
-                                TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-                                itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-                            }
-                            else {
-                                customProgressDialog.cancel();
-                                HelperClass.showAlert("Error","Invalid request, please try again later",getContext());
-                            }
-                        });
-                    }
-                    else {
-                        HelperClass.showAlert("Error","Please check your internet connection",getContext());
-                    }
-                } else {
-                    customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",getContext());                }
-            });
-
-        }
-//        TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-//        itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-
-        else {
-            HelperClass.showAlert("Error","Please check your internet connection",getContext());
-
         }
     }
 }

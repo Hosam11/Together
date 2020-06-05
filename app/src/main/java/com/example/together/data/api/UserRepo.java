@@ -27,17 +27,6 @@ public class UserRepo {
         toDoListApiProvider = new ToDoListApiProvider();
     }
 
-/*    public MutableLiveData<String> signUp(User user) {
-        return provider.signUp(user);
-    }
-
-    public MutableLiveData<LoginResponse> login(UserLogin userLogin) {
-        return provider.login(userLogin);
-    }
-
-    public MutableLiveData<User> fetchUserData(int id, String token) {
-        return provider.fetchUserData(id,token) ;
-    }*/
 
     public MutableLiveData<GeneralResponse> updateUserProfile(int id, String token,User user) {
         return provider.updateUserProfile(id,token,user) ;
@@ -80,9 +69,6 @@ public class UserRepo {
 
 
     }
-
-
-
 
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){
