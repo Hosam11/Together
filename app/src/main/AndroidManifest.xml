@@ -23,7 +23,6 @@
 
         <activity android:name=".GroupsUnderInterest"></activity>
         <activity android:name=".SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,6 +32,8 @@
         <activity android:name=".group_screens.single_group.TestTabBar" />
         <activity android:name=".utils.TestApis" />
         <activity android:name=".BottomNavigationView">
+
+
         </activity>
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity">
@@ -47,7 +48,9 @@
 
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Login_Signup.LoginActivity" />
-        <activity android:name=".ToDoListPachage.ToDoListMain" />
+        <activity android:name=".ToDoListPachage.ToDoListMain">
+
+        </activity>
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".group_screens.ViewGroup" />
         <activity android:name=".group_screens.AddGroup" />

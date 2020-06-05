@@ -69,7 +69,7 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
-        CustomProgressDialog.getInstance(getContext()).show();
+//        CustomProgressDialog.getInstance(getContext()).show();
         getGroups();
 
 

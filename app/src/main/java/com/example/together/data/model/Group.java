@@ -139,9 +139,9 @@ public class Group {
     }
 
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+//    public void setUserID(int userID) {
+//        this.userID = userID;
+//    }
 
     public void setLocation(String location) {
         this.location = location;
@@ -179,45 +179,15 @@ public class Group {
         this.interest = interest;
     }
 
-    public int getUserID() {
-        return userID;
-    }
+//    public int getUserID() {
+//        return userID;
+//    }
 
-    public String getLocation() {
-        return location;
-    }
 
     public int getMaxMembers() {
         return maxMembers;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public String getGroupDesc() {
-        return groupDesc;
-    }
-
-    public int getCurrentMembers() {
-        return currentMembers;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getLevelRequired() {
-        return levelRequired;
-    }
-
-    public String getInterest() {
-        return interest;
-    }
 
 
     @NonNull
@@ -236,13 +206,7 @@ public class Group {
         );
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
 }
 
 

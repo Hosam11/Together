@@ -37,6 +37,8 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<GeneralResponse> addToDoList;
     private MutableLiveData<GeneralResponse> deleteTaskResp;
     private MutableLiveData<GeneralResponse> editTaskResp;
+    private MutableLiveData<GeneralResponse> sendPositionArrangmentResp;
+
 
 
 
@@ -177,5 +179,9 @@ public class UserViewModel extends ViewModel {
     public MutableLiveData<GeneralResponse> editTask(int id,ListTask task, String token){
         editTaskResp = userRepo.editTask(id,task,token);
         return editTaskResp;
+    }
+    public MutableLiveData<GeneralResponse> sendPositionArrangment(ArrayList<ListTask> tasks, String token){
+        sendPositionArrangmentResp = userRepo.sendPositionArrangment(tasks,token);
+        return sendPositionArrangmentResp;
     }
 }
