@@ -21,6 +21,7 @@ public class User implements Serializable {
      */
     public String response;
 
+    @SerializedName("photo")
     public String image;
     public String name;
     private String email;
@@ -34,6 +35,10 @@ public class User implements Serializable {
 
     @SerializedName("groups")
     private List<GroupReturned> groups;
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public User(
             String name, String email,

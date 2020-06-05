@@ -29,6 +29,7 @@ public class ExploreFragment extends Fragment {
     InterestAdapter interestAdapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View fragmentView = inflater.inflate(R.layout.fragment_explore,container,false);
         interests.add(new Interest("Development", R.drawable.development));
         interests.add(new Interest("Handmade", R.drawable.handmade));
@@ -51,6 +52,7 @@ public class ExploreFragment extends Fragment {
         gridView = fragmentView.findViewById(R.id.categories);
         interestAdapter = new InterestAdapter(getActivity().getApplicationContext(), interests);
         return fragmentView;
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -27,8 +27,6 @@ import com.example.together.view_model.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -45,17 +43,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home,container,false);
-//         fab = v.findViewById(R.id.add_group_FAB);
-//         fab.setOnClickListener(v1 -> {
-
-//             //Intent To Create Group Screen
-//             Intent createGroup = new Intent(getContext(), AddGroup.class);
-//             getContext().startActivity(createGroup);
-
-//         });
+        fab = v.findViewById(R.id.add_group_FAB);
+        fab.setOnClickListener(v1 -> {
+            //Intent To Create Group Screen
+            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            getContext().startActivity(createGroup);
+        });
         recyclerView=v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-progressDialog=CustomProgressDialog.getInstance(getContext());
+        progressDialog=CustomProgressDialog.getInstance(getContext());
         return v;
     }
 
@@ -69,42 +65,55 @@ progressDialog=CustomProgressDialog.getInstance(getContext());
 
         adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
-//        CustomProgressDialog.getInstance(getContext()).show();
+        CustomProgressDialog.getInstance(getContext()).show();
         getGroups();
+
+
 
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), AddGroup.class);
             startActivity(createGroup);
         });
+        CustomProgressDialog.getInstance(getContext()).show();
 
 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(HelperClass.checkInternetState(getContext())){
+        getGroups();
+    }
+    else {
 
+        HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+            CustomProgressDialog.getInstance(getContext()).cancel();
+
+        }
+
+    }
 
     public void getGroups(){
 
-        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext())))
-        {
-            Storage storage = new Storage(getContext());
-            userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
-                @Override
-                public void onChanged(ArrayList<UserGroup> userGroups) {
-                    Toast.makeText(getContext(), "Hey" + userGroups.size(), Toast.LENGTH_LONG).show();
-                    userGroupsList.clear();
-                    userGroupsList.addAll(userGroups);
-                    adapter.notifyDataSetChanged();
-                    progressDialog.cancel();
-                }
-            });
-        }
-        else
-        {
-            progressDialog.cancel();
-            HelperClass.showAlert("Error","Please check your internet connection",getContext());
-        }
+        Storage storage = new Storage(getContext());
+        userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
+            @Override
+            public void onChanged(ArrayList<UserGroup> userGroups) {
+                if(userGroups!=null){
+                Toast.makeText(getContext(),"Hey"+userGroups.size(),Toast.LENGTH_LONG).show();
+                userGroupsList.clear();
+                userGroupsList.addAll(userGroups);
+                adapter.notifyDataSetChanged();
+                progressDialog.cancel();   }
+                else {
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
+            }
+        });
+
 
 
 

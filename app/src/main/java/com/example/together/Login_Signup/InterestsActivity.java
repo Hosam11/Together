@@ -17,13 +17,16 @@ import androidx.core.widget.CompoundButtonCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.Interests;
+import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +38,12 @@ import static com.example.together.utils.HelperClass.showAlert;
 
 public class InterestsActivity extends AppCompatActivity {
 
-   ArrayList<Interests> interestsList;
+    ArrayList<Interests> interestsList;
     LinearLayout containerLayout;
     Button signupBtn;
     UserViewModel userViewModel;
     List<String> selectedInterest;
+    UsersViewModel newUsersViewModel;
     ColorStateList colorStateList = new ColorStateList(
             new int[][]{
                     new int[]{-android.R.attr.state_checked}, // unchecked
@@ -62,40 +66,48 @@ public class InterestsActivity extends AppCompatActivity {
         selectedInterest = new ArrayList<>();
 
 
-
-
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
+        newUsersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         signupBtn.setOnClickListener(v -> createAccount());
-        Toast.makeText(getApplicationContext(),"cre",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "cre", Toast.LENGTH_LONG).show();
         CustomProgressDialog.getInstance(this).show();
+        if (HelperClass.checkInternetState(this)) {
+            getInterests();
+        } else {
 
-        getInterests();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+            CustomProgressDialog.getInstance(this).cancel();
 
+        }
     }
 
-    private void getInterests(){
+    private void getInterests() {
         //TODO : After token remove from getAllInterests
 
-        userViewModel.getAllInterests("28|q5bWvcmDnlSibVReVysFonEyPEodovhGF9V3E9OWPT6w27y9hqj4UDYsKeOT3j3CMnlddlNIRSXIW8vL").observe(this, new Observer<ArrayList<Interests>>() {
-          @Override
-          public void onChanged(ArrayList<Interests> interests) {
-              interestsList=interests;
-              if(interests.size()>0){
+        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interests>>() {
+            @Override
+            public void onChanged(ArrayList<Interests> interests) {
+                if (interests != null) {
+                    interestsList = interests;
+                    if (interests.size() > 0) {
 
-                  displayInterests();
+                        displayInterests();
 
 
-              }
-          }
-      });
+                    }
+                } else {
+                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, InterestsActivity.this);
+                    CustomProgressDialog.getInstance(InterestsActivity.this).cancel();
+
+                }
+            }
+        });
 
 
     }
 
 
-
-    private  void displayInterests(){
+    private void displayInterests() {
         CustomProgressDialog.getInstance(this).cancel();
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
@@ -130,25 +142,26 @@ public class InterestsActivity extends AppCompatActivity {
 
     private void createAccount() {
         CustomProgressDialog.getInstance(this).show();
-        if (selectedInterest.isEmpty()) {
-            showAlert(ERROR_INTERESTS, this);
+        if (HelperClass.checkInternetState(getApplicationContext())) {
+            if (selectedInterest.isEmpty()) {
+                showAlert("Error", ERROR_INTERESTS, this);
+                CustomProgressDialog.getInstance(InterestsActivity.this).cancel();
+            } else {
+
+                for (String i : selectedInterest) {
+                    Log.i(TAG, "createAccount: " + i);
+                }
+                Storage s = new Storage();
+                User user = s.getPassUser(this);
+                user.setInterests(selectedInterest);
+
+                newUsersViewModel.signUp(user).observe(this, this::userSignUpObservable);
+            }
+
         } else {
 
-            for (String i : selectedInterest) {
-                Log.i(TAG, "createAccount: " + i);
-            }
-            Storage s = new Storage();
-            User user = s.getPassUser(this);
-            user.setInterests(selectedInterest);
-            userViewModel.signUp(user).observe(this, this::userSignUpObservable);
-
-          /*  userViewModel.signUp(user).observe(this, new Observer<String>() {
-
-                @Override
-                public void onChanged(String s) {
-
-                }
-            });*/
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+            CustomProgressDialog.getInstance(this).cancel();
         }
     }
 
@@ -156,21 +169,54 @@ public class InterestsActivity extends AppCompatActivity {
 
         Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
 
-        if (res.equals(HelperClass.SING_UP_SUCCESS)) {
+        if (res != null) {
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
             CustomProgressDialog.getInstance(this).cancel();
 
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            InterestsActivity.this.finish();
+//            InterestsActivity.this.finish();
         } else {
+            HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, this);
             CustomProgressDialog.getInstance(this).cancel();
-            showAlert(res, this);
         }
+    }
+
+    private void userSignUpObservable(LoginResponse loginRes) {
+
+        Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + loginRes);
+
+        if (loginRes.isConFailed()) {
+            showAlert("Error", HelperClass.checkYourCon, this);
+            CustomProgressDialog.getInstance(this).cancel();
+            //loginRes.setEnabled(true);
+        } else {
+            if (loginRes.isSuccess()) {
+                Log.i(TAG, "SignUpActivity -- signUpObservable: go to home");
+                CustomProgressDialog.getInstance(this).cancel();
+                //  store id and token in shared preferences
+                Storage storage = new Storage(this);
+                storage.saveUserData(loginRes.getToken(), loginRes.getId());
+                // TODO change it to home screen
+                Intent intent = new Intent(this, BottomNavigationView.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                this.finish();
+//                loginBtn.setEnabled(true);
+            } else {
+//                 // not valid user
+//                 pbLogin.setVisibility(View.GONE);
+                //       loginBtn.setEnabled(false);
+                //       progressdialog.cancel();
+                Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
+                showAlert(loginRes.getResponse(), this);
+                //      loginBtn.setEnabled(true);
+
+            }
+        }
+
     }
 
 
 }
-
-

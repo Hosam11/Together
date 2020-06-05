@@ -12,6 +12,7 @@ import com.example.together.R;
 import com.example.together.data.model.Group;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
+import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UserViewModel;
 
 public class EditGroupInfo extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class EditGroupInfo extends AppCompatActivity {
     EditText gpName;
     EditText gpDesc;
     Button submitBtn;
-    UserViewModel userViewModel;
+    GroupViewModel groupViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class EditGroupInfo extends AppCompatActivity {
         gpName.setText(group.getGroupName());
         gpDesc.setText(group.getGroupDesc());
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
         submitBtn.setOnClickListener(v -> editGroupInfo());
 
@@ -50,7 +51,7 @@ public class EditGroupInfo extends AppCompatActivity {
         String groupDesc = gpDesc.getText().toString();
         group.setGroupName(groupName);
         group.setGroupDesc(groupDesc);
-        userViewModel.updateGroupInfo(1, group.getAdminID(), group, storage.getToken())
+        groupViewModel.updateGroupInfo(1, group.getAdminID(), group, storage.getToken())
                 .observe(this , resEditGroup ->{
                     Log.i(HelperClass.TAG, "editGroupInfo: " + resEditGroup);
                 });

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +29,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.together.Login_Signup.SignUpActivity;
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -49,8 +47,6 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -73,20 +69,13 @@ TextView changeImgTv;
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-
-    //data
-
     User userPojo;
     UserViewModel userViewModel;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().hide();
-
         changeImgTv=findViewById(R.id.change_img_tv);
         emailEt=findViewById(R.id.email_et);
         passEt=findViewById(R.id.password_et);
@@ -100,8 +89,6 @@ TextView changeImgTv;
         femaleRadioBtn=findViewById(R.id.female_radio_btn);
         genderRadioGroup.setOnCheckedChangeListener(this);
         saveChangesBtn=findViewById(R.id.save_btn);
-
-
         Places.initialize(getApplicationContext(), apiKey);
         addressEt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,15 +156,33 @@ save(userPojo);
     }
 
     public void save(User user){
-        Storage storage = new Storage(getApplicationContext());
-        userViewModel.updateUserProfile(storage.getId(),storage.getToken(),user).observe(this, new Observer<GeneralResponse>() {
-            @Override
-            public void onChanged(GeneralResponse generalResponse) {
-                Toast.makeText(getApplicationContext(),generalResponse.response,Toast.LENGTH_LONG).show();
+        CustomProgressDialog.getInstance(this).show();
+        if(HelperClass.checkInternetState(this)) {
+            Storage storage = new Storage(getApplicationContext());
+            userViewModel.updateUserProfile(storage.getId(), storage.getToken(), user).observe(this, new Observer<GeneralResponse>() {
+                @Override
+                public void onChanged(GeneralResponse generalResponse) {
+                    if(generalResponse!=null) {
 
-            }
-        });
+                        Toast.makeText(getApplicationContext(), generalResponse.response, Toast.LENGTH_LONG).show();
+                        CustomProgressDialog.getInstance(EditProfile.this).cancel();
 
+                        EditProfile.this.finish();
+                    }
+                    else {          CustomProgressDialog.getInstance(EditProfile.this).cancel();
+
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditProfile.this);}
+
+                }
+            });
+        }
+        else {
+            CustomProgressDialog.getInstance(EditProfile.this).cancel();
+
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+
+
+        }
 
     }
 
@@ -333,18 +338,7 @@ save(userPojo);
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if(checkedId==R.id.male_radio_btn){
 
-           // Toast.makeText(getApplicationContext(),"Male",Toast.LENGTH_SHORT).show();
-
-
-        }
-
-        else {
-           // Toast.makeText(getApplicationContext(),"Female",Toast.LENGTH_SHORT).show();
-
-
-        }
     }
     private boolean validateForm() {
         boolean valid = true;

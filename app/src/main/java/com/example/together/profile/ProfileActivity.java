@@ -14,6 +14,7 @@ import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import static com.example.together.utils.HelperClass.TAG;
 
@@ -21,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView interestTv;
     String[] interests;
 
-    UserViewModel userViewModel;
+    UsersViewModel usersViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         intereststr = builder.toString();
         interestTv.setText(Html.fromHtml(intereststr));
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         findViewById(R.id.profile_image).setOnClickListener(v -> displayToken());
 
         setProfileDataObservable();
@@ -50,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setProfileDataObservable() {
         Storage storage = new Storage(this);
         Log.i(TAG, "setProfileDataObservable: storage.getId()" + storage.getId());
-        userViewModel.fetchUserData(storage.getId(), storage.getToken()).observe(this,
+        usersViewModel.fetchUserData(storage.getId(), storage.getToken()).observe(this,
                 userData -> {
                     Log.i(TAG, "setProfileDataObservable: userData >>  " + userData);
                     for (String interest : userData.getInterests()) {

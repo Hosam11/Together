@@ -23,8 +23,8 @@ public class Group {
             "interest_id": 2
 
     }*/
-    // TODO 1- missing interests of other
 
+    // admin of group
     @SerializedName("id")
     private int adminID;
 
@@ -36,38 +36,6 @@ public class Group {
     private int maxMembers;
 
     private int duration;
-
-    public String getLocation() {
-        return location;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public String getGroupDesc() {
-        return groupDesc;
-    }
-
-    public int getCurrentMembers() {
-        return currentMembers;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getLevelRequired() {
-        return levelRequired;
-    }
-
-    public String getInterest() {
-        return interest;
-    }
 
     @SerializedName("name")
     private String groupName;
@@ -85,24 +53,18 @@ public class Group {
 
     @SerializedName("interest")
     private String interest;
-    private int image;
 
-    public int getImage() {
-        return image;
-    }
+    @SerializedName("photo")
+    private String image;
 
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    public Group(String name, int image, String description) {
+    public Group(String name, String image, String description) {
         this.groupName = name;
         this.image = image;
         this.groupDesc = description;
     }
 
     public Group(
-            int userID, String location,
+            int userID, String location, String img,
             int maxMembers, int duration,
             String groupName, String groupDesc,
             String status, String levelRequired, String interest
@@ -116,10 +78,7 @@ public class Group {
         this.status = status;
         this.levelRequired = levelRequired;
         this.interest = interest;
-    }
-
-    public int getAdminID() {
-        return adminID;
+        this.image = img;
     }
 
     public Group(int adminID,
@@ -165,14 +124,17 @@ public class Group {
 
     public void setCurrentMembers(int currentMembers) {
         this.currentMembers = currentMembers;
+
+    public String getImage() {
+        return image;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setLevelRequired(String levelRequired) {
-        this.levelRequired = levelRequired;
+    public int getAdminID() {
+        return adminID;
     }
 
     public void setInterest(String interest) {
@@ -184,11 +146,73 @@ public class Group {
 //    }
 
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public int getMaxMembers() {
         return maxMembers;
     }
 
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
+    public int getCurrentMembers() {
+        return currentMembers;
+    }
+
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLevelRequired() {
+        return levelRequired;
+    }
+
+    public void setLevelRequired(String levelRequired) {
+        this.levelRequired = levelRequired;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
 
     @NonNull
     @Override
@@ -203,10 +227,10 @@ public class Group {
                         "\nstatlus: " + status +
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest
+
+
         );
     }
-
-
 }
 
 
