@@ -41,7 +41,7 @@ public class InterestsActivity extends AppCompatActivity {
     ArrayList<Interests> interestsList;
     LinearLayout containerLayout;
     Button signupBtn;
-    UserViewModel userViewModel;
+    UsersViewModel userViewModel;
     List<String> selectedInterest;
     UsersViewModel newUsersViewModel;
     ColorStateList colorStateList = new ColorStateList(
@@ -66,7 +66,7 @@ public class InterestsActivity extends AppCompatActivity {
         selectedInterest = new ArrayList<>();
 
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         newUsersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         signupBtn.setOnClickListener(v -> createAccount());
         Toast.makeText(getApplicationContext(), "cre", Toast.LENGTH_LONG).show();

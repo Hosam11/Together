@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,16 +49,18 @@ public class ProfileFragment extends Fragment implements
     TextView interestTv;
     TextView editInterests;
     Button logoutBtn;
+    ImageView profileImage;
     String[] interests;
     User user;
 
     UsersViewModel usersViewModel;
-    UserViewModel userViewModel;
+
 
     Storage storage;
     CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
     LinearLayout containerLayout;
+    LinearLayout shimmerContainer;
 
     @Nullable
     @Override
@@ -67,7 +70,7 @@ public class ProfileFragment extends Fragment implements
                 container, false);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Profile");
         ((BottomNavigationView) getActivity()).getSupportActionBar().hide();
-
+profileImage=v.findViewById(R.id.profile_image);
         nameTv = v.findViewById(R.id.name_tv);
         emailTv = v.findViewById(R.id.email_tv);
         addressEt = v.findViewById(R.id.address_et);
@@ -81,6 +84,7 @@ public class ProfileFragment extends Fragment implements
         logoutBtn=v.findViewById(R.id.logout_btn);
         shimmer=v.findViewById(R.id.shimmer_layout);
         containerLayout=v.findViewById(R.id.container_layout);
+        shimmerContainer=v.findViewById(R.id.shimmer_container);
         showShimmer();
 
 
@@ -94,7 +98,6 @@ public class ProfileFragment extends Fragment implements
             startActivity(i);
         });
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 //progressDialog=CustomProgressDialog.getInstance(getContext());
 //progressDialog.show();
         CustomProgressDialog.getInstance(getContext()).show();
@@ -107,7 +110,7 @@ public class ProfileFragment extends Fragment implements
 
         if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-            userViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+            usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response!=null) {
@@ -142,6 +145,7 @@ public class ProfileFragment extends Fragment implements
  }
 
     private void showShimmer() {
+        shimmerContainer.setVisibility(View.VISIBLE);
         shimmer.setVisibility(View.VISIBLE);
         shimmer.startShimmer();
     }
@@ -149,6 +153,8 @@ public class ProfileFragment extends Fragment implements
     private void hideShimmer() {
         shimmer.setVisibility(View.GONE);
         shimmer.stopShimmer();
+        shimmerContainer.setVisibility(View.GONE);
+
         containerLayout.setVisibility(View.VISIBLE);
     }
 
@@ -186,20 +192,24 @@ public class ProfileFragment extends Fragment implements
                     addressEt.setText(userData.getAddress());
                     dateEt.setText(userData.getBirthDate());
                     genderEt.setText(userData.getGender());
+                    profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
 
 
-                 CustomProgressDialog.getInstance(getContext()).cancel();
                     displayInterests(userData.getInterests());
 
-                    if (!userData.getGroups().isEmpty()) {
-                        for (User.GroupReturned group : userData.getGroups()) {
-                            Log.i(TAG, "setProfileDataObservable: #Groups# name: " +
-                                    group.getName() +
-                                    " -- id: " + group.getId() + "\n");
-                        }
-                    } else {
-                        Log.i(TAG, "setProfileDataObservable: Groups is null");
-                    }}
+//                    if (!userData.getGroups().isEmpty()) {
+//                        for (User.GroupReturned group : userData.getGroups()) {
+//                            Log.i(TAG, "setProfileDataObservable: #Groups# name: " +
+//                                    group.getName() +
+//                                    " -- id: " + group.getId() + "\n");
+//                        }
+//                    } else {
+//                        Log.i(TAG, "setProfileDataObservable: Groups is null");
+//                    }
+
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
+                    }
                     else {
                         HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
@@ -229,7 +239,8 @@ public class ProfileFragment extends Fragment implements
         switch (v.getId()) {
             case R.id.edit_profile_tv:
                 Intent goToEdit = new Intent(getContext(), EditProfile.class);
-                goToEdit.putExtra("userData", user);
+               // goToEdit.putExtra("userData", user);
+                storage.savePassedUser(user,getContext());
                 startActivity(goToEdit);
 
                 break;

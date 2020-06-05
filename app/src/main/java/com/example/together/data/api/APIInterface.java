@@ -68,6 +68,8 @@ public interface APIInterface {
                                    @Header("Authorization") String header);
 
 
+
+
     @POST("dragAdrop")
     Call<GeneralResponse> sendPositionArrangment (@Body GroupOfTasks tasks,
                                    @Header("Authorization")String header);
@@ -83,46 +85,7 @@ public interface APIInterface {
                                             @Header("Authorization") String header,
                                             @Body User user);
 
-    @POST("updateInterests/{id}")
-    Call<GeneralResponse> updateUserInterests(@Path("id") int id,
-                                              @Header("Authorization") String header,
-                                              @Body UserInterests interests);
 
-
-    @GET("home/{id}")
-    Call<ArrayList<UserGroup>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
-
-    @GET("interests")
-    Call<ArrayList<Interests>> getAllInterests();
-
-    @GET("show/{groupid}")
-    Call<GroupDetails> getSpecificGroupDetails(@Path("groupid") int groupid,
-                                               @Header("Authorization") String header);
-
-    @GET("remove/{groupId}/{id}?")
-    Call<GeneralResponse> removeMemberFromGroup(@Path("groupId") int groupId,
-                                                @Path("id") int id,
-                                                @Query("current_user_id") int adminId,
-
-                                                @Header("Authorization") String header);
-
-
-
-
-
-
-/////////////////////////
-
-    @GET("leave/{groupid}/{id}")
-    Call<GeneralResponse> leaveGroup(@Path("groupid") int groupId,
-                                     @Path("id") int id,
-                                     @Header("Authorization") String token
-                                     );
-
-    ///////
-
-    @GET("logout/{id}")
-    Call<GeneralResponse> logout(@Path("id") int id);
 
 
 }

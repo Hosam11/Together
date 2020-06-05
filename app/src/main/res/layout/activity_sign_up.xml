@@ -249,37 +249,44 @@
                 android:layout_marginLeft="37dp"
 
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:weightSum="1"
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <EditText
-        android:id="@+id/date_et"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-       android:layout_marginLeft="19dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/edit_texts_shapes"
-        android:textColor="#000"
-        android:inputType="text"
-        android:paddingTop="18dp"
-        android:hint="@string/birthdate2"
-        android:paddingLeft="18dp"
-        android:paddingBottom="16dp"
-        android:textCursorDrawable="@drawable/cursor_color"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/date_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/edit_texts_shapes"
+                    android:textColor="#000"
+                    android:inputType="text"
+                    android:paddingTop="18dp"
+                    android:hint="@string/birthdate2"
+                    android:paddingLeft="18dp"
+                    android:paddingBottom="16dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:layout_weight=".8"
 
-        />
-    <ImageView
-        android:id="@+id/date_img"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_date_range_black_24dp"
-        android:layout_marginLeft="15dp"
-        />
+                    />
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="15dp"
 
-</LinearLayout>
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_date_range_black_24dp"
+                    />
+
+            </LinearLayout>
+>
 
             <View
                 android:layout_width="240dp"

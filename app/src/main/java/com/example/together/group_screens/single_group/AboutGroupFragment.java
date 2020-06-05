@@ -25,6 +25,7 @@ import com.example.together.data.model.UserGroup;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class AboutGroupFragment extends Fragment {
     TextView groupDescriptionTv;
     TextView editGroupTv;
     Button leaveBtn;
-    UserViewModel userViewModel;
+    UsersViewModel userViewModel;
     Storage storage;
 
 
@@ -96,6 +97,8 @@ public class AboutGroupFragment extends Fragment {
 
             @Override
             public void onDeleteClick(int position) {
+                CustomProgressDialog.getInstance(getContext()).show();
+
                 removeItem(position, receivedGroup.getId());
             }
         });
@@ -104,8 +107,9 @@ public class AboutGroupFragment extends Fragment {
         nameTv.setText(receivedGroup.getName());
         groupDescriptionTv.setText(receivedGroup.getDescription());
         //  groupImgView TODO HERE Getting Image
+        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
@@ -173,8 +177,12 @@ public class AboutGroupFragment extends Fragment {
 
                         groupMembersList.remove(position);
                         adapter.notifyItemRemoved(position);
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
                     } else {
                         HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
 
 
                     }
@@ -184,9 +192,10 @@ public class AboutGroupFragment extends Fragment {
 
         } else {
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+            CustomProgressDialog.getInstance(getContext()).cancel();
+
         }
 
-        CustomProgressDialog.getInstance(getContext()).cancel();
 
 
     }
@@ -200,12 +209,15 @@ public class AboutGroupFragment extends Fragment {
                     groupMembersList.clear();
                     groupMembersList.addAll(groupDetails.getMembers());
                     adapter.notifyDataSetChanged();
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+
                 } else {
                     HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+
                 }
             }
         });
-        CustomProgressDialog.getInstance(getContext()).cancel();
 
 
     }

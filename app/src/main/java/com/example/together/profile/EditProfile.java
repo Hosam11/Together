@@ -36,6 +36,7 @@ import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -44,6 +45,8 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.yalantis.ucrop.UCrop;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +63,7 @@ TextView changeImgTv;
     EditText addressEt;
     EditText dateEt;
     ImageView profileImg;
+    Bitmap userImgBitmap;
     ImageView dateImg;
     RadioGroup genderRadioGroup;
     RadioButton maleRadioBtn,femaleRadioBtn;
@@ -69,8 +73,8 @@ TextView changeImgTv;
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    User userPojo;
-    UserViewModel userViewModel;
+    User receivedUser;
+    UsersViewModel userViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,37 +114,54 @@ TextView changeImgTv;
                 selectDate();
             }
         });
+        Storage storage=new Storage();
 
-        userPojo = (User)getIntent().getSerializableExtra("userData");
-emailEt.setText(userPojo.getEmail());
-addressEt.setText(userPojo.getAddress());
-passEt.setText(userPojo.getPassword());
-nameEt.setText(userPojo.getName());
-//get the image
-dateEt.setText(userPojo.getBirthDate());
-        if(userPojo.getGender().equalsIgnoreCase("female")){
+       // receivedUser = (User)getIntent().getSerializableExtra("userData");
+        receivedUser=storage.getPassUser(this);
+
+emailEt.setText(receivedUser.getEmail());
+addressEt.setText(receivedUser.getAddress());
+passEt.setText(receivedUser.getPassword());
+nameEt.setText(receivedUser.getName());
+userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
+profileImg.setImageBitmap(userImgBitmap);
+dateEt.setText(receivedUser.getBirthDate());
+        if(receivedUser.getGender().equalsIgnoreCase("female")){
             femaleRadioBtn.setChecked(true);
 
         }
         else { maleRadioBtn.setChecked(true); }
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        changeImgTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
 
         saveChangesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+
                 String radiovalue = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId())).getText().toString();
 if(validateForm()) {
-    Toast.makeText(getApplicationContext(), radiovalue, Toast.LENGTH_SHORT).show();
-    List<String> interests=userPojo.getInterests();
-userPojo=new User(nameEt.getText().toString(),emailEt.getText().toString(),passEt.getText().toString(),dateEt.getText().toString(),
+    CustomProgressDialog.getInstance(EditProfile.this).show();
+
+    List<String> interests= receivedUser.getInterests();
+receivedUser =new User(nameEt.getText().toString(),emailEt.getText().toString(),passEt.getText().toString(),dateEt.getText().toString(),
         addressEt.getText().toString(),radiovalue
         );
-userPojo.setInterests(interests);
+receivedUser.setInterests(interests);
+
+    receivedUser.setImage(HelperClass.encodeTobase64(userImgBitmap));
 
 
 
-save(userPojo);
+save(receivedUser);
 
 
 
@@ -156,7 +177,7 @@ save(userPojo);
     }
 
     public void save(User user){
-        CustomProgressDialog.getInstance(this).show();
+
         if(HelperClass.checkInternetState(this)) {
             Storage storage = new Storage(getApplicationContext());
             userViewModel.updateUserProfile(storage.getId(), storage.getToken(), user).observe(this, new Observer<GeneralResponse>() {
@@ -304,8 +325,10 @@ save(userPojo);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                profileImg.setImageBitmap(photo);
+                userImgBitmap = (Bitmap) data.getExtras().get("data");
+
+                profileImg.setImageBitmap(userImgBitmap);
+
 
             }
 
@@ -319,9 +342,10 @@ save(userPojo);
 
 
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+                        userImgBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
 
-                        profileImg.setImageBitmap(bitmap);
+                        profileImg.setImageBitmap(userImgBitmap);
+                        //TODO
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

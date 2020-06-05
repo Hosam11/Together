@@ -64,7 +64,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
         holder.title.setText(userGroups.get(position).getName());
         holder.description.setText(userGroups.get(position).getDescription());
-        holder.groupImage.setImageResource(R.drawable.default_img);
+        holder.groupImage.setImageBitmap(HelperClass.decodeBase64(userGroups.get(position).getPhoto()));
 
            holder.groupCardView.setOnClickListener(new View.OnClickListener() {
                @Override
