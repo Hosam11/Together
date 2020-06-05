@@ -50,7 +50,6 @@ public class Group {
     private String image;
 
 
-
     public Group() {
 
     }

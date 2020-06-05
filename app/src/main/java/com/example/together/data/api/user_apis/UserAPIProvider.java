@@ -70,7 +70,6 @@ public class UserAPIProvider {
 
         signUpCall.enqueue(new Callback<LoginResponse>() {
 
-
             @Override
             public void onResponse(Call<LoginResponse> call,
                                    Response<LoginResponse> res) {

@@ -25,7 +25,7 @@ import com.example.together.R;
 import com.example.together.data.model.ListTask;
 import com.example.together.utils.HelperClass;
 
-public class CreateDialog  extends AppCompatDialogFragment {
+public class CreateDialog extends AppCompatDialogFragment {
     String dialogType;
     Button add;
     Button yes;
@@ -36,36 +36,37 @@ public class CreateDialog  extends AppCompatDialogFragment {
     BoardFragment boardFragment;
     ItemAdapter itemAdapter;
     int position;
-    boolean textChangedInTitle=false;
-    boolean textChangedInDescription=false;
+    boolean textChangedInTitle = false;
+    boolean textChangedInDescription = false;
     int id;
     View v;
     Context context;
 
 
-    public CreateDialog(String dialogType, BoardFragment boardFragment){
-       this.boardFragment=boardFragment;
-       this.dialogType=dialogType;
-       context=boardFragment.getContext();
+    public CreateDialog(String dialogType, BoardFragment boardFragment) {
+        this.boardFragment = boardFragment;
+        this.dialogType = dialogType;
+        context = boardFragment.getContext();
     }
-    public CreateDialog(String dialogType, ItemAdapter itemAdapter,int position,int id ){
-        this.boardFragment=boardFragment;
-        this.dialogType=dialogType;
-        this.itemAdapter=itemAdapter;
-        this.position=position;
-        this.id=id;
+
+    public CreateDialog(String dialogType, ItemAdapter itemAdapter, int position, int id) {
+        this.boardFragment = boardFragment;
+        this.dialogType = dialogType;
+        this.itemAdapter = itemAdapter;
+        this.position = position;
+        this.id = id;
         context = itemAdapter.context;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder adb=new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
         final LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-         v=layoutInflater.inflate(R.layout.add_new_task_dialog,null);
-        add=v.findViewById(R.id.add_task);
-        title= v.findViewById(R.id.task_title_edit_text);
-        description= v.findViewById(R.id.task_description_edit_text);
+        v = layoutInflater.inflate(R.layout.add_new_task_dialog, null);
+        add = v.findViewById(R.id.add_task);
+        title = v.findViewById(R.id.task_title_edit_text);
+        description = v.findViewById(R.id.task_description_edit_text);
         imageView = v.findViewById(R.id.exit_dialog);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,26 +77,26 @@ public class CreateDialog  extends AppCompatDialogFragment {
         addTextChangeListners();
         addEnterAction(title);
         addEnterAction(description);
-        switch (dialogType){
+        switch (dialogType) {
             case "addTask":
-                return toAddTaskDialog(adb,layoutInflater);
+                return toAddTaskDialog(adb, layoutInflater);
 
-               case ("editTask"):
-               return toAddEditDialog(adb,layoutInflater);
+            case ("editTask"):
+                return toAddEditDialog(adb, layoutInflater);
 
         }
-      return null;
+        return null;
     }
 
-    public Dialog toAddTaskDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
+    public Dialog toAddTaskDialog(AlertDialog.Builder adb, LayoutInflater layoutInflater) {
         add.setEnabled(false);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(add.isEnabled()==true) {
+                if (add.isEnabled() == true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    ListTask task = new ListTask(1,2,t,d,boardFragment.toDoList.size(),HelperClass.TODO);
+                    ListTask task = new ListTask(1, 2, t, d, boardFragment.toDoList.size(), HelperClass.TODO);
                     boardFragment.addTask(task);
 
                     CreateDialog.this.dismissAllowingStateLoss();
@@ -108,7 +109,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
 
     }
 
-    public Dialog toAddEditDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
+    public Dialog toAddEditDialog(AlertDialog.Builder adb, LayoutInflater layoutInflater) {
         add.setText("Edit");
         title.setText(itemAdapter.list.get(position).getTitle());
         description.setText(itemAdapter.list.get(position).getDescription());
@@ -116,10 +117,10 @@ public class CreateDialog  extends AppCompatDialogFragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(add.isEnabled()==true) {
+                if (add.isEnabled() == true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    ListTask task = new ListTask(1,2,t,d, HelperClass.TODO,id);
+                    ListTask task = new ListTask(1, 2, t, d, HelperClass.TODO, id);
                     itemAdapter.editTask(task, position);
                     itemAdapter.notifyDataSetChanged();
                     CreateDialog.this.dismissAllowingStateLoss();
@@ -132,7 +133,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
         return adb.create();
     }
 
-    public void addEnterAction(EditText editText){
+    public void addEnterAction(EditText editText) {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -140,13 +141,11 @@ public class CreateDialog  extends AppCompatDialogFragment {
                     add.performClick();
                 }
                 return false;
-
             }
-
         });
     }
 
-    public void addTextChangeListners(){
+    public void addTextChangeListners() {
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -155,17 +154,16 @@ public class CreateDialog  extends AppCompatDialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInTitle=true;
-                    if(textChangedInDescription==textChangedInTitle==true) {
+                if (s.length() != 0) {
+                    textChangedInTitle = true;
+                    if (textChangedInDescription == textChangedInTitle == true) {
                         add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke));
                         add.setEnabled(true);
                     }
-                }
-                else {
+                } else {
                     add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke_grey));
                     add.setEnabled(false);
-                    textChangedInTitle=false;
+                    textChangedInTitle = false;
                 }
             }
 
@@ -181,17 +179,16 @@ public class CreateDialog  extends AppCompatDialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()!=0) {
-                    textChangedInDescription=true;
-                    if(textChangedInDescription==textChangedInTitle==true) {
+                if (s.length() != 0) {
+                    textChangedInDescription = true;
+                    if (textChangedInDescription == textChangedInTitle == true) {
                         add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke));
                         add.setEnabled(true);
                     }
-                }
-                else {
+                } else {
                     add.setBackground(ContextCompat.getDrawable(context, R.drawable.corners_from_all_without_stroke_grey));
                     add.setEnabled(false);
-                    textChangedInDescription=false;
+                    textChangedInDescription = false;
 
                 }
             }

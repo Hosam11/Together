@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.FixedDBValues;
 import com.example.together.data.model.GeneralResponse;
@@ -164,7 +165,12 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         locationSpinner.setLocation(true);
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
-        findViewById(R.id.btn_create_group).setOnClickListener(v -> createGroup());
+
+        findViewById(R.id.btn_create_group).setOnClickListener(v -> {
+            if (vaildGroupData()) {
+                createGroup();
+            }
+        });
 
         tvDurationRight = findViewById(R.id.tv_duration_rigth_btn);
 
@@ -184,54 +190,28 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 
     }
 
-  /*  public void chooseImage(View view) {
-        Log.i(TAG, "chooseImage: ");
-        Log.i(TAG, "onCreate: interest item selected >> " + interestSpinner.getSpItemSelected());
-        Log.i(TAG, "onCreate: location item selected >> " + locationSpinner.getSpItemSelected());
-        Log.i(TAG, "onCreate: level item selected >> " + levelsSpinner.getSpItemSelected());
-    }*/
 
     public void createGroup() {
-        /*String gpName = etGroupName.getText().toString();
-        String gpDesc = etGroupDesc.getText().toString();
-        // TODO will get it from maps that return it form db table contain interests
-        int gpMembers = Integer.parseInt(etMaxMembersNumber.getText().toString());
-        int gpDuration = Integer.parseInt(etGpDuration.getText().toString());
-        */
 
-        Storage storage = new Storage(this);
-        // FixedDBValues dbValues = new FixedDBValues();
         // TODO interest id leave it for now
-    /*    if (gpLevel == null || gpInterest == null) {
-            showAlert(ERROR_MISSING_FILEDS, this);
-        } else {*/
-        if (vaildGroupData()) {
 
-            if (imgUri != null) {
-                UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
-                imgToFireBase.uploadFile(imgUri);
-            } else {
-                // create group
+        if (imgUri != null) {
+            CustomProgressDialog.getInstance(this).show();
+            UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
+            imgToFireBase.uploadFile(imgUri);
+        } else {
+            // create group
+            Log.i(TAG, getLocalClassName() + " -- createGroup: token" + storage.getToken());
+            Group group = new Group(
+                    storage.getId(), gpLocation,
+                    maxMemberNumber, duration, gpName,
+                    gpDesc, HelperClass.FREE, gpLevel, gpInterest);
+            String token = storage.getToken();
 
-                Log.i(TAG, getLocalClassName() + " -- createGroup: token" + storage.getToken());
-                Group group = new Group(
-                        storage.getId(), gpLocation,
-                        maxMemberNumber, duration, gpName,
-                        gpDesc, HelperClass.FREE, gpLevel, gpInterest);
-                String token = storage.getToken();
-                groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
-            }
-
-              /*  String img = null;
-                if (groupImgBitmap != null) {
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
-                    img = HelperClass.encodeTobase64(groupImgBitmap);
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
-                }*/
-
+            CustomProgressDialog.getInstance(this).show();
+            groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
         }
 
-//        }
 
     }
 
@@ -251,11 +231,9 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
 
-
       /*  maxMemberNumber = 0;
         if (!gpMembersValue.isEmpty()) {*/
 //        }
-
 
 //        duration = 0;
 //        if (!gpDurationValue.isEmpty()) {
@@ -303,6 +281,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
                 + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
+            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
             // 1- Go To Group Screens
 //            userViewModel.clearCreateGroupRes();
@@ -311,6 +290,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 //            startActivity(goToSingleGroup);
             finish();
         } else {
+            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
             showAlert(generalRes.response, this);
         }
