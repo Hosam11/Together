@@ -2,7 +2,6 @@ package com.example.together.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.example.together.R;
 import com.example.together.data.model.UserGroup;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
-import com.example.together.utils.HelperClass;
 
 import java.util.ArrayList;
 
@@ -33,7 +31,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
     public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
         this.userGroups = userGroups;
 
-        this.context=context;
+        this.context = context;
 
     }
 
@@ -56,12 +54,17 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
         holder.description.setText(userGroups.get(position).getDescription());
 
         if (userGroups.get(position).getPhoto() != null) {
-            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
-            Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
+
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
+                    userGroups.get(position).getPhoto());
+
+
+            /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
                     .getPhoto());
-            holder.groupImage.setImageBitmap(photo);
+            holder.groupImage.setImageBitmap(photo);*/
         } else {
-            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
 
             holder.groupImage.setImageResource(R.drawable.default_img);
         }

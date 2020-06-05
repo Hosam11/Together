@@ -49,6 +49,8 @@ public class Group {
     @SerializedName("photo")
     private String image;
 
+
+
     public Group() {
 
     }

@@ -104,7 +104,7 @@ public class HelperClass {
     }
 
 
-    // method for bitmap to base64
+  /*  // method for bitmap to base64
     public static String encodeTobase64(Bitmap image) {
         Bitmap immage = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -120,7 +120,7 @@ public class HelperClass {
         return BitmapFactory
                 .decodeByteArray(decodedByte, 0, decodedByte.length);
     }
-
+*/
     /**
      * @param context: context that called the method
      * @return true if there is a internet connection otherwise false

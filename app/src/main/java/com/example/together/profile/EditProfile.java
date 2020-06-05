@@ -1,12 +1,5 @@
 package com.example.together.profile;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -29,13 +22,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -46,8 +45,6 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.yalantis.ucrop.UCrop;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -55,8 +52,9 @@ import java.util.Calendar;
 import java.util.List;
 
 public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
-    private static final String apiKey="AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
-TextView changeImgTv;
+    private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    TextView changeImgTv;
     EditText emailEt;
     EditText passEt;
     EditText nameEt;
@@ -66,33 +64,33 @@ TextView changeImgTv;
     Bitmap userImgBitmap;
     ImageView dateImg;
     RadioGroup genderRadioGroup;
-    RadioButton maleRadioBtn,femaleRadioBtn;
+    RadioButton maleRadioBtn, femaleRadioBtn;
     Button saveChangesBtn;
     Calendar cldr;
     int AUTOCOMPLETE_REQUEST_CODE = 1;
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
     User receivedUser;
     UsersViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().hide();
-        changeImgTv=findViewById(R.id.change_img_tv);
-        emailEt=findViewById(R.id.email_et);
-        passEt=findViewById(R.id.password_et);
-        nameEt=findViewById(R.id.name_et);
-        addressEt=findViewById(R.id.address_et);
-        profileImg=findViewById(R.id.profile_image);
-        dateEt=findViewById(R.id.date_et);
-        dateImg=findViewById(R.id.date_img);
-        genderRadioGroup=findViewById(R.id.gender_radio_group);
-        maleRadioBtn=findViewById(R.id.male_radio_btn);
-        femaleRadioBtn=findViewById(R.id.female_radio_btn);
+        changeImgTv = findViewById(R.id.change_img_tv);
+        emailEt = findViewById(R.id.email_et);
+        passEt = findViewById(R.id.password_et);
+        nameEt = findViewById(R.id.name_et);
+        addressEt = findViewById(R.id.address_et);
+        profileImg = findViewById(R.id.profile_image);
+        dateEt = findViewById(R.id.date_et);
+        dateImg = findViewById(R.id.date_img);
+        genderRadioGroup = findViewById(R.id.gender_radio_group);
+        maleRadioBtn = findViewById(R.id.male_radio_btn);
+        femaleRadioBtn = findViewById(R.id.female_radio_btn);
         genderRadioGroup.setOnCheckedChangeListener(this);
-        saveChangesBtn=findViewById(R.id.save_btn);
+        saveChangesBtn = findViewById(R.id.save_btn);
         Places.initialize(getApplicationContext(), apiKey);
         addressEt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,23 +112,24 @@ TextView changeImgTv;
                 selectDate();
             }
         });
-        Storage storage=new Storage();
+        Storage storage = new Storage();
 
-       // receivedUser = (User)getIntent().getSerializableExtra("userData");
-        receivedUser=storage.getPassUser(this);
+        // receivedUser = (User)getIntent().getSerializableExtra("userData");
+        receivedUser = storage.getPassUser(this);
 
-emailEt.setText(receivedUser.getEmail());
-addressEt.setText(receivedUser.getAddress());
-passEt.setText(receivedUser.getPassword());
-nameEt.setText(receivedUser.getName());
-userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
-profileImg.setImageBitmap(userImgBitmap);
-dateEt.setText(receivedUser.getBirthDate());
-        if(receivedUser.getGender().equalsIgnoreCase("female")){
+        emailEt.setText(receivedUser.getEmail());
+        addressEt.setText(receivedUser.getAddress());
+        passEt.setText(receivedUser.getPassword());
+        nameEt.setText(receivedUser.getName());
+//userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
+        profileImg.setImageBitmap(userImgBitmap);
+        dateEt.setText(receivedUser.getBirthDate());
+        if (receivedUser.getGender().equalsIgnoreCase("female")) {
             femaleRadioBtn.setChecked(true);
 
+        } else {
+            maleRadioBtn.setChecked(true);
         }
-        else { maleRadioBtn.setChecked(true); }
 
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         changeImgTv.setOnClickListener(new View.OnClickListener() {
@@ -145,59 +144,51 @@ dateEt.setText(receivedUser.getBirthDate());
             public void onClick(View v) {
 
 
+                String radiovalue = ((RadioButton) findViewById(genderRadioGroup.getCheckedRadioButtonId())).getText().toString();
+                if (validateForm()) {
+                    CustomProgressDialog.getInstance(EditProfile.this).show();
+
+                    List<String> interests = receivedUser.getInterests();
+                    receivedUser = new User(nameEt.getText().toString(), emailEt.getText().toString(), passEt.getText().toString(), dateEt.getText().toString(),
+                            addressEt.getText().toString(), radiovalue
+                    );
+                    receivedUser.setInterests(interests);
+
+//                    receivedUser.setImage(HelperClass.encodeTobase64(userImgBitmap));
 
 
-                String radiovalue = ((RadioButton)findViewById(genderRadioGroup.getCheckedRadioButtonId())).getText().toString();
-if(validateForm()) {
-    CustomProgressDialog.getInstance(EditProfile.this).show();
-
-    List<String> interests= receivedUser.getInterests();
-receivedUser =new User(nameEt.getText().toString(),emailEt.getText().toString(),passEt.getText().toString(),dateEt.getText().toString(),
-        addressEt.getText().toString(),radiovalue
-        );
-receivedUser.setInterests(interests);
-
-    receivedUser.setImage(HelperClass.encodeTobase64(userImgBitmap));
+                    save(receivedUser);
 
 
-
-save(receivedUser);
-
-
-
-
-}
+                }
             }
         });
 
 
-
-
-
     }
 
-    public void save(User user){
+    public void save(User user) {
 
-        if(HelperClass.checkInternetState(this)) {
+        if (HelperClass.checkInternetState(this)) {
             Storage storage = new Storage(getApplicationContext());
             userViewModel.updateUserProfile(storage.getId(), storage.getToken(), user).observe(this, new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse generalResponse) {
-                    if(generalResponse!=null) {
+                    if (generalResponse != null) {
 
                         Toast.makeText(getApplicationContext(), generalResponse.response, Toast.LENGTH_LONG).show();
                         CustomProgressDialog.getInstance(EditProfile.this).cancel();
 
                         EditProfile.this.finish();
-                    }
-                    else {          CustomProgressDialog.getInstance(EditProfile.this).cancel();
+                    } else {
+                        CustomProgressDialog.getInstance(EditProfile.this).cancel();
 
-                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditProfile.this);}
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditProfile.this);
+                    }
 
                 }
             });
-        }
-        else {
+        } else {
             CustomProgressDialog.getInstance(EditProfile.this).cancel();
 
             HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
@@ -209,18 +200,18 @@ save(receivedUser);
 
     public void StartAutoCompleteActivity() {
         Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
-                Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG))
+                Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
                 .setTypeFilter(TypeFilter.ADDRESS)
                 .setCountries(Arrays.asList("EG"))
                 .build(getApplicationContext());
-        startActivityForResult(i,AUTOCOMPLETE_REQUEST_CODE);
+        startActivityForResult(i, AUTOCOMPLETE_REQUEST_CODE);
 
     }
 
-    public void   selectDate(){
+    public void selectDate() {
 
-        cldr= Calendar.getInstance();
-        int  day = cldr.get(Calendar.DAY_OF_MONTH);
+        cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
         int year = cldr.get(Calendar.YEAR);
 
@@ -237,42 +228,32 @@ save(receivedUser);
         datePicker.getDatePicker().setMaxDate(cldr.getTimeInMillis());
 
 
-
         datePicker.show();
 
 
     }
 
 
-
-
     private void selectImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
-                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                    {
+                if (options[item].equals("Take Photo")) {
+                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                    }
-                    else
-                    {
+                    } else {
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                     }
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
+                } else if (options[item].equals("Choose from Gallery")) {
                     Intent intent = new Intent(Intent.ACTION_PICK);
                     intent.setType("image/*");
-                    startActivityForResult(intent,GALLERY_REQUEST_CODE);
-                }
-                else if (options[item].equals("Cancel")) {
+                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -282,19 +263,14 @@ save(receivedUser);
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
@@ -364,6 +340,7 @@ save(receivedUser);
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
     }
+
     private boolean validateForm() {
         boolean valid = true;
 
@@ -405,9 +382,6 @@ save(receivedUser);
         } else {
             dateEt.setError(null);
         }
-
-
-
 
 
         return valid;
