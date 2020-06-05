@@ -15,6 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
 
     buildTypes {
@@ -64,6 +66,8 @@ dependencies {
     implementation 'com.weiwangcn.betterspinner:library:1.1.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.google.android.material:material:1.2.0-alpha01'
+    implementation 'com.android.support:multidex:1.0.3'
+
     // retrofit2
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'

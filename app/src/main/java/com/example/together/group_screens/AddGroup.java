@@ -278,8 +278,8 @@ public class AddGroup extends AppCompatActivity {
     }
 
     private void observCreateGroup(GeneralResponse generalRes) {
-        Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
-                + generalRes.response);
+       // Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
+               // + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");

@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.together.data.api.user_apis.UsersRepo;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Group;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
 import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 
@@ -56,7 +55,7 @@ public class UsersViewModel extends ViewModel {
     }
 
 
-    public  MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
+    public  MutableLiveData<ArrayList<Group>> getAllUserGroups(int userId, String token){
 
         return   usersRepo.getAllUserGroups(userId,token);
 
@@ -67,7 +66,7 @@ public class UsersViewModel extends ViewModel {
 
     }
 
-    public MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId, String token){
+    public MutableLiveData<Group> getSpecificGroupDetails(int groupId, String token){
 
         return usersRepo.getSpecificGroupDetails(groupId,token);
     }

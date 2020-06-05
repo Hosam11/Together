@@ -19,7 +19,7 @@ import com.example.together.Adapters.HomeRecyclarViewAdapter;
 import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
-import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.Group;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.AddGroup;
 import com.example.together.utils.HelperClass;
@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     FloatingActionButton fab;
     RecyclerView recyclerView;
     HomeRecyclarViewAdapter adapter;
-    ArrayList<UserGroup> userGroupsList = new ArrayList<>();
+    ArrayList<Group> userGroupsList = new ArrayList<>();
     UsersViewModel userViewModel;
     CustomProgressDialog progressDialog;
 
@@ -97,9 +97,9 @@ public class HomeFragment extends Fragment {
     public void getGroups(){
 
         Storage storage = new Storage(getContext());
-        userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<UserGroup>>() {
+        userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<Group>>() {
             @Override
-            public void onChanged(ArrayList<UserGroup> userGroups) {
+            public void onChanged(ArrayList<Group> userGroups) {
                 if(userGroups!=null){
                 userGroupsList.clear();
                 userGroupsList.addAll(userGroups);

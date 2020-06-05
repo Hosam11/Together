@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Group {
     // POST - Create Group
     //http://127.0.0.1:8000/api/createGroup
@@ -29,6 +31,39 @@ public class Group {
     private int adminID;
     // to make a requests by group id
     private int groupID;
+    //added last
+
+    //as a group id in get request
+   // private int  id;
+    private int admin_id;
+    @SerializedName("members")
+    private ArrayList<User> members = new ArrayList<>();
+
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+
+    public int getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
+    }
+
+    //
     // nullable
     @SerializedName("address")
     private String location;

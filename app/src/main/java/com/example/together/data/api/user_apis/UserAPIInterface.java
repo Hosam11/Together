@@ -1,11 +1,10 @@
 package com.example.together.data.api.user_apis;
 
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Group;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
 import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 
@@ -44,13 +43,13 @@ public interface UserAPIInterface {
                                               @Body UserInterests interests);
 
     @GET("home/{id}")
-    Call<ArrayList<UserGroup>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
+    Call<ArrayList<Group>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
 
     @GET("interests")
     Call<ArrayList<Interests>> getAllInterests();
 
     @GET("show/{groupid}")
-    Call<GroupDetails> getSpecificGroupDetails(@Path("groupid") int groupid,
+    Call<Group> getSpecificGroupDetails(@Path("groupid") int groupid,
                                                @Header("Authorization") String header);
 
     @GET("remove/{groupId}/{id}?")
