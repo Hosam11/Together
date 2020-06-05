@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.R;
 import com.example.together.data.model.UserGroup;
 import com.example.together.data.storage.Storage;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 
 import static com.example.together.utils.HelperClass.TAG;
 
-public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
+public class HomeRecyclarViewAdapter extends
+        RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
 
 
     ArrayList<UserGroup> userGroups = new ArrayList<>();
@@ -58,7 +60,7 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
 
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
                     userGroups.get(position).getPhoto());
-
+            Glide.with(context).load(userGroups.get(position).getPhoto()).into(holder.groupImage);
 
             /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
                     .getPhoto());
