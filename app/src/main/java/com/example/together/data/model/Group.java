@@ -117,6 +117,10 @@ public class Group {
         this.groupID = groupID;
     }
 
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;}
+
+
     public String getImage() {
         return image;
     }
@@ -137,49 +141,36 @@ public class Group {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+
 
     public int getMaxMembers() {
         return maxMembers;
     }
 
-    public void setMaxMembers(int maxMembers) {
-        this.maxMembers = maxMembers;
-    }
+
 
     public int getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
+
 
     public String getGroupName() {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
+
 
     public int getCurrentMembers() {
         return currentMembers;
     }
 
-    public void setCurrentMembers(int currentMembers) {
-        this.currentMembers = currentMembers;
-    }
 
     public String getStatus() {
         return status;
@@ -201,9 +192,6 @@ public class Group {
         return interest;
     }
 
-    public void setInterest(String interest) {
-        this.interest = interest;
-    }
 
     @NonNull
     @Override
