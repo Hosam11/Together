@@ -17,15 +17,11 @@
 package com.example.together.ToDoListPachage;
 
 import android.animation.ObjectAnimator;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +32,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,14 +44,10 @@ import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.together.Adapters.CreateDialog;
-import com.example.together.Adapters.POJO;
-import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
 import com.example.together.data.storage.Storage;
@@ -66,8 +59,6 @@ import com.woxthebox.draglistview.DragItem;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static com.example.together.utils.HelperClass.TAG;
 
 public class BoardFragment extends Fragment {
 
@@ -87,6 +78,8 @@ public class BoardFragment extends Fragment {
     Storage storage;
     HandleViewModelProcess handleViewModelProcess;
     GetAddTaskButton getAddTaskButton;
+    public ProgressBar b;
+    public TextView percentageView;
 
 
 
@@ -128,22 +121,63 @@ public class BoardFragment extends Fragment {
                 if(HelperClass.checkInternetState(getContext())) {
                     if (fromColumn == 0 && toColumn == 1) {
                         handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
+//                        doingList.get(toRow).setPosition(toRow);
+                        rearrangeList(toDoList);
+                        rearrangeList(doingList);
+                        toArrangeList(toDoList,doingList);
+
                     }
                     if (fromColumn == 0 && toColumn == 2) {
                         handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
+//                        doneList.get(toRow).setPosition(toRow);
+                        rearrangeList(toDoList);
+                        rearrangeList(doneList);
+                        toArrangeList(toDoList,doneList);
 
                     }
                     if (fromColumn == 1 && toColumn == 0) {
                         handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
+//                        toDoList.get(toRow).setPosition(toRow);
+                        rearrangeList(doingList);
+                        rearrangeList(toDoList);
+                        toArrangeList(doingList,toDoList);
+
                     }
                     if (fromColumn == 1 && toColumn == 2) {
                         handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
+//                        doneList.get(toRow).setPosition(toRow);
+                        rearrangeList(doingList);
+                        rearrangeList(doneList);
+                        toArrangeList(doingList,doneList);
+
                     }
                     if (fromColumn == 2 && toColumn == 0) {
                         handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
+//                        toDoList.get(toRow).setPosition(toRow);
+                        rearrangeList(doneList);
+                        rearrangeList(toDoList);
+                        toArrangeList(doneList,toDoList);
+
+
                     }
                     if (fromColumn == 2 && toColumn == 1) {
                         handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
+//                        doingList.get(toRow).setPosition(toRow);
+                        rearrangeList(doneList);
+                        rearrangeList(doingList);
+                        toArrangeList(doneList,doingList);
+                    }
+                    if(fromColumn == 0 && toColumn == 0){
+                        rearrangeList(toDoList);
+                        handleViewModelProcess.sendPositionArrangment(toDoList);
+                    }
+                    if(fromColumn == 1 && toColumn == 1){
+                        rearrangeList(doingList);
+                        handleViewModelProcess.sendPositionArrangment(doingList);
+                    }
+                    if(fromColumn == 2 && toColumn == 2){
+                        rearrangeList(doneList);
+                        handleViewModelProcess.sendPositionArrangment(doneList);
                     }
                 }
 
@@ -215,6 +249,8 @@ public class BoardFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
         getAddTaskButton =(GetAddTaskButton) getActivity();
         addTask = getAddTaskButton.getAddTask();
+        b=getAddTaskButton.getProgressBar();
+        percentageView=getAddTaskButton.getPercentageView();
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,15 +332,17 @@ public class BoardFragment extends Fragment {
     }
 
     private void addColumn(String columnName , final ArrayList<ListTask> mItemArray) {
-
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this);
+         ItemAdapter listAdapter;
         if(columnName.equals("To Do List")) {
+             listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this,0);
             this.toDoListAdapter = listAdapter;
         }
         else if(columnName.equals("Doing List")){
+              listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this,1);
             this.doingListAdapter = listAdapter;
         }
-        else if(columnName.equals("Done List")){
+        else{
+              listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this,2);
             this.doneListAdapter = listAdapter;
         }
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
@@ -453,46 +491,17 @@ public class BoardFragment extends Fragment {
     }
 
     public void addTask(ListTask task) {
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog customProgressDialog = new CustomProgressDialog(getContext());
-            customProgressDialog.show();
-            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-            userViewModel.addTask(task, storage.getToken()).observe(this, addTaskResp -> {
-                if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                    Toast.makeText(getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
-                    customProgressDialog.cancel();
-                    if (HelperClass.checkInternetState(getContext())) {
-                        customProgressDialog.show();
-                        userViewModel.getToDoListTasks(1, storage.getToken()).observe(this, toDoListTask -> {
-                            if (toDoListTask != null) {
-                                toDoList = toDoListTask;
-                                toDoListAdapter.setList(toDoListTask);
-                                toDoListAdapter.notifyDataSetChanged();
-                                customProgressDialog.cancel();
-                                TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-                                itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-                            }
-                            else {
-                                customProgressDialog.cancel();
-                                HelperClass.showAlert("Error","Invalid request, please try again later",getContext());
-                            }
-                        });
-                    }
-                    else {
-                        HelperClass.showAlert("Error","Please check your internet connection",getContext());
-                    }
-                } else {
-                    customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",getContext());                }
-            });
-
-        }
-//        TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-//        itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-
-        else {
-            HelperClass.showAlert("Error","Please check your internet connection",getContext());
-
+       handleViewModelProcess.addTask(task);
+    }
+    public void toArrangeList(ArrayList<ListTask> l1, ArrayList<ListTask> l2){
+        ArrayList<ListTask> list = new ArrayList<>(l1.size()+l2.size());
+        list.addAll(l1);
+        list.addAll(l2);
+        handleViewModelProcess.sendPositionArrangment(list);
+    }
+    public void rearrangeList(ArrayList <ListTask> list){
+        for(int i =0; i<list.size(); i++){
+            list.get(i).setPosition(i);
         }
     }
 }

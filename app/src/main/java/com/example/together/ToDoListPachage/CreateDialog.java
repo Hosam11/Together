@@ -1,4 +1,4 @@
-package com.example.together.Adapters;
+package com.example.together.ToDoListPachage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +22,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
-import com.example.together.ToDoListPachage.BoardFragment;
-import com.example.together.ToDoListPachage.ItemAdapter;
 import com.example.together.data.model.ListTask;
 import com.example.together.utils.HelperClass;
 
@@ -84,7 +81,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
                 return toAddTaskDialog(adb,layoutInflater);
 
                case ("editTask"):
-               return toAddDeleteDialog(adb,layoutInflater);
+               return toAddEditDialog(adb,layoutInflater);
 
         }
       return null;
@@ -98,7 +95,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
                 if(add.isEnabled()==true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    ListTask task = new ListTask(1,2,t,d, HelperClass.TODO);
+                    ListTask task = new ListTask(1,2,t,d,boardFragment.toDoList.size(),HelperClass.TODO);
                     boardFragment.addTask(task);
 
                     CreateDialog.this.dismissAllowingStateLoss();
@@ -111,7 +108,7 @@ public class CreateDialog  extends AppCompatDialogFragment {
 
     }
 
-    public Dialog toAddDeleteDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
+    public Dialog toAddEditDialog( AlertDialog.Builder adb, LayoutInflater layoutInflater){
         add.setText("Edit");
         title.setText(itemAdapter.list.get(position).getTitle());
         description.setText(itemAdapter.list.get(position).getDescription());

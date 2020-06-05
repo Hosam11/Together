@@ -112,6 +112,9 @@ public class UserRepo {
     public MutableLiveData<GeneralResponse> editTask(int id,ListTask task, String token){
         return toDoListApiProvider.editTask(id,task,token);
     }
+    public MutableLiveData<GeneralResponse> sendPositionArrangment(ArrayList<ListTask> tasks, String token) {
+        return toDoListApiProvider.sendPositionArrangment(tasks, token);
+    }
 
 }
 
