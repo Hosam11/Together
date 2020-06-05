@@ -68,10 +68,9 @@ public class SignUpActivity extends AppCompatActivity implements
 
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
+    Bitmap userImgBitmap;
     private String gender = HelperClass.MALE;
 
-
-    Bitmap userImgBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +236,7 @@ public class SignUpActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
 
@@ -270,7 +270,7 @@ public class SignUpActivity extends AppCompatActivity implements
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
                         profileImage.setImageBitmap(bitmap);
-                        userImgBitmap=bitmap;
+                        userImgBitmap = bitmap;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -308,12 +308,11 @@ public class SignUpActivity extends AppCompatActivity implements
         }
 
 
-        if(!email.matches(emailPattern)){
+        if (!email.matches(emailPattern)) {
             emailEt.setError("Enter a valid e-mail!");
             valid = false;
 
-        }
-        else {
+        } else {
             emailEt.setError(null);
 
         }

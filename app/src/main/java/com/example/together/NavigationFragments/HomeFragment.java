@@ -71,13 +71,10 @@ public class HomeFragment extends Fragment {
 
 
 
-
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), AddGroup.class);
             startActivity(createGroup);
         });
-
-
 
     }
 
@@ -93,7 +90,6 @@ public class HomeFragment extends Fragment {
 
         HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
-
         }
 
     }
@@ -115,9 +111,6 @@ public class HomeFragment extends Fragment {
                     HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
             }
         });
-
-
-
 
     }
 

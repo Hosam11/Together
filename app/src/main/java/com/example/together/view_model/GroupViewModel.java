@@ -21,6 +21,8 @@ public class GroupViewModel extends ViewModel {
     private MutableLiveData<GeneralResponse> resAcceptJoin;
     private MutableLiveData<GeneralResponse> resRejectJoin;
 
+    private MutableLiveData<GeneralResponse> resUserJoinReq;
+
     private GroupRepo groupRepo ;
 
     public GroupViewModel() {
@@ -62,6 +64,11 @@ public class GroupViewModel extends ViewModel {
     public MutableLiveData<GeneralResponse> rejectJoinReqGroup(int reqID, String token) {
         resRejectJoin = groupRepo.rejectJoinReqGroup(reqID, token);
         return resRejectJoin;
+    }
+
+    public MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
+        resUserJoinReq = groupRepo.userRequestJoinStatus(gpID, userID, token);
+        return resUserJoinReq;
     }
 
 }

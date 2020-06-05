@@ -27,7 +27,7 @@ public class EditGroupInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_group);
-
+        getSupportActionBar().hide();
         gpName = findViewById(R.id.et_edit_group_name);
         gpDesc = findViewById(R.id.et_edit_group_desc);
         submitBtn = findViewById(R.id.btn_edit_group);

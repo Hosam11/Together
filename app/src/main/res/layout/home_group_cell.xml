@@ -11,11 +11,6 @@
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="0dp"
     android:foreground="?android:selectableItemBackground"
-
-
-
-
-
     >
 
     <FrameLayout
@@ -52,7 +47,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:padding="6dp"
-                    android:src="@drawable/default_img" />
+                     />
 
                 <ImageView
 
