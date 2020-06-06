@@ -82,6 +82,7 @@ public class BoardFragment extends Fragment {
     GetAddTaskButton getAddTaskButton;
     private int mColumns;
     private boolean mGridLayout;
+    CreateDialog dialog;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -253,7 +254,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (HelperClass.checkInternetState(getContext())) {
-                    CreateDialog dialog = new CreateDialog("addTask", BoardFragment.this);
+                    dialog = new CreateDialog("addTask", BoardFragment.this);
                     dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
                 } else {
                     HelperClass.showAlert("Error", "Please check your internet connection", getContext());
@@ -547,4 +548,11 @@ public class BoardFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
 }
