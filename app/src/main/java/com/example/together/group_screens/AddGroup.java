@@ -139,6 +139,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         locations = new ArrayList<>();
 
         // TODO get interest form backend
+        // now
         /*interests.add("android");
         interests.add("ios");
         interests.add("web desing");
