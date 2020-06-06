@@ -4,13 +4,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.together.data.api.APIInterface;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Group;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
 import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 import com.example.together.utils.HelperClass;
@@ -69,7 +67,6 @@ public class UserAPIProvider {
         Call<LoginResponse> signUpCall = userInterface.signUp(user);
 
         signUpCall.enqueue(new Callback<LoginResponse>() {
-
 
             @Override
             public void onResponse(Call<LoginResponse> call,
@@ -230,19 +227,19 @@ public class UserAPIProvider {
     }
 
 
-    MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String header){
-        MutableLiveData<ArrayList<UserGroup>> groupsRes=new MutableLiveData<>();
+    MutableLiveData<ArrayList<Group>> getAllUserGroups(int userId, String header){
+        MutableLiveData<ArrayList<Group>> groupsRes=new MutableLiveData<>();
 
-        Call<ArrayList<UserGroup>> getAllUserGroupsCall=userInterface.getAllUserGroups(userId,HelperClass.BEARER_HEADER+header);
+        Call<ArrayList<Group>> getAllUserGroupsCall=userInterface.getAllUserGroups(userId,HelperClass.BEARER_HEADER+header);
 
-        getAllUserGroupsCall.enqueue(new Callback<ArrayList<UserGroup>>() {
+        getAllUserGroupsCall.enqueue(new Callback<ArrayList<Group>>() {
             @Override
-            public void onResponse(Call<ArrayList<UserGroup>> call, Response<ArrayList<UserGroup>> response) {
+            public void onResponse(Call<ArrayList<Group>> call, Response<ArrayList<Group>> response) {
                 groupsRes.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<UserGroup>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Group>> call, Throwable t) {
                 groupsRes.setValue(null);
 
                 t.printStackTrace();
@@ -278,17 +275,17 @@ public class UserAPIProvider {
 
     }
 
-    MutableLiveData<GroupDetails> getSpecificGroupDetails (int groupId, String header){
-        MutableLiveData<GroupDetails> groupMutableLiveData=new MutableLiveData<>();
-        Call<GroupDetails> groupCall=userInterface.getSpecificGroupDetails(groupId,HelperClass.BEARER_HEADER+header);
-        groupCall.enqueue(new Callback<GroupDetails>() {
+    MutableLiveData<Group> getSpecificGroupDetails (int groupId, String header){
+        MutableLiveData<Group> groupMutableLiveData=new MutableLiveData<>();
+        Call<Group> groupCall=userInterface.getSpecificGroupDetails(groupId,HelperClass.BEARER_HEADER+header);
+        groupCall.enqueue(new Callback<Group>() {
             @Override
-            public void onResponse(Call<GroupDetails> call, Response<GroupDetails> response) {
+            public void onResponse(Call<Group> call, Response<Group> response) {
                 groupMutableLiveData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<GroupDetails> call, Throwable t) {
+            public void onFailure(Call<Group> call, Throwable t) {
                 groupMutableLiveData.setValue(null);
                 t.printStackTrace();
                 call.cancel();

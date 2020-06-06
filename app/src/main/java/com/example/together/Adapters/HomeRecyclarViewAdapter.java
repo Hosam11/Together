@@ -2,7 +2,6 @@ package com.example.together.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,27 +12,29 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.R;
-import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.Group;
+
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
-import com.example.together.utils.HelperClass;
 
 import java.util.ArrayList;
 
 import static com.example.together.utils.HelperClass.TAG;
 
-public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
+public class HomeRecyclarViewAdapter extends
+        RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
 
 
-    ArrayList<UserGroup> userGroups = new ArrayList<>();
+    ArrayList<Group> userGroups = new ArrayList<>();
     Context context;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
+    public HomeRecyclarViewAdapter(ArrayList<Group> userGroups, Context context) {
         this.userGroups = userGroups;
 
-        this.context=context;
+        this.context = context;
 
     }
 
@@ -52,16 +53,22 @@ public class HomeRecyclarViewAdapter extends RecyclerView.Adapter<HomeRecyclarVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.title.setText(userGroups.get(position).getName());
-        holder.description.setText(userGroups.get(position).getDescription());
+        holder.title.setText(userGroups.get(position).getGroupName());
+        holder.description.setText(userGroups.get(position).getGroupDesc());
 
-        if (userGroups.get(position).getPhoto() != null) {
-            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
-            Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
+
+        if (userGroups.get(position).getImage() != null) {
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
+
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
+                    userGroups.get(position).getImage());
+            Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
+
+            /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
                     .getPhoto());
-            holder.groupImage.setImageBitmap(photo);
+            holder.groupImage.setImageBitmap(photo);*/
         } else {
-            Log.i(TAG,  "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
 
             holder.groupImage.setImageResource(R.drawable.default_img);
         }

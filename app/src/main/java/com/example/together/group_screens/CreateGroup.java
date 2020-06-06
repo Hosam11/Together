@@ -20,10 +20,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.FixedDBValues;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
+import com.example.together.data.model.Interests;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
@@ -32,6 +34,7 @@ import com.example.together.utils.HelperClass;
 import com.example.together.utils.TestApis;
 import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.GroupViewModel;
+import com.example.together.view_model.UsersViewModel;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 import com.yalantis.ucrop.UCrop;
 
@@ -43,7 +46,7 @@ import java.util.List;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
-public class AddGroup extends AppCompatActivity implements DownLoadImage {
+public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     private static final int CAMERA_PERMISSION_CODE = 7;
@@ -87,8 +90,10 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
     String gpLevel;
     String gpLocation;
     // ToDo 1- uri
-    Uri imgUri;
+    Uri imageUri;
     Storage storage;
+    List<Interests> interestList;
+    UsersViewModel usersViewModel;
     // Spinners Objects
     private BetterSpinner spInterests;
     private BetterSpinner spLocations;
@@ -105,10 +110,10 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 
         getSupportActionBar().hide();
 
+
         spInterests = findViewById(R.id.sp_interest);
         spLocations = findViewById(R.id.sp_locations);
         spLevels = findViewById(R.id.sp_required_Level);
-
 
         // EditTexts
         etGroupName = findViewById(R.id.et_group_name);
@@ -117,27 +122,21 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         etGpDuration = findViewById(R.id.et_duration_week);
         etErrorMember = findViewById(R.id.et_show_error_member);
         etErrorDuration = findViewById(R.id.et_show_error_duration);
-        // etHiddenOther = findViewById(R.id.ed_other_interest);
-        // TextsViews
-        // tvGroupMaxMembers = findViewById(R.id.tv_member_number);
-        //tvGroupDuration = findViewById(R.id.tv_duration_week);
-
-
         tvAddImg = findViewById(R.id.tv_add_image);
-        //
         groupImg = findViewById(R.id.iv_group_img);
-
         groupImg.setOnClickListener(v -> {
+            // TODO reomve that when finishing
             Intent testApis = new Intent(this, TestApis.class);
             startActivity(testApis);
         });
 
+
         FixedDBValues dbValues = new FixedDBValues();
 
-        interests = new ArrayList<>(dbValues.getInterests().values());
+        interests = new ArrayList<>();
         locations = new ArrayList<>();
 
-        // TODO get interest form backend
+        // now
         /*interests.add("android");
         interests.add("ios");
         interests.add("web desing");
@@ -150,21 +149,32 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         locations.add("german");
         locations.add("spain");
 
-        levels.add("beginner");
-        levels.add("intermediate");
-        levels.add("expert");
+        levels.add("Beginner");
+        levels.add("Intermediate");
+        levels.add("Expert");
 
         storage = new Storage(this);
 
+        usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        CustomProgressDialog.getInstance(this).show();
+        usersViewModel.getAllInterests().observe(this,
+                this::getInterestsObservable);
 
-        interestSpinner = new CommonSpinner(spInterests, this, interests);
+
+
+//        interestSpinner = new CommonSpinner(spInterests, this, interests);
 //        interestSpinner.setEdOther(etHiddenOther);
         locationSpinner = new CommonSpinner(spLocations, this, locations);
         levelsSpinner = new CommonSpinner(spLevels, this, levels);
         locationSpinner.setLocation(true);
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
-        findViewById(R.id.btn_create_group).setOnClickListener(v -> createGroup());
+
+        findViewById(R.id.btn_create_group).setOnClickListener(v -> {
+            if (vaildGroupData()) {
+                createGroup();
+            }
+        });
 
         tvDurationRight = findViewById(R.id.tv_duration_rigth_btn);
 
@@ -184,58 +194,48 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 
     }
 
-  /*  public void chooseImage(View view) {
-        Log.i(TAG, "chooseImage: ");
-        Log.i(TAG, "onCreate: interest item selected >> " + interestSpinner.getSpItemSelected());
-        Log.i(TAG, "onCreate: location item selected >> " + locationSpinner.getSpItemSelected());
-        Log.i(TAG, "onCreate: level item selected >> " + levelsSpinner.getSpItemSelected());
-    }*/
+    private void getInterestsObservable(ArrayList<Interests> interestsListReturn) {
+        for (Interests i : interestsListReturn) {
+            interests.add(i.getName());
+        }
+        interestSpinner = new CommonSpinner(spInterests, this, interests);
+        CustomProgressDialog.getInstance(this).cancel();
+    }
+
 
     public void createGroup() {
-        /*String gpName = etGroupName.getText().toString();
-        String gpDesc = etGroupDesc.getText().toString();
-        // TODO will get it from maps that return it form db table contain interests
-        int gpMembers = Integer.parseInt(etMaxMembersNumber.getText().toString());
-        int gpDuration = Integer.parseInt(etGpDuration.getText().toString());
-        */
 
-        Storage storage = new Storage(this);
-        // FixedDBValues dbValues = new FixedDBValues();
         // TODO interest id leave it for now
-    /*    if (gpLevel == null || gpInterest == null) {
-            showAlert(ERROR_MISSING_FILEDS, this);
-        } else {*/
-        if (vaildGroupData()) {
 
-            if (imgUri != null) {
-                UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
-                imgToFireBase.uploadFile(imgUri);
-            } else {
-                // create group
+        if (imageUri != null) {
+            CustomProgressDialog.getInstance(this).show();
+            UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
+            imgToFireBase.uploadFile(imageUri);
 
-                Log.i(TAG, getLocalClassName() + " -- createGroup: token" + storage.getToken());
-                Group group = new Group(
-                        storage.getId(), gpLocation,
-                        maxMemberNumber, duration, gpName,
-                        gpDesc, HelperClass.FREE, gpLevel, gpInterest);
-                String token = storage.getToken();
-                groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
-            }
+        } else {
+            // create group
 
-              /*  String img = null;
-                if (groupImgBitmap != null) {
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgNotNull");
-                    img = HelperClass.encodeTobase64(groupImgBitmap);
-                    Log.i(TAG, getLocalClassName() + " -- createGroup: imgLength >>||>> " + img.length());
-                }*/
+            Group group = new Group(
+                    storage.getId(), gpLocation, null,
+                    maxMemberNumber, duration, gpName,
+                    gpDesc, HelperClass.FREE, gpLevel, gpInterest);
 
+            String token = storage.getToken();
+
+            Log.i(TAG, getLocalClassName() + " -- createGroup: mGroup >> "
+                    + group.toString());
+
+
+            CustomProgressDialog.getInstance(this).show();
+            groupViewModel.createGroup(group, token)
+                    .observe(this, this::observCreateGroup);
         }
 
-//        }
 
     }
 
     private boolean vaildGroupData() {
+        Log.i(TAG, getLocalClassName() + " -- vaildGroupData: ");
         boolean vaild = true;
         String gpMembersValue = etMaxMembersNumber.getText().toString();
         String gpDurationValue = etGpDuration.getText().toString();
@@ -243,23 +243,12 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         gpName = etGroupName.getText().toString();
         gpDesc = etGroupDesc.getText().toString();
 
-
         gpInterest = interestSpinner.getSpItemSelected();
         gpLevel = levelsSpinner.getSpItemSelected();
         gpLocation = locationSpinner.getSpItemSelected();
 
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
-
-
-      /*  maxMemberNumber = 0;
-        if (!gpMembersValue.isEmpty()) {*/
-//        }
-
-
-//        duration = 0;
-//        if (!gpDurationValue.isEmpty()) {
-//        }
 
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
@@ -274,6 +263,21 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
             vaild = false;
         } else {
             etGroupDesc.setError(null);
+        }
+        // interests
+        if (interestSpinner.getSpItemSelected() == null) {
+            spInterests.setError("Required");
+            vaild = false;
+        } else {
+            spInterests.setError(null);
+        }
+
+        // level
+        if (levelsSpinner.getSpItemSelected() == null) {
+            spLevels.setError("Required");
+            vaild = false;
+        } else {
+            spLevels.setError(null);
         }
         // Group Member
         if (maxMemberNumber <= 1) {
@@ -299,10 +303,11 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     private void observCreateGroup(GeneralResponse generalRes) {
-        Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
-                + generalRes.response);
+        // Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
+        // + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
+            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
             // 1- Go To Group Screens
 //            userViewModel.clearCreateGroupRes();
@@ -311,6 +316,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 //            startActivity(goToSingleGroup);
             finish();
         } else {
+            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
             showAlert(generalRes.response, this);
         }
@@ -375,14 +381,13 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         isEnterCrop = false;
 
         if (requestCode == CAMERA_REQUEST_CODE) {
-            imgUri = data.getData();
+            imageUri = data.getData();
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             groupImg.setImageBitmap(photo);
             imgBitmap = photo;
         }
 
         if (requestCode == GALLERY_REQUEST_CODE) {
-            imgUri = data.getData();
 
             UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(),
                     "IMG_" + System.currentTimeMillis())))
@@ -393,7 +398,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
 
             if (imgUri != null) {
                 try {
-                    this.imgUri = imgUri;
+                    this.imageUri = imgUri;
                     isEnterCrop = true;
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
                     groupImg.setImageBitmap(bitmap);
@@ -407,7 +412,7 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     @Override
-    public void onFinishedDownloadListner(String imgUrl) {
+    public void onFinishedDownloadListener(String imgUrl) {
         Log.i(TAG, "onFinishedDownloadListner: ");
         Group group = new Group(
                 storage.getId(), gpLocation, imgUrl,

@@ -26,10 +26,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.utils.DownLoadImage;
 import com.example.together.utils.HelperClass;
+import com.example.together.utils.UploadImageToFireBase;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -44,12 +47,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import static com.example.together.utils.HelperClass.ERROR_MISSING_FILEDS;
-import static com.example.together.utils.HelperClass.showAlert;
-
 
 public class SignUpActivity extends AppCompatActivity implements
-        RadioGroup.OnCheckedChangeListener {
+        RadioGroup.OnCheckedChangeListener, DownLoadImage {
 
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
@@ -69,6 +69,13 @@ public class SignUpActivity extends AppCompatActivity implements
     int CAMERA_REQUEST_CODE = 2;
     int GALLERY_REQUEST_CODE = 3;
     Bitmap userImgBitmap;
+    Uri imageUri;
+    // values
+    String uName;
+    String uEmail;
+    String uPass;
+    String birthDate;
+    String address;
     private String gender = HelperClass.MALE;
 
     @Override
@@ -121,21 +128,23 @@ public class SignUpActivity extends AppCompatActivity implements
 
     private void nextScreen() {
         if (validateForm()) {
-            String uName = nameEt.getText().toString();
-            String uEmail = emailEt.getText().toString().trim();
-            String uPass = passEt.getText().toString();
-            String birthDate = dateEt.getText().toString();
-            String address = addressEt.getText().toString();
+            uName = nameEt.getText().toString();
+            uEmail = emailEt.getText().toString().trim();
+            uPass = passEt.getText().toString();
+            birthDate = dateEt.getText().toString();
+            address = addressEt.getText().toString();
 
+            if (imageUri != null) {
+                Log.i(HelperClass.TAG, "nextScreen: Img not Null");
+                CustomProgressDialog.getInstance(this).show();
+                UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
+                imgToFireBase.uploadFile(imageUri);
 
-            if (uName.isEmpty() || uEmail.isEmpty() || uPass.isEmpty()) {
-                showAlert(ERROR_MISSING_FILEDS, this);
             } else {
-                User user = new User(uName, uEmail, uPass, birthDate, address, gender);
-                if (userImgBitmap != null) {
-                    user.setImage(HelperClass.encodeTobase64(userImgBitmap));
+                Log.i(HelperClass.TAG, "nextScreen: Img  Null");
 
-                }
+                User user = new User(uName, uEmail, uPass, birthDate, address, gender);
+
                 Storage storage = new Storage();
                 storage.savePassedUser(user, this);
                 Log.i(HelperClass.TAG, "SignUpActivity -- createAccount: #click#" +
@@ -144,7 +153,6 @@ public class SignUpActivity extends AppCompatActivity implements
                         InterestsActivity.class);
                 startActivity(toInterests);
             }
-
         }
 
     }
@@ -233,6 +241,7 @@ public class SignUpActivity extends AppCompatActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
@@ -256,6 +265,7 @@ public class SignUpActivity extends AppCompatActivity implements
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 userImgBitmap = photo;
+                this.imageUri = data.getData();
                 profileImage.setImageBitmap(photo);
             }
 
@@ -266,27 +276,22 @@ public class SignUpActivity extends AppCompatActivity implements
             if (requestCode == UCrop.REQUEST_CROP) {
                 Uri imgUri = UCrop.getOutput(data);
                 if (imgUri != null) {
-
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
                         profileImage.setImageBitmap(bitmap);
+                        this.imageUri = imgUri;
                         userImgBitmap = bitmap;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
-
-
             }
-
-
         }
-
     }
 
 
     private boolean validateForm() {
+
         boolean valid = true;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -294,6 +299,9 @@ public class SignUpActivity extends AppCompatActivity implements
         String name = nameEt.getText().toString();
         if (TextUtils.isEmpty(name)) {
             nameEt.setError("Required.");
+            valid = false;
+        } else if (name.length() <= 2) {
+            nameEt.setError("The name must be at least 3 characters.");
             valid = false;
         } else {
             nameEt.setError(null);
@@ -344,5 +352,20 @@ public class SignUpActivity extends AppCompatActivity implements
         return valid;
     }
 
+    @Override
+    public void onFinishedDownloadListener(String imgUrl) {
+        User user = new User(uName, uEmail, uPass, birthDate, address, gender);
+        user.setImage(imgUrl);
+        Storage storage = new Storage();
+        storage.savePassedUser(user, this);
+        Log.i(HelperClass.TAG, "SignUpActivity -- createAccount: #click#" +
+                " user  >> " + user);
+        Log.i(HelperClass.TAG, "SignUpActivity -- onFinishedDownloadListener: " + user);
+        Intent toInterests = new Intent(getApplicationContext(),
+                InterestsActivity.class);
+        CustomProgressDialog.getInstance(this).cancel();
+
+        startActivity(toInterests);
+    }
 }
 

@@ -58,7 +58,7 @@ public class GroupApiProvider {
      * or if something wrong happened
      */
     MutableLiveData<GeneralResponse> createGroup(Group group, String header) {
-        
+
         if (group.getImage() != null) {
             Log.i(TAG, getClass().getSimpleName() + "createGroup: chars imgLeng is >>  " + group.getImage().length());
         }
@@ -70,6 +70,7 @@ public class GroupApiProvider {
         addGroupCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+
                 Log.i(TAG, "GroupApiProvider -- createGroup() enqueue()  body >> " +
                         res.body());
                 addGroupRes.setValue(res.body());
@@ -291,11 +292,11 @@ public class GroupApiProvider {
     }
 
     /**
+     * check whether user in the group or not or waitting from admin to accept invitation method
      * @param gpID   group id that user make request on it
      * @param userID user that will make request with him
      * @param token used in header of request as authoritarian
-     * @return {@link GeneralResponse} that tell us wther user in the group
-     * or not or watting from admin to accept it
+     * @return {@link GeneralResponse} reponse tell us status
      */
     MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
         MutableLiveData<GeneralResponse> reqJoinStatus = new MutableLiveData<>();

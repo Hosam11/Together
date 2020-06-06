@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -30,6 +31,10 @@ public class HelperClass {
     public static final String TAG = "logs_info";
     public static final String MALE = "Male";
     public static final String FEMALE = "Female";
+    public static final String JOIN_GROUP = "Join Group";
+    public static final String PENDING = "Pending...";
+
+
 
     // Shared Prefernces consts
     public static final String USER_DATA = "user_data";
@@ -64,11 +69,10 @@ public class HelperClass {
     public static final String checkYourCon= "Please check your internet connection";
     public static final String SERVER_DOWN = "Failed connect to host!";
 
-    public static  final String USER_NOT_MEMBER = "Not member and  ";
-    public static final String USER_WATING_JOIN_GROUP
-            = "Not member and This user waiting for admin of group to accept his request of join";
-    public static final String USER_IN_GROUP
-            = "Member of this group and This user waiting for admin of group to accept his request of join";
+    public static  final String USER_NOT_MEMBER = "Not member ";
+    public static final String USER_WAITING_JOIN_GROUP
+            = "Not member , This user waiting for admin of group to accept his request of join";
+    public static final String USER_IN_GROUP = "Member of this group";
 
     // user send req and accepte it
     // "Member of this group and"
@@ -104,22 +108,6 @@ public class HelperClass {
     }
 
 
-    // method for bitmap to base64
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap immage = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 10, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
-    }
-
-    // method for base64 to bitmap
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
 
     /**
      * @param context: context that called the method
@@ -156,4 +144,5 @@ public class HelperClass {
         });
         builder.show();
     }
+
 }

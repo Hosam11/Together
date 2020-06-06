@@ -11,6 +11,8 @@ public class LoginResponse {
     private boolean isSuccess;
     private boolean isConFailed;
 
+
+
     public boolean isConFailed() {
         return isConFailed;
     }

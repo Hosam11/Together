@@ -2,26 +2,13 @@ package com.example.together.data.api;
 
 import android.util.Log;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
-import com.example.together.data.model.Interests;
 import com.example.together.data.model.LoginResponse;
-import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
-import com.example.together.data.model.UserInterests;
-import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

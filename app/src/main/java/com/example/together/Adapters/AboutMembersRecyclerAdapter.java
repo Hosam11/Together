@@ -1,28 +1,30 @@
 package com.example.together.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.R;
-import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.User;
 import com.example.together.utils.HelperClass;
 
 import java.util.ArrayList;
+
+import static com.example.together.utils.HelperClass.TAG;
 
 
 public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembersRecyclerAdapter.MyViewHolder> {
 
 
-    ArrayList<GroupDetails.Member> memberArrayList=new ArrayList<>();
+    ArrayList<User> memberArrayList=new ArrayList<>();
     boolean isAdmin;
     Context context;
     private OnItemClickListener mListener;
@@ -67,7 +69,7 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         }
     }
 
-    public AboutMembersRecyclerAdapter(ArrayList<GroupDetails.Member> memberArrayList ,boolean isAdmin,Context context) {
+    public AboutMembersRecyclerAdapter(ArrayList<User> memberArrayList ,boolean isAdmin,Context context) {
 
         this.memberArrayList=memberArrayList;
         this.isAdmin=isAdmin;
@@ -89,12 +91,17 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
 
 
 
-
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText(memberArrayList.get(position).getName());
-        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
+
+        Glide.with(context).load(memberArrayList.get(position).getImage()).placeholder(R.drawable
+        .ic_profile_black_24dp).into(holder.userImage);
+
+
+//        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
+        Log.i(TAG, "AboutMemberGroup onBindViewHolder: imgUrl" +memberArrayList.get(position).getImage() );
         if(isAdmin==false){
 
             holder.removeBtn.setVisibility(View.INVISIBLE);

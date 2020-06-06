@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.Login_Signup.StartActivity;
@@ -88,6 +89,7 @@ public class ProfileFragment extends Fragment implements
 
 
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+
 
 
         v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
@@ -170,7 +172,10 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
-        storage = new Storage(getContext());
+         storage = new Storage(getContext());
+        Log.i("TOKEN",storage.getToken());
+
+
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
         usersViewModel.fetchUserData(storage.getId(), storage.getToken())
@@ -187,9 +192,9 @@ public class ProfileFragment extends Fragment implements
                         addressEt.setText(userData.getAddress());
                         dateEt.setText(userData.getBirthDate());
                         genderEt.setText(userData.getGender());
-                        if (userData.image != null) {
-                            profileImage.setImageBitmap(HelperClass.decodeBase64(userData.image));
-                        }
+
+                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                .ic_profile_black_24dp).into(profileImage);
 
 
                         displayInterests(userData.getInterests());

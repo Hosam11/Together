@@ -16,24 +16,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.Adapters.AboutMembersRecyclerAdapter;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
-import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.Group;
+import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.example.together.utils.HelperClass.TAG;
+
 public class AboutGroupFragment extends Fragment {
 
     RecyclerView members_recycler;
-    ArrayList<GroupDetails.Member> groupMembersList = new ArrayList<>();
+    ArrayList<User> groupMembersList = new ArrayList<>();
     AboutMembersRecyclerAdapter adapter;
     ImageView groupImgView;
     TextView nameTv;
@@ -57,9 +59,9 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        UserGroup receivedGroup = s.getGroupUser(getContext());
+        Group receivedGroup = s.getGroupUser(getContext());
 
-        Log.i(HelperClass.TAG, "onCreateView: id >> "   );
+        Log.i(TAG, "onCreateView: id >> "   );
 
         View view = inflater.inflate(R.layout.fragment_about_group,
                 container, false);
@@ -98,24 +100,32 @@ public class AboutGroupFragment extends Fragment {
             @Override
             public void onDeleteClick(int position) {
                 CustomProgressDialog.getInstance(getContext()).show();
-
-                removeItem(position, receivedGroup.getId());
+// represents Gid
+                removeItem(position, receivedGroup.getAdminID());
             }
         });
 
 
-        nameTv.setText(receivedGroup.getName());
-        groupDescriptionTv.setText(receivedGroup.getDescription());
+        nameTv.setText(receivedGroup.getGroupName());
+        groupDescriptionTv.setText(receivedGroup.getGroupDesc());
         //  groupImgView TODO HERE Getting Image
-        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
+
+        if (receivedGroup.getImage() != null) {
+//        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
+
+            Glide.with(getContext()).load(receivedGroup.getImage()).into(groupImgView);
+            Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getImage());
+        }
+
 
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
 
+// represents Gid
 
-            getGroupDetails(receivedGroup.getId());
+            getGroupDetails(receivedGroup.getAdminID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
@@ -130,7 +140,9 @@ public class AboutGroupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (HelperClass.checkInternetState(getContext())) {
-                    userViewModel.leaveGroup(receivedGroup.getId(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                    //TODO:// represents Gid
+
+                    userViewModel.leaveGroup(receivedGroup.getAdminID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {
                             if (response != null) {
@@ -202,9 +214,9 @@ public class AboutGroupFragment extends Fragment {
 
     public void getGroupDetails(int groupId) {
         userViewModel.getSpecificGroupDetails(groupId, storage.getToken())
-                .observe(this, new Observer<GroupDetails>() {
+                .observe(this, new Observer<Group>() {
             @Override
-            public void onChanged(GroupDetails groupDetails) {
+            public void onChanged(Group groupDetails) {
                 if (groupDetails != null) {
                     groupMembersList.clear();
                     groupMembersList.addAll(groupDetails.getMembers());

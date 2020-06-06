@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -74,7 +73,7 @@ public class Storage {
         return gson.fromJson(json, User.class);
     }
 
-    public void saveGroupObject(UserGroup group, Context context) {
+    public void saveGroupObject(Group group, Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -83,11 +82,11 @@ public class Storage {
         prefsEditor.apply();
     }
 
-    public UserGroup getGroupUser(Context context) {
+    public Group getGroupUser(Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_GROUP_OBJ, NO_GROUP_DEFULT);
-        return gson.fromJson(json, UserGroup.class);
+        return gson.fromJson(json, Group.class);
     }
 
     public  void clearStorage(){
