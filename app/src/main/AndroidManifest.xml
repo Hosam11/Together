@@ -49,7 +49,6 @@
         <activity android:name=".ToDoListPachage.ToDoListMain">
 
         </activity>
-        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".group_screens.ViewGroup" />
         <activity android:name=".group_screens.AddGroup" />
         <activity android:name=".MainActivity" /> <!-- crop Activity -->

@@ -1,6 +1,7 @@
 package com.example.together.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.example.together.data.model.User;
 import com.example.together.utils.HelperClass;
 
 import java.util.ArrayList;
+
+import static com.example.together.utils.HelperClass.TAG;
 
 
 public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembersRecyclerAdapter.MyViewHolder> {
@@ -87,12 +90,14 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
 
 
 
-
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText(memberArrayList.get(position).getName());
-        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getImage()));
+
+
+//        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
+        Log.i(TAG, "AboutMemberGroup onBindViewHolder: imgUrl" +memberArrayList.get(position).getImage() );
         if(isAdmin==false){
 
             holder.removeBtn.setVisibility(View.INVISIBLE);

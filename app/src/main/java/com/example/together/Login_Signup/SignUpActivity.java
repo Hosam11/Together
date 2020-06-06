@@ -133,7 +133,8 @@ public class SignUpActivity extends AppCompatActivity implements
             } else {
                 User user = new User(uName, uEmail, uPass, birthDate, address, gender);
                 if (userImgBitmap != null) {
-                    user.setImage(HelperClass.encodeTobase64(userImgBitmap));
+
+                   // user.setImage(HelperClass.encodeTobase64(userImgBitmap));
 
                 }
                 Storage storage = new Storage();
