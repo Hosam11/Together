@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.R;
 import com.example.together.data.model.User;
 import com.example.together.utils.HelperClass;
@@ -94,6 +95,9 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.name.setText(memberArrayList.get(position).getName());
+
+        Glide.with(context).load(memberArrayList.get(position).getImage()).placeholder(R.drawable
+        .ic_profile_black_24dp).into(holder.userImage);
 
 
 //        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));

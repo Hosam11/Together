@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.Adapters.AboutMembersRecyclerAdapter;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
@@ -111,6 +112,8 @@ public class AboutGroupFragment extends Fragment {
 
         if (receivedGroup.getImage() != null) {
 //        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
+
+            Glide.with(getContext()).load(receivedGroup.getImage()).into(groupImgView);
             Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getImage());
         }
 
