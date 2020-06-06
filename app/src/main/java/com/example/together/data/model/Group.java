@@ -84,6 +84,7 @@ public class Group {
     @SerializedName("photo")
     private String image;
 
+
     public Group() {
 
     }
@@ -141,6 +142,9 @@ public class Group {
     public Group(String learning_android, int development, String description) {
     }
 
+    public Group(int id, String gpLocation, int maxMemberNumber, int duration, String gpName, String gpDesc, String free, String gpLevel, String gpInterest) {
+    }
+
     public int getGroupID() {
         return groupID;
     }
@@ -148,6 +152,10 @@ public class Group {
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }
+
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;}
+
 
     public String getImage() {
         return image;
@@ -169,49 +177,36 @@ public class Group {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+
 
     public int getMaxMembers() {
         return maxMembers;
     }
 
-    public void setMaxMembers(int maxMembers) {
-        this.maxMembers = maxMembers;
-    }
+
 
     public int getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
+
 
     public String getGroupName() {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
+
 
     public int getCurrentMembers() {
         return currentMembers;
     }
 
-    public void setCurrentMembers(int currentMembers) {
-        this.currentMembers = currentMembers;
-    }
 
     public String getStatus() {
         return status;
@@ -233,9 +228,6 @@ public class Group {
         return interest;
     }
 
-    public void setInterest(String interest) {
-        this.interest = interest;
-    }
 
     @NonNull
     @Override

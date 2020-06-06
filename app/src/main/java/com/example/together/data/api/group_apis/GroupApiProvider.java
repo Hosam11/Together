@@ -58,6 +58,7 @@ public class GroupApiProvider {
      * or if something wrong happened
      */
     MutableLiveData<GeneralResponse> createGroup(Group group, String header) {
+
         if (group.getImage() != null) {
             Log.i(TAG, getClass().getSimpleName() + "createGroup: chars imgLeng is >>  " + group.getImage().length());
         }
@@ -69,6 +70,7 @@ public class GroupApiProvider {
         addGroupCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+
                 Log.i(TAG, "GroupApiProvider -- createGroup() enqueue()  body >> " +
                         res.body());
                 addGroupRes.setValue(res.body());
