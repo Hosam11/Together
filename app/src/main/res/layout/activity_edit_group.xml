@@ -43,20 +43,19 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
+                    android:id="@+id/iv_edit_group"
                     android:layout_width="95dp"
                     android:layout_height="95dp"
                     android:layout_marginLeft="17dp"
                     android:layout_marginTop="22dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:onClick="chooseImage"
                     android:src="@drawable/group"
                     app:civ_border_color="@color/primaryColor"
                     app:civ_border_width="2dp" />
 
                 <TextView
-                    android:id="@+id/tv_add_image"
+                    android:id="@+id/tv_edit_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
@@ -85,7 +84,8 @@
                 style="@style/create_group_common_et"
                 android:layout_marginBottom="0dp"
                 android:hint="group name"
-                android:text="gp name" />
+                android:text="gp name"
+                android:textCursorDrawable="@drawable/cursor_color" />
 
             <View style="@style/create_group_view_edit_text" />
 
@@ -99,119 +99,123 @@
                 style="@style/create_group_common_et"
                 android:hint="group description"
                 android:maxLines="3"
-                android:text="gp desc" />
+                android:text="gp desc"
+                android:textCursorDrawable="@drawable/cursor_color" />
+
             <View style="@style/create_group_view_edit_text" />
 
-          <!--  &lt;!&ndash;  Interests Title&ndash;&gt;
-            <TextView
-                style="@style/create_group_title"
-                android:text="Interests" />
-            &lt;!&ndash;  Interests Spinner&ndash;&gt;
-            <com.weiwangcn.betterspinner.library.BetterSpinner
-                android:id="@+id/sp_interest"
-                style="@style/create_group_common_et"
-                android:hint="Select interest" />
-            <View style="@style/create_group_view_edit_text" />
+            <!--  &lt;!&ndash;  Interests Title&ndash;&gt;
+              <TextView
+                  style="@style/create_group_title"
+                  android:text="Interests" />
+              &lt;!&ndash;  Interests Spinner&ndash;&gt;
+              <com.weiwangcn.betterspinner.library.BetterSpinner
+                  android:id="@+id/sp_interest"
+                  style="@style/create_group_common_et"
+                  android:hint="Select interest" />
+              <View style="@style/create_group_view_edit_text" />
 
 
-            &lt;!&ndash;  Level Title&ndash;&gt;
-            <TextView
-                style="@style/create_group_title"
-                android:text="Level" />
-            &lt;!&ndash;  Level Spinner&ndash;&gt;
-            <com.weiwangcn.betterspinner.library.BetterSpinner
-                android:id="@+id/sp_required_Level"
-                style="@style/create_group_common_et"
-                android:hint="Select Level" />
-            <View style="@style/create_group_view_edit_text" />
+              &lt;!&ndash;  Level Title&ndash;&gt;
+              <TextView
+                  style="@style/create_group_title"
+                  android:text="Level" />
+              &lt;!&ndash;  Level Spinner&ndash;&gt;
+              <com.weiwangcn.betterspinner.library.BetterSpinner
+                  android:id="@+id/sp_required_Level"
+                  style="@style/create_group_common_et"
+                  android:hint="Select Level" />
+              <View style="@style/create_group_view_edit_text" />
 
-            &lt;!&ndash;  Location Title&ndash;&gt;
-            <TextView
-                style="@style/create_group_title"
-                android:text="Location" />
-            &lt;!&ndash;  Location Spinner&ndash;&gt;
-            <com.weiwangcn.betterspinner.library.BetterSpinner
-                android:id="@+id/sp_locations"
-                style="@style/create_group_common_et"
-                android:hint="Select Level" />
-            <View style="@style/create_group_view_edit_text" />
+              &lt;!&ndash;  Location Title&ndash;&gt;
+              <TextView
+                  style="@style/create_group_title"
+                  android:text="Location" />
+              &lt;!&ndash;  Location Spinner&ndash;&gt;
+              <com.weiwangcn.betterspinner.library.BetterSpinner
+                  android:id="@+id/sp_locations"
+                  style="@style/create_group_common_et"
+                  android:hint="Select Level" />
+              <View style="@style/create_group_view_edit_text" />
 
-            &lt;!&ndash;  Member Numbers Title&ndash;&gt;
-            <TextView
-                style="@style/create_group_title"
-                android:text="Member Numbers" />
+              &lt;!&ndash;  Member Numbers Title&ndash;&gt;
+              <TextView
+                  style="@style/create_group_title"
+                  android:text="Member Numbers" />
 
-            &lt;!&ndash;  Member Numbers Grouping&ndash;&gt;
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+              &lt;!&ndash;  Member Numbers Grouping&ndash;&gt;
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:gravity="center_horizontal"
+                  android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_member_left_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_chevron_left_black_24dp" />
+                  <TextView
+                      android:id="@+id/tv_member_left_btn"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_chevron_left_black_24dp" />
 
-                <TextView
-                    android:id="@+id/tv_member_number"
-                    style="@style/create_group_tv_counter"
-                    android:letterSpacing="-0.02"
-                    android:text="0" />
+                  <TextView
+                      android:id="@+id/tv_member_number"
+                      style="@style/create_group_tv_counter"
+                      android:letterSpacing="-0.02"
+                      android:text="0" />
 
-                <TextView
-                    android:id="@+id/tv_member_right_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_chevron_right_black_24dp" />
+                  <TextView
+                      android:id="@+id/tv_member_right_btn"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_chevron_right_black_24dp" />
 
-            </LinearLayout>
+              </LinearLayout>
 
-            &lt;!&ndash;  Duration Title&ndash;&gt;
-            <TextView
-                style="@style/create_group_title"
-                android:text="Duration (Max 12 Weeks)" />
+              &lt;!&ndash;  Duration Title&ndash;&gt;
+              <TextView
+                  style="@style/create_group_title"
+                  android:text="Duration (Max 12 Weeks)" />
 
-            &lt;!&ndash;  DurationGrouping&ndash;&gt;
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+              &lt;!&ndash;  DurationGrouping&ndash;&gt;
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="30dp"
+                  android:gravity="center_horizontal"
+                  android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_duration_left_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_chevron_left_black_24dp" />
+                  <TextView
+                      android:id="@+id/tv_duration_left_btn"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_chevron_left_black_24dp" />
 
-                <TextView
-                    android:id="@+id/tv_duration_week"
-                    style="@style/create_group_tv_counter"
-                    android:letterSpacing="-0.02"
-                    android:text="0"
+                  <TextView
+                      android:id="@+id/tv_duration_week"
+                      style="@style/create_group_tv_counter"
+                      android:letterSpacing="-0.02"
+                      android:text="0"
 
-                    />
+                      />
 
-                <TextView
-                    android:id="@+id/tv_duration_rigth_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_chevron_right_black_24dp" />
+                  <TextView
+                      android:id="@+id/tv_duration_rigth_btn"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/ic_chevron_right_black_24dp" />
 
-            </LinearLayout>-->
+              </LinearLayout>-->
 
             <Button
                 android:id="@+id/btn_edit_group"
+
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginLeft="55dp"
                 android:layout_marginRight="55dp"
                 android:layout_marginBottom="55dp"
                 android:background="@drawable/login_signup_shape"
+                android:foreground="?android:selectableItemBackground"
                 android:text="Submit"
                 android:textColor="#fff" />
 

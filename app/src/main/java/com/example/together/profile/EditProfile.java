@@ -60,7 +60,8 @@ import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
-public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, DownLoadImage {
+public class EditProfile extends AppCompatActivity
+        implements RadioGroup.OnCheckedChangeListener, DownLoadImage {
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     TextView changeImgTv;
@@ -259,36 +260,6 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 
 
     private void selectImage() {
-//        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-//        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
-//        builder.setTitle("Add Photo!");
-//        builder.setItems(options, new DialogInterface.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.M)
-//            @Override
-//            public void onClick(DialogInterface dialog, int item) {
-//                if (options[item].equals("Take Photo")) {
-//                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                        requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-//                        if( checkSelfPermission( Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//
-//                        }
-//
-//
-//                    } else {
-//                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-//                    }
-//                } else if (options[item].equals("Choose from Gallery")) {
-//                    Intent intent = new Intent(Intent.ACTION_PICK);
-//                    intent.setType("image/*");
-//                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
-//                } else if (options[item].equals("Cancel")) {
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//        builder.show();
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -320,9 +291,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-
                 addressEt.setText(place.getName());
-
 
             }
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -334,15 +303,15 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 
         /////
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
+                        CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                        if (resultCode == RESULT_OK) {
 
-                imgUri = result.getUri();
-                File thumm_filepath = new File(imgUri.getPath());
-                try {
-                    Bitmap thumb_Bitmab = new Compressor(this)
-                            .setMaxWidth(200)
-                            .setMaxHeight(200)
+                            imgUri = result.getUri();
+                            File thumm_filepath = new File(imgUri.getPath());
+                            try {
+                                Bitmap thumb_Bitmab = new Compressor(this)
+                                        .setMaxWidth(200)
+                                        .setMaxHeight(200)
                             .setQuality(70)
                             .compressToBitmap(thumm_filepath);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -451,7 +420,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
     }
 
     @Override
-    public void onFinishedDownloadListner(String imgUrl) {
+    public void onFinishedDownloadListener(String imgUrl) {
 
         receivedUser.setImage(imgUrl);
         save(receivedUser);

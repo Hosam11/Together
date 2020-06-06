@@ -35,13 +35,17 @@ import com.example.together.utils.TestApis;
 import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UsersViewModel;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import id.zelory.compressor.Compressor;
 
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
@@ -161,7 +165,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
                 this::getInterestsObservable);
 
 
-
 //        interestSpinner = new CommonSpinner(spInterests, this, interests);
 //        interestSpinner.setEdOther(etHiddenOther);
         locationSpinner = new CommonSpinner(spLocations, this, locations);
@@ -189,8 +192,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(etMaxMembersNumber));
 
 
-        tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
-                CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
+        tvAddImg.setOnClickListener(v -> HelperClass.newSelectImage(this));
 
     }
 
@@ -364,52 +366,30 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
 
-            groupImgBitmap = getImage(requestCode, data);
-            if (isEnterCrop) {
-                if (groupImgBitmap != null) {
-                    Log.i(TAG, "onActivityResult: groupImgBitmap != null");
-                }
-            }
-        }
-    }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
 
-    private Bitmap getImage(int requestCode, @Nullable Intent data) {
-
-        Bitmap imgBitmap = null;
-        isEnterCrop = false;
-
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            imageUri = data.getData();
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            groupImg.setImageBitmap(photo);
-            imgBitmap = photo;
-        }
-
-        if (requestCode == GALLERY_REQUEST_CODE) {
-
-            UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(),
-                    "IMG_" + System.currentTimeMillis())))
-                    .start(this);
-        }
-        if (requestCode == UCrop.REQUEST_CROP) {
-            Uri imgUri = UCrop.getOutput(data);
-
-            if (imgUri != null) {
+                this.imageUri = result.getUri();
+                File thumm_filepath = new File(imageUri.getPath());
                 try {
-                    this.imageUri = imgUri;
-                    isEnterCrop = true;
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-                    groupImg.setImageBitmap(bitmap);
-                    imgBitmap = bitmap;
+                    Bitmap thumb_Bitmab = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(70)
+                            .compressToBitmap(thumm_filepath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    thumb_Bitmab.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                    groupImg.setImageBitmap(thumb_Bitmab);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         }
-        return imgBitmap;
     }
+
 
     @Override
     public void onFinishedDownloadListener(String imgUrl) {
