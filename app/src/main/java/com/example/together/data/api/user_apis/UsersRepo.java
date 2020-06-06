@@ -2,13 +2,11 @@ package com.example.together.data.api.user_apis;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.together.data.api.ToDoListApiProvider;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.GroupDetails;
+import com.example.together.data.model.Group;
 import com.example.together.data.model.Interests;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
 import com.example.together.data.model.UserInterests;
 import com.example.together.data.model.UserLogin;
 
@@ -47,7 +45,7 @@ public class UsersRepo {
 
 
 
-    public MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
+    public MutableLiveData<ArrayList<Group>> getAllUserGroups(int userId, String token){
 
         return  userAPIProvider.getAllUserGroups(userId,token);
     }
@@ -55,7 +53,7 @@ public class UsersRepo {
 
         return userAPIProvider.getAllInterests();
     }
-    public  MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId, String token){
+    public  MutableLiveData<Group> getSpecificGroupDetails(int groupId, String token){
         return  userAPIProvider.getSpecificGroupDetails(groupId,token);
     }
     public MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String token){

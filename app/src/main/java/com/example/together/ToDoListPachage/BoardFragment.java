@@ -372,49 +372,7 @@ public class BoardFragment extends Fragment {
         mColumns++;
     }
 
-   /* public void addTask(ListTask task) {
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog customProgressDialog = new CustomProgressDialog(getContext());
-            customProgressDialog.show();
-            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-            userViewModel.addTask(task, storage.getToken()).observe(this, addTaskResp -> {
-                if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                    Toast.makeText(getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
-                    customProgressDialog.cancel();
-                    if (HelperClass.checkInternetState(getContext())) {
-                        customProgressDialog.show();
-                        userViewModel.getToDoListTasks(1, storage.getToken()).observe(this, toDoListTask -> {
-                            if (toDoListTask != null) {
-                                toDoList = toDoListTask;
-                                toDoListAdapter.setList(toDoListTask);
-                                toDoListAdapter.notifyDataSetChanged();
-                                customProgressDialog.cancel();
-                                TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-                                itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-                            } else {
-                                customProgressDialog.cancel();
-                                HelperClass.showAlert("Error", "Invalid request, please try again later", getContext());
-                            }
-                        });
-                    } else {
-                        HelperClass.showAlert("Error", "Please check your internet connection", getContext());
-                    }
-                } else {
-                    customProgressDialog.cancel();
-                    HelperClass.showAlert("Error", "Invalid request, please try again later", getContext());
-                }
-            });
 
-        }
-//        TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-//        itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-
-        else {
-            HelperClass.showAlert("Error", "Please check your internet connection", getContext());
-
-        }
-    }
-*/
     public void addTask(ListTask task) {
         handleViewModelProcess.addTask(task);
     }

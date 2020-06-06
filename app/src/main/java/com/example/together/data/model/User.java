@@ -20,11 +20,21 @@ public class User implements Serializable {
     }
      */
     public String response;
+    private  int id;
 
     @SerializedName("photo")
     public String image;
     public String name;
     private String email;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String password;
     @SerializedName("BirthDate")
     private String birthDate;
@@ -51,6 +61,14 @@ public class User implements Serializable {
         this.birthDate = birthDate;
         this.address = address;
         this.gender = gender;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {

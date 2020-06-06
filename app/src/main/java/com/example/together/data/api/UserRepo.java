@@ -3,19 +3,9 @@ package com.example.together.data.api;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.Group;
-import com.example.together.data.model.GroupDetails;
-import com.example.together.data.model.Interests;
-import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.ListTask;
-import com.example.together.data.model.LoginResponse;
-import com.example.together.data.model.User;
-import com.example.together.data.model.UserGroup;
-import com.example.together.data.model.UserInterests;
-import com.example.together.data.model.UserLogin;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserRepo {
 

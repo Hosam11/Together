@@ -90,6 +90,7 @@ public class ProfileFragment extends Fragment implements
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
 
+
         v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
             Intent i = new Intent(getContext(), StartActivity.class);
             startActivity(i);
@@ -170,7 +171,10 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
-        storage = new Storage(getContext());
+         storage = new Storage(getContext());
+        Log.i("TOKEN",storage.getToken());
+
+
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
                 + storage.getId());
         usersViewModel.fetchUserData(storage.getId(), storage.getToken())

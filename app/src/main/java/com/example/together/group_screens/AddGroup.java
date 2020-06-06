@@ -277,8 +277,8 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     private void observCreateGroup(GeneralResponse generalRes) {
-        Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
-                + generalRes.response);
+       // Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
+               // + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
             CustomProgressDialog.getInstance(this).cancel();

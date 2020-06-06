@@ -4,6 +4,7 @@ public class Urls {
 
 
     // 10.0.2.2 for emulator
+
    // public static final String API_URL = "http://10.0.2.2:8000/api/";
 
     // for real device

@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.together.R;
-import com.example.together.data.model.UserGroup;
+import com.example.together.data.model.Group;
+
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 
@@ -26,11 +27,11 @@ public class HomeRecyclarViewAdapter extends
         RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
 
 
-    ArrayList<UserGroup> userGroups = new ArrayList<>();
+    ArrayList<Group> userGroups = new ArrayList<>();
     Context context;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HomeRecyclarViewAdapter(ArrayList<UserGroup> userGroups, Context context) {
+    public HomeRecyclarViewAdapter(ArrayList<Group> userGroups, Context context) {
         this.userGroups = userGroups;
 
         this.context = context;
@@ -52,15 +53,16 @@ public class HomeRecyclarViewAdapter extends
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.title.setText(userGroups.get(position).getName());
-        holder.description.setText(userGroups.get(position).getDescription());
+        holder.title.setText(userGroups.get(position).getGroupName());
+        holder.description.setText(userGroups.get(position).getGroupDesc());
 
-        if (userGroups.get(position).getPhoto() != null) {
+
+        if (userGroups.get(position).getImage() != null) {
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
 
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
-                    userGroups.get(position).getPhoto());
-            Glide.with(context).load(userGroups.get(position).getPhoto()).into(holder.groupImage);
+                    userGroups.get(position).getImage());
+            Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
 
             /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
                     .getPhoto());
