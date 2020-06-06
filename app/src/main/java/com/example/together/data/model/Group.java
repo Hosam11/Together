@@ -225,7 +225,9 @@ public class Group {
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
+                        "\ninterest : " + interest +
                         "\ninterest : " + interest
+
 
         );
     }

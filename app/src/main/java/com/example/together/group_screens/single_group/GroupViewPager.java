@@ -25,7 +25,11 @@ public class GroupViewPager extends AppCompatActivity {
         setContentView(R.layout.view_pager_group);
         findViewById(R.id.goToDoBoard).setOnClickListener((e)->{
             Intent goToToDoBoard = new Intent(this, ToDoListMain.class);
+            goToToDoBoard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
             startActivity(goToToDoBoard);
+            finish();
         });
 
         Objects.requireNonNull(getSupportActionBar()).hide();

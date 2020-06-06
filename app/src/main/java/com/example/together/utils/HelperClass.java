@@ -24,6 +24,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 
@@ -107,7 +109,14 @@ public class HelperClass {
 
     }
 
+    public static void newSelectImage(Activity activity) {
 
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1,1)
+                .start(activity);
+    }
 
     /**
      * @param context: context that called the method
@@ -120,7 +129,8 @@ public class HelperClass {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+    /*@RequiresApi(api = Build.VERSION_CODES.M)
     public static void selectImage(Activity activity, int cameraReqCode, int cameraReq, int  galleryReq) {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -144,5 +154,7 @@ public class HelperClass {
         });
         builder.show();
     }
+    */
+
 
 }

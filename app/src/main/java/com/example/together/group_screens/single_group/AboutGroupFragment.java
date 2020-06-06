@@ -1,5 +1,6 @@
 package com.example.together.group_screens.single_group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.group_screens.EditGroupInfo;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UsersViewModel;
 
@@ -59,7 +61,7 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        Group receivedGroup = s.getGroupUser(getContext());
+        Group receivedGroup = s.getGroup(getContext());
 
         Log.i(TAG, "onCreateView: id >> "   );
 
@@ -84,7 +86,9 @@ public class AboutGroupFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //TODO hossam Edit Group
+                    Intent goEditGroup = new Intent(getContext(), EditGroupInfo.class);
 
+                    getContext().startActivity(goEditGroup);
                     Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
                 }
             });

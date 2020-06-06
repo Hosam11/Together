@@ -40,12 +40,16 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+
+import id.zelory.compressor.Compressor;
 
 
 public class SignUpActivity extends AppCompatActivity implements
@@ -196,7 +200,7 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        /*final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -219,7 +223,8 @@ public class SignUpActivity extends AppCompatActivity implements
                 }
             }
         });
-        builder.show();
+        builder.show();*/
+        HelperClass.newSelectImage(this);
     }
 
     @Override
@@ -260,8 +265,7 @@ public class SignUpActivity extends AppCompatActivity implements
         }
 
         /////
-
-        if (resultCode == RESULT_OK) {
+      /*  if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 userImgBitmap = photo;
@@ -285,6 +289,28 @@ public class SignUpActivity extends AppCompatActivity implements
                         e.printStackTrace();
                     }
                 }
+            }
+        }*/
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                imageUri = result.getUri();
+                File thumm_filepath = new File(imageUri.getPath());
+                try {
+                    Bitmap thumb_Bitmab = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(70)
+                            .compressToBitmap(thumm_filepath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    thumb_Bitmab.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                    profileImage.setImageBitmap(thumb_Bitmab);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

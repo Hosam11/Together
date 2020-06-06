@@ -81,24 +81,35 @@ public class ViewGroup extends AppCompatActivity {
         storage = new Storage(this);
         Log.i(HelperClass.TAG, "ViewGroup -- onCreate: btnIsEnable >> " + actionToGroup.isEnabled());
 
-
         actionToGroup.setVisibility(View.GONE);
+        // [show] dialoge of user status
+        CustomProgressDialog.getInstance(this).show();
 
-
+        // to see whether user is waiting or not in group
         groupViewModel.userRequestJoinStatus(groupID, storage.getId(), storage.getToken())
                 .observe(this, this::observeJoinStatus);
 
     }
 
+    /**
+     * listen for reponse of server to see if user in group or waiting to join
+     *
+     * @param generalRes
+     */
     private void observeJoinStatus(GeneralResponse generalRes) {
+        // [cancel] dialoge of user status
+        CustomProgressDialog.getInstance(this).cancel();
         actionToGroup.setVisibility(View.VISIBLE);
+
         // User Not Member
         if (generalRes.response.equals(HelperClass.USER_NOT_MEMBER)) {
             Log.i(HelperClass.TAG, "ViewGroup -- observeJoinStatus: user not member");
             // Send join request
-            CustomProgressDialog.getInstance(this).show();
             // TODO groupID will change later
             actionToGroup.setOnClickListener(v -> {
+                // [show] dialoge of user join
+                CustomProgressDialog.getInstance(this).show();
+
                 groupViewModel.requestJoinGroup(groupID, storage.getId(), storage.getToken())
                         .observe(this, this::observeSendJoinGroup);
             });
@@ -123,9 +134,11 @@ public class ViewGroup extends AppCompatActivity {
 
     private void observeSendJoinGroup(GeneralResponse generalResponse) {
         Log.i(HelperClass.TAG, "observeSendJoinGroup: ");
+        // [cancel] dialog of user join
         CustomProgressDialog.getInstance(this).cancel();
         Toast.makeText(this, generalResponse.response, Toast.LENGTH_SHORT).show();
         pendingButton();
+
     }
 
     private void pendingButton() {

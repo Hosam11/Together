@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO change it to home screen
 
                 Intent intent = new Intent(this, BottomNavigationView.class);
+                // TODO INTENT ADD FLAG
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 LoginActivity.this.finish();
