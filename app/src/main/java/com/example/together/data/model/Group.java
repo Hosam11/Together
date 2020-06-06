@@ -95,6 +95,14 @@ public class Group {
         this.groupDesc = description;
     }
 
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
     public Group(
             int adminID, String location, String img,
             int maxMembers, int duration,

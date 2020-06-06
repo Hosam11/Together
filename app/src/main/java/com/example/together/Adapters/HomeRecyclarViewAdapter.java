@@ -57,11 +57,11 @@ public class HomeRecyclarViewAdapter extends
         holder.description.setText(userGroups.get(position).getGroupDesc());
 
 
-        if (userGroups.get(position).getPhoto() != null) {
+        if (userGroups.get(position).getImage() != null) {
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
 
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
-                    userGroups.get(position).getPhoto());
+                    userGroups.get(position).getImage());
             Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
 
             /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)

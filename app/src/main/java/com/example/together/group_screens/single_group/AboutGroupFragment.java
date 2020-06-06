@@ -109,7 +109,7 @@ public class AboutGroupFragment extends Fragment {
         groupDescriptionTv.setText(receivedGroup.getGroupDesc());
         //  groupImgView TODO HERE Getting Image
 
-        if (receivedGroup.getPhoto() != null) {
+        if (receivedGroup.getImage() != null) {
 //        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
             Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getImage());
         }
