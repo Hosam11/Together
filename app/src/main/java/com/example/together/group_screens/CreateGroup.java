@@ -46,7 +46,7 @@ import java.util.List;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
-public class AddGroup extends AppCompatActivity implements DownLoadImage {
+public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     private static final int CAMERA_PERMISSION_CODE = 7;
@@ -125,9 +125,11 @@ public class AddGroup extends AppCompatActivity implements DownLoadImage {
         tvAddImg = findViewById(R.id.tv_add_image);
         groupImg = findViewById(R.id.iv_group_img);
         groupImg.setOnClickListener(v -> {
+            // TODO reomve that when finishing
             Intent testApis = new Intent(this, TestApis.class);
             startActivity(testApis);
         });
+
 
         FixedDBValues dbValues = new FixedDBValues();
 

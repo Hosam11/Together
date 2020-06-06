@@ -292,11 +292,11 @@ public class GroupApiProvider {
     }
 
     /**
+     * check whether user in the group or not or waitting from admin to accept invitation method
      * @param gpID   group id that user make request on it
      * @param userID user that will make request with him
      * @param token used in header of request as authoritarian
-     * @return {@link GeneralResponse} that tell us wther user in the group
-     * or not or watting from admin to accept it
+     * @return {@link GeneralResponse} reponse tell us status
      */
     MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
         MutableLiveData<GeneralResponse> reqJoinStatus = new MutableLiveData<>();

@@ -11,15 +11,11 @@ import android.widget.GridView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.together.Adapters.HomeRecyclarViewAdapter;
 import com.example.together.Adapters.InterestAdapter;
-import com.example.together.BottomNavigationView;
 import com.example.together.GroupsUnderInterest;
 import com.example.together.R;
 import com.example.together.data.model.Interest;
-import com.example.together.group_screens.AddGroup;
 
 import java.util.ArrayList;
 

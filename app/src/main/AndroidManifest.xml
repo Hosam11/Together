@@ -50,7 +50,7 @@
 
         </activity>
         <activity android:name=".group_screens.ViewGroup" />
-        <activity android:name=".group_screens.AddGroup" />
+        <activity android:name=".group_screens.CreateGroup" />
         <activity android:name=".MainActivity" /> <!-- crop Activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
