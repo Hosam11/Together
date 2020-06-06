@@ -2,6 +2,7 @@ package com.example.together.profile;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,12 +30,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.utils.DownLoadImage;
 import com.example.together.utils.HelperClass;
+import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.UsersViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -43,15 +47,20 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+import id.zelory.compressor.Compressor;
+
+public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, DownLoadImage {
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     TextView changeImgTv;
@@ -72,6 +81,8 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
     int GALLERY_REQUEST_CODE = 3;
     User receivedUser;
     UsersViewModel userViewModel;
+    Uri imgUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +132,10 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         addressEt.setText(receivedUser.getAddress());
         passEt.setText(receivedUser.getPassword());
         nameEt.setText(receivedUser.getName());
+        Glide.with(getApplicationContext()).load(receivedUser.getImage()).placeholder(R.drawable
+                .ic_profile_black_24dp).into(profileImg);
 //userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
-        profileImg.setImageBitmap(userImgBitmap);
+       // profileImg.setImageBitmap(userImgBitmap);
         dateEt.setText(receivedUser.getBirthDate());
         if (receivedUser.getGender().equalsIgnoreCase("female")) {
             femaleRadioBtn.setChecked(true);
@@ -154,10 +167,21 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
                     );
                     receivedUser.setInterests(interests);
 
-//                    receivedUser.setImage(HelperClass.encodeTobase64(userImgBitmap));
+                    if (imgUri != null) {
+                        CustomProgressDialog.getInstance(EditProfile.this).show();
+                        UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(EditProfile.this);
+                        imgToFireBase.uploadFile(imgUri);
+                    }
+                    else {
+
+                        save(receivedUser);
 
 
-                    save(receivedUser);
+                    }
+
+                   // lma yro7 w yege
+
+                   // save(receivedUser);
 
 
                 }
@@ -235,30 +259,42 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 
 
     private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                    } else {
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-                    }
-                } else if (options[item].equals("Choose from Gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
-                } else if (options[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+//        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+//        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+//        builder.setTitle("Add Photo!");
+//        builder.setItems(options, new DialogInterface.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(DialogInterface dialog, int item) {
+//                if (options[item].equals("Take Photo")) {
+//                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                        requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+//                        if( checkSelfPermission( Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+//
+//                        }
+//
+//
+//                    } else {
+//                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+//                    }
+//                } else if (options[item].equals("Choose from Gallery")) {
+//                    Intent intent = new Intent(Intent.ACTION_PICK);
+//                    intent.setType("image/*");
+//                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
+//                } else if (options[item].equals("Cancel")) {
+//                    dialog.dismiss();
+//                }
+//            }
+//        });
+//        builder.show();
+
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1,1)
+                .start(this);
     }
 
 
@@ -297,44 +333,71 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         }
 
         /////
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
 
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_REQUEST_CODE) {
-                userImgBitmap = (Bitmap) data.getExtras().get("data");
-
-                profileImg.setImageBitmap(userImgBitmap);
-
-
-            }
-
-            if (requestCode == GALLERY_REQUEST_CODE) {
-                UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(), "IMG_" + System.currentTimeMillis())))
-                        .start(EditProfile.this);
-            }
-            if (requestCode == UCrop.REQUEST_CROP) {
-                Uri imgUri = UCrop.getOutput(data);
-                if (imgUri != null) {
-
-
-                    try {
-                        userImgBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-
-                        profileImg.setImageBitmap(userImgBitmap);
-                        //TODO
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
+                imgUri = result.getUri();
+                File thumm_filepath = new File(imgUri.getPath());
+                try {
+                    Bitmap thumb_Bitmab = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(70)
+                            .compressToBitmap(thumm_filepath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    thumb_Bitmab.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                    profileImg.setImageBitmap(thumb_Bitmab);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
             }
 
 
-        }
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == CAMERA_REQUEST_CODE) {
+//
+//                userImgBitmap = (Bitmap) data.getExtras().get("data");
+//
+//                profileImg.setImageBitmap(userImgBitmap);
+//
+//
+//                Toast.makeText(getApplicationContext(),imgUri.toString(),Toast.LENGTH_LONG).show();
+//
+//
+//            }
+//
+//            if (requestCode == GALLERY_REQUEST_CODE) {
+//                UCrop.of(data.getData(), Uri.fromFile(new File(this.getCacheDir(), "IMG_" + System.currentTimeMillis())))
+//                        .start(EditProfile.this);
+//            }
+//            if (requestCode == UCrop.REQUEST_CROP) {
+//                Uri imgUri = UCrop.getOutput(data);
+//                if (imgUri != null) {
+//
+//
+//                    try {
+//                        this.imgUri=imgUri;
+//                        userImgBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+//
+//                        profileImg.setImageBitmap(userImgBitmap);
+//                        //TODO
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//                }
+//
+//            }
+//
+//
+   }
 
     }
+
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -387,4 +450,11 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         return valid;
     }
 
+    @Override
+    public void onFinishedDownloadListner(String imgUrl) {
+
+        receivedUser.setImage(imgUrl);
+        save(receivedUser);
+
+    }
 }
