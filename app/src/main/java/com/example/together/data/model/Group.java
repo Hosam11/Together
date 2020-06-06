@@ -84,6 +84,31 @@ public class Group {
         this.interest = interest;
         this.image = img;
     }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
     public Group(int maxMembers, int duration,
                  String groupName, String groupDesc,
                  String levelRequired) {
