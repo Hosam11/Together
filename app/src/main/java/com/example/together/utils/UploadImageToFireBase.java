@@ -23,23 +23,24 @@ import com.google.firebase.storage.UploadTask;
 import static com.example.together.utils.HelperClass.TAG;
 
 public class UploadImageToFireBase {
+    Context context;
+    DownLoadImage downLoadImage;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
-    Context context;
-    DownLoadImage downLoadImage;
 
-    public UploadImageToFireBase(Context context){
+    public UploadImageToFireBase(Context context) {
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-        this.context=context;
+        this.context = context;
         downLoadImage = (DownLoadImage) context;
 
     }
 
+
     public void uploadFile(Uri imageUri) {
         if (imageUri != null) {
-            final String s=System.currentTimeMillis()
+            final String s = System.currentTimeMillis()
                     + "." + getFileExtension(imageUri);
             StorageReference fileReference = mStorageRef.child(s);
 
@@ -58,18 +59,18 @@ public class UploadImageToFireBase {
 
                             mStorageRef.child(s).getDownloadUrl()
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
 //                                    UploadImage uploadImage = new UploadImage("image",
 //                                            uri.toString());
 //                                    String uploadId = mDatabaseRef.push().getKey();
 //                                    mDatabaseRef.child(uploadId).setValue(uploadImage);
-                                   String imageUrl=uri.toString();
-                                    // TODO Put your code Here
-                                    // call the method in the interface take imgUrl
-                                    downLoadImage.onFinishedDownloadListner(imageUrl);
-                                }
-                            });
+                                            String imageUrl = uri.toString();
+                                            // TODO Put your code Here
+                                            // call the method in the interface take imgUrl
+                                            downLoadImage.onFinishedDownloadListener(imageUrl);
+                                        }
+                                    });
 
                         }
                     })
@@ -77,7 +78,7 @@ public class UploadImageToFireBase {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.i(TAG,   "FireBaseImage -- onFailure: msg >> " + e.getMessage());
+                            Log.i(TAG, "FireBaseImage -- onFailure: msg >> " + e.getMessage());
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

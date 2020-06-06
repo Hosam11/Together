@@ -22,6 +22,7 @@ public class GroupsUnderInterest extends AppCompatActivity {
     private List<Group> groupList = new ArrayList<>();
     private RecyclerView groupsRecyclerView;
     private GroupsAdapter groupsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,22 +56,23 @@ public class GroupsUnderInterest extends AppCompatActivity {
         }));
         prepareGroupsData();
     }
+
     private void prepareGroupsData() {
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android",R.drawable.development,"IT, CS, Development, Android"));
-        groupList.add(new Group("Learning Android ",R.drawable.development,"IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android", R.drawable.development, "IT, CS, Development, Android"));
+        groupList.add(new Group("Learning Android ", R.drawable.development, "IT, CS, Development, Android"));
         groupsAdapter.notifyDataSetChanged();
     }
 }
