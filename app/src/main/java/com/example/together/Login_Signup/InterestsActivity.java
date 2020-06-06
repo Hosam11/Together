@@ -90,10 +90,7 @@ public class InterestsActivity extends AppCompatActivity {
                 if (interests != null) {
                     interestsList = interests;
                     if (interests.size() > 0) {
-
                         displayInterests();
-
-
                     }
                 } else {
                     HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, InterestsActivity.this);
@@ -142,6 +139,7 @@ public class InterestsActivity extends AppCompatActivity {
 
     private void createAccount() {
         CustomProgressDialog.getInstance(this).show();
+
         if (HelperClass.checkInternetState(getApplicationContext())) {
             if (selectedInterest.isEmpty()) {
                 showAlert("Error", ERROR_INTERESTS, this);

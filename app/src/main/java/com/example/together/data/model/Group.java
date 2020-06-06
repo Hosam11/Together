@@ -34,35 +34,11 @@ public class Group {
     //added last
 
     //as a group id in get request
-   // private int  id;
+    // private int  id;
     private int admin_id;
+
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
-    public int getAdmin_id() {
-        return admin_id;
-    }
-
-    public void setAdmin_id(int admin_id) {
-        this.admin_id = admin_id;
-    }
-
-    public ArrayList<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(ArrayList<User> members) {
-        this.members = members;
-    }
-
     //
     // nullable
     @SerializedName("address")
@@ -83,26 +59,14 @@ public class Group {
     private String interest;
     @SerializedName("photo")
     private String image;
-
-
     public Group() {
 
     }
-
     public Group(String name, String image, String description) {
         this.groupName = name;
         this.image = image;
         this.groupDesc = description;
     }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
-
     public Group(
             int adminID, String location, String img,
             int maxMembers, int duration,
@@ -120,7 +84,6 @@ public class Group {
         this.interest = interest;
         this.image = img;
     }
-
     public Group(int maxMembers, int duration,
                  String groupName, String groupDesc,
                  String levelRequired) {
@@ -130,6 +93,7 @@ public class Group {
         this.groupDesc = groupDesc;
         this.levelRequired = levelRequired;
     }
+
 
     public Group(int adminID,
                  String location, int duration, String groupName,
@@ -150,7 +114,22 @@ public class Group {
     public Group(String learning_android, int development, String description) {
     }
 
-    public Group(int id, String gpLocation, int maxMemberNumber, int duration, String gpName, String gpDesc, String free, String gpLevel, String gpInterest) {
+
+
+    public int getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
     }
 
     public int getGroupID() {
@@ -160,10 +139,6 @@ public class Group {
     public void setGroupID(int groupID) {
         this.groupID = groupID;
     }
-
-    public void setCurrentMembers(int currentMembers) {
-        this.currentMembers = currentMembers;}
-
 
     public String getImage() {
         return image;
@@ -185,36 +160,37 @@ public class Group {
         return location;
     }
 
-
-
     public int getMaxMembers() {
         return maxMembers;
     }
-
-
 
     public int getDuration() {
         return duration;
     }
 
-
-
     public String getGroupName() {
         return groupName;
     }
 
-
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
 
     public int getCurrentMembers() {
         return currentMembers;
     }
 
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;
+    }
 
     public String getStatus() {
         return status;
@@ -246,8 +222,8 @@ public class Group {
                         "\nadminID: " + adminID +
                         "\nLocation: " + location +
                         "\nmax Numbers: " + maxMembers +
-                        "\ndurtaion: " + duration +
-                        "\nstatlus: " + status +
+                        "\nduration: " + duration +
+                        "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest
 

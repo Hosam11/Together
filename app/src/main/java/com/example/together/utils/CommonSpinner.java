@@ -51,9 +51,9 @@ public class CommonSpinner implements TextWatcher {
     }
 
     public String getSpItemSelected() {
-        if (spItemSelected == null != isLocation) {
+        /*if (spItemSelected == null != isLocation) {
             spinner.setError("Required");
-        }
+        }*/
 
         return spItemSelected;
     }
@@ -66,7 +66,7 @@ public class CommonSpinner implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         Log.i(TAG, "onTextChanged: ");
-        spinner.setError(null);
+        //spinner.setError(null);
     }
 
     @Override
