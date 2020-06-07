@@ -37,8 +37,8 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            Log.i("tamer", ""+s.getGroupUser(boardFragment.getContext()).getId());
-            userViewModel.getToDoListTasks(s.getGroupUser(boardFragment.getContext()).getId(), boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
+            Log.i("tamer", ""+s.getGroup(boardFragment.getContext()).getAdminID());
+            userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getAdminID(), boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
                 if (toDoListTask != null) {
                     boardFragment.toDoList = toDoListTask;
                     boardFragment.toDoListAdapter.setList(boardFragment.toDoList);
@@ -64,7 +64,7 @@ public class HandleViewModelProcess {
     public void getInProgressTasks(){
 
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            userViewModel.getInProgressTasks(s.getGroupUser(boardFragment.getContext()).getId(),boardFragment.storage.getToken()).observe(boardFragment,doingListTasks->{
+            userViewModel.getInProgressTasks(s.getGroup(boardFragment.getContext()).getAdminID(),boardFragment.storage.getToken()).observe(boardFragment,doingListTasks->{
                 if(doingListTasks!=null){
                     boardFragment.doingList =doingListTasks;
                     boardFragment.doingListAdapter.setList(doingListTasks);
@@ -149,7 +149,7 @@ public class HandleViewModelProcess {
 
     public void getDoneTasks(){
         userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-        userViewModel.getDoneTasks(s.getGroupUser(boardFragment.getContext()).getId(),boardFragment.storage.getToken()).observe(boardFragment,doneListTasks->{
+        userViewModel.getDoneTasks(s.getGroup(boardFragment.getContext()).getAdminID(),boardFragment.storage.getToken()).observe(boardFragment,doneListTasks->{
             if(doneListTasks!=null){
                 boardFragment.doneList =doneListTasks;
                 boardFragment.doneListAdapter.setList(doneListTasks);
@@ -173,7 +173,7 @@ public class HandleViewModelProcess {
                     customProgressDialog.cancel();
                     if (HelperClass.checkInternetState(boardFragment.getContext())) {
                         customProgressDialog.show();
-                        userViewModel.getToDoListTasks(s.getGroupUser(boardFragment.getContext()).getId(), boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
+                        userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getAdminID(), boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
                             if (toDoListTask != null) {
                                 boardFragment.toDoList = toDoListTask;
                                 boardFragment.toDoListAdapter.setList(toDoListTask);

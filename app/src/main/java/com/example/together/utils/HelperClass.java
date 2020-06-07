@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -110,6 +111,8 @@ public class HelperClass {
     }
 
     public static void newSelectImage(Activity activity) {
+
+        Log.i(TAG, "HelperClass -- newSelectImage: ");
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)

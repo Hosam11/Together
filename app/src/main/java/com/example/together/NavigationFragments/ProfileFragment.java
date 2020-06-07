@@ -108,8 +108,9 @@ public class ProfileFragment extends Fragment implements
                 CustomProgressDialog.getInstance(getContext()).show();
 
                 if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-
-                    usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                    Log.i(TAG, "ProfileFragment --  onClick: userID >> " + storage.getId());
+                    usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(),
+                            new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {
                             if (response != null) {

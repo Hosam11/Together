@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
+import com.example.together.data.storage.Storage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,19 +32,18 @@ import static com.example.together.utils.HelperClass.TAG;
 
 public class ChatFragment extends Fragment implements TextWatcher {
 
+    Storage userStorage;
+    Storage groupStorage;
     private String name1 = "amr";
     private String name2 = "may";
-
     private String name;
-
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://192.168.1.7:3000";
+    private String SERVER_PATH = "ws://192.168.1.6:3000";
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
     private int IMAGE_REQUEST_ID = 1;
     private MessageAdapter messageAdapter;
-
 
     public ChatFragment() {
         // Required empty public constructor
@@ -62,7 +62,8 @@ public class ChatFragment extends Fragment implements TextWatcher {
                              Bundle savedInstanceState) {
 
         initiateSocketConnection();
-
+        userStorage = new Storage(getContext());
+        groupStorage = new Storage();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_chat, container, false);
     }
@@ -109,8 +110,15 @@ public class ChatFragment extends Fragment implements TextWatcher {
         getActivity().findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
             try {
+                Log.i(TAG, "ChatFragment -- initializeView: " + "" +
+                        "user id  >> " + userStorage.getId() +
+                        "groupID >> " + groupStorage.getGroup(getContext()).getAdminID() +
+                        "content >> " + messageEdit.getText().toString());
                 jsonObject.put("name", name1);
                 jsonObject.put("message", messageEdit.getText().toString());
+                jsonObject.put("user_id", userStorage.getId());
+                jsonObject.put("group_id", groupStorage.getGroup(getContext()).getAdminID());
+                //jsonObject.put("content", messageEdit.getText().toString());
 
                 webSocket.send(jsonObject.toString());
 
