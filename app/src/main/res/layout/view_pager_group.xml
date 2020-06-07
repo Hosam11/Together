@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/majorColor"
         app:tabIndicatorFullWidth="false"
-        app:tabPaddingEnd="50dp"
-        app:tabPaddingStart="50dp"
+        app:tabGravity="fill"
+        android:layout_marginHorizontal="2dp"
         app:tabSelectedTextColor="@color/majorColor"
         app:tabTextAppearance="@style/AppTabTextAppearance" />
 
