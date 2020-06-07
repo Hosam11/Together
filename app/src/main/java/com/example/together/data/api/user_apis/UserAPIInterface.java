@@ -72,4 +72,7 @@ public interface UserAPIInterface {
     @GET("logout/{id}")
     Call<GeneralResponse> logout(@Path("id") int id);
 
+    //update user device token
+    @P
+
 }

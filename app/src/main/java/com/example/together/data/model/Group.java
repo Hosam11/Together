@@ -197,17 +197,11 @@ public class Group {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
 
     public int getCurrentMembers() {
         return currentMembers;
