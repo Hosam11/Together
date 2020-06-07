@@ -12,10 +12,13 @@ import com.example.together.group_screens.single_group.chat.ChatFragment;
 public class GroupPagerAdapter extends FragmentStateAdapter {
 
     Context context;
+    boolean isAdmin;
 
-    public GroupPagerAdapter(@NonNull FragmentActivity fragment, Context context, boolean isAdmin) {
+    GroupPagerAdapter(@NonNull FragmentActivity fragment, Context context,
+                      boolean isAdmin) {
         super(fragment);
         this.context = context;
+        this.isAdmin = isAdmin;
 
     }
 
@@ -23,11 +26,23 @@ public class GroupPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position) {
-            case 0:
-                return new ChatFragment();
-            default:
-                return new AboutGroupFragment();
+
+        if (isAdmin) {
+            switch (position) {
+                case 0:
+                    return new ChatFragment();
+                case 1:
+                    return new JoinRequestsFragment();
+                default:
+                    return new AboutGroupFragment();
+            }
+        } else {
+            switch (position) {
+                case 0:
+                    return new ChatFragment();
+                default:
+                    return new AboutGroupFragment();
+            }
         }
 
     }
@@ -35,6 +50,9 @@ public class GroupPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
+        if (isAdmin) {
+            return 3;
+        }
         return 2;
     }
 }
