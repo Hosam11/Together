@@ -19,7 +19,6 @@ package com.example.together.ToDoListPachage;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +32,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,8 +49,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.together.Adapters.CreateDialog;
-import com.example.together.Adapters.POJO;
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
 import com.example.together.data.storage.Storage;
@@ -63,30 +62,27 @@ import com.woxthebox.draglistview.DragItem;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.example.together.utils.HelperClass.TAG;
-
 public class BoardFragment extends Fragment {
 
     private static int sCreatedItems = 0;
     public BoardView mBoardView;
-    private int mColumns;
-    private boolean mGridLayout;
+    public Button addTask;
+    public ProgressBar b;
+    public TextView percentageView;
     int data = 50;
     ItemAdapter toDoListAdapter;
     ItemAdapter doingListAdapter;
     ItemAdapter doneListAdapter;
-     public Button addTask;
-     UserViewModel userViewModel;
-     ArrayList<ListTask> toDoList = new ArrayList<>();
+    UserViewModel userViewModel;
+    ArrayList<ListTask> toDoList = new ArrayList<>();
     ArrayList<ListTask> doingList = new ArrayList<>();
     ArrayList<ListTask> doneList = new ArrayList<>();
     Storage storage;
     HandleViewModelProcess handleViewModelProcess;
     GetAddTaskButton getAddTaskButton;
-
-
-
-
+    private int mColumns;
+    private boolean mGridLayout;
+    CreateDialog dialog;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -97,7 +93,7 @@ public class BoardFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         storage = new Storage(Objects.requireNonNull(getContext()));
-        handleViewModelProcess = new HandleViewModelProcess(userViewModel,this);
+        handleViewModelProcess = new HandleViewModelProcess(userViewModel, this);
 
 
     }
@@ -115,39 +111,81 @@ public class BoardFragment extends Fragment {
         mBoardView.setBoardListener(new BoardView.BoardListener() {
             @Override
             public void onItemDragStarted(int column, int row) {
-                Log.i("mahmoud", "onItemDragStarted: "+toDoList.size());
+
             }
 
             @Override
             public void onItemDragEnded(int fromColumn, int fromRow, int toColumn, int toRow) {
-                Log.i("mahmoud", "onItemDragEnded: "+toDoList.size()+" ");
-                if(fromColumn==0&&toColumn==1){
-                    handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
-                }
-                if(fromColumn==0&&toColumn==2){
-                    handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
+                Log.i("mahmoud", "onItemDragEnded: " + toDoList.size() + " ");
+                if (HelperClass.checkInternetState(getContext())) {
+                    if (fromColumn == 0 && toColumn == 1) {
+                        handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
+//                        doingList.get(toRow).setPosition(toRow);
+                        rearrangeList(toDoList);
+                        rearrangeList(doingList);
+                        toArrangeList(toDoList, doingList);
 
-                }
-                if(fromColumn==1&&toColumn==0){
-                    handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
-                }
-                if(fromColumn==1&&toColumn==2){
-                    handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
-                }
-                if(fromColumn==2&&toColumn==0){
-                    handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
-                }
-                if(fromColumn==2&&toColumn==1){
-                    handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
-                }
+                    }
+                    if (fromColumn == 0 && toColumn == 2) {
+                        handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
+//                        doneList.get(toRow).setPosition(toRow);
+                        rearrangeList(toDoList);
+                        rearrangeList(doneList);
+                        toArrangeList(toDoList, doneList);
 
+                    }
+                    if (fromColumn == 1 && toColumn == 0) {
+                        handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
+//                        toDoList.get(toRow).setPosition(toRow);
+                        rearrangeList(doingList);
+                        rearrangeList(toDoList);
+                        toArrangeList(doingList, toDoList);
+
+                    }
+                    if (fromColumn == 1 && toColumn == 2) {
+                        handleViewModelProcess.moveToDoneList(BoardFragment.this.doneList.get(toRow).getId());
+//                        doneList.get(toRow).setPosition(toRow);
+                        rearrangeList(doingList);
+                        rearrangeList(doneList);
+                        toArrangeList(doingList, doneList);
+
+                    }
+                    if (fromColumn == 2 && toColumn == 0) {
+                        handleViewModelProcess.moveToDoList(BoardFragment.this.toDoList.get(toRow).getId());
+//                        toDoList.get(toRow).setPosition(toRow);
+                        rearrangeList(doneList);
+                        rearrangeList(toDoList);
+                        toArrangeList(doneList, toDoList);
+
+
+                    }
+                    if (fromColumn == 2 && toColumn == 1) {
+                        handleViewModelProcess.moveToProgressList(BoardFragment.this.doingList.get(toRow).getId());
+//                        doingList.get(toRow).setPosition(toRow);
+                        rearrangeList(doneList);
+                        rearrangeList(doingList);
+                        toArrangeList(doneList, doingList);
+                    }
+                    if (fromColumn == 0 && toColumn == 0) {
+                        rearrangeList(toDoList);
+                        handleViewModelProcess.sendPositionArrangment(toDoList);
+                    }
+                    if (fromColumn == 1 && toColumn == 1) {
+                        rearrangeList(doingList);
+                        handleViewModelProcess.sendPositionArrangment(doingList);
+                    }
+                    if (fromColumn == 2 && toColumn == 2) {
+                        rearrangeList(doneList);
+                        handleViewModelProcess.sendPositionArrangment(doneList);
+                    }
+                }
 
             }
 
             @Override
             public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
                 Toast.makeText(mBoardView.getContext(), "Position changed - column: " + newColumn + " row: " + newRow, Toast.LENGTH_SHORT).show();
-                Log.i("mahmoud", "onItemChangedPosition: "+toDoList.size());
+                Log.i("mahmoud", "onItemChangedPosition: " + toDoList.size());
 
             }
 
@@ -157,41 +195,45 @@ public class BoardFragment extends Fragment {
                 itemCount1.setText(String.valueOf(mBoardView.getAdapter(oldColumn).getItemCount()));
                 TextView itemCount2 = mBoardView.getHeaderView(newColumn).findViewById(R.id.item_count);
                 itemCount2.setText(String.valueOf(mBoardView.getAdapter(newColumn).getItemCount()));
-                Log.i("mahmoud", "onItemChangedColumn: "+toDoList.size());
+                Log.i("mahmoud", "onItemChangedColumn: " + toDoList.size());
 
             }
 
             @Override
             public void onFocusedColumnChanged(int oldColumn, int newColumn) {
-                Log.i("mahmoud", "onFocusedColumnChanged: "+toDoList.size());
+                Log.i("mahmoud", "onFocusedColumnChanged: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragStarted(int position) {
-                Log.i("mahmoud", "onColumnDragStarted: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragStarted: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragChangedPosition(int oldPosition, int newPosition) {
-                Log.i("mahmoud", "onColumnDragChangedPosition: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragChangedPosition: " + toDoList.size());
             }
 
             @Override
             public void onColumnDragEnded(int position) {
-                Log.i("mahmoud", "onColumnDragEnded: "+toDoList.size());
+                Log.i("mahmoud", "onColumnDragEnded: " + toDoList.size());
 
             }
         });
         mBoardView.setBoardCallback(new BoardView.BoardCallback() {
             @Override
             public boolean canDragItemAtPosition(int column, int dragPosition) {
-                Log.i("mahmoud", "canDragItemAtPosition: "+toDoList.size());
-                return true;
+                if (HelperClass.checkInternetState(getContext()))
+                    return true;
+                else {
+                    HelperClass.showAlert("Error", "Please check your internet connection", getContext());
+
+                    return false;
+                }
             }
 
             @Override
             public boolean canDropItemAtPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-                Log.i("mahmoud", "canDropItemAtPosition: "+toDoList.size());
                 return true;
             }
         });
@@ -204,16 +246,21 @@ public class BoardFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
-        getAddTaskButton =(GetAddTaskButton) getActivity();
+        getAddTaskButton = (GetAddTaskButton) getActivity();
         addTask = getAddTaskButton.getAddTask();
+        b = getAddTaskButton.getProgressBar();
+        percentageView = getAddTaskButton.getPercentageView();
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateDialog dialog = new CreateDialog("addTask", BoardFragment.this);
-                if(dialog.getActivity()!=null)
-                    dialog.getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                if (HelperClass.checkInternetState(getContext())) {
+                    dialog = new CreateDialog("addTask", BoardFragment.this);
+                    dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
+                } else {
+                    HelperClass.showAlert("Error", "Please check your internet connection", getContext());
 
-                dialog.show(((FragmentActivity) BoardFragment.this.getContext()).getSupportFragmentManager(), "example");
+                }
+
             }
         });
         resetBoard();
@@ -277,21 +324,23 @@ public class BoardFragment extends Fragment {
         mBoardView.setCustomDragItem(mGridLayout ? null : new MyDragItem(getActivity(), R.layout.column_item));
         mBoardView.setCustomColumnDragItem(mGridLayout ? null : new MyColumnDragItem(getActivity(), R.layout.column_drag_layout));
 
-        addColumn("To Do List",toDoList);
-        addColumn("Doing List",doingList);
-        addColumn("Done List",doneList);
+        addColumn("To Do List", toDoList);
+        addColumn("Doing List", doingList);
+        addColumn("Done List", doneList);
     }
 
-    private void addColumn(String columnName , final ArrayList<ListTask> mItemArray) {
 
-        final ItemAdapter listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true,this.getContext(),this);
-        if(columnName.equals("To Do List")) {
+    private void addColumn(String columnName, final ArrayList<ListTask> mItemArray) {
+        ItemAdapter listAdapter;
+        if (columnName.equals("To Do List")) {
+            listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true, this.getContext(), this, 0);
             this.toDoListAdapter = listAdapter;
-        }
-        else if(columnName.equals("Doing List")){
+        } else if (columnName.equals("Doing List")) {
+            listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true, this.getContext(), this, 1);
             this.doingListAdapter = listAdapter;
-        }
-        else if(columnName.equals("Done List")){
+        } else {
+            listAdapter = new ItemAdapter(mItemArray, mGridLayout ? R.layout.grid_item : R.layout.column_item, R.id.item_layout, true, this.getContext(), this, 2);
+
             this.doneListAdapter = listAdapter;
         }
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
@@ -312,16 +361,34 @@ public class BoardFragment extends Fragment {
         });
         LinearLayoutManager layoutManager = mGridLayout ? new GridLayoutManager(getContext(), 4) : new LinearLayoutManager(getContext());
         ColumnProperties columnProperties = ColumnProperties.Builder.newBuilder(listAdapter)
-                                      .setLayoutManager(layoutManager)
-                                      .setHasFixedItemSize(false)
-                                      .setColumnBackgroundColor(Color.TRANSPARENT)
-                                      .setItemsSectionBackgroundColor(Color.TRANSPARENT)
-                                      .setHeader(header)
-                                      .setColumnDragView(header)
-                                      .build();
+                .setLayoutManager(layoutManager)
+                .setHasFixedItemSize(false)
+                .setColumnBackgroundColor(Color.TRANSPARENT)
+                .setItemsSectionBackgroundColor(Color.TRANSPARENT)
+                .setHeader(header)
+                .setColumnDragView(header)
+                .build();
 
         mBoardView.addColumn(columnProperties);
         mColumns++;
+    }
+
+
+    public void addTask(ListTask task) {
+        handleViewModelProcess.addTask(task);
+    }
+
+    public void toArrangeList(ArrayList<ListTask> l1, ArrayList<ListTask> l2) {
+        ArrayList<ListTask> list = new ArrayList<>(l1.size() + l2.size());
+        list.addAll(l1);
+        list.addAll(l2);
+        handleViewModelProcess.sendPositionArrangment(list);
+    }
+
+    public void rearrangeList(ArrayList<ListTask> list) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setPosition(i);
+        }
     }
 
     private static class MyColumnDragItem extends DragItem {
@@ -439,23 +506,11 @@ public class BoardFragment extends Fragment {
         }
     }
 
-    public void addTask(ListTask task){
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.addTask(task, storage.getToken()).observe(this, addTaskResp -> {
-                if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
-                    Toast.makeText(getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), addTaskResp.response, Toast.LENGTH_SHORT).show();
-                }
-            });
-            userViewModel.getToDoListTasks(1, storage.getToken()).observe(this, toDoListTask -> {
-                if (toDoListTask != null) {
-                    toDoList=toDoListTask;
-                    toDoListAdapter.setList(toDoListTask);
-                }
-            });
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (dialog != null) {
+            dialog.dismiss();
         }
-//        TextView itemCount1 = mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-//        itemCount1.setText(String.valueOf(mBoardView.getAdapter(0).getItemCount()));
-
+    }
 }

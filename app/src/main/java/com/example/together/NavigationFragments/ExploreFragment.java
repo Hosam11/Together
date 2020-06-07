@@ -11,15 +11,11 @@ import android.widget.GridView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.together.Adapters.HomeRecyclarViewAdapter;
 import com.example.together.Adapters.InterestAdapter;
-import com.example.together.BottomNavigationView;
 import com.example.together.GroupsUnderInterest;
 import com.example.together.R;
 import com.example.together.data.model.Interest;
-import com.example.together.group_screens.AddGroup;
 
 import java.util.ArrayList;
 
@@ -29,6 +25,7 @@ public class ExploreFragment extends Fragment {
     InterestAdapter interestAdapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View fragmentView = inflater.inflate(R.layout.fragment_explore,container,false);
         interests.add(new Interest("Development", R.drawable.development));
         interests.add(new Interest("Handmade", R.drawable.handmade));
@@ -51,6 +48,7 @@ public class ExploreFragment extends Fragment {
         gridView = fragmentView.findViewById(R.id.categories);
         interestAdapter = new InterestAdapter(getActivity().getApplicationContext(), interests);
         return fragmentView;
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

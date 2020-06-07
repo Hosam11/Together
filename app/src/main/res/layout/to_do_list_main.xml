@@ -34,49 +34,65 @@
 
     </FrameLayout>
 
-    <com.google.android.material.circularreveal.CircularRevealFrameLayout
+    <RelativeLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/parent"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="20sp">
+
         <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:layout_gravity="center"
             app:cardCornerRadius="12dp"
-            android:layout_margin="15dp"
-            app:cardElevation="25dp"
+            app:cardElevation="10dp"
+            android:layout_marginTop="30dp"
             >
 
-        <Button
-            android:id="@+id/add_task"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:text="Add Task"
-            android:textColor="@color/white"
-            android:background="@drawable/corners_from_all_without_stroke"
-            android:textAllCaps="false"
-            android:foreground="?android:selectableItemBackground"
+            <Button
+                android:id="@+id/add_task"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/corners_from_all_without_stroke"
+                android:foreground="?android:selectableItemBackground"
+                android:text="Add Task"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
 
 
-            ></Button>
+                />
+
 
         </androidx.cardview.widget.CardView>
 
-<!--        <Button-->
-<!--            android:id="@+id/add_task"-->
-<!--            style="?android:attr/borderlessButtonStyle"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="30dp"-->
-<!--            android:background="@color/app_color"-->
-<!--            android:minWidth="0dp"-->
-<!--            android:minHeight="0dp"-->
-<!--            android:text="Add Task"-->
-<!--            android:textColor="#474747"-->
-<!--            android:textSize="15dp"-->
-<!--            android:textStyle="bold" />-->
-    </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="20dp" />
+
+        <include
+            android:id="@+id/btn_create_group_fragment"
+            layout="@layout/to_do_list_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/add_task"-->
+        <!--            style="?android:attr/borderlessButtonStyle"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="30dp"-->
+        <!--            android:background="@color/app_color"-->
+        <!--            android:minWidth="0dp"-->
+        <!--            android:minHeight="0dp"-->
+        <!--            android:text="Add Task"-->
+        <!--            android:textColor="#474747"-->
+        <!--            android:textSize="15dp"-->
+        <!--            android:textStyle="bold" />-->
+    </RelativeLayout>
 </RelativeLayout>

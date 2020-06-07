@@ -3,12 +3,16 @@ package com.example.together.data.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.together.utils.HelperClass.ID;
+import static com.example.together.utils.HelperClass.NO_GROUP_DEFULT;
 import static com.example.together.utils.HelperClass.NO_USER;
+import static com.example.together.utils.HelperClass.PASSED_GROUP_FILE;
+import static com.example.together.utils.HelperClass.PASSED_GROUP_OBJ;
 import static com.example.together.utils.HelperClass.PASSED_USER;
 import static com.example.together.utils.HelperClass.PASSED_USER_OBJ;
 import static com.example.together.utils.HelperClass.TOKEN;
@@ -67,6 +71,30 @@ public class Storage {
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_USER_OBJ, NO_USER);
         return gson.fromJson(json, User.class);
+    }
+
+    public void saveGroupObject(Group group, Context context) {
+        sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(group); // myObject - instance of MyObject
+        prefsEditor.putString(PASSED_GROUP_OBJ, json);
+        prefsEditor.apply();
+    }
+
+    public Group getGroupUser(Context context) {
+        sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(PASSED_GROUP_OBJ, NO_GROUP_DEFULT);
+        return gson.fromJson(json, Group.class);
+    }
+
+    public  void clearStorage(){
+        SharedPreferences pref = context.getSharedPreferences(USER_DATA, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+        editor.apply();
+
     }
 }
 

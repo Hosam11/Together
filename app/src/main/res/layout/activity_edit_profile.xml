@@ -54,7 +54,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/default_img"
 
                         />
 
@@ -245,12 +244,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:weightSum="1"
+
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/date_et"
-                    android:layout_width="240dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="19dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/edit_texts_shapes"
                     android:textColor="#000"
@@ -263,15 +264,17 @@
                     android:editable="false"
                     android:clickable="true"
                     android:focusable="false"
+                    android:layout_weight=".8"
 
                     />
                 <ImageView
                     android:id="@+id/date_img"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginLeft="15dp"
+
                     android:layout_gravity="center"
                     android:src="@drawable/ic_date_range_black_24dp"
-                    android:layout_marginLeft="15dp"
                     />
 
             </LinearLayout>

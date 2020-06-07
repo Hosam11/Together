@@ -16,9 +16,7 @@
 
 package com.example.together.ToDoListPachage;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.together.Adapters.CreateDialog;
-import com.example.together.Adapters.POJO;
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
 import com.example.together.data.storage.Storage;
@@ -49,6 +46,7 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
     private boolean mDragOnLongPress;
     public ArrayList<ListTask> list = new ArrayList<>();
     public Context context;
+    int columnNumber;
     BoardFragment boardFragment;
     Storage storage;
 
@@ -57,14 +55,16 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         setItemList(list);
     }
 
-    ItemAdapter(ArrayList<ListTask> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context,BoardFragment boardFragment) {
+    ItemAdapter(ArrayList<ListTask> list, int layoutId, int grabHandleId, boolean dragOnLongPress, Context context,BoardFragment boardFragment, int columnNumber) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
         this.list=list;
         this.context=context;
         this.boardFragment=boardFragment;
+        this.
         storage = new Storage(Objects.requireNonNull(context));
+        this.columnNumber=columnNumber;
         setItemList(list);
     }
 
@@ -84,26 +84,47 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-                userViewModel.deleteTask(list.get(position).getId(),storage.getToken()).observe(boardFragment,deleteTaskresp->{
+                if (HelperClass.checkInternetState(context)){
+                    CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
+                    customProgressDialog.show();
+                    UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
+                userViewModel.deleteTask(list.get(position).getId(), storage.getToken()).observe(boardFragment, deleteTaskresp -> {
                     if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
                         Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
-                        TextView itemCount1 = boardFragment.mBoardView.getHeaderView(0).findViewById(R.id.item_count);
-                        itemCount1.setText(String.valueOf(boardFragment.toDoList.size()));
+                        customProgressDialog.cancel();
+                        list.remove(position);
+                        ItemAdapter.this.notifyDataSetChanged();
+                        boardFragment.rearrangeList(list);
+                        boardFragment.handleViewModelProcess.sendPositionArrangment(list);
+                        boardFragment.handleViewModelProcess.setProgressSize();
+                        boardFragment.handleViewModelProcess.updateHeader(columnNumber);
+
                     } else {
-                        Toast.makeText(context, deleteTaskresp.response, Toast.LENGTH_SHORT).show();
+                        customProgressDialog.cancel();
+                        HelperClass.showAlert("Error","",context);
+
                     }
 
                 });
-                list.remove(position);
-                ItemAdapter.this.notifyDataSetChanged();
+
             }
+                else{
+                    HelperClass.showAlert("Error","Please check your internet connection",context);
+                }
+                }
+
         });
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateDialog editDialoge = new CreateDialog("editTask",ItemAdapter.this,position,list.get(position).getId());
-                editDialoge.show(((AppCompatActivity)ItemAdapter.this.context).getSupportFragmentManager(),"example");
+                if(HelperClass.checkInternetState(context)) {
+                    CreateDialog editDialoge = new CreateDialog("editTask", ItemAdapter.this, position, list.get(position).getId());
+                    editDialoge.show(((AppCompatActivity) ItemAdapter.this.context).getSupportFragmentManager(), "example");
+                }
+                else {
+                    HelperClass.showAlert("Error","Please check your internet connection",context);
+
+                }
             }
         });
     }
@@ -142,14 +163,23 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
     }
     public void editTask(ListTask task,int currentPosition){
        UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-        userViewModel.editTask(list.get(currentPosition).getId(),task, storage.getToken()).observe(boardFragment, addTaskResp -> {
-            if (addTaskResp.response.equals(HelperClass.updatedTaskSuccess)) {
-                Toast.makeText(context, HelperClass.updatedTaskSuccess, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, addTaskResp.response, Toast.LENGTH_SHORT).show();
-            }
-        });
-        list.set(currentPosition,task);
-        this.notifyDataSetChanged();
+       if(HelperClass.checkInternetState(context)) {
+           CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
+           customProgressDialog.show();
+           userViewModel.editTask(list.get(currentPosition).getId(), task, storage.getToken()).observe(boardFragment, addTaskResp -> {
+               if (addTaskResp.response.equals(HelperClass.updatedTaskSuccess)) {
+                   Toast.makeText(context, HelperClass.updatedTaskSuccess, Toast.LENGTH_SHORT).show();
+                   list.set(currentPosition, task);
+                   this.notifyDataSetChanged();
+                   customProgressDialog.cancel();
+               } else {
+                   Toast.makeText(context, addTaskResp.response, Toast.LENGTH_SHORT).show();
+               }
+           });
+
+       }
+       else {
+           HelperClass.showAlert("Error","Please check your internet connection",context);
+       }
     }
 }

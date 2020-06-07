@@ -3,69 +3,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f9f9f9"
     android:clipToPadding="false"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:background="#f9f9f9"
-    tools:context=".group_screens.single_group.chat.ChatFragment">
+    tools:context=".group_screens.single_group.chat.ChatFragment"
+
+    >
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="22dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="25dp"
         android:layout_weight="2"
+        android:background="#fff"
 
         />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/corner_from_all_with_stroke"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:weightSum="8"
 
-        <!--  <EditText
-              android:id="@+id/editText"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="2"
-              android:ems="10"
-              android:hint="Write a message"
-              android:inputType="text"
-              android:paddingHorizontal="10dp"
+        >
 
 
-              android:visibility="gone"
 
-              />-->
+            <EditText
+                android:id="@+id/messageEdit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/edit_text_border"
+                android:hint="Enter your message.."
+                android:textColor="#000"
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:layout_weight="8"
+                android:gravity="top"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="4dp"
 
-        <EditText
-            android:layout_marginRight="20sp"
-            android:layout_marginLeft="41dp"
-            android:id="@+id/messageEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="Write a message"
-            android:inputType="text"
-            android:shadowColor="@color/primaryColor"
-            android:paddingHorizontal="10dp" />
+                />
 
-
-        <ImageButton
-            android:id="@+id/ib_send_msg"
+        <TextView
+            android:id="@+id/tv_send_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:background="@drawable/ic_send_black_24dp"
-            android:padding="20dp"
-            android:layout_marginRight="16dp"
-            android:scaleType="fitCenter" />
-    </LinearLayout>
+            android:background="@drawable/corner_for_send_btn"
+            android:padding="12dp"
+            android:text="Send"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+
+            />
+
+
+        </LinearLayout>
+
+
+
 
 
 </LinearLayout>

@@ -37,7 +37,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private String name;
 
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://192.168.1.11:3000";
+    private String SERVER_PATH = "ws://192.168.1.7:3000";
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
@@ -106,7 +106,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         messageEdit.addTextChangedListener(this);
 
-        getActivity().findViewById(R.id.ib_send_msg).setOnClickListener(v -> {
+        getActivity().findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("name", name1);

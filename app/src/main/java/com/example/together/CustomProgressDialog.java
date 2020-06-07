@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 
 public class CustomProgressDialog extends AlertDialog {
     private static CustomProgressDialog single_instance = null;
+
     public static CustomProgressDialog getInstance(Context con){
         if (single_instance == null)
         {
@@ -15,7 +16,7 @@ public class CustomProgressDialog extends AlertDialog {
 
     }
 
-    private CustomProgressDialog(Context context) {
+    public CustomProgressDialog(Context context) {
         super(context);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setCancelable(false);

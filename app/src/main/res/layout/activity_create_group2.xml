@@ -51,7 +51,6 @@
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:onClick="chooseImage"
                     android:src="@drawable/group"
                     app:civ_border_color="@color/primaryColor"
                     app:civ_border_width="2dp" />
@@ -101,6 +100,7 @@
                 android:hint="group description"
                 android:maxLines="3"
                 android:text="gp desc" />
+
             <View style="@style/create_group_view_edit_text" />
 
             <!--  Interests Title-->
@@ -112,6 +112,7 @@
                 android:id="@+id/sp_interest"
                 style="@style/create_group_common_et"
                 android:hint="Select interest" />
+
             <View style="@style/create_group_view_edit_text" />
 
             <!-- ET Group Name -->
@@ -130,6 +131,7 @@
                 android:id="@+id/sp_required_Level"
                 style="@style/create_group_common_et"
                 android:hint="Select Level" />
+
             <View style="@style/create_group_view_edit_text" />
 
             <!--  Location Title-->
@@ -140,7 +142,8 @@
             <com.weiwangcn.betterspinner.library.BetterSpinner
                 android:id="@+id/sp_locations"
                 style="@style/create_group_common_et"
-                android:hint="Select Level" />
+                android:hint="Select Location" />
+
             <View style="@style/create_group_view_edit_text" />
 
             <!--  Member Numbers Title-->
@@ -160,19 +163,40 @@
                     android:id="@+id/tv_member_left_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ic_chevron_left_black_24dp" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tv_member_number"
                     style="@style/create_group_tv_counter"
                     android:letterSpacing="-0.02"
-                    android:text="0" />
+                    android:text="0" />-->
+
+                <EditText
+
+                    android:id="@+id/et_member_number"
+                    style="@style/create_group_tv_counter"
+                    android:backgroundTint="@color/majorColor"
+                    android:inputType="numberSigned"
+                    android:text="0"
+                    android:textColorHint="@color/majorColor" />
 
                 <TextView
+
                     android:id="@+id/tv_member_right_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ic_chevron_right_black_24dp" />
+
+                <EditText
+                    android:id="@+id/et_show_error_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="#fff"
+                    android:inputType="none" />
+
 
             </LinearLayout>
 
@@ -193,25 +217,47 @@
                     android:id="@+id/tv_duration_left_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+
                     android:background="@drawable/ic_chevron_left_black_24dp" />
 
-                <TextView
-                    android:id="@+id/tv_duration_week"
-                    style="@style/create_group_tv_counter"
-                    android:letterSpacing="-0.02"
-                    android:text="0"
+                <!-- <TextView
+                     android:id="@+id/tv_duration_week"
+                     style="@style/create_group_tv_counter"
+                     android:letterSpacing="-0.02"
+                     android:text="0"
 
-                    />
+                     />-->
+
+                <EditText
+                    android:id="@+id/et_duration_week"
+                    style="@style/create_group_tv_counter"
+                    android:backgroundTint="@color/majorColor"
+                    android:inputType="numberSigned"
+                    android:text="0"
+                    android:textColorHint="@color/majorColor" />
 
                 <TextView
                     android:id="@+id/tv_duration_rigth_btn"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:background="@drawable/ic_chevron_right_black_24dp" />
+
+                <EditText
+                    android:id="@+id/et_show_error_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="#fff"
+                    android:inputType="none" />
 
             </LinearLayout>
 
             <Button
+                android:foreground="?android:selectableItemBackground"
+
                 android:id="@+id/btn_create_group"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"

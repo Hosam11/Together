@@ -19,6 +19,7 @@ public class CommonSpinner implements TextWatcher {
     private String spItemSelected;
     private BetterSpinner spinner;
     private EditText etOther;
+    private boolean isLocation = false;
 
     /**
      * @param sp:       spinner object from the activity
@@ -37,6 +38,10 @@ public class CommonSpinner implements TextWatcher {
         spinner.addTextChangedListener(this);
     }
 
+    public void setLocation(boolean location) {
+        isLocation = location;
+    }
+
     public EditText getEtOther() {
         return etOther;
     }
@@ -46,24 +51,32 @@ public class CommonSpinner implements TextWatcher {
     }
 
     public String getSpItemSelected() {
+        /*if (spItemSelected == null != isLocation) {
+            spinner.setError("Required");
+        }*/
+
         return spItemSelected;
     }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Log.i(TAG, "beforeTextChanged: ");
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.i(TAG, "onTextChanged: ");
+        //spinner.setError(null);
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         spItemSelected = spinner.getText().toString();
+
         if (spItemSelected.equals("other") && etOther != null) {
             Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make ot visibile");
             etOther.setVisibility(View.VISIBLE);
-           // other
+            // other
         } else if (!spItemSelected.equals("other") && etOther != null) {
             Log.i(TAG, "CommonSpinner -- afterTextChanged: spItemSelected make it disappear");
 

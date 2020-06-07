@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Group {
     // POST - Create Group
     //http://127.0.0.1:8000/api/createGroup
@@ -23,91 +25,55 @@ public class Group {
             "interest_id": 2
 
     }*/
-    // TODO 1- missing interests of other
 
+    // admin of group
     @SerializedName("id")
     private int adminID;
+    // to make a requests by group id
+    private int groupID;
+    //added last
 
+    //as a group id in get request
+    // private int  id;
+    private int admin_id;
+
+    @SerializedName("members")
+    private ArrayList<User> members = new ArrayList<>();
+    //
     // nullable
     @SerializedName("address")
     private String location;
-
     @SerializedName("max_member_number")
     private int maxMembers;
-
     private int duration;
-
-    public String getLocation() {
-        return location;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public String getGroupDesc() {
-        return groupDesc;
-    }
-
-    public int getCurrentMembers() {
-        return currentMembers;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getLevelRequired() {
-        return levelRequired;
-    }
-
-    public String getInterest() {
-        return interest;
-    }
-
     @SerializedName("name")
     private String groupName;
-
     @SerializedName("description")
     private String groupDesc;
-
     @SerializedName("current_number_of_members")
     private int currentMembers = 0;
-
     private String status; // free - paid
-
     @SerializedName("level")
     private String levelRequired;
-
     @SerializedName("interest")
     private String interest;
-    private int image;
+    @SerializedName("photo")
+    private String image;
+    public Group() {
 
-    public int getImage() {
-        return image;
     }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    public Group(String name, int image, String description) {
+    public Group(String name, String image, String description) {
         this.groupName = name;
         this.image = image;
         this.groupDesc = description;
     }
-
     public Group(
-            int userID, String location,
+            int adminID, String location, String img,
             int maxMembers, int duration,
             String groupName, String groupDesc,
             String status, String levelRequired, String interest
     ) {
-        this.adminID = userID;
+        this.adminID = adminID;
         this.location = location;
         this.maxMembers = maxMembers;
         this.duration = duration;
@@ -116,31 +82,7 @@ public class Group {
         this.status = status;
         this.levelRequired = levelRequired;
         this.interest = interest;
-    }
-
-    public int getAdminID() {
-        return adminID;
-    }
-
-    public Group(int adminID,
-                 String location, int duration, String groupName,
-                 String groupDesc, int currentMembers, String status,
-                 String levelRequired, String interest
-    ) {
-        this.adminID = adminID;
-        this.location = location;
-        this.duration = duration;
-        this.groupName = groupName;
-        this.groupDesc = groupDesc;
-        this.currentMembers = currentMembers;
-        this.status = status;
-        this.levelRequired = levelRequired;
-        this.interest = interest;
-    }
-
-
-    public void setUserID(int userID) {
-        this.userID = userID;
+        this.image = img;
     }
 
     public void setLocation(String location) {
@@ -163,24 +105,80 @@ public class Group {
         this.groupDesc = groupDesc;
     }
 
-    public void setCurrentMembers(int currentMembers) {
-        this.currentMembers = currentMembers;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setLevelRequired(String levelRequired) {
-        this.levelRequired = levelRequired;
-    }
-
     public void setInterest(String interest) {
         this.interest = interest;
     }
 
-    public int getUserID() {
-        return userID;
+    public Group(int maxMembers, int duration,
+                 String groupName, String groupDesc,
+                 String levelRequired) {
+        this.maxMembers = maxMembers;
+        this.duration = duration;
+        this.groupName = groupName;
+        this.groupDesc = groupDesc;
+        this.levelRequired = levelRequired;
+    }
+
+
+    public Group(int adminID,
+                 String location, int duration, String groupName,
+                 String groupDesc, int currentMembers, String status,
+                 String levelRequired, String interest
+    ) {
+        this.adminID = adminID;
+        this.location = location;
+        this.duration = duration;
+        this.groupName = groupName;
+        this.groupDesc = groupDesc;
+        this.currentMembers = currentMembers;
+        this.status = status;
+        this.levelRequired = levelRequired;
+        this.interest = interest;
+    }
+
+    public Group(String learning_android, int development, String description) {
+    }
+
+
+
+    public int getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<User> members) {
+        this.members = members;
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getAdminID() {
+        return adminID;
+    }
+
+    public void setAdminID(int adminID) {
+        this.adminID = adminID;
     }
 
     public String getLocation() {
@@ -199,20 +197,40 @@ public class Group {
         return groupName;
     }
 
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
     public String getGroupDesc() {
         return groupDesc;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
     }
 
     public int getCurrentMembers() {
         return currentMembers;
     }
 
+    public void setCurrentMembers(int currentMembers) {
+        this.currentMembers = currentMembers;
+    }
+
     public String getStatus() {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getLevelRequired() {
         return levelRequired;
+    }
+
+    public void setLevelRequired(String levelRequired) {
+        this.levelRequired = levelRequired;
     }
 
     public String getInterest() {
@@ -229,19 +247,12 @@ public class Group {
                         "\nadminID: " + adminID +
                         "\nLocation: " + location +
                         "\nmax Numbers: " + maxMembers +
-                        "\ndurtaion: " + duration +
-                        "\nstatlus: " + status +
+                        "\nduration: " + duration +
+                        "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest
+
         );
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
     }
 }
 

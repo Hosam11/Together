@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Interests;
@@ -22,6 +23,7 @@ import com.example.together.data.model.UserInterests;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
+import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class EditInterests extends AppCompatActivity {
             }
     );
     List<String> selectedInterest;
-    UserViewModel userViewModel;
+    UsersViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,32 +60,54 @@ public class EditInterests extends AppCompatActivity {
         selectedInterest=new ArrayList<>();
 
 
-        userViewModel=new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel=new ViewModelProvider(this).get(UsersViewModel.class);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(HelperClass.checkInternetState(EditInterests.this)){
+                    CustomProgressDialog.getInstance(EditInterests.this).show();
 
+                    save();}
+                else {
+                    HelperClass.showAlert("Error",HelperClass.checkYourCon,EditInterests.this);
 
-                  save();
-
-
-
+                }
 
             }
         });
-        getInterests();
+        if(HelperClass.checkInternetState(EditInterests.this)){
+
+            getInterests();}
+        else {
+            HelperClass.showAlert("Error",HelperClass.checkYourCon,EditInterests.this);
+
+        }
 
     }
 
 
 public void getInterests(){
 //TODO : After token remove from getAllInterests
-        userViewModel.getAllInterests(HelperClass.TOKEN).observe(this, new Observer<ArrayList<Interests>>() {
+        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interests>>() {
             @Override
             public void onChanged(ArrayList<Interests> interests) {
-                interestsList=interests;
-                if(interestsList.size()>0){displayInterests();}
+                if(interests!=null) {
+                    interestsList = interests;
+                    if (interestsList.size() > 0) {
+                        CustomProgressDialog.getInstance(EditInterests.this).cancel();
+
+                        displayInterests();
+
+                    }
+                }
+                else {
+                    CustomProgressDialog.getInstance(EditInterests.this).cancel();
+
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
+
+
+                }
             }
         });
 
@@ -126,21 +150,30 @@ public void getInterests(){
     public void save(){
 
         if (selectedInterest.isEmpty()) {
-            showAlert(ERROR_INTERESTS, this);
+            HelperClass.showAlert("Error", ERROR_INTERESTS,EditInterests.this);
         } else {
             Storage storage=new Storage(this);
             UserInterests userInterests=new UserInterests(selectedInterest);
            userViewModel.updateUserInterests(storage.getId(),HelperClass.BEARER_HEADER+storage.getToken(),userInterests).observe(this, new Observer<GeneralResponse>() {
                @Override
                public void onChanged(GeneralResponse gResponse) {
-                   Toast.makeText(getApplicationContext(),gResponse.response,Toast.LENGTH_LONG).show();
-                   //finish();
+                   if(gResponse!=null) {
+                       Toast.makeText(getApplicationContext(), gResponse.response, Toast.LENGTH_LONG).show();
+                       EditInterests.this.finish();
+                   }
+                    else {
+
+                       HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
+
+
+                   }
                }
            });
 
 
 
         }
+        CustomProgressDialog.getInstance(EditInterests.this).cancel();
 
     }
 }

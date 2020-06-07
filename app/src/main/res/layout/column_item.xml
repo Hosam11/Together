@@ -66,40 +66,24 @@
                 android:layout_weight="1">
 
             <FrameLayout
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/task_edit"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_mode_edit_black_24dp"
+                android:foreground="?android:selectableItemBackground"
                 >
 
-                <FrameLayout
-                    android:id="@+id/task_edit"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="?android:selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    >
 
-                </FrameLayout>
             </FrameLayout>
 
                 <FrameLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/task_delete"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/ic_delete_black_24dp"
                     >
 
-                <FrameLayout
-                    android:id="@+id/task_delete"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="?android:selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    >
-                </FrameLayout>
                 </FrameLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
