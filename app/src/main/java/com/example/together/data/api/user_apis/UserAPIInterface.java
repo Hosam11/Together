@@ -73,6 +73,10 @@ public interface UserAPIInterface {
     Call<GeneralResponse> logout(@Path("id") int id);
 
     //update user device token
-    @P
+    @POST("{id}/devicetoken")
+    Call<GeneralResponse> updateDeviceToken(@Path("id") int id,
+                                            @Header("Authorization") String token,
+                                            @Body String deviceToken
+    );
 
 }

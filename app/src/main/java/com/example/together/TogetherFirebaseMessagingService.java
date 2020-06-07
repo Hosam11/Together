@@ -14,6 +14,10 @@ public class TogetherFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-        //call api to update token here ..
+        //check connectivity
+
+        //call api to update token here .. make request and enqueue request , handle success and failure
+
+
     }
 }

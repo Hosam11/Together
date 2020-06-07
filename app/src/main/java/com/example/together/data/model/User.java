@@ -27,6 +27,18 @@ public class User implements Serializable {
     public String name;
     private String email;
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    ///
+    @SerializedName("token")
+    private String deviceToken;
+
     public int getId() {
         return id;
     }
