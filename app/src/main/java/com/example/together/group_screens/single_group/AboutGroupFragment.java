@@ -49,11 +49,11 @@ public class AboutGroupFragment extends Fragment {
 
 
     boolean isAdmin = false;
+    Group receivedGroup;
 
     public AboutGroupFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,9 +61,9 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        Group receivedGroup = s.getGroup(getContext());
+        receivedGroup = s.getGroup(getContext());
 
-        Log.i(TAG, "onCreateView: id >> "   );
+        Log.i(TAG, "onCreateView: id >> ");
 
         View view = inflater.inflate(R.layout.fragment_about_group,
                 container, false);
@@ -78,8 +78,8 @@ public class AboutGroupFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         members_recycler.setLayoutManager(layoutManager);
 
-
-        if (receivedGroup.getAdmin_id() == storage.getId()) {
+        // FixMe [1]
+        if (receivedGroup.getAdminID() == storage.getId()) {
             isAdmin = true;
             editGroupTv.setVisibility(View.VISIBLE);
             editGroupTv.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +104,9 @@ public class AboutGroupFragment extends Fragment {
             @Override
             public void onDeleteClick(int position) {
                 CustomProgressDialog.getInstance(getContext()).show();
-// represents Gid
-                removeItem(position, receivedGroup.getAdminID());
+                // represents Gid
+                // FixMe [4]
+                removeItem(position, receivedGroup.getGroupID());
             }
         });
 
@@ -128,8 +129,8 @@ public class AboutGroupFragment extends Fragment {
             CustomProgressDialog.getInstance(getContext()).show();
 
 // represents Gid
-
-            getGroupDetails(receivedGroup.getAdminID());
+            // FixMe [2]
+            getGroupDetails(receivedGroup.getGroupID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
@@ -145,8 +146,8 @@ public class AboutGroupFragment extends Fragment {
             public void onClick(View v) {
                 if (HelperClass.checkInternetState(getContext())) {
                     //TODO:// represents Gid
-
-                    userViewModel.leaveGroup(receivedGroup.getAdminID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                    // FixMe [3]
+                    userViewModel.leaveGroup(receivedGroup.getGroupID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {
                             if (response != null) {
@@ -200,7 +201,6 @@ public class AboutGroupFragment extends Fragment {
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
 
-
                     }
 
                 }
@@ -213,27 +213,26 @@ public class AboutGroupFragment extends Fragment {
         }
 
 
-
     }
 
     public void getGroupDetails(int groupId) {
         userViewModel.getSpecificGroupDetails(groupId, storage.getToken())
                 .observe(this, new Observer<Group>() {
-            @Override
-            public void onChanged(Group groupDetails) {
-                if (groupDetails != null) {
-                    groupMembersList.clear();
-                    groupMembersList.addAll(groupDetails.getMembers());
-                    adapter.notifyDataSetChanged();
-                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    @Override
+                    public void onChanged(Group groupDetails) {
+                        if (groupDetails != null) {
+                            groupMembersList.clear();
+                            groupMembersList.addAll(groupDetails.getMembers());
+                            adapter.notifyDataSetChanged();
+                            CustomProgressDialog.getInstance(getContext()).cancel();
 
-                } else {
-                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
-                    CustomProgressDialog.getInstance(getContext()).cancel();
+                        } else {
+                            HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                            CustomProgressDialog.getInstance(getContext()).cancel();
 
-                }
-            }
-        });
+                        }
+                    }
+                });
 
 
     }

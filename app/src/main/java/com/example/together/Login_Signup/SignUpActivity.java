@@ -200,7 +200,7 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void selectImage() {
-        /*final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+       /*final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -358,13 +358,13 @@ public class SignUpActivity extends AppCompatActivity implements
             passEt.setError(null);
         }
         String address = addressEt.getText().toString();
-        if (TextUtils.isEmpty(address)) {
+      /*  if (TextUtils.isEmpty(address)) {
             addressEt.setError("Required.");
             valid = false;
         } else {
             addressEt.setError(null);
         }
-
+*/
 
         String endPoint = dateEt.getText().toString();
         if (TextUtils.isEmpty(endPoint)) {

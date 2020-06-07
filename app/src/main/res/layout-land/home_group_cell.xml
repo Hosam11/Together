@@ -19,8 +19,8 @@
             android:id="@+id/group_image"
             android:layout_width="match_parent"
             android:layout_height="194dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_img"
+            android:scaleType="fitXY"
+            android:src="@drawable/group_image"
             />
 
         <LinearLayout

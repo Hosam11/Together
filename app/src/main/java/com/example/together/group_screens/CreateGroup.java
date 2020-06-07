@@ -212,7 +212,16 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         if (imageUri != null) {
             CustomProgressDialog.getInstance(this).show();
             UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
-            imgToFireBase.uploadFile(imageUri);
+
+            if (HelperClass.checkInternetState(this)) {
+               // CustomProgressDialog.getInstance(this).show();
+                imgToFireBase.uploadFile(imageUri);
+
+            } else {
+             //   CustomProgressDialog.getInstance(this).cancel();
+                HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+
+            }
 
         } else {
             // create group
@@ -229,8 +238,16 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
             CustomProgressDialog.getInstance(this).show();
-            groupViewModel.createGroup(group, token)
-                    .observe(this, this::observCreateGroup);
+            if (HelperClass.checkInternetState(this)) {
+                // CustomProgressDialog.getInstance(this).show();
+                groupViewModel.createGroup(group, token)
+                        .observe(this, this::observCreateGroup);
+            } else {
+                //   CustomProgressDialog.getInstance(this).cancel();
+                HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+
+            }
+
         }
 
 

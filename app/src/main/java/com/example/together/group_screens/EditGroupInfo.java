@@ -82,7 +82,9 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
                 editGroupInfo();
             }
         });
-        Glide.with(this).load(group.getImage()).into(ivGroupImg);
+        if (group.getImage() != null) {
+            Glide.with(this).load(group.getImage()).into(ivGroupImg);
+        }
 
         tvEditImage.setOnClickListener(v -> HelperClass.newSelectImage(this));
 
@@ -150,7 +152,7 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-
+                Log.i(TAG, "EditGroupInfo -- onActivityResult: ");
                 this.imageUri = result.getUri();
                 File thumm_filepath = new File(imageUri.getPath());
                 try {
