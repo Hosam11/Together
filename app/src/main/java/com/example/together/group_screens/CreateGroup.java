@@ -384,9 +384,11 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+
 
                 this.imageUri = result.getUri();
                 File thumm_filepath = new File(imageUri.getPath());

@@ -61,7 +61,11 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
+
         receivedGroup = s.getGroup(getContext());
+// =======
+//         Group receivedGroup = s.getGroup(getContext());
+// >>>>>>> master
 
         Log.i(TAG, "onCreateView: id >> ");
 

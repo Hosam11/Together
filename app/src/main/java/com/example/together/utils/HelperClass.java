@@ -111,7 +111,9 @@ public class HelperClass {
     }
 
     public static void newSelectImage(Activity activity) {
+
         Log.i(TAG, "HelperClass -- newSelectImage: ");
+
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.OVAL)
