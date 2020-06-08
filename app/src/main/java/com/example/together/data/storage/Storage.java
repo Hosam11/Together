@@ -15,6 +15,9 @@ import static com.example.together.utils.HelperClass.PASSED_GROUP_FILE;
 import static com.example.together.utils.HelperClass.PASSED_GROUP_OBJ;
 import static com.example.together.utils.HelperClass.PASSED_USER;
 import static com.example.together.utils.HelperClass.PASSED_USER_OBJ;
+import static com.example.together.utils.HelperClass.SAVED_USER_NAME;
+import static com.example.together.utils.HelperClass.SAVED_USER_NAME_DEFAULT;
+import static com.example.together.utils.HelperClass.SAVED_USER_NAME_FILE;
 import static com.example.together.utils.HelperClass.TOKEN;
 import static com.example.together.utils.HelperClass.TOKEN_DEF;
 import static com.example.together.utils.HelperClass.USER_DATA;
@@ -88,6 +91,7 @@ public class Storage {
     /**
      * store group when click on a group in the list of groups to i can get data from it
      * from any screen like group screens
+     *
      * @param group
      * @param context
      */
@@ -105,6 +109,25 @@ public class Storage {
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_GROUP_OBJ, NO_GROUP_DEFULT);
         return gson.fromJson(json, Group.class);
+    }
+
+
+    /**
+     * save user name to use it in chat
+     *
+     * @param uName   name of user
+     * @param context context of what that will user the method
+     */
+    public void saveUserName(String uName, Context context) {
+        sharedPreferences = context.getSharedPreferences(SAVED_USER_NAME_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVED_USER_NAME, uName);
+        editor.apply();
+    }
+
+    public String getUserName(Context context) {
+        sharedPreferences = context.getSharedPreferences(SAVED_USER_NAME_FILE, MODE_PRIVATE);
+        return sharedPreferences.getString(SAVED_USER_NAME, SAVED_USER_NAME_DEFAULT);
     }
 
     public void clearStorage() {

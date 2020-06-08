@@ -50,7 +50,7 @@ public class AboutGroupFragment extends Fragment {
 
     boolean isAdmin = false;
     Group receivedGroup;
-
+    Storage s;
     public AboutGroupFragment() {
         // Required empty public constructor
     }
@@ -60,7 +60,7 @@ public class AboutGroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
-        Storage s = new Storage();
+         s = new Storage();
 
         receivedGroup = s.getGroup(getContext());
 // =======
@@ -91,6 +91,7 @@ public class AboutGroupFragment extends Fragment {
                 public void onClick(View v) {
                     //TODO hossam Edit Group
                     Intent goEditGroup = new Intent(getContext(), EditGroupInfo.class);
+//                    goEditGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                     getContext().startActivity(goEditGroup);
                     Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
@@ -139,12 +140,9 @@ public class AboutGroupFragment extends Fragment {
             CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
 
-
         }
 
-
         // Inflate the layout for this fragment
-
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,8 +169,6 @@ public class AboutGroupFragment extends Fragment {
                 } else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
                     HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
-
-
                 }
             }
         });
@@ -184,6 +180,12 @@ public class AboutGroupFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        receivedGroup = s.getGroup(getContext());
+        nameTv.setText(receivedGroup.getGroupName());
+        groupDescriptionTv.setText(receivedGroup.getGroupDesc());
+        if (receivedGroup.getImage() != null) {
+            Glide.with(getContext()).load(receivedGroup.getImage()).into(groupImgView);
+        }
 
     }
 
