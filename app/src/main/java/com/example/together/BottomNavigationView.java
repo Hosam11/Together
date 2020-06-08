@@ -34,7 +34,7 @@ public class BottomNavigationView extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                             break;
                         case R.id.nav_notification:
-                            selectedFragment = new GroupNotificationFragment();
+                            selectedFragment = new NotificationFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                             break;
                     }
