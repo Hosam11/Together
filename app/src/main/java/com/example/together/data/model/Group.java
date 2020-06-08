@@ -29,6 +29,7 @@ public class Group {
     // admin of group
     @SerializedName("id")
     private int adminID;
+
     // to make a requests by group id
     @SerializedName("group_id")
     private int groupID;
@@ -36,6 +37,9 @@ public class Group {
 
     //as a group id in get request
     // private int  id;
+
+
+
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -84,6 +88,31 @@ public class Group {
         this.interest = interest;
         this.image = img;
     }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
     public Group(int maxMembers, int duration,
                  String groupName, String groupDesc,
                  String levelRequired) {
@@ -113,9 +142,6 @@ public class Group {
 
     public Group(String learning_android, int development, String description) {
     }
-
-
-
 
 
     public ArrayList<User> getMembers() {
@@ -166,17 +192,12 @@ public class Group {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
 
     public int getCurrentMembers() {
         return currentMembers;
@@ -219,8 +240,7 @@ public class Group {
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest
-
+                        "\ninterest : " + interest 
         );
     }
 }

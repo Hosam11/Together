@@ -1,6 +1,5 @@
 package com.example.together.ToDoListPachage;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
+import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UserViewModel;
 
@@ -23,11 +23,15 @@ public class HandleViewModelProcess {
     boolean toDoListGetted=false;
     boolean doingListGetted=false;
     boolean doneListGetted=false;
+    Storage s = new Storage();
+    Storage st;
 
 
     public HandleViewModelProcess(UserViewModel userViewModel,BoardFragment boardFragment) {
         this.userViewModel = userViewModel;
         this.boardFragment = boardFragment;
+         st = new Storage(boardFragment.getContext());
+
     }
 
     public void getToDoListTask(){
@@ -35,7 +39,10 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            userViewModel.getToDoListTasks(1, boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
+            Log.i("tamer", ""+st.getToken());
+            Log.i("tamer","mahmoud"+boardFragment.storage.getToken());
+            userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getGroupID(), st.getToken()).observe(boardFragment, toDoListTask -> {
+
                 if (toDoListTask != null) {
                     boardFragment.toDoList = toDoListTask;
                     boardFragment.toDoListAdapter.setList(boardFragment.toDoList);
@@ -61,7 +68,8 @@ public class HandleViewModelProcess {
     public void getInProgressTasks(){
 
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            userViewModel.getInProgressTasks(1,boardFragment.storage.getToken()).observe(boardFragment,doingListTasks->{
+            userViewModel.getInProgressTasks(s.getGroup(boardFragment.getContext()).getGroupID(),st.getToken()).observe(boardFragment, doingListTasks->{
+
                 if(doingListTasks!=null){
                     boardFragment.doingList =doingListTasks;
                     boardFragment.doingListAdapter.setList(doingListTasks);
@@ -80,14 +88,19 @@ public class HandleViewModelProcess {
         if(HelperClass.checkInternetState(boardFragment.getContext())) {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
-            userViewModel.moveToProgressList(toRow, boardFragment.storage.getToken()).observe(boardFragment, moveToProgress -> {
-                if (moveToProgress.response.equals(HelperClass.SUCCESS)) {
+            userViewModel.moveToProgressList(toRow, st.getToken()).observe(boardFragment, moveToProgress -> {
+                if (moveToProgress.response.equals("Success")) {
                     Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
                     customProgressDialog.cancel();
                     setProgressSize();
+                    Log.i("samir", moveToProgress.response.toString());
+
                 } else {
                     customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());                }
+                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());
+                    Log.i("samir", moveToProgress.response.toString());
+
+                }
             });
         }
         else {
@@ -101,17 +114,21 @@ public class HandleViewModelProcess {
         if(HelperClass.checkInternetState(boardFragment.getContext())) {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
-            userViewModel.moveToDoneList(toRow, boardFragment.storage.getToken()).observe(boardFragment, moveToDoneList -> {
+            userViewModel.moveToDoneList(toRow, st.getToken()).observe(boardFragment, moveToDoneList -> {
                 if (moveToDoneList.response.equals(HelperClass.SUCCESS)) {
                     Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
                     customProgressDialog.cancel();
                     setProgressSize();
+                    Log.i("samir", moveToDoneList.response.toString());
 
 
 
                 } else {
                     customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());                }
+                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());
+                    Log.i("samir", moveToDoneList.response.toString());
+
+                }
             });
         }
         else {
@@ -125,15 +142,20 @@ public class HandleViewModelProcess {
         if(HelperClass.checkInternetState(boardFragment.getContext())) {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
-            userViewModel.moveToDoList(toRow, boardFragment.storage.getToken()).observe(boardFragment, moveToDoList -> {
-                if (moveToDoList.response.equals(HelperClass.SUCCESS)) {
+            userViewModel.moveToDoList(toRow, st.getToken()).observe(boardFragment, moveToDoList -> {
+                if (moveToDoList.response.equals("Moved successfully")) {
                     Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
                     setProgressSize();
                     customProgressDialog.cancel();
+                    Log.i("samir", moveToDoList.response.toString());
+
 
                 } else {
                     customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());                }
+                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());
+                    Log.i("samir", moveToDoList.response.toString());
+
+                }
             });
         }
         else {
@@ -146,7 +168,8 @@ public class HandleViewModelProcess {
 
     public void getDoneTasks(){
         userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-        userViewModel.getDoneTasks(1,boardFragment.storage.getToken()).observe(boardFragment,doneListTasks->{
+        userViewModel.getDoneTasks(s.getGroup(boardFragment.getContext()).getGroupID(),st.getToken()).observe(boardFragment, doneListTasks->{
+
             if(doneListTasks!=null){
                 boardFragment.doneList =doneListTasks;
                 boardFragment.doneListAdapter.setList(doneListTasks);
@@ -164,13 +187,14 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            userViewModel.addTask(task, boardFragment.storage.getToken()).observe(boardFragment, addTaskResp -> {
+            userViewModel.addTask(task, st.getToken()).observe(boardFragment, addTaskResp -> {
                 if (addTaskResp.response.equals(HelperClass.ADD_TASK_RESPONSE_SUCCESS)) {
                     Toast.makeText(boardFragment.getContext(), "Task Added Successfully", Toast.LENGTH_SHORT).show();
                     customProgressDialog.cancel();
                     if (HelperClass.checkInternetState(boardFragment.getContext())) {
                         customProgressDialog.show();
-                        userViewModel.getToDoListTasks(1, boardFragment.storage.getToken()).observe(boardFragment, toDoListTask -> {
+                        userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getGroupID(), st.getToken()).observe(boardFragment, toDoListTask -> {
+
                             if (toDoListTask != null) {
                                 boardFragment.toDoList = toDoListTask;
                                 boardFragment.toDoListAdapter.setList(toDoListTask);
@@ -213,7 +237,7 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-            userViewModel.sendPositionArrangment(tasks,boardFragment.storage.getToken()).observe(boardFragment,getInProgressTasks->{
+            userViewModel.sendPositionArrangment(tasks,st.getToken()).observe(boardFragment,getInProgressTasks->{
                 if (getInProgressTasks.response.equals("All tasks moved successfully")) {
                     customProgressDialog.cancel();
                     Log.i("adham", getInProgressTasks.response.toString());

@@ -66,8 +66,6 @@ public class TestApis extends AppCompatActivity {
         groupViewModel.rejectJoinReqGroup(reqID, token).observe(this, rejecRes -> {
             Log.i(TAG, "acceptReqJoinGrop: " + rejecRes);
         });
-
-
     }
 
     private void addGroupMember() {

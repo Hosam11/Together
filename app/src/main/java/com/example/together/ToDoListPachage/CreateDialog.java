@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
+import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 
 public class CreateDialog extends AppCompatDialogFragment {
@@ -41,6 +42,7 @@ public class CreateDialog extends AppCompatDialogFragment {
     int id;
     View v;
     Context context;
+    Storage s = new Storage();
 
 
     public CreateDialog(String dialogType, BoardFragment boardFragment) {
@@ -96,7 +98,10 @@ public class CreateDialog extends AppCompatDialogFragment {
                 if (add.isEnabled() == true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    ListTask task = new ListTask(1, 2, t, d, boardFragment.toDoList.size(), HelperClass.TODO);
+                    ListTask task = new ListTask(s.getGroup(boardFragment.getContext()).getGroupID(),boardFragment.storage.getId(),t,d,boardFragment.toDoList.size(),HelperClass.TODO);
+
+
+
                     boardFragment.addTask(task);
 
                     CreateDialog.this.dismissAllowingStateLoss();
@@ -146,6 +151,8 @@ public class CreateDialog extends AppCompatDialogFragment {
     }
 
     public void addTextChangeListners() {
+
+
         title.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -73,6 +73,7 @@ public class ToDoListApiProvider {
 
     MutableLiveData<ArrayList<ListTask>> getToDoListTasks (int groupId , String token){
         MutableLiveData<ArrayList<ListTask>> toDoListTasks = new MutableLiveData<>();
+        Log.i("hossam", HelperClass.BEARER_HEADER+token);
         Call<ArrayList<ListTask>> addTaskCall = apiInterface.getToDoListTasks(groupId, HelperClass.BEARER_HEADER+token);
         addTaskCall.enqueue(new Callback<ArrayList<ListTask>>() {
             @Override

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_for_addTask_progress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_marginStart="20sp"
+    android:layout_marginTop="20sp"
+    android:layout_marginEnd="20sp"
+    android:layout_marginBottom="20sp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_task_btn_cardView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="10dp"
+        android:layout_marginTop="30dp"
+        >
+
+        <Button
+            android:id="@+id/add_task"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/corners_from_all_without_stroke"
+            android:foreground="?android:selectableItemBackground"
+            android:text="Add Task"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+
+
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <include
+        android:id="@+id/btn_create_group_fragment"
+        layout="@layout/to_do_list_progress_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+
+        />
+
+</RelativeLayout>

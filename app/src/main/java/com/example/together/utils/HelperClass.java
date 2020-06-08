@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,11 +20,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class HelperClass {
     public static final String TAG = "logs_info";
     public static final String MALE = "Male";
     public static final String FEMALE = "Female";
+    public static final String JOIN_GROUP = "Join Group";
+    public static final String PENDING = "Pending...";
+
+
 
     // Shared Prefernces consts
     public static final String USER_DATA = "user_data";
@@ -50,18 +58,17 @@ public class HelperClass {
 
     public static final String TODO ="to do";
     public static final String ADD_TASK_RESPONSE_SUCCESS ="Task added Successfully";
-    public static final String SUCCESS ="Moved successfully";
+    public static final String SUCCESS ="sucess";
     public static final String deleteTaskSuccess ="This task deleted successfully";
     public static final String updatedTaskSuccess = "Updated successfully";
 
     public static final String checkYourCon= "Please check your internet connection";
     public static final String SERVER_DOWN = "Failed connect to host!";
 
-    public static  final String USER_NOT_MEMBER = "Not member and  ";
-    public static final String USER_WATING_JOIN_GROUP
-            = "Not member and This user waiting for admin of group to accept his request of join";
-    public static final String USER_IN_GROUP
-            = "Member of this group and This user waiting for admin of group to accept his request of join";
+    public static  final String USER_NOT_MEMBER = "Not member ";
+    public static final String USER_WAITING_JOIN_GROUP
+            = "Not member , This user waiting for admin of group to accept his request of join";
+    public static final String USER_IN_GROUP = "Member of this group";
 
     // user send req and accepte it
     // "Member of this group and"
@@ -96,6 +103,8 @@ public class HelperClass {
 
     }
 
+    public static void newSelectImage(Activity activity) {
+
 
 
 
@@ -109,13 +118,16 @@ public class HelperClass {
         return imageEncoded;
     }
 
-    // method for base64 to bitmap
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
+        Log.i(TAG, "HelperClass -- newSelectImage: ");
+
+
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1,1)
+                .start(activity);
     }
-*/
+
     /**
      * @param context: context that called the method
      * @return true if there is a internet connection otherwise false
@@ -127,7 +139,8 @@ public class HelperClass {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+    /*@RequiresApi(api = Build.VERSION_CODES.M)
     public static void selectImage(Activity activity, int cameraReqCode, int cameraReq, int  galleryReq) {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -151,5 +164,7 @@ public class HelperClass {
         });
         builder.show();
     }
+    */
+
 
 }

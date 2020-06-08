@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +20,8 @@ import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.Group;
 import com.example.together.data.storage.Storage;
-import com.example.together.group_screens.AddGroup;
+import com.example.together.group_screens.CreateGroup;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -48,7 +46,7 @@ public class HomeFragment extends Fragment {
         fab = v.findViewById(R.id.add_group_FAB);
         fab.setOnClickListener(v1 -> {
             //Intent To Create Group Screen
-            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            Intent createGroup = new Intent(getContext(), CreateGroup.class);
             getContext().startActivity(createGroup);
         });
         recyclerView=v.findViewById(R.id.home_groups_rv);
@@ -73,7 +71,7 @@ public class HomeFragment extends Fragment {
 
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
-            Intent createGroup = new Intent(getContext(), AddGroup.class);
+            Intent createGroup = new Intent(getContext(), CreateGroup.class);
             startActivity(createGroup);
         });
 

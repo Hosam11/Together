@@ -16,8 +16,6 @@ import com.example.together.R;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.UserLogin;
 import com.example.together.data.storage.Storage;
-import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 
 import static com.example.together.utils.HelperClass.TAG;
@@ -27,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEt, passEt;
     Button loginBtn;
     UsersViewModel usersViewModel;
-   // private ProgressBar pbLogin;
-   CustomProgressDialog progressdialog ;
+    // private ProgressBar pbLogin;
+    CustomProgressDialog progressdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +37,14 @@ public class LoginActivity extends AppCompatActivity {
         emailEt = findViewById(R.id.email_et);
         passEt = findViewById(R.id.password_et);
 
-       // pbLogin = findViewById(R.id.progressbar);
+        // pbLogin = findViewById(R.id.progressbar);
         loginBtn = findViewById(R.id.login_btn);
 
 
         loginBtn.setOnClickListener(v -> {
-            if(validateForm()){
-            login();}
+            if (validateForm()) {
+                login();
+            }
         });
 
 
@@ -59,16 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         String pass = passEt.getText().toString();
 
         UserLogin userLogin = new UserLogin(email, pass);
+        
+        CustomProgressDialog.getInstance(LoginActivity.this).show();
+        loginBtn.setEnabled(false);
+        usersViewModel.login(userLogin).observe(this, this::logObserve);
 
-
-        if (email.isEmpty() || pass.isEmpty()) {
-            showAlert(HelperClass.ERROR_MISSING_FILEDS, this);
-
-        } else {
-            CustomProgressDialog.getInstance(LoginActivity.this).show();
-            loginBtn.setEnabled(false);
-            usersViewModel.login(userLogin).observe(this, this::logObserve);
-        }
 
     }
 
@@ -87,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO change it to home screen
 
                 Intent intent = new Intent(this, BottomNavigationView.class);
+                // TODO INTENT ADD FLAG
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 LoginActivity.this.finish();
@@ -98,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 //                 // not valid user
 //                 pbLogin.setVisibility(View.GONE);
                 loginBtn.setEnabled(false);
-            CustomProgressDialog.getInstance(this).cancel();
+                CustomProgressDialog.getInstance(this).cancel();
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
                 showAlert(logRes.getResponse(), this);
                 loginBtn.setEnabled(true);
@@ -120,12 +115,11 @@ public class LoginActivity extends AppCompatActivity {
             emailEt.setError(null);
         }
 
-        if(!email.matches(emailPattern)){
+        if (!email.matches(emailPattern)) {
             emailEt.setError("Enter a valid e-mail!");
             valid = false;
 
-        }
-        else {
+        } else {
             emailEt.setError(null);
 
         }
@@ -145,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i =new Intent(this,StartActivity.class);
+        Intent i = new Intent(this, StartActivity.class);
         startActivity(i);
         LoginActivity.this.finish();
 
