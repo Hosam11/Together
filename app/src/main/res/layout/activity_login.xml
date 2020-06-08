@@ -131,16 +131,18 @@
                 android:background="@drawable/edit_texts_shapes"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+
+
+                android:paddingLeft="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="16dp"
+                android:text="h@h.com"
+
                 android:paddingHorizontal="18dp"
-
-
-                android:text="hos"
 
 
                 android:textColor="#000"
                 android:textCursorDrawable="@drawable/cursor_color"
-
-
                 />
 
             <View
