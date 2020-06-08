@@ -2,6 +2,7 @@ package com.example.together.data.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
@@ -43,6 +44,7 @@ public class Storage {
     }
 
     public String getToken() {
+        Log.i("hossam", "getToken"+sharedPreferences.getString(TOKEN, TOKEN_DEF));
         return sharedPreferences.getString(TOKEN, TOKEN_DEF);
     }
 
@@ -73,7 +75,7 @@ public class Storage {
         return gson.fromJson(json, User.class);
     }
 
-    public void saveGroupObject(Group group, Context context) {
+    public void saveGroup(Group group, Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -82,7 +84,7 @@ public class Storage {
         prefsEditor.apply();
     }
 
-    public Group getGroupUser(Context context) {
+    public Group getGroup(Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_GROUP_OBJ, NO_GROUP_DEFULT);

@@ -59,7 +59,7 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        Group receivedGroup = s.getGroupUser(getContext());
+        Group receivedGroup = s.getGroup(getContext());
 
         Log.i(TAG, "onCreateView: id >> "   );
 
@@ -77,7 +77,7 @@ public class AboutGroupFragment extends Fragment {
         members_recycler.setLayoutManager(layoutManager);
 
 
-        if (receivedGroup.getAdmin_id() == storage.getId()) {
+        if (receivedGroup.getAdminID() == storage.getId()) {
             isAdmin = true;
             editGroupTv.setVisibility(View.VISIBLE);
             editGroupTv.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class AboutGroupFragment extends Fragment {
             public void onDeleteClick(int position) {
                 CustomProgressDialog.getInstance(getContext()).show();
 // represents Gid
-                removeItem(position, receivedGroup.getAdminID());
+                removeItem(position, receivedGroup.getGroupID());
             }
         });
 
@@ -125,7 +125,7 @@ public class AboutGroupFragment extends Fragment {
 
 // represents Gid
 
-            getGroupDetails(receivedGroup.getAdminID());
+            getGroupDetails(receivedGroup.getGroupID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
@@ -142,7 +142,7 @@ public class AboutGroupFragment extends Fragment {
                 if (HelperClass.checkInternetState(getContext())) {
                     //TODO:// represents Gid
 
-                    userViewModel.leaveGroup(receivedGroup.getAdminID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                    userViewModel.leaveGroup(receivedGroup.getGroupID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {
                             if (response != null) {

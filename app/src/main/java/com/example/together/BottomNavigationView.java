@@ -11,6 +11,7 @@ import com.example.together.NavigationFragments.ExploreFragment;
 import com.example.together.NavigationFragments.HomeFragment;
 import com.example.together.NavigationFragments.NotificationFragment;
 import com.example.together.NavigationFragments.ProfileFragment;
+import com.example.together.group_screens.single_group.GroupNotificationFragment;
 
 public class BottomNavigationView extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class BottomNavigationView extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                             break;
                         case R.id.nav_notification:
-                            selectedFragment = new NotificationFragment();
+                            selectedFragment = new GroupNotificationFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                             break;
                     }

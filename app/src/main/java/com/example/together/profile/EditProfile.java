@@ -451,7 +451,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
     }
 
     @Override
-    public void onFinishedDownloadListner(String imgUrl) {
+    public void onFinishedDownloadListener(String imgUrl) {
 
         receivedUser.setImage(imgUrl);
         save(receivedUser);

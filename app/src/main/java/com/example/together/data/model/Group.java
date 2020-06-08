@@ -30,12 +30,12 @@ public class Group {
     @SerializedName("id")
     private int adminID;
     // to make a requests by group id
+    @SerializedName("group_id")
     private int groupID;
     //added last
 
     //as a group id in get request
     // private int  id;
-    private int admin_id;
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -141,14 +141,6 @@ public class Group {
 
 
 
-    public int getAdmin_id() {
-        return admin_id;
-    }
-
-    public void setAdmin_id(int admin_id) {
-        this.admin_id = admin_id;
-    }
-
     public ArrayList<User> getMembers() {
         return members;
     }
@@ -197,17 +189,12 @@ public class Group {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
+
 
     public String getGroupDesc() {
         return groupDesc;
     }
 
-    public void setGroupDesc(String groupDesc) {
-        this.groupDesc = groupDesc;
-    }
 
     public int getCurrentMembers() {
         return currentMembers;

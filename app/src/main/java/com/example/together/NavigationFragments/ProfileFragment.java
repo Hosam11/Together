@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment implements
 
                 if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-                    usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                    usersViewModel.logout(storage.getId(),storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {
                             if (response != null) {
