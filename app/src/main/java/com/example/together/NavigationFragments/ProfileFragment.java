@@ -1,5 +1,6 @@
 package com.example.together.NavigationFragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,6 +27,7 @@ import com.example.together.CustomProgressDialog;
 import com.example.together.Login_Signup.StartActivity;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
+import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.profile.EditInterests;
@@ -52,10 +55,7 @@ public class ProfileFragment extends Fragment implements
     ImageView profileImage;
     String[] interests;
     User user;
-
     UsersViewModel usersViewModel;
-
-
     Storage storage;
     CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
@@ -97,44 +97,14 @@ public class ProfileFragment extends Fragment implements
             startActivity(i);
         });
 
-//progressDialog=CustomProgressDialog.getInstance(getContext());
-//progressDialog.show();
         CustomProgressDialog.getInstance(getContext()).show();
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomProgressDialog.getInstance(getContext()).show();
+                showYesNoAlert("Logout","Do you really want to logout?");
 
-                if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-                    Log.i(TAG, "ProfileFragment --  onClick: userID >> " + storage.getId());
-                    usersViewModel.logout(storage.getId()).observe(getViewLifecycleOwner(),
-                            new Observer<GeneralResponse>() {
-                        @Override
-                        public void onChanged(GeneralResponse response) {
-                            if (response != null) {
-                                CustomProgressDialog.getInstance(getContext()).cancel();
-
-
-                                storage.clearStorage();
-
-                                Objects.requireNonNull(getActivity()).finish();
-                                Intent backToStart = new Intent(getContext(), StartActivity.class);
-                                Objects.requireNonNull(getContext()).startActivity(backToStart);
-
-                            } else {
-                                CustomProgressDialog.getInstance(getContext()).cancel();
-                                HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
-
-                            }
-
-                        }
-                    });
-                } else {
-                    HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
-
-                }
 
             }
         });
@@ -142,6 +112,70 @@ public class ProfileFragment extends Fragment implements
         // TODO last changed was 31/5/2020
         return v;
     }
+    private  void logout(){
+        CustomProgressDialog.getInstance(getContext()).show();
+      
+        if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+
+            usersViewModel.logout(storage.getId(),storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                @Override
+                public void onChanged(GeneralResponse response) {
+                    if (response != null) {
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
+
+                        storage.clearStorage();
+
+                        Objects.requireNonNull(getActivity()).finish();
+                        Intent backToStart = new Intent(getContext(), StartActivity.class);
+                        Objects.requireNonNull(getContext()).startActivity(backToStart);
+
+                    } else {
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+
+                    }
+
+                }
+            });
+        } else {
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+
+        }
+
+
+    }
+    public  void showYesNoAlert(String description, String msg ) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge,null);
+        builder.setView(alertView);
+        TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
+        TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
+        alertDescription.setText(description);
+        alertMessage.setText(msg);
+        TextView okBtn = alertView.findViewById(R.id.ok_button);
+        TextView cancelBtn = alertView.findViewById(R.id.cancle_btn);
+
+        AlertDialog alertDialog = builder.create();
+
+        cancelBtn.setOnClickListener(v -> alertDialog.cancel());
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+                logout();
+
+            }
+        });
+        alertDialog.show();
+
+
+    }
+
+
 
     private void showShimmer() {
         shimmerContainer.setVisibility(View.VISIBLE);
@@ -173,7 +207,7 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
-         storage = new Storage(getContext());
+        storage = new Storage(getContext());
         Log.i("TOKEN",storage.getToken());
 
 
@@ -193,22 +227,14 @@ public class ProfileFragment extends Fragment implements
                         addressEt.setText(userData.getAddress());
                         dateEt.setText(userData.getBirthDate());
                         genderEt.setText(userData.getGender());
+                        if(userData.getImage()!=null)
 
-                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
-                                .ic_profile_black_24dp).into(profileImage);
+                            Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                    .ic_profile_black_24dp).into(profileImage);
 
 
                         displayInterests(userData.getInterests());
 
-//                    if (!userData.getGroups().isEmpty()) {
-//                        for (User.GroupReturned group : userData.getGroups()) {
-//                            Log.i(TAG, "setProfileDataObservable: #Groups# name: " +
-//                                    group.getName() +
-//                                    " -- id: " + group.getId() + "\n");
-//                        }
-//                    } else {
-//                        Log.i(TAG, "setProfileDataObservable: Groups is null");
-//                    }
 
                         CustomProgressDialog.getInstance(getContext()).cancel();
 

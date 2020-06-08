@@ -26,6 +26,7 @@ import com.example.together.view_model.UsersViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment {
         adapter = new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
         CustomProgressDialog.getInstance(getContext()).show();
-        getGroups();
+//        getGroups();
 
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
@@ -80,9 +81,10 @@ public class HomeFragment extends Fragment {
         super.onResume();
         CustomProgressDialog.getInstance(getContext()).show();
 
-        if (HelperClass.checkInternetState(getContext())) {
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
             getGroups();
-        } else {
+       } 
+       else {
 
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
@@ -103,7 +105,9 @@ public class HomeFragment extends Fragment {
                     CustomProgressDialog.getInstance(getContext()).cancel();
                 } else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
-                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
+
                 }
             }
         });

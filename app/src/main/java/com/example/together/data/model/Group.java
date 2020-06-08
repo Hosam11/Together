@@ -37,7 +37,9 @@ public class Group {
 
     //as a group id in get request
     // private int  id;
-  //  private int admin_id;
+
+
+
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -141,15 +143,6 @@ public class Group {
     public Group(String learning_android, int development, String description) {
     }
 
-
-
- /*   public int getAdmin_id() {
-        return admin_id;
-    }*/
-
-//    public void setAdmin_id(int admin_id) {
-//        this.admin_id = admin_id;
-//    }
 
     public ArrayList<User> getMembers() {
         return members;

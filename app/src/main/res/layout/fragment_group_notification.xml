@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="10"
+            android:paddingBottom="20dp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -51,19 +52,11 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include
-            layout="@layout/toggle_button_layout"
-            android:id="@+id/includedLayout"
-            android:layout_height="100dp"
-            android:layout_width="80dp"
-            android:layout_marginBottom="14dp"
-            />
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_rv"
         android:layout_width="match_parent"
@@ -71,17 +64,6 @@
         android:background="#f9f9f9
 
 " />
-
-    <ProgressBar
-    android:id="@+id/loadingProgressPar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="5sp"
-    />
-</RelativeLayout>
-
 
 
 </LinearLayout>

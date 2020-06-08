@@ -23,6 +23,29 @@ public class JoinGroupResponse {
     @SerializedName("request_content")
     private String reqContent;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public String getReqContent() {
+        return reqContent;
+    }
+
+    public void setReqContent(String reqContent) {
+        this.reqContent = reqContent;
+    }
 
     public int getUserID() {
         return userID;

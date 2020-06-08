@@ -2,6 +2,7 @@ package com.example.together.data.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
@@ -47,6 +48,7 @@ public class Storage {
     }
 
     public String getToken() {
+        Log.i("hossam", "getToken"+sharedPreferences.getString(TOKEN, TOKEN_DEF));
         return sharedPreferences.getString(TOKEN, TOKEN_DEF);
     }
 
@@ -88,6 +90,7 @@ public class Storage {
         return gson.fromJson(json, User.class);
     }
 
+
     /**
      * store group when click on a group in the list of groups to i can get data from it
      * from any screen like group screens
@@ -95,6 +98,7 @@ public class Storage {
      * @param group
      * @param context
      */
+
     public void saveGroup(Group group, Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();

@@ -169,6 +169,7 @@ public class EditProfile extends AppCompatActivity
                     receivedUser.setInterests(interests);
 
                     if (imgUri != null) {
+
                         CustomProgressDialog.getInstance(EditProfile.this).show();
                         UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(EditProfile.this);
                         imgToFireBase.uploadFile(imgUri);
@@ -193,6 +194,7 @@ public class EditProfile extends AppCompatActivity
     }
 
     public void save(User user) {
+
 
         if (HelperClass.checkInternetState(this)) {
             Storage storage = new Storage(getApplicationContext());
@@ -375,14 +377,24 @@ public class EditProfile extends AppCompatActivity
 
     private boolean validateForm() {
         boolean valid = true;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
 
         String name = nameEt.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            nameEt.setError("Required.");
+        if (TextUtils.isEmpty(name) || name.length()<3) {
+            nameEt.setError("Must be more than 3 letters");
             valid = false;
         } else {
             nameEt.setError(null);
         }
+
+//        String email = emailEt.getText().toString();
+//        if (TextUtils.isEmpty(email)) {
+//            emailEt.setError("Required.");
+//            valid = false;
+//        } else {
+//            emailEt.setError(null);
+//        }
 
         String email = emailEt.getText().toString();
         if (TextUtils.isEmpty(email)) {
@@ -391,9 +403,20 @@ public class EditProfile extends AppCompatActivity
         } else {
             emailEt.setError(null);
         }
+
+        if(!email.matches(emailPattern)){
+            emailEt.setError("Enter a valid e-mail!");
+            valid = false;
+
+        }
+        else {
+            emailEt.setError(null);
+
+        }
+
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)) {
-            passEt.setError("Required.");
+        if (TextUtils.isEmpty(pass)||pass.length()<6) {
+            passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {
             passEt.setError(null);

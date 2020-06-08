@@ -2,8 +2,13 @@ package com.example.together.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,10 +68,11 @@ public class HelperClass {
     public static final String ERROR_INTERESTS = "Please select interest";
     public static final String BEARER_HEADER = "Bearer ";
 
-    public static final String TODO = "to do";
-    public static final String ADD_TASK_RESPONSE_SUCCESS = "Task added Successfully";
-    public static final String SUCCESS = "Moved successfully";
-    public static final String deleteTaskSuccess = "This task deleted successfully";
+    public static final String TODO ="to do";
+    public static final String ADD_TASK_RESPONSE_SUCCESS ="Task added Successfully";
+    public static final String SUCCESS ="sucess";
+    public static final String deleteTaskSuccess ="This task deleted successfully";
+
     public static final String updatedTaskSuccess = "Updated successfully";
 
     public static final String checkYourCon = "Please check your internet connection";
@@ -114,7 +120,9 @@ public class HelperClass {
 
     public static void newSelectImage(Activity activity) {
 
+
         Log.i(TAG, "HelperClass -- newSelectImage: ");
+
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
