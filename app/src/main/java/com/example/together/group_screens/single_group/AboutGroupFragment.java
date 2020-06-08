@@ -82,7 +82,7 @@ public class AboutGroupFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         members_recycler.setLayoutManager(layoutManager);
 
-        // FixMe [1]
+
         if (receivedGroup.getAdminID() == storage.getId()) {
             isAdmin = true;
             editGroupTv.setVisibility(View.VISIBLE);
@@ -108,8 +108,7 @@ public class AboutGroupFragment extends Fragment {
             @Override
             public void onDeleteClick(int position) {
                 CustomProgressDialog.getInstance(getContext()).show();
-                // represents Gid
-                // FixMe [4]
+
                 removeItem(position, receivedGroup.getGroupID());
             }
         });
@@ -132,8 +131,7 @@ public class AboutGroupFragment extends Fragment {
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
 
-// represents Gid
-            // FixMe [2]
+/
             getGroupDetails(receivedGroup.getGroupID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
@@ -150,7 +148,7 @@ public class AboutGroupFragment extends Fragment {
             public void onClick(View v) {
                 if (HelperClass.checkInternetState(getContext())) {
                     //TODO:// represents Gid
-                    // FixMe [3]
+
                     userViewModel.leaveGroup(receivedGroup.getGroupID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                         @Override
                         public void onChanged(GeneralResponse response) {

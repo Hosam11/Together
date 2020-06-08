@@ -348,6 +348,7 @@ public class UserAPIProvider {
     }
 
     ///Logout
+
     MutableLiveData<GeneralResponse> logout(int id, String token) {
         MutableLiveData<GeneralResponse> logoutRes = new MutableLiveData<>();
 
