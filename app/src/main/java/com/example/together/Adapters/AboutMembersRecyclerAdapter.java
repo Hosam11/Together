@@ -111,13 +111,6 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         }
 
 
-
-
-
-
-
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

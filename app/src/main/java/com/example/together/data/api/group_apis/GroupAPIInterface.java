@@ -1,5 +1,6 @@
 package com.example.together.data.api.group_apis;
 
+import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
@@ -57,5 +58,9 @@ public interface GroupAPIInterface {
     Call<GeneralResponse> userRequestJoinStatus(@Path("groupId") int gpID,
                                                 @Path("id") int userID,
                                                 @Header("Authorization") String token);
+
+    @GET("getChat/{groupId}")
+    Call<ChatResponse> getChatMessages(@Path("groupId") int gpID);
+
 
 }

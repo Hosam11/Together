@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
@@ -39,7 +38,7 @@ import static com.example.together.utils.HelperClass.TAG;
 
 public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
 
-    Group group;
+    Group savedGroup;
     EditText etGpName;
     EditText etGpDesc;
     Button submitBtn;
@@ -63,17 +62,15 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
         submitBtn = findViewById(R.id.btn_edit_group);
         ivGroupImg = findViewById(R.id.iv_edit_group);
         tvEditImage = findViewById(R.id.tv_edit_image);
-    /*    group = new Group(2, "loc", 5,
-                "android", "fro begginer",
-                3, "free", "begginer", "java");
 
-*/
         groupStorage = new Storage();
         userStorage = new Storage(this);
 
-        group = groupStorage.getGroup(this);
-        etGpName.setText(group.getGroupName());
-        etGpDesc.setText(group.getGroupDesc());
+        savedGroup = groupStorage.getGroup(this);
+        // fixme true
+        Log.i(TAG, "EditGroupInfo --onCreate: savedGroup" + savedGroup);
+        etGpName.setText(savedGroup.getGroupName());
+        etGpDesc.setText(savedGroup.getGroupDesc());
 
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
@@ -83,8 +80,8 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
             }
         });
 
-        if (group.getImage() != null) {
-            Glide.with(this).load(group.getImage()).into(ivGroupImg);
+        if (savedGroup.getImage() != null) {
+            Glide.with(this).load(savedGroup.getImage()).into(ivGroupImg);
         }
 
         tvEditImage.setOnClickListener(v -> HelperClass.newSelectImage(this));
@@ -93,19 +90,26 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
 
     private void editGroupInfo() {
 
-        group.setGroupName(groupName);
-        group.setGroupDesc(groupDesc);
+        savedGroup.setGroupName(groupName);
+        savedGroup.setGroupDesc(groupDesc);
+        CustomProgressDialog.getInstance(this).show();
 
         if (imageUri != null) {
-            CustomProgressDialog.getInstance(this).show();
             UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
-            imgToFireBase.uploadFile(imageUri);
+            if (HelperClass.checkInternetState(this)) {
+                // CustomProgressDialog.getInstance(this).show();
+                imgToFireBase.uploadFile(imageUri);
+            } else {
+                CustomProgressDialog.getInstance(this).cancel();
+                HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+            }
+
 
         } else {
-            CustomProgressDialog.getInstance(this).show();
-
-            groupViewModel.updateGroupInfo(group.getAdminID(), userStorage.getId(),
-                    group, userStorage.getToken()).observe(this, this::editGroupObserv);
+            Log.i(TAG, "editGroupInfo: userID: "
+                    + userStorage.getId() +"adminId: " + savedGroup.getAdminID());
+            groupViewModel.updateGroupInfo(savedGroup.getGroupID(), userStorage.getId(),
+                    savedGroup, userStorage.getToken()).observe(this, this::editGroupObserv);
         }
 //        group.setImage();
         // group id
@@ -115,9 +119,12 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
         Log.i(TAG, "EditGroupInfo --  editGroupObserv: res >>  " + generalResponse);
         CustomProgressDialog.getInstance(this).cancel();
         Toast.makeText(this, generalResponse.response, Toast.LENGTH_SHORT).show();
-        Intent goHome = new Intent(this, BottomNavigationView.class);
+        groupStorage.saveGroup(savedGroup, this);
+
+        finish();
+     /*   Intent goHome = new Intent(this, BottomNavigationView.class);
         goHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(goHome);
+        startActivity(goHome);*/
 
     }
 
@@ -177,9 +184,12 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
 
     @Override
     public void onFinishedDownloadListener(String imgUrl) {
-        group.setImage(imgUrl);
-        groupViewModel.updateGroupInfo(group.getAdminID(), userStorage.getId(),
-                group, userStorage.getToken()).observe(this, this::editGroupObserv);
+        savedGroup.setImage(imgUrl);
+        Log.i(TAG, "editGroupInfo: userID: "
+                + userStorage.getId() +"adminId: " + savedGroup.getAdminID());
+        groupViewModel.updateGroupInfo(savedGroup.getGroupID(), userStorage.getId(),
+                savedGroup, userStorage.getToken()).observe(this, this::editGroupObserv);
+
 
     }
 }

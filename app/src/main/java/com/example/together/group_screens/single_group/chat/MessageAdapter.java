@@ -3,6 +3,7 @@ package com.example.together.group_screens.single_group.chat;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.together.R;
+import com.example.together.utils.HelperClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +60,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
         }
     }*/
 
+    public void setMessages(List<JSONObject> messages) {
+        Log.i(HelperClass.TAG, "##MessageAdapter --setMessages: size "
+                + messages.size());
+        this.messages = messages;
+        notifyDataSetChanged();
+    }
+
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
 
         TextView nameTxt, messageTxt;
@@ -90,20 +99,17 @@ public class MessageAdapter extends RecyclerView.Adapter {
         JSONObject message = messages.get(position);
 
         try {
-            if (message.getBoolean("isSent")) {
+            if (message.getBoolean(HelperClass.IS_SEND)) {
 
-                if (message.has("message"))
+                if (message.has(HelperClass.MESSAGE))
                     return TYPE_MESSAGE_SENT;
                 else
                     return TYPE_IMAGE_SENT;
-
             } else {
-
-                if (message.has("message"))
+                if (message.has(HelperClass.MESSAGE))
                     return TYPE_MESSAGE_RECEIVED;
                 else
                     return TYPE_IMAGE_RECEIVED;
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -117,13 +123,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
-
+        Log.i(HelperClass.TAG, "##MessageAdapter -- onCreateViewHolder: ");
         switch (viewType) {
             case TYPE_MESSAGE_SENT:
                 view = inflater.inflate(R.layout.item_sent_message, parent, false);
                 return new SentMessageHolder(view);
             case TYPE_MESSAGE_RECEIVED:
-
                 view = inflater.inflate(R.layout.item_received_message, parent, false);
                 return new ReceivedMessageHolder(view);
 
@@ -146,40 +151,33 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         JSONObject message = messages.get(position);
+        Log.i(HelperClass.TAG, "##MessageAdapter -- onBindViewHolder: ");
 
         try {
-            if (message.getBoolean("isSent")) {
+            if (message.getBoolean(HelperClass.IS_SEND)) {
 
-                if (message.has("message")) {
+                if (message.has(HelperClass.MESSAGE)) {
 
                     SentMessageHolder messageHolder = (SentMessageHolder) holder;
-                    messageHolder.messageTxt.setText(message.getString("message"));
+                    messageHolder.messageTxt.setText(message.getString(HelperClass.MESSAGE));
 //                    messageHolder.tvSenderName.setText(message.getString("name"));
                 } else {
-
               /*      SentImageHolder imageHolder = (SentImageHolder) holder;
                     Bitmap bitmap = getBitmapFromString(message.getString("image"));
-
                     imageHolder.imageView.setImageBitmap(bitmap);*/
-
                 }
-
             } else {
-
-                if (message.has("message")) {
-
+                if (message.has(HelperClass.MESSAGE)) {
                     ReceivedMessageHolder messageHolder = (ReceivedMessageHolder) holder;
-                    messageHolder.nameTxt.setText(message.getString("name"));
-                    messageHolder.messageTxt.setText(message.getString("message"));
-
+                    messageHolder.nameTxt.setText(message.getString(HelperClass.NAME));
+                    messageHolder.messageTxt.setText(message.getString(HelperClass.MESSAGE));
                 } else {
 
                     ReceivedImageHolder imageHolder = (ReceivedImageHolder) holder;
-                    imageHolder.nameTxt.setText(message.getString("name"));
+                    imageHolder.nameTxt.setText(message.getString(HelperClass.NAME));
 
                     Bitmap bitmap = getBitmapFromString(message.getString("image"));
                     imageHolder.imageView.setImageBitmap(bitmap);
-
                 }
 
             }

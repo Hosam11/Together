@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".group_screens.single_group.GroupViewPager">
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
@@ -21,6 +21,47 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="9dp"
             android:text="Android for begginer"
+            android:textColor="#000"
+            android:textSize="22sp"
+            />
+
+        <Button
+            android:id="@+id/goToDoBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/login_signup_shape"
+            android:paddingHorizontal="26dp"
+            android:text="ToDo List"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:foreground="?android:selectableItemBackground"
+
+            />
+
+    </RelativeLayout>-->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:id="@+id/tv_pager_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="9dp"
+            android:layout_weight="4"
+            android:paddingTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="group name"
             android:textColor="#000"
             android:textSize="22sp" />
 
@@ -39,9 +80,7 @@
             android:foreground="?android:selectableItemBackground"
 
             />
-
-    </RelativeLayout>
-
+    </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -49,8 +88,9 @@
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/majorColor"
         app:tabIndicatorFullWidth="false"
-        app:tabGravity="fill"
-        android:layout_marginHorizontal="2dp"
+        android:clipToPadding="false"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         app:tabSelectedTextColor="@color/majorColor"
         app:tabTextAppearance="@style/AppTabTextAppearance" />
 

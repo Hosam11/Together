@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.together.data.api.group_apis.GroupRepo;
+import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
@@ -23,7 +24,7 @@ public class GroupViewModel extends ViewModel {
 
     private MutableLiveData<GeneralResponse> resUserJoinReq;
 
-    private GroupRepo groupRepo ;
+    private GroupRepo groupRepo;
 
     public GroupViewModel() {
         groupRepo = new GroupRepo();
@@ -69,6 +70,10 @@ public class GroupViewModel extends ViewModel {
     public MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
         resUserJoinReq = groupRepo.userRequestJoinStatus(gpID, userID, token);
         return resUserJoinReq;
+    }
+
+    public MutableLiveData<ChatResponse> getChatMessages(int gpID) {
+        return groupRepo.getChatMessages(gpID);
     }
 
 }
