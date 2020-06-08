@@ -106,7 +106,6 @@ public class ProfileFragment extends Fragment implements
                 showYesNoAlert("Logout","Do you really want to logout?");
 
 
-
             }
         });
 
@@ -117,16 +116,6 @@ public class ProfileFragment extends Fragment implements
         CustomProgressDialog.getInstance(getContext()).show();
 
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-
-                    Log.i(TAG, "ProfileFragment --  onClick: userID >> " + storage.getId());
-                    usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(),
-                            new Observer<GeneralResponse>() {
-
-                        @Override
-                        public void onChanged(GeneralResponse response) {
-                            if (response != null) {
-                                CustomProgressDialog.getInstance(getContext()).cancel();
-
 
             usersViewModel.logout(storage.getId(),storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
@@ -177,7 +166,7 @@ public class ProfileFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 alertDialog.cancel();
-              logout();
+                logout();
 
             }
         });
@@ -218,7 +207,7 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
-         storage = new Storage(getContext());
+        storage = new Storage(getContext());
         Log.i("TOKEN",storage.getToken());
 
 
@@ -240,8 +229,8 @@ public class ProfileFragment extends Fragment implements
                         genderEt.setText(userData.getGender());
                         if(userData.getImage()!=null)
 
-                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
-                                .ic_profile_black_24dp).into(profileImage);
+                            Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                    .ic_profile_black_24dp).into(profileImage);
 
 
                         displayInterests(userData.getInterests());

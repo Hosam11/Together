@@ -106,18 +106,6 @@ public class HelperClass {
     public static void newSelectImage(Activity activity) {
 
 
-
-
-  /*  // method for bitmap to base64
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap immage = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 10, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
-    }
-
         Log.i(TAG, "HelperClass -- newSelectImage: ");
 
 
