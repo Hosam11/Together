@@ -42,6 +42,7 @@ public class HandleViewModelProcess {
             Log.i("tamer", ""+st.getToken());
             Log.i("tamer","mahmoud"+boardFragment.storage.getToken());
             userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getGroupID(), st.getToken()).observe(boardFragment, toDoListTask -> {
+
                 if (toDoListTask != null) {
                     boardFragment.toDoList = toDoListTask;
                     boardFragment.toDoListAdapter.setList(boardFragment.toDoList);
@@ -68,6 +69,7 @@ public class HandleViewModelProcess {
 
             userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
             userViewModel.getInProgressTasks(s.getGroup(boardFragment.getContext()).getGroupID(),st.getToken()).observe(boardFragment, doingListTasks->{
+
                 if(doingListTasks!=null){
                     boardFragment.doingList =doingListTasks;
                     boardFragment.doingListAdapter.setList(doingListTasks);
@@ -167,6 +169,7 @@ public class HandleViewModelProcess {
     public void getDoneTasks(){
         userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
         userViewModel.getDoneTasks(s.getGroup(boardFragment.getContext()).getGroupID(),st.getToken()).observe(boardFragment, doneListTasks->{
+
             if(doneListTasks!=null){
                 boardFragment.doneList =doneListTasks;
                 boardFragment.doneListAdapter.setList(doneListTasks);
@@ -191,6 +194,7 @@ public class HandleViewModelProcess {
                     if (HelperClass.checkInternetState(boardFragment.getContext())) {
                         customProgressDialog.show();
                         userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getGroupID(), st.getToken()).observe(boardFragment, toDoListTask -> {
+
                             if (toDoListTask != null) {
                                 boardFragment.toDoList = toDoListTask;
                                 boardFragment.toDoListAdapter.setList(toDoListTask);

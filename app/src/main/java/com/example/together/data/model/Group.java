@@ -29,6 +29,7 @@ public class Group {
     // admin of group
     @SerializedName("id")
     private int adminID;
+
     // to make a requests by group id
     @SerializedName("group_id")
     private int groupID;
@@ -36,6 +37,7 @@ public class Group {
 
     //as a group id in get request
     // private int  id;
+
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -140,7 +142,6 @@ public class Group {
     }
 
 
-
     public ArrayList<User> getMembers() {
         return members;
     }
@@ -237,8 +238,7 @@ public class Group {
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest
-
+                        "\ninterest : " + interest 
         );
     }
 }

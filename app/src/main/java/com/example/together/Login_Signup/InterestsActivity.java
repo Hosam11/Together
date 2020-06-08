@@ -207,6 +207,8 @@ public class InterestsActivity extends AppCompatActivity {
 //                 pbLogin.setVisibility(View.GONE);
                 //       loginBtn.setEnabled(false);
                 //       progressdialog.cancel();
+                CustomProgressDialog.getInstance(this).cancel();
+
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
                 showAlert(loginRes.getResponse(), this);
                 //      loginBtn.setEnabled(true);

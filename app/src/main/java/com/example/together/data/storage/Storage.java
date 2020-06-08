@@ -28,6 +28,7 @@ public class Storage {
     /**
      * this version of construct use to store most used user data id and token
      * start with assgin object to sharPrefs
+     *
      * @param context
      */
     public Storage(Context context) {
@@ -59,6 +60,13 @@ public class Storage {
         editor.apply();
     }
 
+    /**
+     * this method to used in sign up activity to store user in activituy
+     * so i can get it from InterestsActivity}
+     *
+     * @param user    user to store in shared preference
+     * @param context context of activity that use that method
+     */
     public void savePassedUser(User user, Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_USER, MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -68,12 +76,24 @@ public class Storage {
         prefsEditor.apply();
     }
 
+    /**
+     * @param context
+     * @return
+     */
     public User getPassUser(Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_USER, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(PASSED_USER_OBJ, NO_USER);
         return gson.fromJson(json, User.class);
     }
+
+
+    /**
+     * store group when click on a group in the list of groups to i can get data from it
+     * from any screen like group screens
+     * @param group
+     * @param context
+     */
 
     public void saveGroup(Group group, Context context) {
         sharedPreferences = context.getSharedPreferences(PASSED_GROUP_FILE, MODE_PRIVATE);
@@ -91,7 +111,7 @@ public class Storage {
         return gson.fromJson(json, Group.class);
     }
 
-    public  void clearStorage(){
+    public void clearStorage() {
         SharedPreferences pref = context.getSharedPreferences(USER_DATA, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();

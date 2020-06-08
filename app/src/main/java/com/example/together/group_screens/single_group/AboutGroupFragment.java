@@ -1,5 +1,6 @@
 package com.example.together.group_screens.single_group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.group_screens.EditGroupInfo;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UsersViewModel;
 
@@ -47,11 +49,11 @@ public class AboutGroupFragment extends Fragment {
 
 
     boolean isAdmin = false;
+    Group receivedGroup;
 
     public AboutGroupFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,9 +61,13 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        Group receivedGroup = s.getGroup(getContext());
 
-        Log.i(TAG, "onCreateView: id >> "   );
+        receivedGroup = s.getGroup(getContext());
+// =======
+//         Group receivedGroup = s.getGroup(getContext());
+// >>>>>>> master
+
+        Log.i(TAG, "onCreateView: id >> ");
 
         View view = inflater.inflate(R.layout.fragment_about_group,
                 container, false);
@@ -84,7 +90,9 @@ public class AboutGroupFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //TODO hossam Edit Group
+                    Intent goEditGroup = new Intent(getContext(), EditGroupInfo.class);
 
+                    getContext().startActivity(goEditGroup);
                     Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
                 }
             });
@@ -100,7 +108,7 @@ public class AboutGroupFragment extends Fragment {
             @Override
             public void onDeleteClick(int position) {
                 CustomProgressDialog.getInstance(getContext()).show();
-// represents Gid
+
                 removeItem(position, receivedGroup.getGroupID());
             }
         });
@@ -123,8 +131,7 @@ public class AboutGroupFragment extends Fragment {
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
 
-// represents Gid
-
+/
             getGroupDetails(receivedGroup.getGroupID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
@@ -196,7 +203,6 @@ public class AboutGroupFragment extends Fragment {
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
 
-
                     }
 
                 }
@@ -209,27 +215,26 @@ public class AboutGroupFragment extends Fragment {
         }
 
 
-
     }
 
     public void getGroupDetails(int groupId) {
         userViewModel.getSpecificGroupDetails(groupId, storage.getToken())
                 .observe(this, new Observer<Group>() {
-            @Override
-            public void onChanged(Group groupDetails) {
-                if (groupDetails != null) {
-                    groupMembersList.clear();
-                    groupMembersList.addAll(groupDetails.getMembers());
-                    adapter.notifyDataSetChanged();
-                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    @Override
+                    public void onChanged(Group groupDetails) {
+                        if (groupDetails != null) {
+                            groupMembersList.clear();
+                            groupMembersList.addAll(groupDetails.getMembers());
+                            adapter.notifyDataSetChanged();
+                            CustomProgressDialog.getInstance(getContext()).cancel();
 
-                } else {
-                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
-                    CustomProgressDialog.getInstance(getContext()).cancel();
+                        } else {
+                            HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                            CustomProgressDialog.getInstance(getContext()).cancel();
 
-                }
-            }
-        });
+                        }
+                    }
+                });
 
 
     }

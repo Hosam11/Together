@@ -55,7 +55,6 @@ public class StartActivity extends AppCompatActivity {
 
             startActivity(gotoHome);
             StartActivity.this.finish();
-
         }
 
     }
