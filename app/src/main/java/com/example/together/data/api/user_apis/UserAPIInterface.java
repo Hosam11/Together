@@ -45,7 +45,7 @@ public interface UserAPIInterface {
     @GET("home/{id}")
     Call<ArrayList<Group>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
 
-    @GET("interests")
+    @GET("interest")
     Call<ArrayList<Interests>> getAllInterests();
 
     @GET("show/{groupid}")
@@ -70,6 +70,7 @@ public interface UserAPIInterface {
 
 
     @GET("logout/{id}")
-    Call<GeneralResponse> logout(@Path("id") int id);
+    Call<GeneralResponse> logout(@Path("id") int id,
+                                 @Header("Authorization") String token);
 
 }

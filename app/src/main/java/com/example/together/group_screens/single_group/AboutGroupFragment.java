@@ -1,5 +1,6 @@
 package com.example.together.group_screens.single_group;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +34,7 @@ import java.util.Objects;
 
 import static com.example.together.utils.HelperClass.TAG;
 
-public class AboutGroupFragment extends Fragment {
+public class AboutGroupFragment extends Fragment  {
 
     RecyclerView members_recycler;
     ArrayList<User> groupMembersList = new ArrayList<>();
@@ -77,7 +79,7 @@ public class AboutGroupFragment extends Fragment {
         members_recycler.setLayoutManager(layoutManager);
 
 
-        if (receivedGroup.getAdmin_id() == storage.getId()) {
+        if (receivedGroup.getAdminID() == storage.getId()) {
             isAdmin = true;
             editGroupTv.setVisibility(View.VISIBLE);
             editGroupTv.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +91,7 @@ public class AboutGroupFragment extends Fragment {
                 }
             });
         }
-        adapter = new AboutMembersRecyclerAdapter(groupMembersList, isAdmin, getContext());
+        adapter = new AboutMembersRecyclerAdapter(groupMembersList, isAdmin,receivedGroup.getAdminID() ,getContext());
         members_recycler.setAdapter(adapter);
         adapter.setOnItemClickListener(new AboutMembersRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -99,9 +101,7 @@ public class AboutGroupFragment extends Fragment {
 
             @Override
             public void onDeleteClick(int position) {
-                CustomProgressDialog.getInstance(getContext()).show();
-// represents Gid
-                removeItem(position, receivedGroup.getAdminID());
+                showYesNoAlert("Delete","Are you really want to remove member ",position,receivedGroup,1);
             }
         });
 
@@ -125,7 +125,7 @@ public class AboutGroupFragment extends Fragment {
 
 // represents Gid
 
-            getGroupDetails(receivedGroup.getAdminID());
+            getGroupDetails(receivedGroup.getGroupID());
         } else {
             CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
@@ -139,32 +139,9 @@ public class AboutGroupFragment extends Fragment {
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (HelperClass.checkInternetState(getContext())) {
-                    //TODO:// represents Gid
-
-                    userViewModel.leaveGroup(receivedGroup.getAdminID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
-                        @Override
-                        public void onChanged(GeneralResponse response) {
-                            if (response != null) {
-                                CustomProgressDialog.getInstance(getContext()).show();
-
-                                Toast.makeText(getContext(), response.response, Toast.LENGTH_LONG).show();
-                                Objects.requireNonNull(getActivity()).finish();
-                            } else {
-                                CustomProgressDialog.getInstance(getContext()).cancel();
-                                HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+                showYesNoAlert("Delete","Are you really want to leave ? ",0,receivedGroup,2);
 
 
-                            }
-
-                        }
-                    });
-                } else {
-                    CustomProgressDialog.getInstance(getContext()).cancel();
-                    HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
-
-
-                }
             }
         });
 
@@ -176,6 +153,34 @@ public class AboutGroupFragment extends Fragment {
         super.onResume();
 
 
+    }
+    public void leaveGroup(Group receivedG){
+        if (HelperClass.checkInternetState(getContext())) {
+            //TODO:// represents Gid
+
+            userViewModel.leaveGroup(receivedG.getGroupID(), storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+                @Override
+                public void onChanged(GeneralResponse response) {
+                    if (response != null) {
+                        CustomProgressDialog.getInstance(getContext()).show();
+
+                        Toast.makeText(getContext(), response.response, Toast.LENGTH_LONG).show();
+                        Objects.requireNonNull(getActivity()).finish();
+                    } else {
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
+
+
+                    }
+
+                }
+            });
+        } else {
+            CustomProgressDialog.getInstance(getContext()).cancel();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+
+
+        }
     }
 
     public void removeItem(int position, int groupId) {
@@ -240,4 +245,48 @@ public class AboutGroupFragment extends Fragment {
     }
 
 
+    public  void showYesNoAlert(String description,String msg, int pos,Group recG,int transactionId ) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge,null);
+        builder.setView(alertView);
+        TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
+        TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
+        alertDescription.setText(description);
+        alertMessage.setText(msg);
+        TextView okBtn = alertView.findViewById(R.id.ok_button);
+        TextView cancelBtn = alertView.findViewById(R.id.cancle_btn);
+
+        AlertDialog alertDialog = builder.create();
+
+        cancelBtn.setOnClickListener(v -> alertDialog.cancel());
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (transactionId){
+                    case 1 :
+                        alertDialog.cancel();
+                        CustomProgressDialog.getInstance(getContext()).show();
+// represents Gid
+                        removeItem(pos, recG.getGroupID());
+
+                        break;
+                    case 2:
+                        alertDialog.cancel();
+
+                        leaveGroup(recG);
+
+                        break;
+
+                }
+
+
+            }
+        });
+        alertDialog.show();
+
+
+    }
 }
