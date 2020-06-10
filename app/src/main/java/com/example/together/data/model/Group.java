@@ -39,8 +39,6 @@ public class Group {
     // private int  id;
 
 
-
-
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
     //
@@ -63,14 +61,17 @@ public class Group {
     private String interest;
     @SerializedName("photo")
     private String image;
+
     public Group() {
 
     }
+
     public Group(String name, String image, String description) {
         this.groupName = name;
         this.image = image;
         this.groupDesc = description;
     }
+
     public Group(
             int adminID, String location, String img,
             int maxMembers, int duration,
@@ -193,7 +194,6 @@ public class Group {
     }
 
 
-
     public String getGroupDesc() {
         return groupDesc;
     }
@@ -240,7 +240,7 @@ public class Group {
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest 
+                        "\ninterest : " + interest
         );
     }
 }

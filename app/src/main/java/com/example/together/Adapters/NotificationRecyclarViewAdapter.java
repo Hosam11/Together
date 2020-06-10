@@ -74,7 +74,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         holder.not_title.setText(notificationArrayList.get(position).getTitle());
         holder.not_description.setText(notificationArrayList.get(position).getInfo());
         Glide.with(context).load(notificationArrayList.get(position).getImg()).placeholder(R.drawable
-                .ic_profile_black_24dp).into(holder.not_image);
+                .together_notification_logo).into(holder.not_image);
 
 
     }

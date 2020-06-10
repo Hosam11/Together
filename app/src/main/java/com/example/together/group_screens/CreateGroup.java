@@ -25,7 +25,7 @@ import com.example.together.R;
 import com.example.together.data.model.FixedDBValues;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
@@ -37,7 +37,6 @@ import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UsersViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -96,7 +95,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     // ToDo 1- uri
     Uri imageUri;
     Storage storage;
-    List<Interests> interestList;
+    List<Interest> interestList;
     UsersViewModel usersViewModel;
     // Spinners Objects
     private BetterSpinner spInterests;
@@ -196,8 +195,8 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
     }
 
-    private void getInterestsObservable(ArrayList<Interests> interestsListReturn) {
-        for (Interests i : interestsListReturn) {
+    private void getInterestsObservable(ArrayList<Interest> interestsListReturn) {
+        for (Interest i : interestsListReturn) {
             interests.add(i.getName());
         }
         interestSpinner = new CommonSpinner(spInterests, this, interests);

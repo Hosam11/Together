@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.together.data.api.UserRepo;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.ListTask;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class UserViewModel extends ViewModel {
 
 
 
-    private  MutableLiveData<ArrayList<Interests>> allInterestsList;
+    private  MutableLiveData<ArrayList<Interest>> allInterestsList;
 
 
     private UserRepo userRepo = new UserRepo();
