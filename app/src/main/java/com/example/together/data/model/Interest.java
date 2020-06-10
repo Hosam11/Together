@@ -6,6 +6,7 @@ public class Interest {
 
     private int image;
     private int id;
+
     private String name;
     @SerializedName("img")
     private String img;
@@ -21,6 +22,7 @@ public class Interest {
     public String getImg() {
         return img;
     }
+
 
     public Interest(String name, int image) {
         this.image = image;

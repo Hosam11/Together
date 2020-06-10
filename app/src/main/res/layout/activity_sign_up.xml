@@ -54,7 +54,7 @@
 
                 <ImageView
                     android:id="@+id/profile_image"
-                    android:src="@drawable/default_img"
+                    android:src="@drawable/user_image"
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -135,7 +135,7 @@
 
 
             <EditText
-                android:text="hos"
+                android:text="hos@h.com"
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -275,6 +275,7 @@
                     android:layout_weight=".8"
 
                     />
+
                 <ImageView
                     android:id="@+id/date_img"
                     android:layout_width="24dp"
@@ -286,17 +287,14 @@
                     />
 
             </LinearLayout>
->
+
 
             <View
                 android:layout_width="240dp"
                 android:layout_height="1dp"
                 android:background="#e8e8e8"
                 android:layout_marginLeft="19.3dp"
-                android:layout_marginBottom="31.8dp"
-
-
-                />
+                android:layout_marginBottom="31.8dp" />
 
             <TextView
                 android:layout_width="wrap_content"

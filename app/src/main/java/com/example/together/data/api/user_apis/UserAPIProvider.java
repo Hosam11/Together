@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserInterests;
@@ -142,6 +142,7 @@ public class UserAPIProvider {
      * @return {@link User} object that carry data
      */
     MutableLiveData<User> fetchUserData(int id, String token) {
+
         MutableLiveData<User> userData = new MutableLiveData<>();
 
         Call<User> userCall = userInterface.fetchUserData(id,
@@ -171,10 +172,10 @@ public class UserAPIProvider {
     }
 
     //TODO: MOVED
-    MutableLiveData<GeneralResponse> updateUserProfile (int userId, String header,User user){
+    MutableLiveData<GeneralResponse> updateUserProfile(int userId, String header, User user) {
 
         MutableLiveData<GeneralResponse> updateResponse = new MutableLiveData<>();
-        Call<GeneralResponse> updateProfileCall=userInterface.updateUserProfile(userId, HelperClass.BEARER_HEADER+header,user);
+        Call<GeneralResponse> updateProfileCall = userInterface.updateUserProfile(userId, HelperClass.BEARER_HEADER + header, user);
         updateProfileCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
@@ -197,12 +198,10 @@ public class UserAPIProvider {
     }
 
 
-
-
-    MutableLiveData<GeneralResponse> updateUserInterests (int userId,String header, UserInterests interests){
+    MutableLiveData<GeneralResponse> updateUserInterests(int userId, String header, UserInterests interests) {
 
         MutableLiveData<GeneralResponse> updateInterestsResponse = new MutableLiveData<>();
-        Call<GeneralResponse> updateInterestCall=userInterface.updateUserInterests(userId,header,interests);
+        Call<GeneralResponse> updateInterestCall = userInterface.updateUserInterests(userId, header, interests);
         updateInterestCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
@@ -227,10 +226,10 @@ public class UserAPIProvider {
     }
 
 
-    MutableLiveData<ArrayList<Group>> getAllUserGroups(int userId, String header){
-        MutableLiveData<ArrayList<Group>> groupsRes=new MutableLiveData<>();
+    MutableLiveData<ArrayList<Group>> getAllUserGroups(int userId, String header) {
+        MutableLiveData<ArrayList<Group>> groupsRes = new MutableLiveData<>();
 
-        Call<ArrayList<Group>> getAllUserGroupsCall=userInterface.getAllUserGroups(userId,HelperClass.BEARER_HEADER+header);
+        Call<ArrayList<Group>> getAllUserGroupsCall = userInterface.getAllUserGroups(userId, HelperClass.BEARER_HEADER + header);
 
         getAllUserGroupsCall.enqueue(new Callback<ArrayList<Group>>() {
             @Override
@@ -248,20 +247,21 @@ public class UserAPIProvider {
             }
         });
 
-        return  groupsRes;
+        return groupsRes;
 
     }
-    MutableLiveData<ArrayList<Interests>> getAllInterests(){
-        MutableLiveData<ArrayList<Interests>> allInterests=new MutableLiveData<>();
-        Call<ArrayList<Interests>> getAllInterestsCall=userInterface.getAllInterests();
-        getAllInterestsCall.enqueue(new Callback<ArrayList<Interests>>() {
+
+    MutableLiveData<ArrayList<Interest>> getAllInterests() {
+        MutableLiveData<ArrayList<Interest>> allInterests = new MutableLiveData<>();
+        Call<ArrayList<Interest>> getAllInterestsCall = userInterface.getAllInterests();
+        getAllInterestsCall.enqueue(new Callback<ArrayList<Interest>>() {
             @Override
-            public void onResponse(Call<ArrayList<Interests>> call, Response<ArrayList<Interests>> response) {
+            public void onResponse(Call<ArrayList<Interest>> call, Response<ArrayList<Interest>> response) {
                 allInterests.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Interests>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Interest>> call, Throwable t) {
                 allInterests.setValue(null);
                 t.printStackTrace();
                 call.cancel();
@@ -270,17 +270,19 @@ public class UserAPIProvider {
         });
 
 
-
         return allInterests;
 
     }
 
-    MutableLiveData<Group> getSpecificGroupDetails (int groupId, String header){
-        MutableLiveData<Group> groupMutableLiveData=new MutableLiveData<>();
-        Call<Group> groupCall=userInterface.getSpecificGroupDetails(groupId,HelperClass.BEARER_HEADER+header);
+    MutableLiveData<Group> getSpecificGroupDetails(int groupId, String header) {
+        MutableLiveData<Group> groupMutableLiveData = new MutableLiveData<>();
+        Call<Group> groupCall = userInterface.getSpecificGroupDetails(groupId, HelperClass.BEARER_HEADER + header);
         groupCall.enqueue(new Callback<Group>() {
             @Override
             public void onResponse(Call<Group> call, Response<Group> response) {
+
+                Log.i(TAG, "UserAPIProvider -- getSpecificGroupDetails() enqueue() onResponse() resBody >> "
+                        + response.body());
                 groupMutableLiveData.setValue(response.body());
             }
 
@@ -296,10 +298,10 @@ public class UserAPIProvider {
         return groupMutableLiveData;
     }
 
-    MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String header){
-        MutableLiveData<GeneralResponse> removeMemberResponse=new MutableLiveData<>();
+    MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId, int id, int adminId, String header) {
+        MutableLiveData<GeneralResponse> removeMemberResponse = new MutableLiveData<>();
 
-        Call<GeneralResponse> removeMemberCall=userInterface.removeMemberFromGroup(groupId,id,adminId,HelperClass.BEARER_HEADER+header);
+        Call<GeneralResponse> removeMemberCall = userInterface.removeMemberFromGroup(groupId, id, adminId, HelperClass.BEARER_HEADER + header);
         removeMemberCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
@@ -316,19 +318,17 @@ public class UserAPIProvider {
 
             }
         });
-        return  removeMemberResponse;
-
+        return removeMemberResponse;
 
 
     }
 
 
-
     //LEAVE GROUP
 
-    MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token){
-        MutableLiveData<GeneralResponse> leaveRes=new MutableLiveData<>();
-        Call<GeneralResponse> leaveGroupCall=userInterface.leaveGroup(groupId, id, HelperClass.BEARER_HEADER+token);
+    MutableLiveData<GeneralResponse> leaveGroup(int groupId, int id, String token) {
+        MutableLiveData<GeneralResponse> leaveRes = new MutableLiveData<>();
+        Call<GeneralResponse> leaveGroupCall = userInterface.leaveGroup(groupId, id, HelperClass.BEARER_HEADER + token);
         leaveGroupCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
@@ -345,28 +345,34 @@ public class UserAPIProvider {
         return leaveRes;
 
 
-
     }
 
-    ///Logout
-    MutableLiveData<GeneralResponse> logout(int id){
-        MutableLiveData<GeneralResponse> logoutRes=new MutableLiveData<>();
 
-        Call<GeneralResponse> logoutCall=userInterface.logout(id);
+
+    MutableLiveData<GeneralResponse> logout(int id, String token) {
+        MutableLiveData<GeneralResponse> logoutRes = new MutableLiveData<>();
+
+        Call<GeneralResponse> logoutCall = userInterface.logout(id,
+                BEARER_HEADER + token);
+
         logoutCall.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                Log.i(TAG, "UserAPIProvider -- logout() enqueue()  body >> " +
+                        response.body());
                 logoutRes.setValue(response.body());
             }
 
             @Override
             public void onFailure(Call<GeneralResponse> call, Throwable t) {
                 logoutRes.setValue(null);
+                t.printStackTrace();
+                Log.i(TAG, "UserAPIProvider -- logout() onFailure: " + t.getMessage());
 
             }
         });
 
-        return  logoutRes;
+        return logoutRes;
 
     }
 

@@ -16,7 +16,10 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/custom_progress_bar" />
+            android:indeterminateDrawable="@drawable/custom_progress_bar"
+            />
+            <!--     ToDo 1- uncomment that line   -->
+            <!--         -->
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,14 +1,10 @@
 package com.example.together.profile;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,7 +43,6 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,7 +53,8 @@ import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
-public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, DownLoadImage {
+public class EditProfile extends AppCompatActivity
+        implements RadioGroup.OnCheckedChangeListener, DownLoadImage {
     private static final String apiKey = "AIzaSyDzY_iKzUnC8sAocNoJPSupQrIOCCjpG7U";
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     TextView changeImgTv;
@@ -135,7 +129,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         Glide.with(getApplicationContext()).load(receivedUser.getImage()).placeholder(R.drawable
                 .ic_profile_black_24dp).into(profileImg);
 //userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
-       // profileImg.setImageBitmap(userImgBitmap);
+        // profileImg.setImageBitmap(userImgBitmap);
         dateEt.setText(receivedUser.getBirthDate());
         if (receivedUser.getGender().equalsIgnoreCase("female")) {
             femaleRadioBtn.setChecked(true);
@@ -162,28 +156,26 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
                     CustomProgressDialog.getInstance(EditProfile.this).show();
 
                     List<String> interests = receivedUser.getInterests();
+                    String receivedImg=receivedUser.getImage();
+
                     receivedUser = new User(nameEt.getText().toString(), emailEt.getText().toString(), passEt.getText().toString(), dateEt.getText().toString(),
                             addressEt.getText().toString(), radiovalue
                     );
+
                     receivedUser.setInterests(interests);
 
                     if (imgUri != null) {
+
                         CustomProgressDialog.getInstance(EditProfile.this).show();
                         UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(EditProfile.this);
                         imgToFireBase.uploadFile(imgUri);
+
                     }
                     else {
-
+                        receivedUser.setImage(receivedImg);
                         save(receivedUser);
 
-
                     }
-
-                   // lma yro7 w yege
-
-                   // save(receivedUser);
-
-
                 }
             }
         });
@@ -192,6 +184,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
     }
 
     public void save(User user) {
+
 
         if (HelperClass.checkInternetState(this)) {
             Storage storage = new Storage(getApplicationContext());
@@ -259,41 +252,11 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 
 
     private void selectImage() {
-//        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-//        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
-//        builder.setTitle("Add Photo!");
-//        builder.setItems(options, new DialogInterface.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.M)
-//            @Override
-//            public void onClick(DialogInterface dialog, int item) {
-//                if (options[item].equals("Take Photo")) {
-//                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                        requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-//                        if( checkSelfPermission( Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//
-//                        }
-//
-//
-//                    } else {
-//                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-//                    }
-//                } else if (options[item].equals("Choose from Gallery")) {
-//                    Intent intent = new Intent(Intent.ACTION_PICK);
-//                    intent.setType("image/*");
-//                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
-//                } else if (options[item].equals("Cancel")) {
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//        builder.show();
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.OVAL)
-                .setAspectRatio(1,1)
+                .setAspectRatio(1, 1)
                 .start(this);
     }
 
@@ -320,9 +283,7 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-
                 addressEt.setText(place.getName());
-
 
             }
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -393,10 +354,9 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 //            }
 //
 //
-   }
+        }
 
     }
-
 
 
     @Override
@@ -406,14 +366,24 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
 
     private boolean validateForm() {
         boolean valid = true;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
 
         String name = nameEt.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            nameEt.setError("Required.");
+        if (TextUtils.isEmpty(name) || name.length() < 3) {
+            nameEt.setError("Must be more than 3 letters");
             valid = false;
         } else {
             nameEt.setError(null);
         }
+
+//        String email = emailEt.getText().toString();
+//        if (TextUtils.isEmpty(email)) {
+//            emailEt.setError("Required.");
+//            valid = false;
+//        } else {
+//            emailEt.setError(null);
+//        }
 
         String email = emailEt.getText().toString();
         if (TextUtils.isEmpty(email)) {
@@ -422,14 +392,25 @@ public class EditProfile extends AppCompatActivity implements RadioGroup.OnCheck
         } else {
             emailEt.setError(null);
         }
+
+        if (!email.matches(emailPattern)) {
+            emailEt.setError("Enter a valid e-mail!");
+            valid = false;
+
+        } else {
+            emailEt.setError(null);
+
+        }
+
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)) {
-            passEt.setError("Required.");
+        if (TextUtils.isEmpty(pass) || pass.length() < 6) {
+            passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {
             passEt.setError(null);
         }
         String address = addressEt.getText().toString();
+
         if (TextUtils.isEmpty(address)) {
             addressEt.setError("Required.");
             valid = false;

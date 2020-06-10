@@ -13,14 +13,16 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.together.R;
+import com.example.together.data.model.Notification;
 
 import java.util.ArrayList;
 
 public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<NotificationRecyclarViewAdapter.MyViewHolder> {
 
 
-    ArrayList<POJO>pojos=new ArrayList<>();
+    ArrayList<Notification>notificationArrayList=new ArrayList<>();
     public Context context;
 
     // Provide a reference to the views for each data item
@@ -31,9 +33,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         public TextView not_title;
         public TextView not_description;
         public ImageView not_image;
-        public LinearLayout friendRequestLayout;
-        public Button acceptRequest;
-        public Button declineRequest;
+
         public View layout;
         public MyViewHolder(View v) {
             super(v);
@@ -41,22 +41,15 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
             not_image =v.findViewById(R.id.notification_img);
             not_title = v.findViewById(R.id.notification_title);
             not_description = v.findViewById(R.id.notification_description);
-            friendRequestLayout= v.findViewById(R.id.friend_request_layout);
-            acceptRequest = v.findViewById(R.id.accept_join_request);
-            acceptRequest.setOnClickListener((e)->{
-                Toast.makeText(NotificationRecyclarViewAdapter.this.context, "Accept Request", Toast.LENGTH_SHORT).show();
-            });
-            declineRequest = v.findViewById(R.id.decline_join_request);
-            declineRequest.setOnClickListener((e)->{
-                Toast.makeText(NotificationRecyclarViewAdapter.this.context, "Decline Request", Toast.LENGTH_SHORT).show();
-            });
+
+
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NotificationRecyclarViewAdapter(ArrayList<POJO> pojos,Context context) {
+    public NotificationRecyclarViewAdapter(ArrayList<Notification> notificationArrayList,Context context) {
 
-        this.pojos=pojos;
+        this.notificationArrayList=notificationArrayList;
         this.context = context;
 
     }
@@ -67,7 +60,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
                                            int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v =inflater.inflate(R.layout.notification_cell,parent,false);
+        View v =inflater.inflate(R.layout.notification_row,parent,false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -78,18 +71,17 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.not_title.setText(pojos.get(position).title);
-        holder.not_description.setText(pojos.get(position).description);
-        holder.not_image.setImageResource(pojos.get(position).image);
-        if(position%2>0) {
-            holder.friendRequestLayout.setVisibility(View.GONE);
-        }
+        holder.not_title.setText(notificationArrayList.get(position).getTitle());
+        holder.not_description.setText(notificationArrayList.get(position).getInfo());
+        Glide.with(context).load(notificationArrayList.get(position).getImg()).placeholder(R.drawable
+                .together_notification_logo).into(holder.not_image);
+
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return pojos.size();
+        return notificationArrayList.size();
     }
 }

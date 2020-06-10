@@ -51,14 +51,14 @@
 
                     >
 
-                <ImageView
-                    android:id="@+id/group_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/default_img"
+                    <ImageView
+                        android:id="@+id/group_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/group_image"
 
-                    />
+                        />
 
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
@@ -90,8 +90,41 @@
                     android:layout_marginTop="8dp"
                     android:lineSpacingExtra="3dp"
                     android:maxLines="2"
-                    android:text="We are group asd sa das asd asd asd s t"
+                    android:text="Hello it is me What do you want from me rithy hey bro startghf"
                     android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/group_expiration_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="1"
+                        android:text="Warning: "
+                        android:textColor="#FA4141"
+                        android:textStyle="bold"
+
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="1"
+                        android:text="Expiration is soon"
+                        android:textColor="#FA4141"
+
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -103,4 +136,4 @@
 
 
     </FrameLayout>
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

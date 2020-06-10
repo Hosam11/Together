@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="5dp"
                 >
 
                 <!-- Title, secondary and supporting text -->
@@ -51,7 +52,6 @@
                             card_view:cardElevation="0dp"
                             card_view:cardCornerRadius="15dp"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
 
                             >
 
@@ -60,7 +60,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/default_img"
+                                android:src="@drawable/together_notification_logo"
 
                                 />
 
@@ -71,31 +71,32 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="15dp"
+                        android:orientation="vertical"
+                        >
+
+
 
                         <TextView
                             android:id="@+id/notification_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="Learn Android"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
-                            android:textColor="@color/majorColor"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/notification_description"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
                             android:maxLines="1"
-                            android:text="We are groups that does some thing in some time and try"
+                            android:text="Group join requrst"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary"
 
                             android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/notification_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Group join requrst"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textColor="@color/majorColor"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -112,6 +113,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:id="@+id/friend_request_layout"
+                android:padding="5dp"
                 >
 
                 <androidx.cardview.widget.CardView
@@ -119,7 +121,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:cardCornerRadius="12dp"
-                    android:layout_margin="15dp"
                     app:cardElevation="20dp"
                     >
             <Button
@@ -136,14 +137,14 @@
                 />
                 </androidx.cardview.widget.CardView>
                 <Space
-                    android:layout_width="30dp"
+                    android:layout_width="60sp"
                     android:layout_height="wrap_content"/>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:cardCornerRadius="12dp"
-                    android:layout_margin="15dp"
                     app:cardElevation="20dp"
 
                     >

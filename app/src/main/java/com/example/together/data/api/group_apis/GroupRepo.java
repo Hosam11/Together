@@ -2,6 +2,7 @@ package com.example.together.data.api.group_apis;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
@@ -48,5 +49,14 @@ public class GroupRepo {
     public MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
         return groupApiProvider.userRequestJoinStatus(gpID, userID, token);
     }
+
+    public MutableLiveData<ChatResponse> getChatMessages(int gpID,String token) {
+        return groupApiProvider.getChatMessages(gpID,token);
+    }
+
+    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+        return groupApiProvider.deleteChatMsg(msgID, adminID, token);
+    }
+
 }
 

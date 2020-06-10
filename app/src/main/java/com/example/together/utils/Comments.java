@@ -7,6 +7,21 @@ public class Comments {
     //  1-
     //
 
+/*   FixMe -- freqqment code
+// craete group finished
+
+    if (HelperClass.checkInternetState(this)) {
+        // CustomProgressDialog.getInstance(this).show();
+
+    } else {
+        //   CustomProgressDialog.getInstance(this).cancel();
+        HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+
+    }
+    */
+
+
+
       /*  // method for bitmap to base64
     public static String encodeTobase64(Bitmap image) {
         Bitmap immage = image;

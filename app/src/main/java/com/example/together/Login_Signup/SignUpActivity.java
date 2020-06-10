@@ -1,13 +1,10 @@
 package com.example.together.Login_Signup;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -22,8 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.together.CustomProgressDialog;
@@ -40,12 +35,15 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.yalantis.ucrop.UCrop;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+
+import id.zelory.compressor.Compressor;
 
 
 public class SignUpActivity extends AppCompatActivity implements
@@ -196,30 +194,8 @@ public class SignUpActivity extends AppCompatActivity implements
     }
 
     private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                    } else {
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-                    }
-                } else if (options[item].equals("Choose from Gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, GALLERY_REQUEST_CODE);
-                } else if (options[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+
+        HelperClass.newSelectImage(this);
     }
 
     @Override
@@ -237,7 +213,6 @@ public class SignUpActivity extends AppCompatActivity implements
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -260,8 +235,7 @@ public class SignUpActivity extends AppCompatActivity implements
         }
 
         /////
-
-        if (resultCode == RESULT_OK) {
+      /*  if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST_CODE) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 userImgBitmap = photo;
@@ -285,6 +259,28 @@ public class SignUpActivity extends AppCompatActivity implements
                         e.printStackTrace();
                     }
                 }
+            }
+        }*/
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                imageUri = result.getUri();
+                File thumm_filepath = new File(imageUri.getPath());
+                try {
+                    Bitmap thumb_Bitmab = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(70)
+                            .compressToBitmap(thumm_filepath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    thumb_Bitmab.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                    profileImage.setImageBitmap(thumb_Bitmab);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
@@ -324,21 +320,22 @@ public class SignUpActivity extends AppCompatActivity implements
             emailEt.setError(null);
 
         }
+
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)) {
-            passEt.setError("Required.");
+        if (TextUtils.isEmpty(pass)||pass.length()<6) {
+            passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {
             passEt.setError(null);
         }
         String address = addressEt.getText().toString();
-        if (TextUtils.isEmpty(address)) {
+      /*  if (TextUtils.isEmpty(address)) {
             addressEt.setError("Required.");
             valid = false;
         } else {
             addressEt.setError(null);
         }
-
+*/
 
         String endPoint = dateEt.getText().toString();
         if (TextUtils.isEmpty(endPoint)) {

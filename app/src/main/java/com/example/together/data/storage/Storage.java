@@ -137,7 +137,6 @@ public class Storage {
         return sharedPreferences.getString(SAVED_USER_NAME, SAVED_USER_NAME_DEFAULT);
     }
 
-
     public void clearStorage() {
         SharedPreferences pref = context.getSharedPreferences(USER_DATA, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();

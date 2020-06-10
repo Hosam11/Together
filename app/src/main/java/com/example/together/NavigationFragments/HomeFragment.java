@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,11 +29,13 @@ import com.example.together.view_model.UsersViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
     FloatingActionButton fab;
     RecyclerView recyclerView;
+    LinearLayout alertLayout;
     HomeRecyclarViewAdapter adapter;
     ArrayList<Group> userGroupsList = new ArrayList<>();
     UsersViewModel userViewModel;
@@ -41,31 +46,31 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_home,container,false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
         fab = v.findViewById(R.id.add_group_FAB);
+        alertLayout=v.findViewById(R.id.alert_layout);
         fab.setOnClickListener(v1 -> {
-            //Intent To Create Group Screen
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
             getContext().startActivity(createGroup);
         });
-        recyclerView=v.findViewById(R.id.home_groups_rv);
+        recyclerView = v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
-        progressDialog=CustomProgressDialog.getInstance(getContext());
+        progressDialog = CustomProgressDialog.getInstance(getContext());
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((BottomNavigationView)getActivity()).setActionBarTitle("Home");
+        ((BottomNavigationView) getActivity()).setActionBarTitle("Home");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(recyclerView.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter= new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
+        adapter = new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
         recyclerView.setAdapter(adapter);
         CustomProgressDialog.getInstance(getContext()).show();
-        getGroups();
+//        getGroups();
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
@@ -79,32 +84,36 @@ public class HomeFragment extends Fragment {
         super.onResume();
         CustomProgressDialog.getInstance(getContext()).show();
 
-        if(HelperClass.checkInternetState(getContext())){
-        getGroups();
-    }
-    else {
 
-        HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
+            getGroups();
+       } 
+       else {
+
+
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
         }
 
     }
 
-    public void getGroups(){
+    public void getGroups() {
 
         Storage storage = new Storage(getContext());
         userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<Group>>() {
             @Override
             public void onChanged(ArrayList<Group> userGroups) {
-                if(userGroups!=null){
-                userGroupsList.clear();
-                userGroupsList.addAll(userGroups);
-                adapter.notifyDataSetChanged();
+                if (userGroups != null) {
+                    if(userGroups.size()==0){alertLayout.setVisibility(View.VISIBLE);}
+
+                    userGroupsList.clear();
+                    userGroupsList.addAll(userGroups);
+                    adapter.notifyDataSetChanged();
                     CustomProgressDialog.getInstance(getContext()).cancel();
+                } else {
+                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                 }
-                else {
-                    CustomProgressDialog.getInstance(getContext()).cancel();
-                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
             }
         });
 
