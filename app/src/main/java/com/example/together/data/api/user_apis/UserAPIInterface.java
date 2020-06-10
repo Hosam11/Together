@@ -30,7 +30,6 @@ public interface UserAPIInterface {
     Call<User> fetchUserData(@Query("id") int id, @Header("Authorization") String header);
 
     //TODO: Moved APIS
-
     @POST("update/{id}")
     Call<GeneralResponse> updateUserProfile(@Path("id") int id,
                                             @Header("Authorization") String header,
@@ -57,7 +56,6 @@ public interface UserAPIInterface {
     Call<GeneralResponse> removeMemberFromGroup(@Path("groupId") int groupId,
                                                 @Path("id") int id,
                                                 @Query("current_user_id") int adminId,
-
                                                 @Header("Authorization") String header);
 
 
@@ -71,6 +69,9 @@ public interface UserAPIInterface {
 
 
     @GET("logout/{id}")
-    Call<GeneralResponse> logout(@Path("id") int id, @Header("Authorization") String token);
+    Call<GeneralResponse> logout(@Path("id") int id,
+                                 @Header("Authorization") String token);
+
+
 
 }

@@ -44,7 +44,7 @@ public class ViewGroup extends AppCompatActivity {
     GroupViewModel groupViewModel;
     Storage storage;
     // TODO 10 is fixed for now
-    int groupID = 1;
+    int groupID = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

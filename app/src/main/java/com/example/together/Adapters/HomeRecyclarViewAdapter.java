@@ -64,13 +64,9 @@ public class HomeRecyclarViewAdapter extends
                     userGroups.get(position).getImage());
             Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
 
-            /*  Bitmap photo = HelperClass.decodeBase64(userGroups.get(position)
-                    .getPhoto());
-            holder.groupImage.setImageBitmap(photo);*/
         } else {
-            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img null]");
+            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img is null]");
 
-            holder.groupImage.setImageResource(R.drawable.default_img);
         }
         holder.groupCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +74,8 @@ public class HomeRecyclarViewAdapter extends
                 Intent goToGroup = new Intent(context, GroupViewPager.class);
                 //goToGroup.putExtra("group",userGroups.get(position));
                 Storage storage = new Storage();
+                Log.i(TAG, "AboutMembersRecyclerAdapter -- onClick: groupBeforeSave >> "
+                        + userGroups.get(position));
                 storage.saveGroup(userGroups.get(position), context);
                 context.startActivity(goToGroup);
             }

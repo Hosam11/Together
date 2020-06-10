@@ -26,6 +26,7 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
 
     ArrayList<User> memberArrayList=new ArrayList<>();
     boolean isAdmin;
+    int adminId;
     Context context;
     private OnItemClickListener mListener;
 
@@ -69,10 +70,11 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         }
     }
 
-    public AboutMembersRecyclerAdapter(ArrayList<User> memberArrayList ,boolean isAdmin,Context context) {
+    public AboutMembersRecyclerAdapter(ArrayList<User> memberArrayList ,boolean isAdmin,int adminId,Context context) {
 
         this.memberArrayList=memberArrayList;
         this.isAdmin=isAdmin;
+        this.adminId=adminId;
         this.context=context;
 
 
@@ -102,18 +104,11 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
 
 //        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
         Log.i(TAG, "AboutMemberGroup onBindViewHolder: imgUrl" +memberArrayList.get(position).getImage() );
-        if(isAdmin==false){
+        if(isAdmin==false||adminId==memberArrayList.get(position).getId()){
 
             holder.removeBtn.setVisibility(View.INVISIBLE);
 
         }
-
-
-
-
-
-
-
 
 
     }

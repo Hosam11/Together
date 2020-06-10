@@ -39,6 +39,8 @@ public class Group {
     // private int  id;
 
 
+
+
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
     //
@@ -233,12 +235,15 @@ public class Group {
                 "\nname: " + groupName +
                         "\ndesc: " + groupDesc +
                         "\nadminID: " + adminID +
+                        "\ngroupID: " + groupID +
                         "\nLocation: " + location +
                         "\nmax Numbers: " + maxMembers +
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest 
+                        "\ninterest : " + interest +
+                        "\nimage : " + image
+
         );
     }
 }

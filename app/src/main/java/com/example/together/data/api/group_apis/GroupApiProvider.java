@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
@@ -323,5 +324,29 @@ public class GroupApiProvider {
         return reqJoinStatus;
     }
 
+
+    MutableLiveData<ChatResponse> getChatMessages(int gpID) {
+        MutableLiveData<ChatResponse> messagesRes = new MutableLiveData<>();
+
+        Call<ChatResponse> chatCall = groupAPIInterface.getChatMessages(gpID);
+        chatCall.enqueue(new Callback<ChatResponse>() {
+            @Override
+            public void onResponse(Call<ChatResponse> call, Response<ChatResponse> res) {
+                Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
+                        + res.body().getChatMsgList().size());
+                messagesRes.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<ChatResponse> call, Throwable t) {
+                t.printStackTrace();
+                Log.i(TAG, "GroupApiProvider --  getChatMessages() onFailure: " +
+                         t.getMessage());
+                call.cancel();
+
+            }
+        });
+        return messagesRes;
+    }
 }
 
