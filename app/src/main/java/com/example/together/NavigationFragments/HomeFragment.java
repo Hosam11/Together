@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +34,7 @@ public class HomeFragment extends Fragment {
 
     FloatingActionButton fab;
     RecyclerView recyclerView;
+    LinearLayout alertLayout;
     HomeRecyclarViewAdapter adapter;
     ArrayList<Group> userGroupsList = new ArrayList<>();
     UsersViewModel userViewModel;
@@ -44,8 +47,8 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         fab = v.findViewById(R.id.add_group_FAB);
+        alertLayout=v.findViewById(R.id.alert_layout);
         fab.setOnClickListener(v1 -> {
-            //Intent To Create Group Screen
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
             getContext().startActivity(createGroup);
         });
@@ -81,10 +84,12 @@ public class HomeFragment extends Fragment {
         super.onResume();
         CustomProgressDialog.getInstance(getContext()).show();
 
+
         if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
             getGroups();
        } 
        else {
+
 
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
@@ -99,15 +104,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<Group> userGroups) {
                 if (userGroups != null) {
+                    if(userGroups.size()==0){alertLayout.setVisibility(View.VISIBLE);}
+
                     userGroupsList.clear();
                     userGroupsList.addAll(userGroups);
                     adapter.notifyDataSetChanged();
                     CustomProgressDialog.getInstance(getContext()).cancel();
                 } else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
-
-                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
-
+                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                 }
             }
         });

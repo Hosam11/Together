@@ -327,9 +327,10 @@ public class SignUpActivity extends AppCompatActivity implements
             emailEt.setError(null);
 
         }
+
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)) {
-            passEt.setError("Required.");
+        if (TextUtils.isEmpty(pass)||pass.length()<6) {
+            passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {
             passEt.setError(null);

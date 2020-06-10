@@ -24,7 +24,7 @@ import static com.example.together.utils.HelperClass.TAG;
 public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembersRecyclerAdapter.MyViewHolder> {
 
 
-    ArrayList<User> memberArrayList=new ArrayList<>();
+    ArrayList<User> memberArrayList = new ArrayList<>();
     boolean isAdmin;
     int adminId;
     Context context;
@@ -33,8 +33,10 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onDeleteClick(int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
@@ -46,13 +48,14 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         public ImageView userImage;
         public LinearLayout linearLayout;
         public View layout;
+
         public MyViewHolder(View v, final OnItemClickListener listener) {
             super(v);
             layout = v;
-            name =v.findViewById(R.id.name_tv);
+            name = v.findViewById(R.id.name_tv);
             removeBtn = v.findViewById(R.id.remove_btn);
             userImage = v.findViewById(R.id.user_img);
-           removeBtn.setOnClickListener(new View.OnClickListener() {
+            removeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -65,17 +68,15 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
             });
 
 
-
-
         }
     }
 
-    public AboutMembersRecyclerAdapter(ArrayList<User> memberArrayList ,boolean isAdmin,int adminId,Context context) {
+    public AboutMembersRecyclerAdapter(ArrayList<User> memberArrayList, boolean isAdmin, int adminId, Context context) {
 
-        this.memberArrayList=memberArrayList;
-        this.isAdmin=isAdmin;
-        this.adminId=adminId;
-        this.context=context;
+        this.memberArrayList = memberArrayList;
+        this.isAdmin = isAdmin;
+        this.adminId = adminId;
+        this.context = context;
 
 
     }
@@ -83,14 +84,13 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
     // Create new views (invoked by the layout manager)
     @Override
     public AboutMembersRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                   int viewType) {
+                                                                       int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v =inflater.inflate(R.layout.member_row,parent,false);
-        MyViewHolder vh = new MyViewHolder(v,mListener);
+        View v = inflater.inflate(R.layout.member_row, parent, false);
+        MyViewHolder vh = new MyViewHolder(v, mListener);
         return vh;
     }
-
 
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -99,12 +99,12 @@ public class AboutMembersRecyclerAdapter extends RecyclerView.Adapter<AboutMembe
         holder.name.setText(memberArrayList.get(position).getName());
 
         Glide.with(context).load(memberArrayList.get(position).getImage()).placeholder(R.drawable
-        .ic_profile_black_24dp).into(holder.userImage);
+                .ic_profile_black_24dp).into(holder.userImage);
 
 
 //        holder.userImage.setImageBitmap(HelperClass.decodeBase64(memberArrayList.get(position).getPhoto()));
-        Log.i(TAG, "AboutMemberGroup onBindViewHolder: imgUrl" +memberArrayList.get(position).getImage() );
-        if(isAdmin==false||adminId==memberArrayList.get(position).getId()){
+        Log.i(TAG, "AboutMemberGroup onBindViewHolder: imgUrl" + memberArrayList.get(position).getImage());
+        if (isAdmin == false || adminId == memberArrayList.get(position).getId()) {
 
             holder.removeBtn.setVisibility(View.INVISIBLE);
 

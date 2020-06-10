@@ -8,6 +8,15 @@ public class NotificationResponse  {
     ArrayList<Notification> data = new ArrayList < > ();
     Links LinksObject;
     Meta MetaObject;
+    int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public ArrayList<Notification> getData() {
         return data;

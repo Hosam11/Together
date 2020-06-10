@@ -88,7 +88,7 @@
 
                     <ImageView
                         android:id="@+id/profile_image"
-                        android:src="@drawable/default_img"
+                        android:src="@drawable/user_image"
 
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
