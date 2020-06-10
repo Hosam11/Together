@@ -89,8 +89,8 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel.moveToProgressList(toRow, st.getToken()).observe(boardFragment, moveToProgress -> {
-                if (moveToProgress.response.equals("Success")) {
-                    Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
+                if (moveToProgress.response.equals(HelperClass.MOVING_SUCCESS)) {
+                    Toast.makeText(boardFragment.getContext(), HelperClass.MOVING_SUCCESS, Toast.LENGTH_SHORT).show();
                     customProgressDialog.cancel();
                     setProgressSize();
                     Log.i("samir", moveToProgress.response.toString());
@@ -115,8 +115,8 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel.moveToDoneList(toRow, st.getToken()).observe(boardFragment, moveToDoneList -> {
-                if (moveToDoneList.response.equals(HelperClass.SUCCESS)) {
-                    Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
+                if (moveToDoneList.response.equals(HelperClass.MOVING_SUCCESS)) {
+                    Toast.makeText(boardFragment.getContext(), HelperClass.MOVING_SUCCESS, Toast.LENGTH_SHORT).show();
                     customProgressDialog.cancel();
                     setProgressSize();
                     Log.i("samir", moveToDoneList.response.toString());
@@ -143,8 +143,8 @@ public class HandleViewModelProcess {
             CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
             customProgressDialog.show();
             userViewModel.moveToDoList(toRow, st.getToken()).observe(boardFragment, moveToDoList -> {
-                if (moveToDoList.response.equals("Moved successfully")) {
-                    Toast.makeText(boardFragment.getContext(), "Task moved to inprogress", Toast.LENGTH_SHORT).show();
+                if (moveToDoList.response.equals(HelperClass.MOVING_SUCCESS)) {
+                    Toast.makeText(boardFragment.getContext(), HelperClass.MOVING_SUCCESS, Toast.LENGTH_SHORT).show();
                     setProgressSize();
                     customProgressDialog.cancel();
                     Log.i("samir", moveToDoList.response.toString());
@@ -264,6 +264,22 @@ public class HandleViewModelProcess {
                 double s = (float)done/total;
                 double n = s*100;
                 int percentage = (int)n;
+                if(percentage<33){
+                    boardFragment.b.setProgressDrawable(boardFragment.getContext().getResources().getDrawable(R.drawable.progress_bar_group_custom_view_red));
+                    boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.red));
+
+                }
+                else if(percentage>33&&percentage<66){
+                    boardFragment.b.setProgressDrawable(boardFragment.getContext().getResources().getDrawable(R.drawable.progress_bar_group_custom_view_yellow));
+                    boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.yellow));
+
+                }
+                else{
+                    boardFragment.b.setProgressDrawable(boardFragment.getContext().getResources().getDrawable(R.drawable.progress_bar_group_custom_view_green));
+                    boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.green));
+
+
+                }
                 boardFragment.b.setProgress(percentage);
                 boardFragment.percentageView.setText(percentage+"%");
             }
@@ -272,8 +288,11 @@ public class HandleViewModelProcess {
                 boardFragment.percentageView.setText("0%");
             }
             else {
+                boardFragment.b.setProgressDrawable(boardFragment.getContext().getResources().getDrawable(R.drawable.progress_bar_group_custom_view_green));
+                boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.green));
                 boardFragment.b.setProgress(100);
                 boardFragment.percentageView.setText("100%");
+
             }
 
         }

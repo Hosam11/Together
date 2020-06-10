@@ -39,12 +39,9 @@ public class Group {
     // private int  id;
 
 
-
-
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
-    //
-    // nullable
+
     @SerializedName("address")
     private String location;
     @SerializedName("max_member_number")
@@ -75,14 +72,17 @@ public class Group {
     // can contisn three values [ waitingToJoin - notInGroup - groupIsFull]
     private String userGroupStatus;
 
+
     public Group() {
 
     }
+
     public Group(String name, String image, String description) {
         this.groupName = name;
         this.image = image;
         this.groupDesc = description;
     }
+
     public Group(
             int adminID, String location, String img,
             int maxMembers, int duration,
@@ -152,9 +152,7 @@ public class Group {
         this.interest = interest;
     }
 
-    public Group(String learning_android, int development, String description) {
-    }
-
+   
 
     public ArrayList<User> getMembers() {
         return members;
@@ -203,7 +201,6 @@ public class Group {
     public String getGroupName() {
         return groupName;
     }
-
 
 
     public String getGroupDesc() {

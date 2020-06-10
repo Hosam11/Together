@@ -106,11 +106,9 @@ public class InterestsActivity extends AppCompatActivity {
         CustomProgressDialog.getInstance(this).cancel();
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
-//                Toast.makeText(getApplicationContext(),buttonView.getText(), Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.add(buttonView.getText().toString());
             } else {
-//                Toast.makeText(getApplicationContext(), buttonView.getText() + "Removed", Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.remove(buttonView.getText().toString());
 
@@ -161,6 +159,25 @@ public class InterestsActivity extends AppCompatActivity {
         }
     }
 
+
+    private void userSignUpObservable(String res) {
+
+        Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
+
+        if (res != null) {
+            Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+            CustomProgressDialog.getInstance(this).cancel();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, this);
+            CustomProgressDialog.getInstance(this).cancel();
+        }
+    }
+
+
     private void userSignUpObservable(LoginResponse loginRes) {
 
         Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + loginRes);
@@ -168,7 +185,6 @@ public class InterestsActivity extends AppCompatActivity {
         if (loginRes.isConFailed()) {
             showAlert("Error", HelperClass.checkYourCon, this);
             CustomProgressDialog.getInstance(this).cancel();
-            //loginRes.setEnabled(true);
         } else {
             if (loginRes.isSuccess()) {
                 Log.i(TAG, "SignUpActivity -- signUpObservable: go to home");
@@ -181,18 +197,15 @@ public class InterestsActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 this.finish();
-//                loginBtn.setEnabled(true);
             } else {
-//                 // not valid user
-//                 pbLogin.setVisibility(View.GONE);
-                //       loginBtn.setEnabled(false);
-                //       progressdialog.cancel();
+
                 CustomProgressDialog.getInstance(this).cancel();
 
-                Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
+
                // showAlert(loginRes.getResponse(), this);
                 showAlert("Error",loginRes.getResponse(),this);
                 //      loginBtn.setEnabled(true);
+
 
             }
         }

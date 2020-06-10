@@ -38,7 +38,7 @@ public class EditInterests extends AppCompatActivity {
     ColorStateList colorStateList = new ColorStateList(
             new int[][]{
                     new int[]{-android.R.attr.state_checked}, // unchecked
-                    new int[]{android.R.attr.state_checked} , // checked
+                    new int[]{android.R.attr.state_checked}, // checked
             },
             new int[]{
                     Color.parseColor("#000000"),
@@ -54,44 +54,45 @@ public class EditInterests extends AppCompatActivity {
         setContentView(R.layout.activity_edit_interests);
         getSupportActionBar().hide();
 
-        containerLayout=findViewById(R.id.container_layout);
-        saveBtn=findViewById(R.id.save_btn);
-        selectedInterest=new ArrayList<>();
+        containerLayout = findViewById(R.id.container_layout);
+        saveBtn = findViewById(R.id.save_btn);
+        selectedInterest = new ArrayList<>();
 
 
-        userViewModel=new ViewModelProvider(this).get(UsersViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(HelperClass.checkInternetState(EditInterests.this)){
+                if (HelperClass.checkInternetState(EditInterests.this)) {
                     CustomProgressDialog.getInstance(EditInterests.this).show();
 
-                    save();}
-                else {
-                    HelperClass.showAlert("Error",HelperClass.checkYourCon,EditInterests.this);
+                    save();
+                } else {
+                    HelperClass.showAlert("Error", HelperClass.checkYourCon, EditInterests.this);
 
                 }
 
             }
         });
-        if(HelperClass.checkInternetState(EditInterests.this)){
+        if (HelperClass.checkInternetState(EditInterests.this)) {
 
-            getInterests();}
-        else {
-            HelperClass.showAlert("Error",HelperClass.checkYourCon,EditInterests.this);
+            getInterests();
+        } else {
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, EditInterests.this);
 
         }
 
     }
 
 
-public void getInterests(){
+    public void getInterests() {
 //TODO : After token remove from getAllInterests
         userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interest>>() {
             @Override
             public void onChanged(ArrayList<Interest> interests) {
-                if(interests!=null) {
+
+                if (interests != null) {
                     interestsList = interests;
                     if (interestsList.size() > 0) {
                         CustomProgressDialog.getInstance(EditInterests.this).cancel();
@@ -99,26 +100,24 @@ public void getInterests(){
                         displayInterests();
 
                     }
-                }
-                else {
+                } else {
                     CustomProgressDialog.getInstance(EditInterests.this).cancel();
 
-                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
+                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditInterests.this);
 
 
                 }
             }
         });
 
-}
-    private  void displayInterests(){
+    }
+
+    private void displayInterests() {
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
-    Toast.makeText(getApplicationContext(),buttonView.getText(), Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.add(buttonView.getText().toString());
             } else {
-            Toast.makeText(getApplicationContext(), buttonView.getText() + "Removed", Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.remove(buttonView.getText().toString());
 
@@ -144,31 +143,27 @@ public void getInterests(){
     }
 
 
-
-
-    public void save(){
+    public void save() {
 
         if (selectedInterest.isEmpty()) {
-            HelperClass.showAlert("Error", ERROR_INTERESTS,EditInterests.this);
+            HelperClass.showAlert("Error", ERROR_INTERESTS, EditInterests.this);
         } else {
-            Storage storage=new Storage(this);
-            UserInterests userInterests=new UserInterests(selectedInterest);
-           userViewModel.updateUserInterests(storage.getId(),HelperClass.BEARER_HEADER+storage.getToken(),userInterests).observe(this, new Observer<GeneralResponse>() {
-               @Override
-               public void onChanged(GeneralResponse gResponse) {
-                   if(gResponse!=null) {
-                       Toast.makeText(getApplicationContext(), gResponse.response, Toast.LENGTH_LONG).show();
-                       EditInterests.this.finish();
-                   }
-                    else {
+            Storage storage = new Storage(this);
+            UserInterests userInterests = new UserInterests(selectedInterest);
+            userViewModel.updateUserInterests(storage.getId(), HelperClass.BEARER_HEADER + storage.getToken(), userInterests).observe(this, new Observer<GeneralResponse>() {
+                @Override
+                public void onChanged(GeneralResponse gResponse) {
+                    if (gResponse != null) {
+                        Toast.makeText(getApplicationContext(), gResponse.response, Toast.LENGTH_LONG).show();
+                        EditInterests.this.finish();
+                    } else {
 
-                       HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,EditInterests.this);
+                        HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, EditInterests.this);
 
 
-                   }
-               }
-           });
-
+                    }
+                }
+            });
 
 
         }

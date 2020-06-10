@@ -139,7 +139,7 @@ public class GroupApiProvider {
             public void onResponse(Call<List<JoinGroupResponse>> call,
                                    Response<List<JoinGroupResponse>> res) {
 
-                Log.i(TAG, "GroupApiProvider  -- getAllResponsesForGroup() enqueue() a reqSize >> "
+                Log.i("aaa", "GroupApiProvider  -- getAllResponsesForGroup() enqueue() a reqSize >> "
                         + res.body().size());
                 groupResList.setValue(res.body());
             }
@@ -147,7 +147,7 @@ public class GroupApiProvider {
             @Override
             public void onFailure(Call<List<JoinGroupResponse>> call, Throwable t) {
                 t.printStackTrace();
-                Log.i(TAG, "onFailure: " + t.getMessage());
+                Log.i("aaa", "onFailure: " + t.getMessage());
                 call.cancel();
             }
         });

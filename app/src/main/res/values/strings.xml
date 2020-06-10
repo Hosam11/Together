@@ -76,4 +76,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="group_name">Group Name</string>
 
+    <string name="you_don_t_have_any_notification_to_be_displayed">You don\'t have any notification to be displayed!</string>
+    <string name="you_don_t_have_any_group">You don\'t have any groups</string>
+
+
 </resources>

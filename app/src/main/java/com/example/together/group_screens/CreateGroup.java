@@ -89,6 +89,9 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     // ToDo 1- uri
     Uri imageUri;
     Storage storage;
+
+    List<Interest> interestList;
+
     UsersViewModel usersViewModel;
     // Spinners Objects
     private BetterSpinner spInterests;

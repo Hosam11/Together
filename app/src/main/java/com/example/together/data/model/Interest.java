@@ -15,6 +15,7 @@ public class Interest {
         this.id = id;
     }
 
+
     private String name;
     @SerializedName("img")
     private String photo;
