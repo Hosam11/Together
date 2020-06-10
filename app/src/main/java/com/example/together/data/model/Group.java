@@ -61,6 +61,18 @@ public class Group {
     @SerializedName("photo")
     private String image;
 
+    public String getUserGroupStatus() {
+        return userGroupStatus;
+    }
+
+    public void setUserGroupStatus(String userGroupStatus) {
+        this.userGroupStatus = userGroupStatus;
+    }
+
+    // can contisn three values [ waitingToJoin - notInGroup - groupIsFull]
+    private String userGroupStatus;
+
+
     public Group() {
 
     }
@@ -140,9 +152,7 @@ public class Group {
         this.interest = interest;
     }
 
-    public Group(String learning_android, int development, String description) {
-    }
-
+   
 
     public ArrayList<User> getMembers() {
         return members;
@@ -242,7 +252,6 @@ public class Group {
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest +
                         "\nimage : " + image
-
         );
     }
 }

@@ -34,7 +34,9 @@ import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
 
+import static com.example.together.utils.HelperClass.ALERT;
 import static com.example.together.utils.HelperClass.TAG;
+import static com.example.together.utils.HelperClass.showAlert;
 
 public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
 
@@ -75,7 +77,7 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
         submitBtn.setOnClickListener(v -> {
-            if (vaildGroupData()) {
+            if (validGroupData()) {
                 editGroupInfo();
             }
         });
@@ -115,20 +117,20 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
         // group id
     }
 
-    private void editGroupObserv(GeneralResponse generalResponse) {
-        Log.i(TAG, "EditGroupInfo --  editGroupObserv: res >>  " + generalResponse);
+    private void editGroupObserv(GeneralResponse generalRes) {
+        Log.i(TAG, "EditGroupInfo --  editGroupObserv: res >>  " + generalRes);
         CustomProgressDialog.getInstance(this).cancel();
-        Toast.makeText(this, generalResponse.response, Toast.LENGTH_SHORT).show();
-        groupStorage.saveGroup(savedGroup, this);
-
-        finish();
-     /*   Intent goHome = new Intent(this, BottomNavigationView.class);
-        goHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(goHome);*/
+        if (generalRes.response.equals(HelperClass.UPDATE_GROUP_SUCCESS)) {
+            groupStorage.saveGroup(savedGroup, this);
+            Toast.makeText(this, generalRes.response, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            showAlert(ALERT,generalRes.response, this);
+        }
 
     }
 
-    private boolean vaildGroupData() {
+    private boolean validGroupData() {
         Log.i(TAG, getLocalClassName() + " -- vaildGroupData: ");
         boolean vaild = true;
 

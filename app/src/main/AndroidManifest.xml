@@ -27,11 +27,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/primaryColor" />
 
-       <!-- <service
-            android:name=".TogetherFirebaseMessagingService"
-            android:enabled="true"
-            android:exported="true">
-        </service>-->
+
 
         <activity android:name=".group_screens.EditGroupInfo" />
         <activity android:name=".GroupsUnderInterest" />
@@ -44,17 +40,13 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".group_screens.single_group.TestTabBar" />
         <activity android:name=".utils.TestApis" />
         <activity android:name=".BottomNavigationView">
 
 
 
         </activity>
-        <activity android:name=".utils.TestApis" />
-        <activity android:name=".BottomNavigationView">
 
-        </activity>
         <activity android:name=".Login_Signup.SignUpActivity" />
         <activity android:name=".Login_Signup.StartActivity"></activity>
         <activity android:name=".profile.EditInterests" />
@@ -62,13 +54,15 @@
         <activity android:name=".profile.EditProfile" />
         <activity android:name=".Login_Signup.LoginActivity"></activity>
         <activity android:name=".ToDoListPachage.ToDoListMain"></activity>
-        <activity android:name=".group_screens.ViewGroup" />
+        <activity android:name=".group_screens.ViewGroupInfo" />
         <activity android:name=".group_screens.CreateGroup" />
-        <activity android:name=".MainActivity" /> <!-- crop Activity -->
+        <!-- crop Activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".group_screens.single_group.GroupViewPager" />
+        <!--   screenOrientation is showing error but it's work     -->
+        <activity android:name=".group_screens.single_group.GroupViewPager"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

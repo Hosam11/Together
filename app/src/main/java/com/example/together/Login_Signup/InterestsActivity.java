@@ -102,7 +102,6 @@ public class InterestsActivity extends AppCompatActivity {
 
     }
 
-
     private void displayInterests() {
         CustomProgressDialog.getInstance(this).cancel();
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
@@ -160,6 +159,7 @@ public class InterestsActivity extends AppCompatActivity {
         }
     }
 
+
     private void userSignUpObservable(String res) {
 
         Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
@@ -176,6 +176,7 @@ public class InterestsActivity extends AppCompatActivity {
             CustomProgressDialog.getInstance(this).cancel();
         }
     }
+
 
     private void userSignUpObservable(LoginResponse loginRes) {
 
@@ -200,8 +201,11 @@ public class InterestsActivity extends AppCompatActivity {
 
                 CustomProgressDialog.getInstance(this).cancel();
 
-                Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
-                showAlert(loginRes.getResponse(), this);
+
+               // showAlert(loginRes.getResponse(), this);
+                showAlert("Error",loginRes.getResponse(),this);
+                //      loginBtn.setEnabled(true);
+
 
             }
         }

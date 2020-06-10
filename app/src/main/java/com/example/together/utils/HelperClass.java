@@ -26,6 +26,8 @@ public class HelperClass {
     public static final String FEMALE = "Female";
     public static final String JOIN_GROUP = "Join Group";
     public static final String PENDING = "Pending...";
+    public static final String ALERT = "Alert!";
+
 
 
     // Shared Prefernces consts
@@ -59,6 +61,10 @@ public class HelperClass {
     public static final String GROUP_ID  = "group_id";
     public static final String IS_SEND  = "isSent";
     public static final String IS_STORED_MESSAGE  = "is_stored_msg";
+    public static final String MSG_ID = "msg_id";
+    public static final String MSG_DELETED_SUCCUESS =  "This messge deleted successfully";
+
+
     // backend consts
     public static final String SING_UP_SUCCESS = "Signed up Successfully";
     public static final String PAID = "Paid";
@@ -82,21 +88,14 @@ public class HelperClass {
     public static final String USER_WAITING_JOIN_GROUP
             = "Not member , This user waiting for admin of group to accept his request of join";
     public static final String USER_IN_GROUP = "Member of this group";
+    public static final String GROUP_FULL = "This group is full";
 
-    // user send req and accepte it
-    // "Member of this group and"
 
-    public static void showAlert(String msg, Context context) {
+    public static final String UPDATE_GROUP_SUCCESS = "updated successfully";
+    public static final String GROUP_TITLE_EXITS= "This title already exist";
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg);
-        builder.setTitle("Alert");
 
-        builder.setPositiveButton("Ok", (dialog, which) -> dialog.cancel());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
 
-    }
 
     public static void showAlert(String description, String msg, Context context) {
 
@@ -119,11 +118,7 @@ public class HelperClass {
     }
 
     public static void newSelectImage(Activity activity) {
-
-
         Log.i(TAG, "HelperClass -- newSelectImage: ");
-
-
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.OVAL)
@@ -141,33 +136,6 @@ public class HelperClass {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
-
-    /*@RequiresApi(api = Build.VERSION_CODES.M)
-    public static void selectImage(Activity activity, int cameraReqCode, int cameraReq, int  galleryReq) {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Choose Photo");
-        builder.setItems(options, (dialog, item) -> {
-            if (options[item].equals("Take Photo")) {
-                if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    activity.requestPermissions(new String[]{Manifest.permission.CAMERA}, cameraReqCode);
-                } else {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    activity.startActivityForResult(cameraIntent, cameraReq);
-                }
-            } else if (options[item].equals("Choose from Gallery")) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                activity.startActivityForResult(intent, galleryReq);
-            } else if (options[item].equals("Cancel")) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
-    */
 
 
 }

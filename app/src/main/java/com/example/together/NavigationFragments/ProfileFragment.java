@@ -150,7 +150,6 @@ public class ProfileFragment extends Fragment implements
 
     public void showYesNoAlert(String description, String msg) {
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge, null);

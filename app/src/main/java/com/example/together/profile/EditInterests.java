@@ -91,6 +91,7 @@ public class EditInterests extends AppCompatActivity {
         userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interest>>() {
             @Override
             public void onChanged(ArrayList<Interest> interests) {
+
                 if (interests != null) {
                     interestsList = interests;
                     if (interestsList.size() > 0) {
