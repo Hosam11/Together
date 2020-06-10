@@ -1,6 +1,7 @@
 package com.example.together.group_screens.single_group;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
+import com.example.together.group_screens.EditGroupInfo;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.UsersViewModel;
 

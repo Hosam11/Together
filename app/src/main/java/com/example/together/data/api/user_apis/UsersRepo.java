@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserInterests;
@@ -49,7 +49,7 @@ public class UsersRepo {
 
         return  userAPIProvider.getAllUserGroups(userId,token);
     }
-    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
+    public  MutableLiveData<ArrayList<Interest>> getAllInterests(){
 
         return userAPIProvider.getAllInterests();
     }

@@ -50,8 +50,12 @@ public class GroupRepo {
         return groupApiProvider.userRequestJoinStatus(gpID, userID, token);
     }
 
-    public MutableLiveData<ChatResponse> getChatMessages(int gpID) {
-        return groupApiProvider.getChatMessages(gpID);
+    public MutableLiveData<ChatResponse> getChatMessages(int gpID,String token) {
+        return groupApiProvider.getChatMessages(gpID,token);
+    }
+
+    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+        return groupApiProvider.deleteChatMsg(msgID, adminID, token);
     }
 
 }

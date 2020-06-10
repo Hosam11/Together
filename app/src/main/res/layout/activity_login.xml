@@ -129,17 +129,16 @@
                 android:inputType="textPassword"
 
 
+                android:paddingHorizontal="18dp"
                 android:paddingLeft="18dp"
                 android:paddingTop="18dp"
                 android:paddingBottom="16dp"
-                android:text="h@h.com"
 
-                android:paddingHorizontal="18dp"
+                android:text="hos"
 
 
                 android:textColor="#000"
-                android:textCursorDrawable="@drawable/cursor_color"
-                />
+                android:textCursorDrawable="@drawable/cursor_color" />
 
             <View
                 android:layout_width="match_parent"

@@ -69,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     private void logObserve(LoginResponse logRes) {
 
         if (logRes.isConFailed()) {
-            showAlert("Failed connect to host!", this);
+//            showAlert("Failed connect to host!", this);
+            showAlert("Error!","Failed connect to host!", this);
             CustomProgressDialog.getInstance(LoginActivity.this).cancel();
             loginBtn.setEnabled(true);
         } else {
@@ -95,13 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                 loginBtn.setEnabled(false);
                 CustomProgressDialog.getInstance(this).cancel();
                 Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
-                showAlert(logRes.getResponse(), this);
+                showAlert("Error",logRes.getResponse(), this);
                 loginBtn.setEnabled(true);
 
             }
         }
     }
-
 
     private boolean validateForm() {
         boolean valid = true;

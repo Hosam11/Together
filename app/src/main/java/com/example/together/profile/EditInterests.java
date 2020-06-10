@@ -18,11 +18,10 @@ import android.widget.Toast;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.UserInterests;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ import static com.example.together.utils.HelperClass.showAlert;
 public class EditInterests extends AppCompatActivity {
     LinearLayout containerLayout;
     Button saveBtn;
-    ArrayList<Interests> interestsList;
+    ArrayList<Interest> interestsList;
 
     ColorStateList colorStateList = new ColorStateList(
             new int[][]{
@@ -89,9 +88,9 @@ public class EditInterests extends AppCompatActivity {
 
 public void getInterests(){
 //TODO : After token remove from getAllInterests
-        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interests>>() {
+        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interest>>() {
             @Override
-            public void onChanged(ArrayList<Interests> interests) {
+            public void onChanged(ArrayList<Interest> interests) {
                 if(interests!=null) {
                     interestsList = interests;
                     if (interestsList.size() > 0) {

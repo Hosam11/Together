@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.together.R;
 import com.example.together.data.model.Group;
-
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 
@@ -56,12 +55,15 @@ public class HomeRecyclarViewAdapter extends
         holder.title.setText(userGroups.get(position).getGroupName());
         holder.description.setText(userGroups.get(position).getGroupDesc());
 
+        Log.i(TAG, getClass().getSimpleName()
+                + " -- onBindViewHolder: theGroupWillSave >>" + userGroups.get(position));
 
         if (userGroups.get(position).getImage() != null) {
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
 
             Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
                     userGroups.get(position).getImage());
+
             Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
 
         } else {
