@@ -57,7 +57,6 @@ public class ProfileFragment extends Fragment implements
     User user;
     UsersViewModel usersViewModel;
     Storage storage;
-    CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
     LinearLayout containerLayout;
     LinearLayout shimmerContainer;
@@ -96,7 +95,6 @@ public class ProfileFragment extends Fragment implements
             startActivity(i);
         });
 
-        CustomProgressDialog.getInstance(getContext()).show();
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -194,8 +192,13 @@ public class ProfileFragment extends Fragment implements
 
     @Override
     public void onResume() {
+
         super.onResume();
+        CustomProgressDialog.getInstance(getContext()).show();
+
+
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+
             setProfileDataObservable();
         } else {
 
@@ -208,6 +211,7 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
+
         storage = new Storage(getContext());
         Log.i("TOKEN", storage.getToken());
 
