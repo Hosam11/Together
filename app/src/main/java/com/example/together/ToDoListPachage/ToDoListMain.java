@@ -51,9 +51,9 @@ public class ToDoListMain extends AppCompatActivity implements GetAddTaskButton 
         addTaskAndProgressLayout = findViewById(R.id.parent_for_addTask_progress);
         progressLayout=findViewById(R.id.parent_for_progress);
         if(isAdmin) {
-            ((ViewGroup)(progressLayout.getParent())).removeView(progressLayout);
             progressBar = findViewById(R.id.to_do_progress_admin);
             percentageView = findViewById(R.id.percentage_view_admin);
+            progressLayout.setVisibility(View.GONE);
         }
         else {
             addTaskAndProgressLayout.setVisibility(View.GONE);
