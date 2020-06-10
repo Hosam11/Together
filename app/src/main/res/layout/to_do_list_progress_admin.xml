@@ -43,7 +43,7 @@
         android:layout_height="8sp"
         android:progress="0"
         style="?android:progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/circle_view"
+        android:progressDrawable="@drawable/progress_bar_group_custom_view_red"
         />
     <TextView
         android:layout_width="match_parent"

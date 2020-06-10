@@ -134,7 +134,9 @@ public class AboutGroupFragment extends Fragment  {
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
 
+
 // represents Gid
+
 
             getGroupDetails(receivedGroup.getGroupID());
         } else {
