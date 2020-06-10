@@ -163,9 +163,12 @@ public class EditProfile extends AppCompatActivity
                     CustomProgressDialog.getInstance(EditProfile.this).show();
 
                     List<String> interests = receivedUser.getInterests();
+                    String receivedImg=receivedUser.getImage();
+
                     receivedUser = new User(nameEt.getText().toString(), emailEt.getText().toString(), passEt.getText().toString(), dateEt.getText().toString(),
                             addressEt.getText().toString(), radiovalue
                     );
+
                     receivedUser.setInterests(interests);
 
                     if (imgUri != null) {
@@ -175,15 +178,15 @@ public class EditProfile extends AppCompatActivity
                         imgToFireBase.uploadFile(imgUri);
                     }
                     else {
+                        receivedUser.setImage(receivedImg);
 
                         save(receivedUser);
 
 
                     }
 
-                   // lma yro7 w yege
 
-                   // save(receivedUser);
+
 
 
                 }

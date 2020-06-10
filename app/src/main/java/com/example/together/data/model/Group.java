@@ -41,8 +41,7 @@ public class Group {
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
-    //
-    // nullable
+
     @SerializedName("address")
     private String location;
     @SerializedName("max_member_number")
