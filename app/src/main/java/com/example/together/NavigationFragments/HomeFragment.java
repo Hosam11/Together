@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Home");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(recyclerView.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
@@ -84,9 +84,12 @@ public class HomeFragment extends Fragment {
         super.onResume();
         CustomProgressDialog.getInstance(getContext()).show();
 
-        if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+
+        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
             getGroups();
-        } else {
+       } 
+       else {
+
 
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();

@@ -9,9 +9,9 @@ public class Comments {
 
 /*   FixMe -- freqqment code
 // craete group finished
+
     if (HelperClass.checkInternetState(this)) {
         // CustomProgressDialog.getInstance(this).show();
-        imgToFireBase.uploadFile(imageUri);
 
     } else {
         //   CustomProgressDialog.getInstance(this).cancel();

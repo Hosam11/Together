@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment implements
 
     private void logout() {
         CustomProgressDialog.getInstance(getContext()).show();
-
+      
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
             usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
