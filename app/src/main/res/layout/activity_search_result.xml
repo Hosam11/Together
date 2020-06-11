@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".groups.GroupsUnderInterestActivity"
+    tools:context=".groups.SearchResultActivity"
     android:background="#f9f9f9">
     <TextView
         android:id="@+id/groupsText"
@@ -18,37 +18,36 @@
         app:layout_constraintTop_toTopOf="parent"
         />
     <TextView
-        android:id="@+id/interestName"
+        android:id="@+id/keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#9f9f9f"
-        android:text=""
+        android:text="Search Result For keyword"
         android:textStyle="bold"
         android:textSize="14sp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@id/groupsText"
         app:layout_constraintTop_toBottomOf="@id/groupsText"
         />
-
     <TextView
         android:id="@+id/tv_no_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/empty_interest"
+        android:text="@string/empty_search"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="@id/interestName"
-        app:layout_constraintTop_toBottomOf="@id/interestName"
+        app:layout_constraintStart_toStartOf="@id/keyword"
+        app:layout_constraintTop_toBottomOf="@id/keyword"
         android:visibility="invisible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groups"
+        android:layout_marginTop="28dp"
         android:layout_width="match_parent"
         android:layout_height="480dp"
-        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/interestName" />
+        app:layout_constraintTop_toBottomOf="@id/keyword" />
 
     <include
         android:id="@+id/btn_create_group_fragment"

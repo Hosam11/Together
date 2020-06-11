@@ -71,5 +71,6 @@
     <string name="groups">Groups</string>
     <string name="explore">Explore</string>
     <string name="categories">Categories</string>
-
+    <string name="empty_search">No Results Found Try Different Keywords</string>
+    <string name="empty_interest">This No Groups in This Category</string>
 </resources>

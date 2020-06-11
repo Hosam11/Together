@@ -59,7 +59,7 @@ public class AboutGroupFragment extends Fragment {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
         Storage s = new Storage();
-        Group receivedGroup = s.getGroupUser(getContext());
+        Group receivedGroup = s.getGroup(getContext());
 
         Log.i(TAG, "onCreateView: id >> "   );
 
@@ -77,7 +77,7 @@ public class AboutGroupFragment extends Fragment {
         members_recycler.setLayoutManager(layoutManager);
 
 
-        if (receivedGroup.getAdmin_id() == storage.getId()) {
+        if (receivedGroup.getAdminID() == storage.getId()) {
             isAdmin = true;
             editGroupTv.setVisibility(View.VISIBLE);
             editGroupTv.setOnClickListener(new View.OnClickListener() {

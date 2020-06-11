@@ -29,13 +29,17 @@ public class Group {
     // admin of group
     @SerializedName("id")
     private int adminID;
+
     // to make a requests by group id
+    @SerializedName("group_id")
     private int groupID;
     //added last
 
     //as a group id in get request
     // private int  id;
-    private int admin_id;
+
+
+
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -59,6 +63,7 @@ public class Group {
     private String interest;
     @SerializedName("photo")
     private String image;
+    int p;
     public Group() {
 
     }
@@ -136,18 +141,12 @@ public class Group {
         this.interest = interest;
     }
 
-    public Group(String learning_android, int development, String description) {
+    public Group(String groupName, int p, String groupDesc) {
+        this.groupName=groupName;
+        this.groupDesc=groupDesc;
+        this.p=p;
     }
 
-
-
-    public int getAdmin_id() {
-        return admin_id;
-    }
-
-    public void setAdmin_id(int admin_id) {
-        this.admin_id = admin_id;
-    }
 
     public ArrayList<User> getMembers() {
         return members;
@@ -198,6 +197,7 @@ public class Group {
     }
 
 
+
     public String getGroupDesc() {
         return groupDesc;
     }
@@ -239,12 +239,14 @@ public class Group {
                 "\nname: " + groupName +
                         "\ndesc: " + groupDesc +
                         "\nadminID: " + adminID +
+                        "\ngroupID: " + groupID +
                         "\nLocation: " + location +
                         "\nmax Numbers: " + maxMembers +
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest
+                        "\ninterest : " + interest +
+                        "\nimage : " + image
 
         );
     }

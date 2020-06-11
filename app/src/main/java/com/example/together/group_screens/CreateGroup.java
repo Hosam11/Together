@@ -189,8 +189,8 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(etMaxMembersNumber));
 
 
-        tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
-                CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
+//        tvAddImg.setOnClickListener(v -> HelperClass.selectImage(this,
+//                CAMERA_PERMISSION_CODE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE));
 
     }
 

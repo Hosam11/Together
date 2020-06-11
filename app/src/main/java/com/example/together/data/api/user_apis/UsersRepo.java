@@ -41,7 +41,9 @@ public class UsersRepo {
     public MutableLiveData<GeneralResponse> updateUserInterests(int id,String token, UserInterests interests) {
         return userAPIProvider.updateUserInterests(id,token,interests) ;
     }
-
+    public MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken){
+        return userAPIProvider.updateDeviceToken(userId,token,deviceToken);
+    }
 
 
 

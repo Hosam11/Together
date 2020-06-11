@@ -45,7 +45,7 @@ public interface UserAPIInterface {
     @GET("home/{id}")
     Call<ArrayList<Group>> getAllUserGroups(@Path("id") int id, @Header("Authorization") String header);
 
-    @GET("interests")
+    @GET("interest")
     Call<ArrayList<Interests>> getAllInterests();
 
     @GET("show/{groupid}")
@@ -73,7 +73,7 @@ public interface UserAPIInterface {
     Call<GeneralResponse> logout(@Path("id") int id);
 
     //update user device token
-    @POST("{id}/devicetoken")
+    @POST("users/{id}/devicetoken")
     Call<GeneralResponse> updateDeviceToken(@Path("id") int id,
                                             @Header("Authorization") String token,
                                             @Body String deviceToken

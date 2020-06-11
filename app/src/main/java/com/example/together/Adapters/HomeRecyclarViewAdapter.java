@@ -78,7 +78,7 @@ public class HomeRecyclarViewAdapter extends
                 Intent goToGroup = new Intent(context, GroupViewPager.class);
                 //goToGroup.putExtra("group",userGroups.get(position));
                 Storage storage = new Storage();
-                storage.saveGroupObject(userGroups.get(position), context);
+                storage.saveGroup(userGroups.get(position), context);
                 context.startActivity(goToGroup);
             }
         });

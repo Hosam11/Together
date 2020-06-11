@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class JoinGroupResponse {
 
+    //TODO : refactor this name to request
     /*
         "id": 1,
         "request_content": "this user asks to join this group",

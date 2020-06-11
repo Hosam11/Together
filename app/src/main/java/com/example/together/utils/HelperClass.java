@@ -1,31 +1,24 @@
 package com.example.together.utils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 
 import com.example.together.R;
-
-import java.io.ByteArrayOutputStream;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class HelperClass {
     public static final String TAG = "logs_info";
@@ -33,7 +26,6 @@ public class HelperClass {
     public static final String FEMALE = "Female";
     public static final String JOIN_GROUP = "Join Group";
     public static final String PENDING = "Pending...";
-
 
 
     // Shared Prefernces consts
@@ -50,7 +42,23 @@ public class HelperClass {
     public static final String TOKEN = "token";
     public static final String TOKEN_DEF = "token_def";
 
+    public static final String SAVED_USER_NAME = "user_name";
+    public static final String SAVED_USER_NAME_FILE = "user_name_file";
+    public static final String SAVED_USER_NAME_DEFAULT = "user_name_default";
 
+    // Chat consts
+    /*
+    "name
+    "message
+    "user_id
+    group_id
+     */
+    public static final String NAME  = "name";
+    public static final String MESSAGE  = "message";
+    public static final String USER_ID  = "user_id";
+    public static final String GROUP_ID  = "group_id";
+    public static final String IS_SEND  = "isSent";
+    public static final String IS_STORED_MESSAGE  = "is_stored_msg";
     // backend consts
     public static final String SING_UP_SUCCESS = "Signed up Successfully";
     public static final String PAID = "Paid";
@@ -62,21 +70,29 @@ public class HelperClass {
 
     public static final String TODO ="to do";
     public static final String ADD_TASK_RESPONSE_SUCCESS ="Task added Successfully";
-    public static final String SUCCESS ="Moved successfully";
+    public static final String SUCCESS ="sucess";
     public static final String deleteTaskSuccess ="This task deleted successfully";
+
     public static final String updatedTaskSuccess = "Updated successfully";
 
-    public static final String checkYourCon= "Please check your internet connection";
+    public static final String checkYourCon = "Please check your internet connection";
     public static final String SERVER_DOWN = "Failed connect to host!";
 
-    public static  final String USER_NOT_MEMBER = "Not member ";
+    public static final String USER_NOT_MEMBER = "Not member ";
     public static final String USER_WAITING_JOIN_GROUP
             = "Not member , This user waiting for admin of group to accept his request of join";
     public static final String USER_IN_GROUP = "Member of this group";
-
+    public static final String INTEREST_FILE = "interest_file";
+    public static final String INTEREST_OBJECT = "interest_object";
+    public static final String INTEREST_DEFULT = "other";
     // user send req and accepte it
     // "Member of this group and"
 
+    /**
+     * Unless
+     * @param msg
+     * @param context
+     */
     public static void showAlert(String msg, Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -89,11 +105,11 @@ public class HelperClass {
 
     }
 
-    public static void showAlert(String description,String msg, Context context) {
+    public static void showAlert(String description, String msg, Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-        View alertView = inflater.inflate(R.layout.custom_alert,null);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View alertView = inflater.inflate(R.layout.custom_alert, null);
         builder.setView(alertView);
         TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
         TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
@@ -101,13 +117,22 @@ public class HelperClass {
         alertMessage.setText(msg);
         TextView okBtn = alertView.findViewById(R.id.ok_button);
         AlertDialog alertDialog = builder.create();
-        okBtn.setOnClickListener((v)->{alertDialog.cancel();});
+        okBtn.setOnClickListener((v) -> {
+            alertDialog.cancel();
+        });
 
         alertDialog.show();
 
     }
 
-
+    public static void newSelectImage(Activity activity) {
+        Log.i(TAG, "HelperClass -- newSelectImage: ");
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.OVAL)
+                .setAspectRatio(1, 1)
+                .start(activity);
+    }
 
     /**
      * @param context: context that called the method
@@ -120,7 +145,8 @@ public class HelperClass {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+    /*@RequiresApi(api = Build.VERSION_CODES.M)
     public static void selectImage(Activity activity, int cameraReqCode, int cameraReq, int  galleryReq) {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -144,5 +170,7 @@ public class HelperClass {
         });
         builder.show();
     }
+    */
+
 
 }

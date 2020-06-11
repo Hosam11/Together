@@ -17,7 +17,7 @@ public class FixedDBValues {
         interests.put(1, "php");
         interests.put(2, "java");
         interests.put(3, "other");*/
-
+        //TODO : add some countries
         countries.put(1, "Egypt");
         countries.put(2, "German");
         countries.put(3, "Spain");

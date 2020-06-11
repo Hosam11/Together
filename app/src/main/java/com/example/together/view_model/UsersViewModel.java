@@ -88,7 +88,9 @@ public class UsersViewModel extends ViewModel {
 
     }
 
-
+    public MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken) {
+        return usersRepo.updateDeviceToken(userId,token,deviceToken);
+    }
 
 
 }
