@@ -51,6 +51,8 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private GroupViewModel groupViewModel;
     private WebSocket webSocket;
     private String SERVER_PATH = "ws://192.168.1.4:3000";
+
+
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
@@ -67,7 +69,6 @@ public class ChatFragment extends Fragment implements TextWatcher {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
     }
 
@@ -93,7 +94,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
             Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
-            groupViewModel.getChatMessages(savedGroup.getGroupID()).observe(this,
+            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
         } else {
             //   CustomProgressDialog.getInstance(this).cancel();
@@ -119,7 +120,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
         if (HelperClass.checkInternetState(getContext())) {
             CustomProgressDialog.getInstance(getContext()).show();
             Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
-            groupViewModel.getChatMessages(savedGroup.getGroupID()).observe(this,
+            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
         } else {
             //   CustomProgressDialog.getInstance(this).cancel();
@@ -129,18 +130,25 @@ public class ChatFragment extends Fragment implements TextWatcher {
         //  initiateSocketConnection();
     }
 
+    /**
+     * Get chat messages every time fragment become vivible to user
+     * @param chatResponse
+     */
     private void getChatMessagesObserve(ChatResponse chatResponse) {
         messagesJsonList.clear();
         for (ChatResponse.MessageContent msg : chatResponse.getChatMsgList()) {
             Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: "
                     + " @@ msgContent >> " + msg.getContent()
                     + " @@ userName >> " + msg.getSender()
-                    + " @@ senderID" + msg.getSenderID());
+                    + " @@ senderID >> " + msg.getSenderID()
+                    + " @@ msgID >>" + msg.getMsgID());
+
             JSONObject msgJSONObj = new JSONObject();
 
             try {
                 msgJSONObj.put(HelperClass.NAME, msg.getSender());
                 msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
+                msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
                 msgJSONObj.put(IS_SEND, userStorage.getId() == msg.getSenderID());
 //                msgJSONObj.put(IS_STORED_MESSAGE, userStorage.getId() == msg.getSenderID());
                 Log.i(TAG, "##ChatFragment --  getChatMessagesObserve: msgJSONObj >>  "
@@ -218,7 +226,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        messageAdapter = new MessageAdapter(getLayoutInflater());
+        messageAdapter = new MessageAdapter(getLayoutInflater(), getContext());
 
         recyclerView.setAdapter(messageAdapter);
 

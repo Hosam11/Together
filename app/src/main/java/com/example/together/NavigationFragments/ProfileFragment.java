@@ -57,7 +57,6 @@ public class ProfileFragment extends Fragment implements
     User user;
     UsersViewModel usersViewModel;
     Storage storage;
-    CustomProgressDialog progressDialog;
     ShimmerFrameLayout shimmer;
     LinearLayout containerLayout;
     LinearLayout shimmerContainer;
@@ -91,19 +90,17 @@ public class ProfileFragment extends Fragment implements
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
 
-
         v.findViewById(R.id.tv_profile_logout).setOnClickListener(view -> {
             Intent i = new Intent(getContext(), StartActivity.class);
             startActivity(i);
         });
 
-        CustomProgressDialog.getInstance(getContext()).show();
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showYesNoAlert("Logout","Do you really want to logout?");
+                showYesNoAlert("Logout", "Do you really want to logout?");
 
 
             }
@@ -112,12 +109,13 @@ public class ProfileFragment extends Fragment implements
         // TODO last changed was 31/5/2020
         return v;
     }
-    private  void logout(){
+
+    private void logout() {
         CustomProgressDialog.getInstance(getContext()).show();
       
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-            usersViewModel.logout(storage.getId(),storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+            usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response != null) {
@@ -139,18 +137,20 @@ public class ProfileFragment extends Fragment implements
                 }
             });
         } else {
+            CustomProgressDialog.getInstance(getContext()).cancel();
+
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
 
         }
 
 
     }
-    public  void showYesNoAlert(String description, String msg ) {
 
+    public void showYesNoAlert(String description, String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-        View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge,null);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge, null);
         builder.setView(alertView);
         TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
         TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
@@ -176,7 +176,6 @@ public class ProfileFragment extends Fragment implements
     }
 
 
-
     private void showShimmer() {
         shimmerContainer.setVisibility(View.VISIBLE);
         shimmer.setVisibility(View.VISIBLE);
@@ -193,8 +192,13 @@ public class ProfileFragment extends Fragment implements
 
     @Override
     public void onResume() {
+
         super.onResume();
+        CustomProgressDialog.getInstance(getContext()).show();
+
+
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
+
             setProfileDataObservable();
         } else {
 
@@ -207,8 +211,9 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setProfileDataObservable() {
+
         storage = new Storage(getContext());
-        Log.i("TOKEN",storage.getToken());
+        Log.i("TOKEN", storage.getToken());
 
 
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
@@ -227,10 +232,9 @@ public class ProfileFragment extends Fragment implements
                         addressEt.setText(userData.getAddress());
                         dateEt.setText(userData.getBirthDate());
                         genderEt.setText(userData.getGender());
-                        if(userData.getImage()!=null)
 
-                            Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
-                                    .ic_profile_black_24dp).into(profileImage);
+                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                .user_image).into(profileImage);
 
 
                         displayInterests(userData.getInterests());

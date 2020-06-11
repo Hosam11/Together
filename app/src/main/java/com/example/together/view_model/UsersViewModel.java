@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.together.data.api.user_apis.UsersRepo;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserInterests;
@@ -61,7 +61,7 @@ public class UsersViewModel extends ViewModel {
 
     }
 
-    public MutableLiveData<ArrayList<Interests>> getAllInterests() {
+    public MutableLiveData<ArrayList<Interest>> getAllInterests() {
         return usersRepo.getAllInterests();
 
     }
@@ -87,6 +87,10 @@ public class UsersViewModel extends ViewModel {
     public MutableLiveData<GeneralResponse> logout(int id, String token) {
         return usersRepo.logout(id, token);
 
+    }
+
+    public MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken) {
+        return usersRepo.updateDeviceToken(userId,token,deviceToken);
     }
 
 

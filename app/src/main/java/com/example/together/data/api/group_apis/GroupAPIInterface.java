@@ -60,7 +60,13 @@ public interface GroupAPIInterface {
                                                 @Header("Authorization") String token);
 
     @GET("getChat/{groupId}")
-    Call<ChatResponse> getChatMessages(@Path("groupId") int gpID);
+    Call<ChatResponse> getChatMessages(@Path("groupId") int gpID,
+                                       @Header("Authorization") String token);
+
+    @GET("deleteMessage/{msgID}?")
+    Call<GeneralResponse> deleteChatMsg(@Path("msgID") int msgID,
+                                        @Query("current_user_id") int adminID,
+                                        @Header("Authorization") String token);
 
 
 }

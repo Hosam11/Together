@@ -7,45 +7,47 @@ import java.util.List;
 public class ChatResponse {
 
 
+    //    response
+//    response
+    @SerializedName("response")
+    private List<MessageContent> chatMsgList;
+
     public List<MessageContent> getChatMsgList() {
         return chatMsgList;
     }
 
-    public void setChatMsgList(List<MessageContent> chatMsgList) {
-        this.chatMsgList = chatMsgList;
-    }
 
-    @SerializedName("response")
-   private List<MessageContent> chatMsgList;
 
-     public static class MessageContent {
+    public static class MessageContent {
         // "sender": "hos",
         // "content": "hi bro"
         private String sender;
         private String content;
-
-         public int getSenderID() {
-             return senderID;
-         }
-
-         @SerializedName("id")
+        @SerializedName("msg_id")
+        private int msgID;
+        @SerializedName("sender_id")
         private int senderID;
 
-         public String getSender() {
-             return sender;
-         }
+        public int getMsgID() {
+            return msgID;
+        }
 
-         public void setSender(String sender) {
-             this.sender = sender;
-         }
+        public int getSenderID() {
+            return senderID;
+        }
 
-         public String getContent() {
-             return content;
-         }
+        public String getSender() {
+            return sender;
+        }
 
-         public void setContent(String content) {
-             this.content = content;
-         }
-     }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
 
 }

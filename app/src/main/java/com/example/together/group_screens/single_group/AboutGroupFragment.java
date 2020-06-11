@@ -65,10 +65,7 @@ public class AboutGroupFragment extends Fragment  {
                              Bundle savedInstanceState) {
         storage = new Storage(getContext());
 //        UserGroup receivedGroup=(UserGroup)getActivity().getIntent().getSerializableExtra("group");
-
-         s = new Storage();
-
-        
+         s = new Storage();  
          receivedGroup = s.getGroup(getContext());
 
 

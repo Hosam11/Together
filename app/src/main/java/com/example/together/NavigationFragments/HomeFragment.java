@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +35,7 @@ public class HomeFragment extends Fragment {
 
     FloatingActionButton fab;
     RecyclerView recyclerView;
+    LinearLayout alertLayout;
     HomeRecyclarViewAdapter adapter;
     ArrayList<Group> userGroupsList = new ArrayList<>();
     UsersViewModel userViewModel;
@@ -44,14 +48,21 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         fab = v.findViewById(R.id.add_group_FAB);
+        alertLayout=v.findViewById(R.id.alert_layout);
         fab.setOnClickListener(v1 -> {
-            //Intent To Create Group Screen
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
             getContext().startActivity(createGroup);
         });
         recyclerView = v.findViewById(R.id.home_groups_rv);
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         progressDialog = CustomProgressDialog.getInstance(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new HomeRecyclarViewAdapter(userGroupsList, getContext());
+        recyclerView.setAdapter(adapter);
+
+
         return v;
     }
 
@@ -59,15 +70,9 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ((BottomNavigationView) getActivity()).setActionBarTitle("Home");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new HomeRecyclarViewAdapter(userGroupsList, this.getContext());
-        recyclerView.setAdapter(adapter);
         CustomProgressDialog.getInstance(getContext()).show();
 //        getGroups();
-
 
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
@@ -81,10 +86,11 @@ public class HomeFragment extends Fragment {
         super.onResume();
         CustomProgressDialog.getInstance(getContext()).show();
 
-        if(HelperClass.checkInternetState(Objects.requireNonNull(getContext()))){
+        if(HelperClass.checkInternetState(getContext())){
             getGroups();
        } 
        else {
+
 
             HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
             CustomProgressDialog.getInstance(getContext()).cancel();
@@ -93,21 +99,28 @@ public class HomeFragment extends Fragment {
     }
 
     public void getGroups() {
-
         Storage storage = new Storage(getContext());
         userViewModel.getAllUserGroups(storage.getId(), storage.getToken()).observe(this, new Observer<ArrayList<Group>>() {
             @Override
             public void onChanged(ArrayList<Group> userGroups) {
                 if (userGroups != null) {
-                    userGroupsList.clear();
-                    userGroupsList.addAll(userGroups);
-                    adapter.notifyDataSetChanged();
-                    CustomProgressDialog.getInstance(getContext()).cancel();
+                    if(userGroups.size()==0)
+                    {alertLayout.setVisibility(View.VISIBLE);
+                             }
+                    else {alertLayout.setVisibility(View.GONE);}
+
+                        userGroupsList.clear();
+                        userGroupsList.addAll(userGroups);
+                        adapter.notifyDataSetChanged();
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
+
+
+
+
                 } else {
                     CustomProgressDialog.getInstance(getContext()).cancel();
-
-                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
-
+                    HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                 }
             }
         });

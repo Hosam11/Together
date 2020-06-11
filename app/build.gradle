@@ -13,9 +13,10 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
 
     }
 
@@ -23,6 +24,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepFile file('multidex-config.txt')
+
         }
     }
     compileOptions {
@@ -89,4 +92,7 @@ dependencies {
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.pusher:push-notifications-android:1.6.2'
 }
+

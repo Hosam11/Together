@@ -2,7 +2,7 @@ package com.example.together.data.api.user_apis;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserInterests;
@@ -46,7 +46,8 @@ public interface UserAPIInterface {
                                             @Header("Authorization") String header);
 
     @GET("interest")
-    Call<ArrayList<Interests>> getAllInterests();
+    Call<ArrayList<Interest>> getAllInterests();
+
 
     @GET("show/{groupid}")
     Call<Group> getSpecificGroupDetails(@Path("groupid") int groupid,
@@ -73,5 +74,12 @@ public interface UserAPIInterface {
                                  @Header("Authorization") String token);
 
 
+
+    //update user device token
+    @POST("users/{id}/devicetoken")
+    Call<GeneralResponse> updateDeviceToken(@Path("id") int id,
+                                            @Header("Authorization") String token,
+                                            @Body String deviceToken
+    );
 
 }

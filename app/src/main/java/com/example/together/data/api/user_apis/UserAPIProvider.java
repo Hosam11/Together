@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.model.UserInterests;
@@ -251,17 +251,17 @@ public class UserAPIProvider {
 
     }
 
-    MutableLiveData<ArrayList<Interests>> getAllInterests() {
-        MutableLiveData<ArrayList<Interests>> allInterests = new MutableLiveData<>();
-        Call<ArrayList<Interests>> getAllInterestsCall = userInterface.getAllInterests();
-        getAllInterestsCall.enqueue(new Callback<ArrayList<Interests>>() {
+    MutableLiveData<ArrayList<Interest>> getAllInterests() {
+        MutableLiveData<ArrayList<Interest>> allInterests = new MutableLiveData<>();
+        Call<ArrayList<Interest>> getAllInterestsCall = userInterface.getAllInterests();
+        getAllInterestsCall.enqueue(new Callback<ArrayList<Interest>>() {
             @Override
-            public void onResponse(Call<ArrayList<Interests>> call, Response<ArrayList<Interests>> response) {
+            public void onResponse(Call<ArrayList<Interest>> call, Response<ArrayList<Interest>> response) {
                 allInterests.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Interests>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<Interest>> call, Throwable t) {
                 allInterests.setValue(null);
                 t.printStackTrace();
                 call.cancel();
@@ -376,5 +376,31 @@ public class UserAPIProvider {
 
     }
 
+    // update device token
+    MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken){
+
+        MutableLiveData<GeneralResponse> updateResponse = new MutableLiveData<>();
+        Call<GeneralResponse> updateDeviceTokenCall=userInterface.updateDeviceToken(userId, HelperClass.BEARER_HEADER+token, deviceToken);
+        updateDeviceTokenCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                Log.i(TAG, "ApiProvider -- updateDeviceToken() enqueue()  body >> " +
+                        response.body());
+                updateResponse.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                updateResponse.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+        return updateResponse;
+
+    }
 
 }

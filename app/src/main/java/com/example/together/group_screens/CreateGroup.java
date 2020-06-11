@@ -25,7 +25,7 @@ import com.example.together.R;
 import com.example.together.data.model.FixedDBValues;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.storage.Storage;
 import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
@@ -37,16 +37,18 @@ import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UsersViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;
 
+import static com.example.together.utils.HelperClass.ALERT;
 import static com.example.together.utils.HelperClass.TAG;
 import static com.example.together.utils.HelperClass.showAlert;
 
@@ -62,7 +64,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     // Edit Texts
     EditText etGroupName;
     EditText etGroupDesc;
-    EditText etHiddenOther;
     EditText etMaxMembersNumber;
     EditText etGpDuration;
     EditText etErrorMember;
@@ -70,8 +71,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     // TextView
-//    TextView tvGroupMaxMembers;G
-//    TextView tvGroupDuration;
+
     TextView tvAddImg;
     TextView tvDurationRight;
     TextView tvMemberNumberRight;
@@ -79,12 +79,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     ImageView groupImg;
     GroupViewModel groupViewModel;
     //
-    Bitmap groupImgBitmap;
 
-    boolean isEnterCrop;
-
-    int CAMERA_REQUEST_CODE = 11;
-    int GALLERY_REQUEST_CODE = 12;
     // Form Strings
     String gpName;
     String gpDesc;
@@ -96,7 +91,9 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     // ToDo 1- uri
     Uri imageUri;
     Storage storage;
-    List<Interests> interestList;
+
+    List<Interest> interestList;
+
     UsersViewModel usersViewModel;
     // Spinners Objects
     private BetterSpinner spInterests;
@@ -140,18 +137,25 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         interests = new ArrayList<>();
         locations = new ArrayList<>();
 
-        // now
-        /*interests.add("android");
-        interests.add("ios");
-        interests.add("web desing");
-        interests.add("php");
-        interests.add("react native");
-        interests.add("other");
-        */
-
-        locations.add("egypt");
-        locations.add("german");
-        locations.add("spain");
+        locations.addAll(Arrays.asList(getResources().getStringArray(R.array.countries)));
+        Collections.sort(locations);
+/*
+        locations.add("Austria");
+        locations.add("Brazil");
+        locations.add("China");
+        locations.add("Egypt");
+        locations.add("France");
+        locations.add("German");
+        locations.add("Spain");
+        locations.add("Italy");
+        locations.add("Romania");
+        locations.add("Oman");
+        locations.add("Mexico");
+        locations.add("Maldives");
+        locations.add("Portugal");
+        locations.add("Russia");
+        locations.add("Turkey");
+        locations.add("Saudi Arabia");*/
 
         levels.add("Beginner");
         levels.add("Intermediate");
@@ -160,13 +164,12 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         storage = new Storage(this);
 
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+
         CustomProgressDialog.getInstance(this).show();
         usersViewModel.getAllInterests().observe(this,
                 this::getInterestsObservable);
 
 
-//        interestSpinner = new CommonSpinner(spInterests, this, interests);
-//        interestSpinner.setEdOther(etHiddenOther);
         locationSpinner = new CommonSpinner(spLocations, this, locations);
         levelsSpinner = new CommonSpinner(spLevels, this, levels);
         locationSpinner.setLocation(true);
@@ -174,7 +177,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
         findViewById(R.id.btn_create_group).setOnClickListener(v -> {
-            if (vaildGroupData()) {
+            if (validGroupData()) {
                 createGroup();
             }
         });
@@ -190,14 +193,12 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         tvMemberNumberRight.setOnClickListener(v -> increment(etMaxMembersNumber, false));
 
         findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(etMaxMembersNumber));
-
-
         tvAddImg.setOnClickListener(v -> HelperClass.newSelectImage(this));
 
     }
 
-    private void getInterestsObservable(ArrayList<Interests> interestsListReturn) {
-        for (Interests i : interestsListReturn) {
+    private void getInterestsObservable(ArrayList<Interest> interestsListReturn) {
+        for (Interest i : interestsListReturn) {
             interests.add(i.getName());
         }
         interestSpinner = new CommonSpinner(spInterests, this, interests);
@@ -206,26 +207,20 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     public void createGroup() {
-
-        // TODO interest id leave it for now
-
+        // FirstShow >> canceled in observCreateGroup()
+        CustomProgressDialog.getInstance(this).show();
         if (imageUri != null) {
-            CustomProgressDialog.getInstance(this).show();
             UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
-
             if (HelperClass.checkInternetState(this)) {
-               // CustomProgressDialog.getInstance(this).show();
+
                 imgToFireBase.uploadFile(imageUri);
-
             } else {
-             //   CustomProgressDialog.getInstance(this).cancel();
                 HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
-
+                CustomProgressDialog.getInstance(this).cancel();
             }
 
         } else {
             // create group
-
             Group group = new Group(
                     storage.getId(), gpLocation, null,
                     maxMemberNumber, duration, gpName,
@@ -236,24 +231,20 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             Log.i(TAG, getLocalClassName() + " -- createGroup: mGroup >> "
                     + group.toString());
 
-
-            CustomProgressDialog.getInstance(this).show();
+            //CustomProgressDialog.getInstance(this).show();
             if (HelperClass.checkInternetState(this)) {
                 // CustomProgressDialog.getInstance(this).show();
                 groupViewModel.createGroup(group, token)
                         .observe(this, this::observCreateGroup);
             } else {
-                //   CustomProgressDialog.getInstance(this).cancel();
-                HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
-
+                HelperClass.showAlert(ALERT, HelperClass.checkYourCon, this);
+                CustomProgressDialog.getInstance(this).cancel();
             }
-
         }
-
 
     }
 
-    private boolean vaildGroupData() {
+    private boolean validGroupData() {
         Log.i(TAG, getLocalClassName() + " -- vaildGroupData: ");
         boolean vaild = true;
         String gpMembersValue = etMaxMembersNumber.getText().toString();
@@ -326,7 +317,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         // + generalRes.response);
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
-            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
             // 1- Go To Group Screens
 //            userViewModel.clearCreateGroupRes();
@@ -335,10 +325,13 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 //            startActivity(goToSingleGroup);
             finish();
         } else {
-            CustomProgressDialog.getInstance(this).cancel();
             Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
-            showAlert(generalRes.response, this);
+//            showAlert(generalRes.response, this);
+            showAlert(ALERT,generalRes.response, this);
         }
+        // canceled
+        CustomProgressDialog.getInstance(this).cancel();
+
     }
 
 

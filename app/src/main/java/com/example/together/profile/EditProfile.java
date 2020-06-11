@@ -1,14 +1,10 @@
 package com.example.together.profile;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -24,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,7 +43,6 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -136,7 +129,7 @@ public class EditProfile extends AppCompatActivity
         Glide.with(getApplicationContext()).load(receivedUser.getImage()).placeholder(R.drawable
                 .ic_profile_black_24dp).into(profileImg);
 //userImgBitmap=HelperClass.decodeBase64(receivedUser.image);
-       // profileImg.setImageBitmap(userImgBitmap);
+        // profileImg.setImageBitmap(userImgBitmap);
         dateEt.setText(receivedUser.getBirthDate());
         if (receivedUser.getGender().equalsIgnoreCase("female")) {
             femaleRadioBtn.setChecked(true);
@@ -163,9 +156,12 @@ public class EditProfile extends AppCompatActivity
                     CustomProgressDialog.getInstance(EditProfile.this).show();
 
                     List<String> interests = receivedUser.getInterests();
+                    String receivedImg=receivedUser.getImage();
+
                     receivedUser = new User(nameEt.getText().toString(), emailEt.getText().toString(), passEt.getText().toString(), dateEt.getText().toString(),
                             addressEt.getText().toString(), radiovalue
                     );
+
                     receivedUser.setInterests(interests);
 
                     if (imgUri != null) {
@@ -173,19 +169,13 @@ public class EditProfile extends AppCompatActivity
                         CustomProgressDialog.getInstance(EditProfile.this).show();
                         UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(EditProfile.this);
                         imgToFireBase.uploadFile(imgUri);
+
                     }
                     else {
-
+                        receivedUser.setImage(receivedImg);
                         save(receivedUser);
 
-
                     }
-
-                   // lma yro7 w yege
-
-                   // save(receivedUser);
-
-
                 }
             }
         });
@@ -229,7 +219,7 @@ public class EditProfile extends AppCompatActivity
         Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
                 .setTypeFilter(TypeFilter.ADDRESS)
-                .setCountries(Arrays.asList("EG"))
+//                .setCountries(Arrays.asList("EG"))
                 .build(getApplicationContext());
         startActivityForResult(i, AUTOCOMPLETE_REQUEST_CODE);
 
@@ -266,7 +256,7 @@ public class EditProfile extends AppCompatActivity
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.OVAL)
-                .setAspectRatio(1,1)
+                .setAspectRatio(1, 1)
                 .start(this);
     }
 
@@ -305,15 +295,15 @@ public class EditProfile extends AppCompatActivity
 
         /////
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                        CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                        if (resultCode == RESULT_OK) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
 
-                            imgUri = result.getUri();
-                            File thumm_filepath = new File(imgUri.getPath());
-                            try {
-                                Bitmap thumb_Bitmab = new Compressor(this)
-                                        .setMaxWidth(200)
-                                        .setMaxHeight(200)
+                imgUri = result.getUri();
+                File thumm_filepath = new File(imgUri.getPath());
+                try {
+                    Bitmap thumb_Bitmab = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
                             .setQuality(70)
                             .compressToBitmap(thumm_filepath);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -364,10 +354,9 @@ public class EditProfile extends AppCompatActivity
 //            }
 //
 //
-   }
+        }
 
     }
-
 
 
     @Override
@@ -381,7 +370,7 @@ public class EditProfile extends AppCompatActivity
 
 
         String name = nameEt.getText().toString();
-        if (TextUtils.isEmpty(name) || name.length()<3) {
+        if (TextUtils.isEmpty(name) || name.length() < 3) {
             nameEt.setError("Must be more than 3 letters");
             valid = false;
         } else {
@@ -404,24 +393,24 @@ public class EditProfile extends AppCompatActivity
             emailEt.setError(null);
         }
 
-        if(!email.matches(emailPattern)){
+        if (!email.matches(emailPattern)) {
             emailEt.setError("Enter a valid e-mail!");
             valid = false;
 
-        }
-        else {
+        } else {
             emailEt.setError(null);
 
         }
 
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)||pass.length()<6) {
+        if (TextUtils.isEmpty(pass) || pass.length() < 6) {
             passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {
             passEt.setError(null);
         }
         String address = addressEt.getText().toString();
+
         if (TextUtils.isEmpty(address)) {
             addressEt.setError("Required.");
             valid = false;
@@ -442,11 +431,10 @@ public class EditProfile extends AppCompatActivity
         return valid;
     }
 
+
     @Override
     public void onFinishedDownloadListener(String imgUrl) {
-
         receivedUser.setImage(imgUrl);
         save(receivedUser);
-
     }
 }

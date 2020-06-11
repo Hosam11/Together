@@ -20,12 +20,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.LoginResponse;
 import com.example.together.data.model.User;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
-import com.example.together.view_model.UserViewModel;
 import com.example.together.view_model.UsersViewModel;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ import static com.example.together.utils.HelperClass.showAlert;
 
 public class InterestsActivity extends AppCompatActivity {
 
-    ArrayList<Interests> interestsList;
+    ArrayList<Interest> interestsList;
     LinearLayout containerLayout;
     Button signupBtn;
     UsersViewModel userViewModel;
@@ -84,9 +83,9 @@ public class InterestsActivity extends AppCompatActivity {
     private void getInterests() {
         //TODO : After token remove from getAllInterests
 
-        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interests>>() {
+        userViewModel.getAllInterests().observe(this, new Observer<ArrayList<Interest>>() {
             @Override
-            public void onChanged(ArrayList<Interests> interests) {
+            public void onChanged(ArrayList<Interest> interests) {
                 if (interests != null) {
                     interestsList = interests;
                     if (interests.size() > 0) {
@@ -103,16 +102,13 @@ public class InterestsActivity extends AppCompatActivity {
 
     }
 
-
     private void displayInterests() {
         CustomProgressDialog.getInstance(this).cancel();
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             if (isChecked) {
-//                Toast.makeText(getApplicationContext(),buttonView.getText(), Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.add(buttonView.getText().toString());
             } else {
-//                Toast.makeText(getApplicationContext(), buttonView.getText() + "Removed", Toast.LENGTH_SHORT).show();
                 //TODO
                 selectedInterest.remove(buttonView.getText().toString());
 
@@ -163,6 +159,7 @@ public class InterestsActivity extends AppCompatActivity {
         }
     }
 
+
     private void userSignUpObservable(String res) {
 
         Log.i(TAG, "SignUpActivity -- createAccount()  res >> " + res);
@@ -174,12 +171,12 @@ public class InterestsActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-//            InterestsActivity.this.finish();
         } else {
             HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, this);
             CustomProgressDialog.getInstance(this).cancel();
         }
     }
+
 
     private void userSignUpObservable(LoginResponse loginRes) {
 
@@ -188,7 +185,6 @@ public class InterestsActivity extends AppCompatActivity {
         if (loginRes.isConFailed()) {
             showAlert("Error", HelperClass.checkYourCon, this);
             CustomProgressDialog.getInstance(this).cancel();
-            //loginRes.setEnabled(true);
         } else {
             if (loginRes.isSuccess()) {
                 Log.i(TAG, "SignUpActivity -- signUpObservable: go to home");
@@ -201,17 +197,15 @@ public class InterestsActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 this.finish();
-//                loginBtn.setEnabled(true);
             } else {
-//                 // not valid user
-//                 pbLogin.setVisibility(View.GONE);
-                //       loginBtn.setEnabled(false);
-                //       progressdialog.cancel();
+
                 CustomProgressDialog.getInstance(this).cancel();
 
-                Log.i(TAG, "LoginActivity -- signUpObservable: not valid ");
-                showAlert(loginRes.getResponse(), this);
+
+               // showAlert(loginRes.getResponse(), this);
+                showAlert("Error",loginRes.getResponse(),this);
                 //      loginBtn.setEnabled(true);
+
 
             }
         }

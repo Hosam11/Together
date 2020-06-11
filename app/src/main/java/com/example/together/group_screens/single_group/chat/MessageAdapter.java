@@ -1,5 +1,6 @@
 package com.example.together.group_screens.single_group.chat;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -9,12 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
+import com.example.together.data.model.GeneralResponse;
+import com.example.together.data.model.Group;
+import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
+import com.example.together.view_model.GroupViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,31 +33,34 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.together.utils.HelperClass.MSG_DELETED_SUCCUESS;
+
 public class MessageAdapter extends RecyclerView.Adapter {
 
     private static final int TYPE_MESSAGE_SENT = 0;
     private static final int TYPE_MESSAGE_RECEIVED = 1;
     private static final int TYPE_IMAGE_SENT = 2;
     private static final int TYPE_IMAGE_RECEIVED = 3;
+    Storage groupStoarge;
+    Storage userStoarge;
+    Context context;
+    GroupViewModel groupViewModel;
+    Group curGroup;
 
     private LayoutInflater inflater;
     private List<JSONObject> messages = new ArrayList<>();
 
-    public MessageAdapter(LayoutInflater inflater) {
+    public MessageAdapter(LayoutInflater inflater, Context context) {
         this.inflater = inflater;
+        this.context = context;
+        groupViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(GroupViewModel.class);
     }
 
-    private class SentMessageHolder extends RecyclerView.ViewHolder {
-
-        TextView messageTxt;
-        TextView tvSenderName;
-
-        public SentMessageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            messageTxt = itemView.findViewById(R.id.sentTxt);
-//            tvSenderName = itemView.findViewById(R.id.tv_name_sender);
-        }
+    public void setMessages(List<JSONObject> messages) {
+        Log.i(HelperClass.TAG, "##MessageAdapter --setMessages: size "
+                + messages.size());
+        this.messages = messages;
+        notifyDataSetChanged();
     }
 
 /*    private class SentImageHolder extends RecyclerView.ViewHolder {
@@ -59,39 +73,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
             imageView = itemView.findViewById(R.id.imageView);
         }
     }*/
-
-    public void setMessages(List<JSONObject> messages) {
-        Log.i(HelperClass.TAG, "##MessageAdapter --setMessages: size "
-                + messages.size());
-        this.messages = messages;
-        notifyDataSetChanged();
-    }
-
-    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-
-        TextView nameTxt, messageTxt;
-
-        public ReceivedMessageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            nameTxt = itemView.findViewById(R.id.nameTxt);
-            messageTxt = itemView.findViewById(R.id.receivedTxt);
-        }
-    }
-
-    private class ReceivedImageHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-        TextView nameTxt;
-
-        public ReceivedImageHolder(@NonNull View itemView) {
-            super(itemView);
-
-//            imageView = itemView.findViewById(R.id.imageView);
-            nameTxt = itemView.findViewById(R.id.nameTxt);
-
-        }
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -114,7 +95,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return -1;
     }
 
@@ -132,15 +112,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 view = inflater.inflate(R.layout.item_received_message, parent, false);
                 return new ReceivedMessageHolder(view);
 
-    /*        case TYPE_IMAGE_SENT:
-
+            /*
+            case TYPE_IMAGE_SENT:
                 view = inflater.inflate(R.layout.item_sent_image, parent, false);
                 return new SentImageHolder(view);
-
             case TYPE_IMAGE_RECEIVED:
-
                 view = inflater.inflate(R.layout.item_received_photo, parent, false);
-                return new ReceivedImageHolder(view);*/
+                return new ReceivedImageHolder(view);
+            */
 
         }
 
@@ -149,6 +128,20 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        holder.itemView.setOnLongClickListener(v -> {
+            userStoarge = new Storage(context);
+            groupStoarge = new Storage();
+            curGroup = groupStoarge.getGroup(context);
+            if (userStoarge.getId() == curGroup.getAdminID()) {
+                showYesNoAlert("Wraning",
+                        "Are you sure you want to delete that message?", position);
+            } else {
+                Toast.makeText(context, "You Not The Admin to Remove This Message", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
+
 
         JSONObject message = messages.get(position);
         Log.i(HelperClass.TAG, "##MessageAdapter -- onBindViewHolder: ");
@@ -187,6 +180,63 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     }
 
+    private void removeMsg(int position) {
+
+        Log.i(HelperClass.TAG, "removeMsg: he is the admin ");
+        try {
+            CustomProgressDialog.getInstance(context).show();
+            int msgID = (messages.get(position).getInt(HelperClass.MSG_ID));
+            Log.i(HelperClass.TAG, "removeMsg: msgID >> " + msgID);
+            groupViewModel.deleteChatMsg(msgID, curGroup.getAdminID(), userStoarge.getToken())
+                    .observe((LifecycleOwner) context,
+                            generalRes -> deleteMsgObserve(position, generalRes));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(HelperClass.TAG, "onBindViewHolder: msg clicked");
+    }
+
+    private void deleteMsgObserve(int position, GeneralResponse generalRes) {
+        if (generalRes.response.equals(MSG_DELETED_SUCCUESS)) {
+            Log.i(HelperClass.TAG, "deleteMsgObserve: " + generalRes.response);
+            Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
+            messages.remove(position);
+            MessageAdapter.this.notifyDataSetChanged();
+        } else {
+            Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
+        }
+        CustomProgressDialog.getInstance(context).cancel();
+
+    }
+
+    public void showYesNoAlert(String description, String msg, int listPostion) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View alertView = inflater.inflate(R.layout.custom_yes_no_dialouge, null);
+        builder.setView(alertView);
+        TextView alertDescription = alertView.findViewById(R.id.alert_description_edit_text);
+        TextView alertMessage = alertView.findViewById(R.id.alert_message_edit_text);
+        alertDescription.setText(description);
+        alertMessage.setText(msg);
+        TextView okBtn = alertView.findViewById(R.id.ok_button);
+        TextView cancelBtn = alertView.findViewById(R.id.cancle_btn);
+
+        AlertDialog alertDialog = builder.create();
+
+        cancelBtn.setOnClickListener(v -> alertDialog.cancel());
+        okBtn.setOnClickListener(v -> {
+            alertDialog.cancel();
+//                logout();
+            removeMsg(listPostion);
+        });
+        alertDialog.show();
+
+    }
+
+
     private Bitmap getBitmapFromString(String image) {
 
         byte[] bytes = Base64.decode(image, Base64.DEFAULT);
@@ -198,9 +248,48 @@ public class MessageAdapter extends RecyclerView.Adapter {
         return messages.size();
     }
 
-    public void addItem (JSONObject jsonObject) {
+    public void addItem(JSONObject jsonObject) {
         messages.add(jsonObject);
         notifyDataSetChanged();
+    }
+
+    private class SentMessageHolder extends RecyclerView.ViewHolder {
+
+        TextView messageTxt;
+        TextView tvSenderName;
+
+        public SentMessageHolder(@NonNull View itemView) {
+            super(itemView);
+
+            messageTxt = itemView.findViewById(R.id.sentTxt);
+//            tvSenderName = itemView.findViewById(R.id.tv_name_sender);
+        }
+    }
+
+    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
+
+        TextView nameTxt, messageTxt;
+
+        public ReceivedMessageHolder(@NonNull View itemView) {
+            super(itemView);
+
+            nameTxt = itemView.findViewById(R.id.nameTxt);
+            messageTxt = itemView.findViewById(R.id.receivedTxt);
+        }
+    }
+
+    private class ReceivedImageHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+        TextView nameTxt;
+
+        public ReceivedImageHolder(@NonNull View itemView) {
+            super(itemView);
+
+//            imageView = itemView.findViewById(R.id.imageView);
+            nameTxt = itemView.findViewById(R.id.nameTxt);
+
+        }
     }
 
 }

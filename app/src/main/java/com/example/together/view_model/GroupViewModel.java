@@ -72,8 +72,12 @@ public class GroupViewModel extends ViewModel {
         return resUserJoinReq;
     }
 
-    public MutableLiveData<ChatResponse> getChatMessages(int gpID) {
-        return groupRepo.getChatMessages(gpID);
+    public MutableLiveData<ChatResponse> getChatMessages(int gpID,String token) {
+        return groupRepo.getChatMessages(gpID,token);
+    }
+
+    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+        return groupRepo.deleteChatMsg(msgID, adminID, token);
     }
 
 }

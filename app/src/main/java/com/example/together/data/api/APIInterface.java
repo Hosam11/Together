@@ -65,18 +65,6 @@ public interface APIInterface {
     Call<GeneralResponse> sendPositionArrangment (@Body GroupOfTasks tasks,
                                    @Header("Authorization")String header);
 
-    Call<GeneralResponse> addGroupMember(@Path("groupId") int gpID,
-                                         @Path("userID") int userID,
-                                          @Query("current_user_id") int adminID,
-                                         @Header("Authorization") String header);
-
-
-    @POST("update/{id}")
-    Call<GeneralResponse> updateUserProfile(@Path("id") int id,
-                                            @Header("Authorization") String header,
-                                            @Body User user);
-
-
 
 
 }
