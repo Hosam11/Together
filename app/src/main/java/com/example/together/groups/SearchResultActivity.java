@@ -64,13 +64,13 @@ public class SearchResultActivity extends AppCompatActivity {
         exploreViewModel.search(storage.getToken(),new Storage().getKeyword(this))
                 .observe(this, groups -> {
                     if(groups!=null){
+                        if (groups.isEmpty()){
+                            emptyData.setVisibility(View.VISIBLE);
+                        }
                         groupList.clear();
                         groupList.addAll(groups);
                         groupsAdapter.notifyDataSetChanged();
                         CustomProgressDialog.getInstance(this).cancel();
-                    }
-                    else if (groups.isEmpty()){
-                        emptyData.setVisibility(View.VISIBLE);
                     }
                     else {
                         CustomProgressDialog.getInstance(this).cancel();

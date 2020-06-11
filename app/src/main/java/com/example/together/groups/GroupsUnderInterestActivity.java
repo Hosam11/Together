@@ -63,14 +63,14 @@ public class GroupsUnderInterestActivity extends AppCompatActivity {
         exploreViewModel.getInterestGroups(storage.getToken(),storage.getInterest(this).getId())
                 .observe(this, groups -> {
             if(groups!=null){
+                if (groups.isEmpty()){
+                    emptyData.setVisibility(View.VISIBLE);
+                }
                 groupList.clear();
                 groupList.addAll(groups);
                 groupsAdapter.notifyDataSetChanged();
                 CustomProgressDialog.getInstance(this).cancel();
             }
-            else if (groups.isEmpty()){
-                emptyData.setVisibility(View.VISIBLE);
-                    }
             else {
                 CustomProgressDialog.getInstance(this).cancel();
                 HelperClass.showAlert("Error",HelperClass.checkYourCon,this);

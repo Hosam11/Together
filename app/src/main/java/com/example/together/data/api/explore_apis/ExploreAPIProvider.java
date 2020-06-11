@@ -66,6 +66,7 @@ public class ExploreAPIProvider {
 
             @Override
             public void onFailure(Call<HashMap<String,List<Group>>> call, Throwable t) {
+                groupList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();
