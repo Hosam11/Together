@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    android:elevation="6dp"
-    app:cardCornerRadius="15dp">
+    android:layout_marginLeft="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginRight="8dp"
+    app:cardCornerRadius="15dp"
+    android:id="@+id/groupCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/imageCard"
@@ -30,23 +32,23 @@
 
         <TextView
             android:id="@+id/groupName"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="Android Study Group"
             android:textColor="#3388db"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/imageCard"
             app:layout_constraintTop_toTopOf="@id/imageCard"></TextView>
 
         <TextView
             android:id="@+id/groupDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Simple Group Description"
+            android:layout_marginEnd="8dp"
             android:textColor="#9f9f9f"
-            android:layout_marginTop="8dp"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@id/groupName"
             app:layout_constraintTop_toBottomOf="@id/groupName"></TextView>

@@ -72,7 +72,6 @@ public class HomeFragment extends Fragment {
         CustomProgressDialog.getInstance(getContext()).show();
 //        getGroups();
 
-
         getActivity().findViewById(R.id.btn_create_group_fragment).setOnClickListener(v -> {
             Intent createGroup = new Intent(getContext(), CreateGroup.class);
             startActivity(createGroup);

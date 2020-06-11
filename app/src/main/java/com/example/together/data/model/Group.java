@@ -72,7 +72,6 @@ public class Group {
     // can contisn three values [ waitingToJoin - notInGroup - groupIsFull]
     private String userGroupStatus;
 
-
     public Group() {
 
     }
@@ -152,7 +151,6 @@ public class Group {
         this.interest = interest;
     }
 
-   
 
     public ArrayList<User> getMembers() {
         return members;
@@ -252,6 +250,7 @@ public class Group {
                         "\nlevel: " + levelRequired +
                         "\ninterest : " + interest +
                         "\nimage : " + image
+
         );
     }
 }

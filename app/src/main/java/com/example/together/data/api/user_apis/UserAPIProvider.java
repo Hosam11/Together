@@ -376,5 +376,31 @@ public class UserAPIProvider {
 
     }
 
+    // update device token
+    MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken){
+
+        MutableLiveData<GeneralResponse> updateResponse = new MutableLiveData<>();
+        Call<GeneralResponse> updateDeviceTokenCall=userInterface.updateDeviceToken(userId, HelperClass.BEARER_HEADER+token, deviceToken);
+        updateDeviceTokenCall.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                Log.i(TAG, "ApiProvider -- updateDeviceToken() enqueue()  body >> " +
+                        response.body());
+                updateResponse.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                updateResponse.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+
+            }
+        });
+        return updateResponse;
+
+    }
 
 }

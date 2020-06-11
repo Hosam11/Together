@@ -1,6 +1,4 @@
 package com.example.together.Adapters;
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.together.R;
 import com.example.together.data.model.Interest;
-
 import java.util.ArrayList;
 
 public class InterestAdapter extends BaseAdapter {
@@ -30,7 +28,7 @@ public class InterestAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return 0;
+        return interests.get(position);
     }
 
     @Override
@@ -46,8 +44,13 @@ public class InterestAdapter extends BaseAdapter {
         }
         final ImageView interestImage = convertView.findViewById(R.id.interestImage);
         final TextView interestName = convertView.findViewById(R.id.interestName);
-        interestImage.setImageResource(interests.get(position).getImage());
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.interest_default)
+                .error(R.drawable.interest_default);
+        Glide.with(context).load(interests.get(position).getImg()).apply(options).into(interestImage);
         interestName.setText(interests.get(position).getName());
         return  convertView;
     }
+
 }

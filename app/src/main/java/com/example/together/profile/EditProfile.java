@@ -431,11 +431,10 @@ public class EditProfile extends AppCompatActivity
         return valid;
     }
 
+
     @Override
     public void onFinishedDownloadListener(String imgUrl) {
-
         receivedUser.setImage(imgUrl);
         save(receivedUser);
-
     }
 }

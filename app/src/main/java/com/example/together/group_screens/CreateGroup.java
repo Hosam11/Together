@@ -176,8 +176,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         tvMemberNumberRight.setOnClickListener(v -> increment(etMaxMembersNumber, false));
 
         findViewById(R.id.tv_member_left_btn).setOnClickListener(v -> decrement(etMaxMembersNumber));
-
-
         tvAddImg.setOnClickListener(v -> HelperClass.newSelectImage(this));
 
     }

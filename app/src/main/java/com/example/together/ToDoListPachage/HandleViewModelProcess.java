@@ -195,6 +195,7 @@ public class HandleViewModelProcess {
                         customProgressDialog.show();
                         userViewModel.getToDoListTasks(s.getGroup(boardFragment.getContext()).getGroupID(), st.getToken()).observe(boardFragment, toDoListTask -> {
 
+
                             if (toDoListTask != null) {
                                 boardFragment.toDoList = toDoListTask;
                                 boardFragment.toDoListAdapter.setList(toDoListTask);

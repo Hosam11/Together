@@ -3,13 +3,16 @@ package com.example.together.data.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.example.together.data.model.Group;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.User;
 import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.together.utils.HelperClass.ID;
+import static com.example.together.utils.HelperClass.INTEREST_DEFULT;
+import static com.example.together.utils.HelperClass.INTEREST_FILE;
+import static com.example.together.utils.HelperClass.INTEREST_OBJECT;
 import static com.example.together.utils.HelperClass.NO_GROUP_DEFULT;
 import static com.example.together.utils.HelperClass.NO_USER;
 import static com.example.together.utils.HelperClass.PASSED_GROUP_FILE;
@@ -140,6 +143,32 @@ public class Storage {
         editor.clear();
         editor.apply();
 
+    }
+
+    public void saveInterest(Interest interest, Context context) {
+        sharedPreferences = context.getSharedPreferences(INTEREST_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(interest);
+        prefsEditor.putString(INTEREST_OBJECT, json);
+        prefsEditor.apply();
+    }
+
+    public Interest getInterest(Context context) {
+        sharedPreferences = context.getSharedPreferences(INTEREST_FILE, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(INTEREST_OBJECT, INTEREST_DEFULT);
+        return gson.fromJson(json, Interest.class);
+    }
+
+    public void saveKeyword(String keyword, Context context) {
+        sharedPreferences = context.getSharedPreferences("keyword", MODE_PRIVATE);
+        sharedPreferences.edit().putString("keyword",keyword);
+    }
+
+    public String getKeyword(Context context) {
+        sharedPreferences = context.getSharedPreferences("keyword", MODE_PRIVATE);
+        return sharedPreferences.getString("keyword",null);
     }
 }
 

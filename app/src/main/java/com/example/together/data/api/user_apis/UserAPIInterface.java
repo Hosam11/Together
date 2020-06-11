@@ -48,6 +48,7 @@ public interface UserAPIInterface {
     @GET("interest")
     Call<ArrayList<Interest>> getAllInterests();
 
+
     @GET("show/{groupid}")
     Call<Group> getSpecificGroupDetails(@Path("groupid") int groupid,
                                                @Header("Authorization") String header);
@@ -73,5 +74,12 @@ public interface UserAPIInterface {
                                  @Header("Authorization") String token);
 
 
+
+    //update user device token
+    @POST("users/{id}/devicetoken")
+    Call<GeneralResponse> updateDeviceToken(@Path("id") int id,
+                                            @Header("Authorization") String token,
+                                            @Body String deviceToken
+    );
 
 }

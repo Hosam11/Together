@@ -29,7 +29,6 @@ public class HelperClass {
     public static final String ALERT = "Alert!";
 
 
-
     // Shared Prefernces consts
     public static final String USER_DATA = "user_data";
     public static final String PASSED_USER = "pass_user";
@@ -48,6 +47,9 @@ public class HelperClass {
     public static final String SAVED_USER_NAME_FILE = "user_name_file";
     public static final String SAVED_USER_NAME_DEFAULT = "user_name_default";
 
+    public static final String MSG_ID = "msg_id";
+    public static final String MSG_DELETED_SUCCUESS =  "This messge deleted successfully";
+
     // Chat consts
     /*
     "name
@@ -61,10 +63,6 @@ public class HelperClass {
     public static final String GROUP_ID  = "group_id";
     public static final String IS_SEND  = "isSent";
     public static final String IS_STORED_MESSAGE  = "is_stored_msg";
-    public static final String MSG_ID = "msg_id";
-    public static final String MSG_DELETED_SUCCUESS =  "This messge deleted successfully";
-
-
     // backend consts
     public static final String SING_UP_SUCCESS = "Signed up Successfully";
     public static final String PAID = "Paid";
@@ -94,7 +92,9 @@ public class HelperClass {
     public static final String UPDATE_GROUP_SUCCESS = "updated successfully";
     public static final String GROUP_TITLE_EXITS= "This title already exist";
 
-
+    public static final String INTEREST_FILE = "interest_file";
+    public static final String INTEREST_OBJECT = "interest_object";
+    public static final String INTEREST_DEFULT = "other";
 
 
     public static void showAlert(String description, String msg, Context context) {

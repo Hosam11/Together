@@ -18,5 +18,4 @@ public class TaskTouchListener implements View.OnTouchListener {
                 return false;
             }
         }
-
 }
