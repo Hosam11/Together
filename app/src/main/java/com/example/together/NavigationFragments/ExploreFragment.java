@@ -117,6 +117,7 @@ public class ExploreFragment extends Fragment {
     private void search(String word){
         Log.i("search", "search: "+word.length()+(word==null));
         if(!word.isEmpty()) {
+
             new Storage().saveKeyword(word, getActivity());
             Intent intent = new Intent(getActivity(), SearchResultActivity.class);
             startActivity(intent);
