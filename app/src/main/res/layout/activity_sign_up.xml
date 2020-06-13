@@ -99,7 +99,7 @@
 
             <EditText
                 android:id="@+id/name_et"
-                android:text="hos"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="19dp"
@@ -112,6 +112,7 @@
                 android:paddingLeft="18dp"
                 android:paddingBottom="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
+                android:maxLength="100"
 
 
                 />
@@ -135,7 +136,7 @@
 
 
             <EditText
-                android:text="hos@h.com"
+                android:text=""
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,6 +150,8 @@
                 android:paddingLeft="18dp"
                 android:paddingBottom="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
+                android:maxLength="100"
+
 
 
 
@@ -174,7 +177,7 @@
 
 
             <EditText
-                android:text="123456"
+                android:text=""
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,6 +191,8 @@
                 android:paddingLeft="18dp"
                 android:paddingBottom="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
+                android:maxLength="100"
+
 
 
 
@@ -228,7 +233,9 @@
                 android:editable="false"
                 android:clickable="true"
                 android:focusable="false"
-                
+                android:maxLength="100"
+
+
 
                 />
             <View
@@ -273,6 +280,8 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:layout_weight=".8"
+                    android:maxLength="100"
+
 
                     />
 

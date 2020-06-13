@@ -38,6 +38,8 @@ import com.example.together.view_model.UsersViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -125,11 +127,11 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         etErrorDuration = findViewById(R.id.et_show_error_duration);
         tvAddImg = findViewById(R.id.tv_add_image);
         groupImg = findViewById(R.id.iv_group_img);
-        groupImg.setOnClickListener(v -> {
-            // TODO reomve that when finishing
-            Intent testApis = new Intent(this, TestApis.class);
-            startActivity(testApis);
-        });
+//        groupImg.setOnClickListener(v -> {
+//            // TODO reomve that when finishing
+//            Intent testApis = new Intent(this, TestApis.class);
+//            startActivity(testApis);
+//        });
 
 
         FixedDBValues dbValues = new FixedDBValues();
@@ -247,14 +249,20 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         gpInterest = interestSpinner.getSpItemSelected();
         gpLevel = levelsSpinner.getSpItemSelected();
         gpLocation = locationSpinner.getSpItemSelected();
+        Toast.makeText(getApplicationContext(),gpLocation,Toast.LENGTH_LONG).show();
 
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
-            valid = false;
-        } else {
+            vaild = false;
+        }
+        else if(gpName.length()<3){
+            etGroupName.setError("Min 3 letters");
+            vaild = false;
+        }
+        else {
             etGroupName.setError(null);
         }
         // Group Desc
@@ -279,10 +287,14 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             spLevels.setError(null);
         }
         // Group Member
-        if (maxMemberNumber <= 1) {
-            etErrorMember.setError("atleast 2 members");
-            valid = false;
-        } else {
+        if (maxMemberNumber <= 1 ) {
+            etErrorMember.setError("At least 2 members");
+            vaild = false;
+        } else if (maxMemberNumber>200){
+            etErrorMember.setError("Max is 200");
+            vaild=false;
+        }
+        else {
             etErrorMember.setError(null);
         }
         // Group Duration

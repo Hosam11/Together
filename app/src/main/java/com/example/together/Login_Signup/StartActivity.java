@@ -57,4 +57,12 @@ public class StartActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+
+        System.exit(0);
+
+    }
 }

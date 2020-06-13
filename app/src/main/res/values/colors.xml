@@ -17,4 +17,6 @@
     <color name="black">#000000</color>
     <color name="baseColor">#1278da</color>
     <color name="primaryColor">#1177da</color>
+    <color name="light_gray">#C1FFFFFF</color>
+
 </resources>

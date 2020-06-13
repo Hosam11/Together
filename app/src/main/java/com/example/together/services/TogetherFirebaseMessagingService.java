@@ -1,5 +1,6 @@
 package com.example.together.services;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class TogetherFirebaseMessagingService extends FirebaseMessagingService {
         usersViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(UsersViewModel.class);
     }
 
+    @SuppressLint("WrongThread")
     @Override
     public void onNewToken(@NonNull String newToken) {
         super.onNewToken(newToken);
