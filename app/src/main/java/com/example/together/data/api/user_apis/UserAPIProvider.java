@@ -153,15 +153,25 @@ public class UserAPIProvider {
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.i(TAG, "UserAPIProvider -- onResponse: fetchUserData() body >> "
                         + response.body());
+                Log.i("Code","s"+response.code());
+                if(response.code()==200) {
+                    userData.setValue(response.body());
+                }
+                else {
 
-                userData.setValue(response.body());
+                    userData.setValue(new User(500));
+                }
+
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+
                 userData.setValue(null);
                 t.printStackTrace();
-                Log.d(TAG, "onFailure: errMsg " + t.getMessage());
+
+
+
                 call.cancel();
 
             }

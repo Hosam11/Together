@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -223,25 +224,30 @@ public class ProfileFragment extends Fragment implements
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     if (userData != null) {
-                        Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-                        hideShimmer();
-                        user = userData;
+                        if(userData.getCode()==500){
 
-                        nameTv.setText(userData.getName());
-                        emailTv.setText(userData.getEmail());
-                        addressEt.setText(userData.getAddress());
-                        dateEt.setText(userData.getBirthDate());
-                        genderEt.setText(userData.getGender());
+                            Toast.makeText(getContext(),"SEEMS TO Be Un a",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
+                            hideShimmer();
+                            user = userData;
 
-                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
-                                .user_image).into(profileImage);
+                            nameTv.setText(userData.getName());
+                            emailTv.setText(userData.getEmail());
+                            addressEt.setText(userData.getAddress());
+                            dateEt.setText(userData.getBirthDate());
+                            genderEt.setText(userData.getGender());
+
+                            Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                    .user_image).into(profileImage);
 
 
-                        displayInterests(userData.getInterests());
+                            displayInterests(userData.getInterests());
 
 
-                        CustomProgressDialog.getInstance(getContext()).cancel();
-
+                            CustomProgressDialog.getInstance(getContext()).cancel();
+                          }
                     } else {
                         HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();

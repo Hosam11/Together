@@ -204,10 +204,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
             Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
             messages.remove(position);
             MessageAdapter.this.notifyDataSetChanged();
+            CustomProgressDialog.getInstance(context).cancel();
+
         } else {
+            CustomProgressDialog.getInstance(context).cancel();
             Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
+
+
         }
-        CustomProgressDialog.getInstance(context).cancel();
 
     }
 
