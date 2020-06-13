@@ -12,13 +12,24 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
+import com.example.together.data.model.ChatResponse;
+import com.example.together.data.model.Group;
+import com.example.together.data.storage.Storage;
+import com.example.together.utils.HelperClass;
+import com.example.together.view_model.GroupViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,22 +37,25 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
+import static com.example.together.utils.HelperClass.GROUP_ID;
+import static com.example.together.utils.HelperClass.IS_SEND;
 import static com.example.together.utils.HelperClass.TAG;
 
 
 public class ChatFragment extends Fragment implements TextWatcher {
 
-    private String name1 = "amr";
-    private String name2 = "may";
-
-    private String name;
-
+    final String TAG2 = "lifecycle";
+    List<JSONObject> messagesJsonList;
+    private Storage userStorage;
+    private Storage commonStorage;
+    private GroupViewModel groupViewModel;
     private WebSocket webSocket;
     private String SERVER_PATH = "ws://192.168.1.7:3000";
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
     private int IMAGE_REQUEST_ID = 1;
+    private Group savedGroup;
     private MessageAdapter messageAdapter;
 
 
@@ -54,25 +68,136 @@ public class ChatFragment extends Fragment implements TextWatcher {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG2, "##ChatFragment -- onCreateView: ");
+        View view = inflater.inflate(R.layout.activity_chat, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        messagesJsonList = new ArrayList<>();
+
+        userStorage = new Storage(Objects.requireNonNull(getContext()));
+
+        commonStorage = new Storage();
+        savedGroup = commonStorage.getGroup(getContext());
+        Log.i(TAG, "##ChatFragment -- onCreateView: gpID >> " + savedGroup.getGroupID());
+        groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+
+        initializeView(view);
+
+        if (HelperClass.checkInternetState(getContext())) {
+            CustomProgressDialog.getInstance(getContext()).show();
+            Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
+            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
+                    this::getChatMessagesObserve);
+        } else {
+            //   CustomProgressDialog.getInstance(this).cancel();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon,
+                    getContext());
+        }
 
         initiateSocketConnection();
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_chat, container, false);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG2, "##ChatFragment -- onStart: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG2, "onResume: ");
+        if (HelperClass.checkInternetState(getContext())) {
+            CustomProgressDialog.getInstance(getContext()).show();
+            Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
+            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
+                    this::getChatMessagesObserve);
+        } else {
+            //   CustomProgressDialog.getInstance(this).cancel();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon,
+                    getContext());
+        }
+        //  initiateSocketConnection();
+    }
+
+    /**
+     * Get chat messages every time fragment become vivible to user
+     * @param chatResponse
+     */
+    private void getChatMessagesObserve(ChatResponse chatResponse) {
+        messagesJsonList.clear();
+        for (ChatResponse.MessageContent msg : chatResponse.getChatMsgList()) {
+            Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: "
+                    + " @@ msgContent >> " + msg.getContent()
+                    + " @@ userName >> " + msg.getSender()
+                    + " @@ senderID >> " + msg.getSenderID()
+                    + " @@ msgID >>" + msg.getMsgID());
+
+            JSONObject msgJSONObj = new JSONObject();
+
+            try {
+                msgJSONObj.put(HelperClass.NAME, msg.getSender());
+                msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
+                msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
+                msgJSONObj.put(IS_SEND, userStorage.getId() == msg.getSenderID());
+//                msgJSONObj.put(IS_STORED_MESSAGE, userStorage.getId() == msg.getSenderID());
+                Log.i(TAG, "##ChatFragment --  getChatMessagesObserve: msgJSONObj >>  "
+                        + msgJSONObj.toString());
+                messagesJsonList.add(msgJSONObj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: messagesJsonList.size() >> " + messagesJsonList.size());
+        messageAdapter.setMessages(messagesJsonList);
+        if (!messagesJsonList.isEmpty()) {
+            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+        }
+        //  messageAdapter.notifyDataSetChanged();
+        CustomProgressDialog.getInstance(getContext()).cancel();
+
     }
 
     private void initiateSocketConnection() {
-        Log.i(TAG, "ChatFragment -- initiateSocketConnection()  # ");
+        Log.i(TAG, "##ChatFragment -- initiateSocketConnection()  # ");
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(SERVER_PATH).build();
         webSocket = client.newWebSocket(request, new SocketListener());
 
+
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG2, "##ChatFragment -- onPause: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG2, "onDestroyView: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG2, "onDestroy: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.i(TAG2, "onDetach: ");
     }
 
     @Override
@@ -90,31 +215,47 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
     }
 
-    private void initializeView() {
-        Log.i(TAG, "ChatFragment -- initializeView()  ");
+    private void initializeView(View view) {
+        Log.i(TAG, "##ChatFragment -- initializeView: ");
 
-        messageEdit = getActivity().findViewById(R.id.messageEdit);
+        messageEdit = view.findViewById(R.id.ed_type_msg);
 //        sendBtn = getActivity().findViewById(R.id.sendBtn);
 //        pickImgBtn = getActivity().findViewById(R.id.pickImgBtn);
 
-        recyclerView = getActivity().findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
 
-        messageAdapter = new MessageAdapter(getLayoutInflater());
+        messageAdapter = new MessageAdapter(getLayoutInflater(), getContext());
+
         recyclerView.setAdapter(messageAdapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+       /* messageAdapter.setMessages(messagesJsonList);
+        messageAdapter.notifyDataSetChanged();*/
+        //testDummyData();
 
 
         messageEdit.addTextChangedListener(this);
 
-        getActivity().findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
+        view.findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("name", name1);
-                jsonObject.put("message", messageEdit.getText().toString());
+                Log.i(TAG, "ChatFragment -- initializeView: " + "" +
+                        "@@ user id  >> " + userStorage.getId() +
+                        " -- @@ groupID >> " + commonStorage.getGroup(getContext()).getGroupID() +
+                        " -- @@ content >> " + messageEdit.getText().toString());
+
+                jsonObject.put(HelperClass.NAME, commonStorage.getUserName(getContext()));
+                jsonObject.put(HelperClass.MESSAGE, messageEdit.getText().toString());
+                jsonObject.put(HelperClass.USER_ID, userStorage.getId());
+                jsonObject.put(HelperClass.GROUP_ID, commonStorage.getGroup(getContext()).getGroupID());
+
+                //jsonObject.put("content", messageEdit.getText().toString());
 
                 webSocket.send(jsonObject.toString());
 
-                jsonObject.put("isSent", true);
+                jsonObject.put(IS_SEND, true);
+
                 messageAdapter.addItem(jsonObject);
 
                 recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
@@ -139,7 +280,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
     }
 
     private void resetMessageEdit() {
-
+        Log.i(TAG, "##ChatFragment -- resetMessageEdit: ");
         messageEdit.removeTextChangedListener(this);
 
         messageEdit.setText("");
@@ -154,6 +295,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
+            Log.i(TAG, "##ChatFragment -- onOpen: ");
             super.onOpen(webSocket, response);
 
             if (getActivity() != null) {
@@ -162,16 +304,17 @@ public class ChatFragment extends Fragment implements TextWatcher {
                 getActivity().runOnUiThread(() -> {
 
                     Toast.makeText(getActivity(),
-                            "Socket Connection Successful!",
+                            "Connected ",
                             Toast.LENGTH_SHORT).show();
 
-                    initializeView();
+                    //initializeView();
                 });
             } else {
                 Log.i(TAG, "SocketListener -- onOpen() getActivity() == null ");
             }
 
         }
+
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
@@ -184,11 +327,19 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
                     try {
                         JSONObject jsonObject = new JSONObject(text);
-                        jsonObject.put("isSent", false);
-
-                        messageAdapter.addItem(jsonObject);
-
-                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        jsonObject.put(IS_SEND, false);
+                        String msg = jsonObject.getString(GROUP_ID);
+                        // if recived message in that belong to your group
+                        if (msg.equals(String.valueOf(savedGroup.getGroupID()))) {
+                            Log.i(TAG, "onMessage: msg is in same group");
+                            messageAdapter.addItem(jsonObject);
+                            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        } else {
+                            Log.i(TAG, "onMessage: msg is not in same group");
+                        }
+                       /* messageAdapter.addItem(jsonObject);
+                        recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);*/
+                        Log.i(TAG, "onMessage: text received >> " + text);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

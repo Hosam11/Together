@@ -5,41 +5,46 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 public class JoinGroupResponse {
-
-    //TODO : refactor this name to request
-    /*
-        "id": 1,
-        "request_content": "this user asks to join this group",
-        "user_id": 3,
-        "group_id": 1,
-     */
     private int id;
+    private String content;
+    private String photo;
 
-    @SerializedName("user_id")
-    private int userID;
-
-    @SerializedName("group_id")
-    private int groupID;
-
-    @SerializedName("request_content")
-    private String reqContent;
-
-
-    public int getUserID() {
-        return userID;
+    public JoinGroupResponse(int id, String content, String photo) {
+        this.id = id;
+        this.content = content;
+        this.photo = photo;
     }
 
-    public int getGroupID() {
-        return groupID;
+
+    public int getId() {
+        return id;
     }
 
-    @NonNull
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
         return ("\nid: " + id +
-                "\nuserID: " + userID +
-                "\ngroupID: " + groupID +
-                "\nreqContent: " + reqContent);
+                "\nphoto: " + photo +
+                "\nreqContent: " + content);
     }
 }
 

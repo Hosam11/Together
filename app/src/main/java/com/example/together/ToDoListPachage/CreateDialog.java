@@ -98,9 +98,7 @@ public class CreateDialog extends AppCompatDialogFragment {
                 if (add.isEnabled() == true) {
                     String t = title.getText().toString();
                     String d = description.getText().toString();
-                    ListTask task = new ListTask(s.getGroup(boardFragment.getContext()).getAdminID(),boardFragment.storage.getId(),t,d,boardFragment.toDoList.size(),HelperClass.TODO);
-
-
+                    ListTask task = new ListTask(s.getGroup(boardFragment.getContext()).getGroupID(),boardFragment.storage.getId(),t,d,boardFragment.toDoList.size(),HelperClass.TODO);
                     boardFragment.addTask(task);
 
                     CreateDialog.this.dismissAllowingStateLoss();

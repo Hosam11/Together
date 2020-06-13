@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#f9f9f9"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
- <!--       <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_group_FAB"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"        android:layout_margin="16dp"
-            app:fabSize="normal"
-            app:backgroundTint="@color/majorColor"
-            app:elevation="10dp"
-            android:src="@drawable/ic_add_black_24dp"/>-->
+    <!--       <com.google.android.material.floatingactionbutton.FloatingActionButton
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/add_group_FAB"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"        android:layout_margin="16dp"
+               app:fabSize="normal"
+               app:backgroundTint="@color/majorColor"
+               app:elevation="10dp"
+               android:src="@drawable/ic_add_black_24dp"/>-->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,16 +57,36 @@
             android:layout_height="100dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:id="@+id/alert_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/you_don_t_have_any_group"
+            android:textAlignment="center"
+            android:textColor="@color/majorColor"
+            android:textSize="14dp"
+            />
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_groups_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f9f9f9" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_groups_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f9f9f9" />
     </RelativeLayout>
 
 

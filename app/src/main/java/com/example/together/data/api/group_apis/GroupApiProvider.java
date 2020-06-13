@@ -4,9 +4,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,7 +34,7 @@ public class GroupApiProvider {
      * declare {@link HttpLoggingInterceptor} , {@link OkHttpClient} {@link Retrofit}
      * and instantiate the {@link #groupAPIInterface} to calling the apis
      */
-    public GroupApiProvider() {
+    GroupApiProvider() {
         Log.i(TAG, "GroupApiProvider -- cons() ");
         // logs request and response information.
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
@@ -94,7 +96,8 @@ public class GroupApiProvider {
      *
      * @param gpId   group id that uer want to enter it
      * @param userId user that make the request
-     * @return {@link GeneralResponse} that tell user whether Request sent successfully or something else happened
+     * @return {@link GeneralResponse} that tell user whether Request sent successfully or
+     * group is full
      */
     MutableLiveData<GeneralResponse> requestJoinGroup(int gpId, int userId, String header) {
         MutableLiveData<GeneralResponse> resJoinGroup = new MutableLiveData<>();
@@ -121,7 +124,6 @@ public class GroupApiProvider {
     }
 
     /**
-     *
      * show all join request for a group
      *
      * @param groupId id for group that have request
@@ -137,7 +139,7 @@ public class GroupApiProvider {
             public void onResponse(Call<List<JoinGroupResponse>> call,
                                    Response<List<JoinGroupResponse>> res) {
 
-                Log.i(TAG, "GroupApiProvider  -- getAllResponsesForGroup() enqueue() a reqSize >> "
+                Log.i("aaa", "GroupApiProvider  -- getAllResponsesForGroup() enqueue() a reqSize >> "
                         + res.body().size());
                 groupResList.setValue(res.body());
             }
@@ -145,7 +147,7 @@ public class GroupApiProvider {
             @Override
             public void onFailure(Call<List<JoinGroupResponse>> call, Throwable t) {
                 t.printStackTrace();
-                Log.i(TAG, "onFailure: " + t.getMessage());
+                Log.i("aaa", "onFailure: " + t.getMessage());
                 call.cancel();
             }
         });
@@ -203,10 +205,12 @@ public class GroupApiProvider {
         Call<GeneralResponse> callUpdateGroup = groupAPIInterface.updateGroupInfo(gpID, adminID,
                 group, BEARER_HEADER + token);
 
+        Log.i(TAG, "GroupApiProvider  -- updateGroupInfo() a group >> " + group);
+
         callUpdateGroup.enqueue(new Callback<GeneralResponse>() {
             @Override
             public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
-                Log.i(TAG, "GroupApiProvider  -- addGroupMember() enqueue() a body >> "
+                Log.i(TAG, "GroupApiProvider  -- updateGroupInfo() enqueue() a body >> "
                         + res.body());
                 resUpdateGroup.setValue(res.body());
             }
@@ -260,6 +264,7 @@ public class GroupApiProvider {
 
     /**
      * reject join to exists group
+     *
      * @param reqID reqID request id for request for joining the group
      * @param token used in header of request as authoritarian
      * @return {@link GeneralResponse} response whether that request fail or success
@@ -293,9 +298,10 @@ public class GroupApiProvider {
 
     /**
      * check whether user in the group or not or waitting from admin to accept invitation method
+     *
      * @param gpID   group id that user make request on it
      * @param userID user that will make request with him
-     * @param token used in header of request as authoritarian
+     * @param token  used in header of request as authoritarian
      * @return {@link GeneralResponse} reponse tell us status
      */
     MutableLiveData<GeneralResponse> userRequestJoinStatus(int gpID, int userID, String token) {
@@ -323,5 +329,62 @@ public class GroupApiProvider {
         return reqJoinStatus;
     }
 
+    /**
+     * get all Messages for chat of certian group
+     *
+     * @param gpID group id that you want to get chat of it
+     * @return {@link ChatResponse} that carry details of each message
+     */
+    MutableLiveData<ChatResponse> getChatMessages(int gpID,String token) {
+        MutableLiveData<ChatResponse> messagesRes = new MutableLiveData<>();
+
+        Call<ChatResponse> chatCall = groupAPIInterface.getChatMessages(gpID,
+                BEARER_HEADER + token);
+
+        chatCall.enqueue(new Callback<ChatResponse>() {
+            @Override
+            public void onResponse(Call<ChatResponse> call, Response<ChatResponse> res) {
+                Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
+                        + res.body().getChatMsgList().size());
+                messagesRes.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<ChatResponse> call, Throwable t) {
+                t.printStackTrace();
+                Log.i(TAG, "GroupApiProvider --  getChatMessages() onFailure: " +
+                        t.getMessage());
+                call.cancel();
+
+            }
+        });
+        return messagesRes;
+    }
+
+    MutableLiveData<GeneralResponse> deleteChatMsg (int msgID, int adminID, String token) {
+        MutableLiveData<GeneralResponse> deleteMsgData = new MutableLiveData<>();
+
+        Call<GeneralResponse> callDeleteMsg = groupAPIInterface.deleteChatMsg(msgID, adminID,
+                BEARER_HEADER + token);
+        callDeleteMsg.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> res) {
+                Log.i(TAG, "GroupApiProvider  -- deleteChatMsg() enqueue() a body >> "
+                        + res.body());
+                deleteMsgData.setValue(res.body());
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                GeneralResponse generalRes = new GeneralResponse();
+                generalRes.response = t.getMessage();
+                deleteMsgData.setValue(generalRes);
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+
+        return deleteMsgData;
+    }
 }
 

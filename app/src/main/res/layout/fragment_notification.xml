@@ -5,70 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f9f9f9"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:id="@+id/add_group_FAB"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"        android:layout_margin="16dp"-->
-    <!--        app:fabSize="normal"-->
-    <!--        app:backgroundTint="@color/majorColor"-->
-    <!--        app:elevation="10dp"-->
-    <!--        android:src="@drawable/ic_add_black_24dp"/>-->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="10"
-        >
+        android:weightSum="10">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="10"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notification"
-                android:textSize="22sp"
-                android:textColor="#000000"
-                android:layout_marginLeft="22dp"
-                android:layout_marginTop="22dp"/>
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Here is your notifications"
-                android:textSize="13sp"
-                android:textColor="#000000"
-                android:layout_marginTop="6dp"
                 android:layout_marginLeft="22dp"
-                />
+                android:layout_marginTop="22dp"
+                android:text="Notification"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="6dp"
+                android:text="Here is your notifications"
+                android:textColor="#000000"
+                android:textSize="13sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include
-            layout="@layout/toggle_button_layout"
             android:id="@+id/includedLayout"
-            android:layout_height="100dp"
+            layout="@layout/toggle_button_layout"
             android:layout_width="80dp"
-            android:layout_marginBottom="14dp"
-            />
+            android:layout_height="100dp"
+            android:layout_marginBottom="14dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notification_rv"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f9f9f9
+        android:layout_height="match_parent">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notification_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f9f9f9
 
 " />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/alert_tv"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/you_don_t_have_any_notification_to_be_displayed"
+            android:textAlignment="center"
+            android:textColor="@color/majorColor"
+            android:textSize="14dp"
+            android:visibility="gone"
+
+            />
+
+        <ProgressBar
+            android:id="@+id/loadingProgressPar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5sp" />
+    </RelativeLayout>
 
 
 </LinearLayout>

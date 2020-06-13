@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,16 +41,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.ListTask;
 import com.example.together.data.storage.Storage;
@@ -78,11 +78,13 @@ public class BoardFragment extends Fragment {
     ArrayList<ListTask> doingList = new ArrayList<>();
     ArrayList<ListTask> doneList = new ArrayList<>();
     Storage storage;
+    Storage storageForUserID;
     HandleViewModelProcess handleViewModelProcess;
     GetAddTaskButton getAddTaskButton;
     private int mColumns;
     private boolean mGridLayout;
     CreateDialog dialog;
+    boolean isAdmin = false;
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -93,9 +95,9 @@ public class BoardFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         storage = new Storage(Objects.requireNonNull(getContext()));
+        storageForUserID=new Storage();
         handleViewModelProcess = new HandleViewModelProcess(userViewModel, this);
-
-
+        checkIsAdmin();
     }
 
     @Override
@@ -220,23 +222,38 @@ public class BoardFragment extends Fragment {
 
             }
         });
-        mBoardView.setBoardCallback(new BoardView.BoardCallback() {
-            @Override
-            public boolean canDragItemAtPosition(int column, int dragPosition) {
-                if (HelperClass.checkInternetState(getContext()))
-                    return true;
-                else {
-                    HelperClass.showAlert("Error", "Please check your internet connection", getContext());
+        if(isAdmin) {
+            mBoardView.setBoardCallback(new BoardView.BoardCallback() {
+                @Override
+                public boolean canDragItemAtPosition(int column, int dragPosition) {
+                    if (HelperClass.checkInternetState(getContext()))
+                        return true;
+                    else {
+                        HelperClass.showAlert("Error", "Please check your internet connection", getContext());
 
+                        return false;
+                    }
+                }
+
+                @Override
+                public boolean canDropItemAtPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
+                    return true;
+                }
+            });
+        }
+        else {
+            mBoardView.setBoardCallback(new BoardView.BoardCallback() {
+                @Override
+                public boolean canDragItemAtPosition(int column, int dragPosition) {
+                        return false;
+                }
+
+                @Override
+                public boolean canDropItemAtPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
                     return false;
                 }
-            }
-
-            @Override
-            public boolean canDropItemAtPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-                return true;
-            }
-        });
+            });
+        }
 
 
         return view;
@@ -250,6 +267,7 @@ public class BoardFragment extends Fragment {
         addTask = getAddTaskButton.getAddTask();
         b = getAddTaskButton.getProgressBar();
         percentageView = getAddTaskButton.getPercentageView();
+
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -511,6 +529,20 @@ public class BoardFragment extends Fragment {
         super.onPause();
         if (dialog != null) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       checkIsAdmin();
+    }
+
+    public void checkIsAdmin(){
+        int adminID=storageForUserID.getGroup(getContext()).getAdminID();
+        int userId = storage.getId();
+        if(adminID==userId){
+            isAdmin=true;
         }
     }
 }

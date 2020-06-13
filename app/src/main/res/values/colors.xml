@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#1177da</color>
     <color name="majorColor">#1177da</color>
 <!--    <color name="majorColor">#131a24</color>-->
     <color name="white">#FFFFFFFF</color>
@@ -10,6 +10,9 @@
     <color name="list_item_background">#AACCCCCC</color>
     <color name="app_color">#00000000</color>
     <color name="backgroundColor">#f9f9f9</color>
+    <color name="red">#FFFF4858</color>
+    <color name="green">#FF4DBA52</color>
+    <color name="yellow">#DCC400</color>
 
     <color name="black">#000000</color>
     <color name="baseColor">#1278da</color>

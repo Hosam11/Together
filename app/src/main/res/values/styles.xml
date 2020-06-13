@@ -20,15 +20,15 @@
 <!--        <item name="tabMaxWidth">@dimen/tab_max_width</item>-->
         <item name="tabIndicatorColor">@color/majorColor</item>
         <item name="tabIndicatorHeight">38dp</item>
-        <item name="tabPaddingStart">6dp</item>
-        <item name="tabPaddingEnd">6dp</item>
+ <!--       <item name="tabPaddingStart">6dp</item>
+        <item name="tabPaddingEnd">6dp</item>-->
         <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/primaryColor</item>
     </style>
 
     <!-- for text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/list_item_background</item>
         <item name="textAllCaps">false</item>
     </style>
@@ -44,12 +44,15 @@
         <item name="android:lineSpacingExtra">-6sp</item>
     </style>
 
+<!--    android:textCursorDrawable="@drawable/cursor_color"-->
+
     <style name="create_group_common_et">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">18dp</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:background">#f9f9f9</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
 <!--        <item name="android:layout_marginBottom">31dp</item>-->
         <item name="android:padding">12dp</item>
     </style>

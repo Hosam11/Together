@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.together.data.api.UserRepo;
 import com.example.together.data.model.GeneralResponse;
-import com.example.together.data.model.Interests;
+import com.example.together.data.model.Interest;
 import com.example.together.data.model.ListTask;
 
 import java.util.ArrayList;
@@ -25,61 +25,7 @@ public class UserViewModel extends ViewModel {
     private MutableLiveData<GeneralResponse> editTaskResp;
     private MutableLiveData<GeneralResponse> sendPositionArrangmentResp;
 
-
-
-    private  MutableLiveData<ArrayList<Interests>> allInterestsList;
-
-
     private UserRepo userRepo = new UserRepo();
-
-
-
-
-//    public MutableLiveData<GeneralResponse> updateUserProfile(int id, String token,User user) {
-//       return userRepo.updateUserProfile(id, token,user);
-//
-//    }
-
-//    public MutableLiveData<GeneralResponse> updateUserInterests(int id,String token, UserInterests interests) {
-//        return userRepo.updateUserInterests(id,token,interests);
-//
-//    }
-//
-//
-//    public  MutableLiveData<ArrayList<UserGroup>> getAllUserGroups(int userId, String token){
-//        userGroups=userRepo.getAllUserGroups(userId,token);
-//        return  userGroups;
-//
-//
-//    }
-//    public  MutableLiveData<ArrayList<Interests>> getAllInterests(){
-//        allInterestsList=userRepo.getAllInterests();
-//        return  allInterestsList;
-//    }
-//
-//    public MutableLiveData<GroupDetails> getSpecificGroupDetails(int groupId,String token){
-//
-//        return userRepo.getSpecificGroupDetails(groupId,token);
-//    }
-//    public MutableLiveData<GeneralResponse> removeMemberFromGroup(int groupId,int id,int adminId,String header) {
-//
-//    return  userRepo.removeMemberFromGroup(groupId, id,adminId ,header);
-//    }
-//
-
-
-//    ///LEAVE GROUP
-//    public MutableLiveData<GeneralResponse> leaveGroup(int groupId,int id,String token) {
-//
-//    return userRepo.leaveGroup(groupId, id, token);
-//
-//    }
-//    public MutableLiveData<GeneralResponse> logout(int id){
-//        return userRepo.logout(id);
-//
-//
-//    }
-
 
 
     public MutableLiveData<GeneralResponse> addTask(ListTask task, String token){

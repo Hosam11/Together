@@ -1,87 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/group_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginLeft="22dp"
+    android:layout_marginTop="22dp"
+    android:layout_marginRight="22dp"
+    android:padding="10dp"
     card_view:cardCornerRadius="20dp"
-
+    card_view:cardElevation="0dp"
+    android:foreground="?android:selectableItemBackground"
     >
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/group_card"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
 
-        <!-- Media -->
-        <ImageView
-            android:id="@+id/group_image"
-            android:layout_width="match_parent"
-            android:layout_height="194dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_img"
-            />
+        >
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:weightSum="10"
 
-            <!-- Title, secondary and supporting text -->
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+
+            >
+
+            <!-- Media -->
+
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
+
+
                 >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    card_view:cardElevation="0dp"
+                    card_view:cardCornerRadius="5dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+
+                    >
+
+                    <ImageView
+                        android:id="@+id/group_image"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/group_image"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+
+                >
+
+
                 <TextView
                     android:id="@+id/group_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Learn Android"
-                    android:textColor="@color/majorColor"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textSize="25dp"
-                    android:layout_weight="10"
+                    android:textColor="#0f75d8"
+                    android:textSize="23sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
                     />
 
-                <Button
-                    android:id="@+id/Popup_Menu"
-                    android:layout_width="23dp"
-                    android:layout_height="33dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
+                <TextView
+                    android:id="@+id/group_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="3dp"
+                    android:maxLines="2"
+                    android:text="Hello it is me What do you want from me rithy hey bro startghf"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/group_expiration_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="1"
+                        android:text="Warning: "
+                        android:textColor="#FA4141"
+                        android:textStyle="bold"
+
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="1"
+                        android:text="Expiration is soon"
+                        android:textColor="#FA4141"
+
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
 
-                    android:background="@null"
-                    android:clickable="true"
-                    android:drawableLeft="@drawable/ic_more_vert_black_24dp"
-                    android:foreground="?selectableItemBackground" />
+            </LinearLayout>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- Buttons -->
 
 
-            <TextView
-                android:id="@+id/group_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="We are groups that does some thing in some time and try"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="15dp"
-
-                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        </LinearLayout>
-
-        <!-- Buttons -->
-
-
-    </LinearLayout>
-
-
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

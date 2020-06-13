@@ -49,6 +49,8 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
     int columnNumber;
     BoardFragment boardFragment;
     Storage storage;
+    boolean isAdmin=false;
+    Storage storageForUserID;
 
     public void setList(ArrayList<ListTask> list) {
         this.list = list;
@@ -64,8 +66,10 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         this.boardFragment=boardFragment;
         this.
         storage = new Storage(Objects.requireNonNull(context));
+        storageForUserID = new Storage();
         this.columnNumber=columnNumber;
         setItemList(list);
+        checkIsAdmin();
     }
 
     @NonNull
@@ -81,52 +85,57 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         holder.title.setText(mItemList.get(position).getTitle());
         holder.description.setText(mItemList.get(position).getDescription());
         holder.itemView.setTag(mItemList.get(position));
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (HelperClass.checkInternetState(context)){
-                    CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
-                    customProgressDialog.show();
-                    UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
-                userViewModel.deleteTask(list.get(position).getId(), storage.getToken()).observe(boardFragment, deleteTaskresp -> {
-                    if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
-                        Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
-                        customProgressDialog.cancel();
-                        list.remove(position);
-                        ItemAdapter.this.notifyDataSetChanged();
-                        boardFragment.rearrangeList(list);
-                        boardFragment.handleViewModelProcess.sendPositionArrangment(list);
-                        boardFragment.handleViewModelProcess.setProgressSize();
-                        boardFragment.handleViewModelProcess.updateHeader(columnNumber);
+        if(isAdmin) {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (HelperClass.checkInternetState(context)) {
+                        CustomProgressDialog customProgressDialog = new CustomProgressDialog(boardFragment.getContext());
+                        customProgressDialog.show();
+                        UserViewModel userViewModel = new ViewModelProvider(boardFragment).get(UserViewModel.class);
+                        userViewModel.deleteTask(list.get(position).getId(), storage.getToken()).observe(boardFragment, deleteTaskresp -> {
+                            if (deleteTaskresp.response.equals(HelperClass.deleteTaskSuccess)) {
+                                Toast.makeText(context, HelperClass.deleteTaskSuccess, Toast.LENGTH_SHORT).show();
+                                customProgressDialog.cancel();
+                                list.remove(position);
+                                ItemAdapter.this.notifyDataSetChanged();
+                                boardFragment.rearrangeList(list);
+                                boardFragment.handleViewModelProcess.sendPositionArrangment(list);
+                                boardFragment.handleViewModelProcess.setProgressSize();
+                                boardFragment.handleViewModelProcess.updateHeader(columnNumber);
+
+                            } else {
+                                customProgressDialog.cancel();
+                                HelperClass.showAlert("Error", "", context);
+
+                            }
+
+                        });
 
                     } else {
-                        customProgressDialog.cancel();
-                        HelperClass.showAlert("Error","",context);
+                        HelperClass.showAlert("Error", "Please check your internet connection", context);
+                    }
+                }
+
+            });
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (HelperClass.checkInternetState(context)) {
+                        CreateDialog editDialoge = new CreateDialog("editTask", ItemAdapter.this, position, list.get(position).getId());
+                        editDialoge.show(((AppCompatActivity) ItemAdapter.this.context).getSupportFragmentManager(), "example");
+                    } else {
+                        HelperClass.showAlert("Error", "Please check your internet connection", context);
 
                     }
-
-                });
-
-            }
-                else{
-                    HelperClass.showAlert("Error","Please check your internet connection",context);
                 }
-                }
-
-        });
-        holder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(HelperClass.checkInternetState(context)) {
-                    CreateDialog editDialoge = new CreateDialog("editTask", ItemAdapter.this, position, list.get(position).getId());
-                    editDialoge.show(((AppCompatActivity) ItemAdapter.this.context).getSupportFragmentManager(), "example");
-                }
-                else {
-                    HelperClass.showAlert("Error","Please check your internet connection",context);
-
-                }
-            }
-        });
+            });
+        }
+        else
+        {
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -181,5 +190,12 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
        else {
            HelperClass.showAlert("Error","Please check your internet connection",context);
        }
+    }
+    public void checkIsAdmin(){
+        int adminID=storageForUserID.getGroup(context).getAdminID();
+        int userId = storage.getId();
+        if(adminID==userId){
+            isAdmin=true;
+        }
     }
 }
