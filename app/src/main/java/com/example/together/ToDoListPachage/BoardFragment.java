@@ -36,7 +36,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,6 +84,8 @@ public class BoardFragment extends Fragment {
     private boolean mGridLayout;
     CreateDialog dialog;
     boolean isAdmin = false;
+    CreateDialog adapterDialog;
+
 
     public static BoardFragment newInstance() {
         return new BoardFragment();
@@ -186,8 +187,7 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onItemChangedPosition(int oldColumn, int oldRow, int newColumn, int newRow) {
-                Toast.makeText(mBoardView.getContext(), "Position changed - column: " + newColumn + " row: " + newRow, Toast.LENGTH_SHORT).show();
-                Log.i("mahmoud", "onItemChangedPosition: " + toDoList.size());
+
 
             }
 
@@ -364,19 +364,7 @@ public class BoardFragment extends Fragment {
         final View header = View.inflate(getActivity(), R.layout.column_header, null);
         ((TextView) header.findViewById(R.id.text)).setText(columnName);
         ((TextView) header.findViewById(R.id.item_count)).setText("" + mItemArray.size());
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long id = sCreatedItems++;
-                Pair item = new Pair<>(id, "Test " + id);
-                mBoardView.addItem(mBoardView.getColumnOfHeader(v), 0, item, true);
-                //mBoardView.moveItem(4, 0, 0, true);
-                //mBoardView.removeItem(column, 0);
-                //mBoardView.moveItem(0, 0, 1, 3, false);
-                //mBoardView.replaceItem(0, 0, item1, true);
-                ((TextView) header.findViewById(R.id.item_count)).setText(String.valueOf(mItemArray.size()));
-            }
-        });
+
         LinearLayoutManager layoutManager = mGridLayout ? new GridLayoutManager(getContext(), 4) : new LinearLayoutManager(getContext());
         ColumnProperties columnProperties = ColumnProperties.Builder.newBuilder(listAdapter)
                 .setLayoutManager(layoutManager)
@@ -529,6 +517,9 @@ public class BoardFragment extends Fragment {
         super.onPause();
         if (dialog != null) {
             dialog.dismiss();
+        }
+        if(adapterDialog!=null){
+            adapterDialog.dismiss();
         }
     }
 

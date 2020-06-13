@@ -37,7 +37,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_gravity="center"
           android:layout_marginTop="10dp"
-            android:text="Mohamed Saad Mahmoud "
+            android:text=""
             android:textStyle="bold"
             android:textColor="@color/majorColor"
             />

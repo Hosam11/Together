@@ -20,7 +20,7 @@
     android:background="@android:color/white">
 
     <com.woxthebox.draglistview.sample.MySwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+        android:id="@+id/swipe_refresh_layout_m"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

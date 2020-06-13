@@ -123,7 +123,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
             groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
         } else {
-            //   CustomProgressDialog.getInstance(this).cancel();
+            //  CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon,
                     getContext());
         }
