@@ -19,8 +19,23 @@ public class User implements Serializable {
         "address": "asdsd"
     }
      */
+
+
     public String response;
     private  int id;
+int code;
+
+    public User(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     @SerializedName("photo")
     public String image;

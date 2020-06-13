@@ -112,6 +112,7 @@
                 android:paddingLeft="18dp"
                 android:paddingBottom="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
+                android:maxLength="255"
 
 
                 />
@@ -149,6 +150,8 @@
                 android:paddingLeft="18dp"
                 android:paddingBottom="16dp"
                 android:textCursorDrawable="@drawable/cursor_color"
+                android:maxLength="255"
+
 
 
 
@@ -228,7 +231,9 @@
                 android:editable="false"
                 android:clickable="true"
                 android:focusable="false"
-                
+                android:maxLength="255"
+
+
 
                 />
             <View
