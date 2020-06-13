@@ -42,6 +42,7 @@ public class ExploreFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_explore,container,false);
         gridView = fragmentView.findViewById(R.id.categories);
         searchEditText = fragmentView.findViewById(R.id.search);
+
         //searchEditText.
         searchEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
