@@ -50,7 +50,9 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private Storage commonStorage;
     private GroupViewModel groupViewModel;
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://192.168.1.3:3000";
+    private String SERVER_PATH = "ws://192.168.1.4:3000";
+
+
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
@@ -121,7 +123,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
             groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
         } else {
-            //   CustomProgressDialog.getInstance(this).cancel();
+            //  CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon,
                     getContext());
         }
