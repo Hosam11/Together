@@ -85,7 +85,7 @@
             <!-- Group Created on Title -->
             <TextView
                 style="@style/view_group_title"
-                android:text="Duration " />
+                android:text="Duration (Week)" />
             <!-- Group Created on content -->
             <TextView
                 android:id="@+id/tv_view_gp_duration"

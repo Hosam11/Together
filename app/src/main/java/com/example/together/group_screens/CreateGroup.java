@@ -38,6 +38,8 @@ import com.example.together.view_model.UsersViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -264,7 +266,13 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
             vaild = false;
-        } else {
+
+        }
+        else if(gpName.length()<3){
+            etGroupName.setError("Min 3 letters");
+            vaild = false;
+        }
+        else {
             etGroupName.setError(null);
         }
         // Group Desc
@@ -290,10 +298,15 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             spLevels.setError(null);
         }
         // Group Member
-        if (maxMemberNumber <= 1) {
-            etErrorMember.setError("atleast 2 members");
+        if (maxMemberNumber <= 1 ) {
+            etErrorMember.setError("At least 2 members");
             vaild = false;
-        } else {
+        } else if (maxMemberNumber>200){
+            etErrorMember.setError("Max is 200");
+            vaild=false;
+        }
+
+        else {
             etErrorMember.setError(null);
 
         }
