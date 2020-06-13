@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -38,6 +39,7 @@ public class JoinRequestsFragment extends Fragment {
     GroupViewModel groupViewModel;
     Storage s = new Storage();
     Storage st;
+    TextView requestsStatus;
 
 
 
@@ -50,6 +52,9 @@ public class JoinRequestsFragment extends Fragment {
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         st = new Storage(this.getContext());
         showAllRequestsForGroup();
+        requestsStatus=v.findViewById(R.id.requests_status);
+
+
 
         return v;
     }

@@ -66,7 +66,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.default_img)
-                .error(R.drawable.default_img);
+                .error(R.drawable.group_image);
         Glide.with(context).load(groupsList.get(position).getImage()).apply(options).into(holder.image);
         // TODO Hossam Part
         // Storage objects
@@ -80,8 +80,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         holder.groupCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO go to group view
-                // TODO Hossam Part
+                new Storage().saveGroup(groupsList.get(position),context);
                 curGroup = groupsList.get(position);
                 Log.i(TAG, "GroupsAdapter -- onBindViewHolder: onClick() curGroup >> " + curGroup);
                 CustomProgressDialog.getInstance(context).show();
@@ -99,6 +98,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
                             context);
 
                 }
+
             }
         });
     }

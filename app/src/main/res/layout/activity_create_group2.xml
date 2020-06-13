@@ -80,12 +80,11 @@
 
             <!-- ET Group Name-->
             <EditText
-                android:maxLength="50"
                 android:id="@+id/et_group_name"
                 style="@style/create_group_common_et"
                 android:layout_marginBottom="0dp"
                 android:hint="group name"
-                android:text="gp name" />
+                android:maxLength="50" />
 
             <View style="@style/create_group_view_edit_text" />
 
@@ -96,12 +95,11 @@
 
             <!-- ET Group Desc -->
             <EditText
-                android:maxLength="150"
                 android:id="@+id/ed_group_desc"
                 style="@style/create_group_common_et"
                 android:hint="group description"
-                android:maxLines="3"
-                android:text="gp desc" />
+                android:maxLength="150"
+                android:maxLines="3" />
 
             <View style="@style/create_group_view_edit_text" />
 

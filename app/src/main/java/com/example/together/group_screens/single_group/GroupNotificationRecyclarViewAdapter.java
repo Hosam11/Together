@@ -65,6 +65,13 @@ public class GroupNotificationRecyclarViewAdapter extends RecyclerView.Adapter<G
         st = new Storage(context);
         joinRequestsFragment =g;
         groupViewModel = new ViewModelProvider(joinRequestsFragment).get(GroupViewModel.class);
+        if(requests.size()==0){
+            joinRequestsFragment.requestsStatus.setVisibility(View.VISIBLE);
+        }
+        else {
+            joinRequestsFragment.requestsStatus.setVisibility(View.INVISIBLE);
+
+        }
 
 
     }
@@ -86,6 +93,13 @@ public class GroupNotificationRecyclarViewAdapter extends RecyclerView.Adapter<G
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(requests.size()==0){
+            joinRequestsFragment.requestsStatus.setVisibility(View.VISIBLE);
+        }
+        else {
+            joinRequestsFragment.requestsStatus.setVisibility(View.INVISIBLE);
+
+        }
         holder.not_description.setText(requests.get(position).getContent());
         Glide
                 .with(context)
