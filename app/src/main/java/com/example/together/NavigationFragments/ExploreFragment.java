@@ -42,7 +42,6 @@ public class ExploreFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_explore,container,false);
         gridView = fragmentView.findViewById(R.id.categories);
         searchEditText = fragmentView.findViewById(R.id.search);
-
         //searchEditText.
         searchEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -74,22 +73,23 @@ public class ExploreFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         gridView.setAdapter(interestAdapter);
         progressDialog.show();
-        getInterests();
 
     }
 
     private void getInterests() {
         Storage storage = new Storage(getContext());
         exploreViewModel.getInterests(storage.getToken()).observe(this, interestsList -> {
-            if(interestsList!=null){
+            if(interestsList==null){
+                CustomProgressDialog.getInstance(getContext()).cancel();
+                HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
+
+            }
+            else {
                 interests.clear();
                 interests.addAll(interestsList);
                 interestAdapter.notifyDataSetChanged();
                 CustomProgressDialog.getInstance(getContext()).cancel();
-            }
-            else {
-                CustomProgressDialog.getInstance(getContext()).cancel();
-                HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
+               }
         });
 
     }

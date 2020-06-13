@@ -118,6 +118,7 @@ public class ExploreAPIProvider {
 
             @Override
             public void onFailure(Call<HashMap<String,List<Interest>>> call, Throwable t) {
+                interestList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();
