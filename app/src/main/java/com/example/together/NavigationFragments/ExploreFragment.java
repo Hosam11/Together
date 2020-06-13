@@ -2,11 +2,15 @@ package com.example.together.NavigationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -39,6 +43,19 @@ public class ExploreFragment extends Fragment {
         gridView = fragmentView.findViewById(R.id.categories);
         searchEditText = fragmentView.findViewById(R.id.search);
         //searchEditText.
+        searchEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= searchEditText.getRight() -searchEditText.getTotalPaddingRight()) {
+                        search(searchEditText.getText().toString());
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         gridView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getActivity(), GroupsUnderInterestActivity.class);
             startActivity(intent);
@@ -97,12 +114,13 @@ public class ExploreFragment extends Fragment {
     }
 
     private void search(String word){
-        if(word!=null || word.length()==0) {
+        Log.i("search", "search: "+word.length()+(word==null));
+        if(!word.isEmpty()) {
             new Storage().saveKeyword(word, getActivity());
             Intent intent = new Intent(getActivity(), SearchResultActivity.class);
             startActivity(intent);
         }else{
-            //show alert empty text and empty the text field
+            HelperClass.showAlert("Invalid input","please enter a search text ..",getContext());
         }
     }
 

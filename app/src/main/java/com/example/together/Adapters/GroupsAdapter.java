@@ -59,17 +59,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.drawable.default_img)
-                .error(R.drawable.default_img);
+                .error(R.drawable.group_image);
         Glide.with(context).load(groupsList.get(position).getImage()).apply(options).into(holder.image);
         holder.groupCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO go to group view
-                //Toast.makeText(context,groupsList.get(position).getGroupName(),Toast.LENGTH_SHORT).show();
                 new Storage().saveGroup(groupsList.get(position),context);
-//        Intent goViewGroup = new Intent(getApplicationContext(), ViewGroup.class);
-//        goViewGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        getApplicationContext().startActivity(goViewGroup);
             }
     });
     }
