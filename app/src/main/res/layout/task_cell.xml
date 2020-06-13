@@ -34,7 +34,7 @@
                         android:id="@+id/task_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Learn Android"
+                        android:text=""
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         android:textColor="@color/majorColor"
                         android:textSize="16sp"
@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_height="wrap_content"
-                        android:text="We are groups that does some thing in some time and try"
+                        android:text=""
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary"
 

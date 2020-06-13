@@ -125,11 +125,11 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         etErrorDuration = findViewById(R.id.et_show_error_duration);
         tvAddImg = findViewById(R.id.tv_add_image);
         groupImg = findViewById(R.id.iv_group_img);
-        groupImg.setOnClickListener(v -> {
-            // TODO reomve that when finishing
-            Intent testApis = new Intent(this, TestApis.class);
-            startActivity(testApis);
-        });
+//        groupImg.setOnClickListener(v -> {
+//            // TODO reomve that when finishing
+//            Intent testApis = new Intent(this, TestApis.class);
+//            startActivity(testApis);
+//        });
 
 
         FixedDBValues dbValues = new FixedDBValues();

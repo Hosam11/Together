@@ -76,7 +76,7 @@
                     android:id="@+id/group_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Learn Android"
+                    android:text=""
                     android:textColor="#0f75d8"
                     android:textSize="23sp"
                     android:textStyle="bold"
@@ -90,7 +90,7 @@
                     android:layout_marginTop="8dp"
                     android:lineSpacingExtra="3dp"
                     android:maxLines="2"
-                    android:text="Hello it is me What do you want from me rithy hey bro startghf"
+                    android:text=""
                     android:textSize="16sp" />
 
                 <LinearLayout

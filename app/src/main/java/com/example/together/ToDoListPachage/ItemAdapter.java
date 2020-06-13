@@ -124,6 +124,7 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
                     if (HelperClass.checkInternetState(context)) {
                         CreateDialog editDialoge = new CreateDialog("editTask", ItemAdapter.this, position, list.get(position).getId());
                         editDialoge.show(((AppCompatActivity) ItemAdapter.this.context).getSupportFragmentManager(), "example");
+                        boardFragment.adapterDialog=editDialoge;
                     } else {
                         HelperClass.showAlert("Error", "Please check your internet connection", context);
 
@@ -157,16 +158,7 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
             edit = itemView.findViewById(R.id.task_edit);
         }
 
-        @Override
-        public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
-        }
 
-        @Override
-        public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
-            return true;
-        }
 
 
     }

@@ -344,9 +344,9 @@ public class GroupApiProvider {
         chatCall.enqueue(new Callback<ChatResponse>() {
             @Override
             public void onResponse(Call<ChatResponse> call, Response<ChatResponse> res) {
-//                Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
-//                        + res.body().getChatMsgList().size());
-//                messagesRes.setValue(res.body());
+                Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
+                        + res.body().getChatMsgList().size());
+                messagesRes.setValue(res.body());
             }
 
             @Override
