@@ -77,12 +77,12 @@ public class ViewGroupInfo extends AppCompatActivity {
         if (savedGroup.getLocation() != null) {
             tvGroupLocation.setText(savedGroup.getLocation());
         } else {
-            tvGroupLocation.setText("Null");
+            tvGroupLocation.setText("Not found");
         }
         if (savedGroup.getInterest() != null) {
             tvGroupInterest.setText(savedGroup.getInterest());
         } else {
-            tvGroupLocation.setText("Null");
+            tvGroupLocation.setText("Not found");
         }
         tvGroupDuration.setText(String.valueOf(savedGroup.getDuration()));
         tvGroupLevel.setText(savedGroup.getLevelRequired());

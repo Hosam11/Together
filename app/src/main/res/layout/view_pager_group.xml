@@ -50,7 +50,7 @@
         android:weightSum="4"
         android:layout_marginTop="35dp"
         android:layout_marginBottom="16dp"
-        android:layout_gravity="center"
+        android:gravity="center"
         >
         <TextView
             android:id="@+id/tv_pager_group_name"
@@ -63,7 +63,10 @@
             android:layout_gravity="center_horizontal"
             android:hint="group name"
             android:textColor="#000"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:maxLines="1"
+            android:visibility="gone"
+            />
 
         <Button
             android:id="@+id/goToDoBoard"
@@ -73,11 +76,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="22dp"
             android:background="@drawable/login_signup_shape"
-            android:paddingHorizontal="26dp"
+            android:paddingHorizontal="50dp"
             android:text="ToDo List"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:foreground="?android:selectableItemBackground"
+            android:layout_gravity="center"
+
 
             />
     </LinearLayout>
