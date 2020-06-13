@@ -129,7 +129,7 @@
                 android:inputType="textPassword"
 
             
-                android:text="hos"
+                android:text="123456"
                 android:paddingHorizontal="18dp"
 
                 android:textColor="#000"

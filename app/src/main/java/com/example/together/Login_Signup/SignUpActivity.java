@@ -188,7 +188,7 @@ public class SignUpActivity extends AppCompatActivity implements
         Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
                 .setTypeFilter(TypeFilter.ADDRESS)
-                .setCountries(Arrays.asList("EG"))
+//                .setCountries(Arrays.asList("EG"))
                 .build(getApplicationContext());
         startActivityForResult(i, AUTOCOMPLETE_REQUEST_CODE);
     }
@@ -322,7 +322,7 @@ public class SignUpActivity extends AppCompatActivity implements
         }
 
         String pass = passEt.getText().toString();
-        if (TextUtils.isEmpty(pass)||pass.length()<6) {
+        if (TextUtils.isEmpty(pass) || pass.length() < 6) {
             passEt.setError("Must be more than 6 letters");
             valid = false;
         } else {

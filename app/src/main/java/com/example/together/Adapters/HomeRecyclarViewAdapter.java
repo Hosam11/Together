@@ -27,7 +27,7 @@ public class HomeRecyclarViewAdapter extends
         RecyclerView.Adapter<HomeRecyclarViewAdapter.MyViewHolder> {
 
 
-    ArrayList<Group> userGroups = new ArrayList<>();
+    ArrayList<Group> userGroups ;
     Context context;
 
     public HomeRecyclarViewAdapter(ArrayList<Group> userGroups, Context context) {
@@ -56,21 +56,6 @@ public class HomeRecyclarViewAdapter extends
                 placeholder(R.drawable.group_image).into(holder.groupImage);
 
 
-        Log.i(TAG, getClass().getSimpleName()
-                + " -- onBindViewHolder: theGroupWillSave >>" + userGroups.get(position));
-
-        if (userGroups.get(position).getImage() != null) {
-            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img no null]");
-
-            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: " +
-                    userGroups.get(position).getImage());
-
-            Glide.with(context).load(userGroups.get(position).getImage()).into(holder.groupImage);
-
-        } else {
-            Log.i(TAG, "HomeRecyclarViewAdapter -- onBindViewHolder: [img is null]");
-
-        }
 
         holder.groupCardView.setOnClickListener(new View.OnClickListener() {
             @Override

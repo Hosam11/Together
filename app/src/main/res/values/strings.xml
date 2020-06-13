@@ -82,4 +82,25 @@
     <string name="empty_search">No Results Found Try Different Keywords</string>
     <string name="empty_interest">This No Groups in This Category</string>
 
+
+    <string-array name="countries">
+
+        <item>Brazil</item>
+        <item>China</item>
+        <item>Egypt</item>
+        <item>France</item>
+        <item>German</item>
+        <item>Spain</item>
+        <item>Italy</item>
+        <item>Romania</item>
+        <item>Oman</item>
+        <item>Mexico</item>
+        <item>Maldives</item>
+        <item>Portugal</item>
+        <item>Russia</item>
+        <item>Turkey</item>
+        <item>Saudi Arabia</item>
+
+    </string-array>
+
 </resources>
