@@ -86,6 +86,8 @@ public class ProfileFragment extends Fragment implements
         containerLayout = v.findViewById(R.id.container_layout);
         shimmerContainer = v.findViewById(R.id.shimmer_container);
         showShimmer();
+        storage = new Storage(getContext());
+
 
 
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
@@ -214,7 +216,6 @@ public class ProfileFragment extends Fragment implements
 
     private void setProfileDataObservable() {
 
-        storage = new Storage(getContext());
         Log.i("TOKEN", storage.getToken());
 
 
