@@ -50,7 +50,7 @@ public class GroupsUnderInterestActivity extends AppCompatActivity {
         progressDialog= CustomProgressDialog.getInstance(this);
         progressDialog.show();
         interestName.setText(new Storage().getInterest(this).getName());
-        getGroups();
+       // getGroups();
         groupsAdapter = new GroupsAdapter(groupList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         groupsRecyclerView.setLayoutManager(mLayoutManager);
@@ -74,7 +74,7 @@ public class GroupsUnderInterestActivity extends AppCompatActivity {
             }
             else {
                 CustomProgressDialog.getInstance(this).cancel();
-                HelperClass.showAlert("Error",HelperClass.checkYourCon,this);
+                HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,this);
             }
         });
     }

@@ -116,7 +116,7 @@ public class ProfileFragment extends Fragment implements
       
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-            usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+            usersViewModel.logout(storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response != null) {
@@ -195,6 +195,7 @@ public class ProfileFragment extends Fragment implements
     public void onResume() {
 
         super.onResume();
+        showShimmer();
         CustomProgressDialog.getInstance(getContext()).show();
 
 
@@ -224,11 +225,8 @@ public class ProfileFragment extends Fragment implements
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     if (userData != null) {
-                        if(userData.getCode()==500){
 
-                            Toast.makeText(getContext(),"SEEMS TO Be Un a",Toast.LENGTH_LONG).show();
-                        }
-                        else {
+
                             Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
                             hideShimmer();
                             user = userData;
@@ -248,7 +246,7 @@ public class ProfileFragment extends Fragment implements
 
                             CustomProgressDialog.getInstance(getContext()).cancel();
                           }
-                    } else {
+                     else {
                         HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
@@ -260,15 +258,17 @@ public class ProfileFragment extends Fragment implements
 
 
     public void displayInterests(List<String> interests) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < interests.size(); i++) {
 
-            builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
+        if(interests!=null) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < interests.size(); i++) {
+
+                builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
 
 
+            }
+            interestTv.setText(Html.fromHtml(builder.toString()));
         }
-        interestTv.setText(Html.fromHtml(builder.toString()));
-
 
     }
 

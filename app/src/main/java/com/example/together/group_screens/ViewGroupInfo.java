@@ -59,9 +59,7 @@ public class ViewGroupInfo extends AppCompatActivity {
         tvGroupDuration = findViewById(R.id.tv_view_gp_duration);
         tvGroupLocation = findViewById(R.id.tv_view_gp_location);
         tvGroupLevel = findViewById(R.id.tv_view_gp_level);
-        //
         ivGroupImg = findViewById(R.id.iv_view_gp);
-        //
         actionToGroup = findViewById(R.id.btn_action_group);
 
         commonStorage = new Storage();

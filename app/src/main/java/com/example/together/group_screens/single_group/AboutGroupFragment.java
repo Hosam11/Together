@@ -44,6 +44,8 @@ public class AboutGroupFragment extends Fragment  {
     ImageView groupImgView;
     TextView nameTv;
     TextView groupDescriptionTv;
+    TextView groupLevelTv;
+    TextView groupInterestTv;
     TextView editGroupTv;
     Button leaveBtn;
     UsersViewModel userViewModel;
@@ -78,6 +80,8 @@ public class AboutGroupFragment extends Fragment  {
         groupImgView = view.findViewById(R.id.group_img_tv);
         nameTv = view.findViewById(R.id.name_tv);
         groupDescriptionTv = view.findViewById(R.id.group_description_tv);
+        groupLevelTv=view.findViewById(R.id.group_level_tv);
+        groupInterestTv=view.findViewById(R.id.group_interest_tv);
         editGroupTv = view.findViewById(R.id.edit_group_tv);
         leaveBtn = view.findViewById(R.id.leave_btn);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -97,7 +101,6 @@ public class AboutGroupFragment extends Fragment  {
 //                    goEditGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     getContext().startActivity(goEditGroup);
 
-                    Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -118,11 +121,9 @@ public class AboutGroupFragment extends Fragment  {
 
         nameTv.setText(receivedGroup.getGroupName());
         groupDescriptionTv.setText(receivedGroup.getGroupDesc());
-        //  groupImgView TODO HERE Getting Image
+        groupLevelTv.setText(receivedGroup.getLevelRequired());
 
         if (receivedGroup.getImage() != null) {
-//        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
-
             Glide.with(getContext()).load(receivedGroup.getImage()).into(groupImgView);
             Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getImage());
         }
@@ -231,6 +232,7 @@ public class AboutGroupFragment extends Fragment  {
                     @Override
                     public void onChanged(Group groupDetails) {
                         if (groupDetails != null) {
+                            groupInterestTv.setText(groupDetails.getInterest());
                             groupMembersList.clear();
                             groupMembersList.addAll(groupDetails.getMembers());
                             adapter.notifyDataSetChanged();

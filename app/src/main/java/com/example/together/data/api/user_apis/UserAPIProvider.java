@@ -359,11 +359,13 @@ public class UserAPIProvider {
 
 
 
-    MutableLiveData<GeneralResponse> logout(int id, String token) {
+
+
+
+    MutableLiveData<GeneralResponse> logout( String token) {
         MutableLiveData<GeneralResponse> logoutRes = new MutableLiveData<>();
 
-        Call<GeneralResponse> logoutCall = userInterface.logout(id,
-                BEARER_HEADER + token);
+        Call<GeneralResponse> logoutCall = userInterface.logout(token);
 
         logoutCall.enqueue(new Callback<GeneralResponse>() {
             @Override
@@ -385,6 +387,12 @@ public class UserAPIProvider {
         return logoutRes;
 
     }
+
+
+
+
+
+
 
     // update device token
     MutableLiveData<GeneralResponse> updateDeviceToken(int userId,String token,String deviceToken){

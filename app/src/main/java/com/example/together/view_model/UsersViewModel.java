@@ -84,8 +84,9 @@ public class UsersViewModel extends ViewModel {
 
     }
 
-    public MutableLiveData<GeneralResponse> logout(int id, String token) {
-        return usersRepo.logout(id, token);
+
+    public MutableLiveData<GeneralResponse> logout( String token) {
+        return usersRepo.logout(token);
 
     }
 
