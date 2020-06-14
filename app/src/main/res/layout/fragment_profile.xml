@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f9f9f9"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingTop="25dp"
-        android:background="#f9f9f9"
-        >
+        android:paddingTop="25dp">
+
         <TextView
             android:id="@+id/tv_profile_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textColor="#000000"
-            android:text="@string/profile"
             android:layout_marginBottom="13dp"
-            />
+            android:text="@string/profile"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
             android:text="@string/your_profile_info"
-            />
+            android:textSize="13sp" />
+
         <LinearLayout
             android:id="@+id/shimmer_container"
             android:layout_width="match_parent"
@@ -38,39 +39,38 @@
 
 
             >
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
 
-            <LinearLayout
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
+                    <include layout="@layout/profile_place_holder" />
 
-                <include layout="@layout/profile_place_holder" />
+                </LinearLayout>
 
-            </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </LinearLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/container_layout"
+        <LinearLayout
+            android:id="@+id/container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/background_shape"
             android:orientation="vertical"
-        android:visibility="gone"
+            android:visibility="gone"
 
 
             >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,65 +80,64 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="95dp"
                     android:layout_height="95dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="4dp"
                     android:layout_marginLeft="17dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
 
                     >
 
                     <ImageView
                         android:id="@+id/profile_image"
-                        android:src="@drawable/user_image"
-
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
 
+                        android:layout_height="match_parent"
                         android:scaleType="fitXY"
+
+                        android:src="@drawable/user_image"
 
                         />
 
                 </androidx.cardview.widget.CardView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Mahmoud Fathy"
-                    android:layout_marginBottom="14dp"
-                    />
+                    <TextView
+                        android:id="@+id/name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="14dp"
+                        android:text="Mahmoud Fathy"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/email_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:textSize="14sp"
                         android:layout_marginLeft="20dp"
-                        android:text="mahmoud@gmail.com"
                         android:layout_marginBottom="18dp"
-                        />
+                        android:text="mahmoud@gmail.com"
+                        android:textSize="14sp" />
 
 
-                <TextView
-                    android:id="@+id/edit_profile_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
-                    android:textColor="#1177da"
-                    android:text="Edit Profile"
-                    />
+                    <TextView
+                        android:id="@+id/edit_profile_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="20dp"
+                        android:text="Edit Profile"
+                        android:textColor="#1177da"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -146,20 +145,19 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginHorizontal="19.3dp"
                 android:layout_marginTop="20dp"
                 android:background="#e8e8e8"
-                android:layout_marginHorizontal="19.3dp"
 
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="@string/address"
                 android:layout_marginLeft="37dp"
                 android:layout_marginTop="37dp"
-                />
+                android:text="@string/address"
+                android:textSize="13sp" />
 
             <EditText
                 android:id="@+id/address_et"
@@ -168,36 +166,36 @@
                 android:layout_marginHorizontal="19dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edit_texts_shapes"
-                android:textColor="#000"
-                android:hint="@string/address"
-                android:inputType="textPostalAddress"
-                android:paddingTop="18dp"
-                android:paddingLeft="18dp"
-                android:paddingBottom="16dp"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:editable="false"
                 android:clickable="false"
+                android:editable="false"
                 android:enabled="false"
                 android:focusable="false"
-
+                android:hint="Enter edit profile to add address"
+                android:inputType="textPostalAddress"
+                android:paddingLeft="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="#000"
+                android:textCursorDrawable="@drawable/cursor_color"
 
 
                 />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#e8e8e8"
                 android:layout_marginHorizontal="19.3dp"
                 android:layout_marginBottom="31.8dp"
+                android:background="#e8e8e8"
 
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="@string/birthdate"
                 android:layout_marginLeft="37dp"
+                android:text="@string/birthdate"
+                android:textSize="13sp"
 
                 />
 
@@ -209,26 +207,27 @@
                 android:layout_marginHorizontal="19dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edit_texts_shapes"
-                android:textColor="#000"
-                android:inputType="text"
-                android:paddingTop="18dp"
-                android:hint="@string/birthdate"
-                android:paddingLeft="18dp"
-                android:paddingBottom="16dp"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:editable="false"
                 android:clickable="false"
+                android:editable="false"
                 android:enabled="false"
                 android:focusable="false"
+                android:hint="@string/birthdate"
+                android:inputType="text"
+                android:paddingLeft="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="#000"
+                android:textCursorDrawable="@drawable/cursor_color"
 
 
                 />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#e8e8e8"
                 android:layout_marginHorizontal="19.3dp"
                 android:layout_marginBottom="31.8dp"
+                android:background="#e8e8e8"
 
 
                 />
@@ -236,9 +235,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="@string/gender"
                 android:layout_marginLeft="37dp"
+                android:text="@string/gender"
+                android:textSize="13sp"
 
                 />
 
@@ -250,26 +249,27 @@
                 android:layout_marginHorizontal="19dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edit_texts_shapes"
-                android:textColor="#000"
-                android:inputType="text"
-                android:paddingTop="18dp"
-                android:hint="@string/male"
-                android:paddingLeft="18dp"
-                android:paddingBottom="16dp"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:editable="false"
                 android:clickable="false"
+                android:editable="false"
                 android:enabled="false"
                 android:focusable="false"
+                android:hint="@string/male"
+                android:inputType="text"
+                android:paddingLeft="18dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="#000"
+                android:textCursorDrawable="@drawable/cursor_color"
 
 
                 />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#e8e8e8"
                 android:layout_marginHorizontal="19.3dp"
                 android:layout_marginBottom="31.8dp"
+                android:background="#e8e8e8"
 
 
                 />
@@ -277,9 +277,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="@string/interests"
                 android:layout_marginLeft="37dp"
+                android:text="@string/interests"
+                android:textSize="13sp"
 
                 />
 
@@ -289,15 +289,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="19dp"
                 android:layout_marginTop="12dp"
-                android:textColor="#0f74d7"
-                android:textSize="20sp"
-                android:paddingTop="18dp"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="18dp"
-android:layout_marginBottom="10dp"
-                />
-
-
-
+                android:paddingTop="18dp"
+                android:textColor="#0f74d7"
+                android:textSize="20sp" />
 
 
             <TextView
@@ -305,12 +301,11 @@ android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16sp"
                 android:layout_marginBottom="20dp"
-                android:textStyle="bold"
-                android:textColor="#1177da"
                 android:text="@string/edit_interests"
-                />
+                android:textColor="#1177da"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -319,14 +314,13 @@ android:layout_marginBottom="10dp"
             android:id="@+id/logout_btn"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:background="@drawable/leave_logout_shape"
-            android:text="@string/logout"
-            android:textColor="@color/white"
-            android:padding="10dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/leave_logout_shape"
+            android:padding="10dp"
+            android:text="@string/logout"
             android:textAllCaps="false"
-            android:textStyle="bold"
-            />
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

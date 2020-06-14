@@ -256,11 +256,11 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
-            vaild = false;
+            valid = false;
         }
         else if(gpName.length()<3){
             etGroupName.setError("Min 3 letters");
-            vaild = false;
+            valid = false;
         }
         else {
             etGroupName.setError(null);
@@ -289,10 +289,10 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         // Group Member
         if (maxMemberNumber <= 1 ) {
             etErrorMember.setError("At least 2 members");
-            vaild = false;
+            valid = false;
         } else if (maxMemberNumber>200){
             etErrorMember.setError("Max is 200");
-            vaild=false;
+            valid=false;
         }
         else {
             etErrorMember.setError(null);

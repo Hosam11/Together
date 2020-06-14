@@ -361,7 +361,7 @@ public class GroupApiProvider {
         return messagesRes;
     }
 
-    MutableLiveData<GeneralResponse> deleteChatMsg (int msgID, int adminID, String token) {
+    MutableLiveData<GeneralResponse> deleteChatMsg (String msgID, int adminID, String token) {
         MutableLiveData<GeneralResponse> deleteMsgData = new MutableLiveData<>();
 
         Call<GeneralResponse> callDeleteMsg = groupAPIInterface.deleteChatMsg(msgID, adminID,
@@ -379,6 +379,7 @@ public class GroupApiProvider {
                 GeneralResponse generalRes = new GeneralResponse();
                 generalRes.response = t.getMessage();
                 deleteMsgData.setValue(generalRes);
+                Log.i(TAG, "GroupApiProvider -- deleteChatMsg() onFailure: ");
                 t.printStackTrace();
                 call.cancel();
             }

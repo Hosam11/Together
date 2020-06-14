@@ -64,7 +64,7 @@ public interface GroupAPIInterface {
                                        @Header("Authorization") String token);
 
     @GET("deleteMessage/{msgID}?")
-    Call<GeneralResponse> deleteChatMsg(@Path("msgID") int msgID,
+    Call<GeneralResponse> deleteChatMsg(@Path("msgID") String msgID,
                                         @Query("current_user_id") int adminID,
                                         @Header("Authorization") String token);
 
