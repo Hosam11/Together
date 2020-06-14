@@ -55,8 +55,10 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private Storage commonStorage;
     private GroupViewModel groupViewModel;
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://192.168.1.5:3000";
-    int count =0;
+
+    private String SERVER_PATH = "ws://192.168.1.7:3000";
+
+
 
 
 
@@ -154,7 +156,8 @@ public class ChatFragment extends Fragment implements TextWatcher {
             JSONObject msgJSONObj = new JSONObject();
 
             try {
-                msgJSONObj.put(HelperClass.NAME, msg.getSender());
+                msgJSONObj.put(HelperClass.NAME, msg.get
+                               er());
                 msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
                 msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
 
