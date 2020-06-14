@@ -111,10 +111,13 @@ public class ExploreAPIProvider {
             @Override
             public void onResponse(Call <HashMap<String,List<Interest>>> call,
                                    Response<HashMap<String,List<Interest>>> res) {
+                if(res.body()!=null) {
 
-                Log.i(TAG, "ExploreApiProvider  -- getInterests() response --"
-                        + res.body());
-                interestList.setValue(res.body().get("data"));
+                    Log.i(TAG, "ExploreApiProvider  -- getInterests() response --"
+                            + res.body());
+                    interestList.setValue(res.body().get("data"));
+                }
+                else {interestList.setValue(null);}
             }
 
             @Override
