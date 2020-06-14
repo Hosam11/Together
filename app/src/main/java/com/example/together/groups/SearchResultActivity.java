@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.together.Adapters.GroupsAdapter;
@@ -32,13 +33,13 @@ public class SearchResultActivity extends AppCompatActivity {
     private GroupsAdapter groupsAdapter;
     ExploreViewModel exploreViewModel;
     CustomProgressDialog progressDialog;
-    TextView emptyData;
+    LinearLayout emptyData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
         getSupportActionBar().hide();
-        emptyData =findViewById(R.id.tv_no_data);
+        emptyData =findViewById(R.id.alert_layout);
         createGroup = findViewById(R.id.add_group_FAB);
         createGroup.setOnClickListener(v1 -> {
             Intent createGroup = new Intent(this, CreateGroup.class);
@@ -50,7 +51,7 @@ public class SearchResultActivity extends AppCompatActivity {
         progressDialog= CustomProgressDialog.getInstance(this);
         progressDialog.show();
         searchKeyword.setText("Search Result for "+ new Storage().getKeyword(this));
-        getGroups();
+      //  getGroups();
         groupsAdapter = new GroupsAdapter(groupList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         groupsRecyclerView.setLayoutManager(mLayoutManager);
@@ -74,7 +75,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                     else {
                         CustomProgressDialog.getInstance(this).cancel();
-                        HelperClass.showAlert("Error",HelperClass.checkYourCon,this);
+                        HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,this);
                     }
                 });
     }

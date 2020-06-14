@@ -14,6 +14,15 @@ public class Notification {
     String body;
     String img;
     String info;
+    Group group;
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
     public int getId() {
         return id;

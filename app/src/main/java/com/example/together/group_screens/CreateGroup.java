@@ -209,7 +209,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     public void createGroup() {
-        // FirstShow >> canceled in observCreateGroup()
         CustomProgressDialog.getInstance(this).show();
         if (imageUri != null) {
             UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
@@ -220,24 +219,16 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
                 HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
                 CustomProgressDialog.getInstance(this).cancel();
             }
-
         } else {
             // create group
-            Group group = new Group(
-                    storage.getId(), gpLocation, null,
-                    maxMemberNumber, duration, gpName,
-                    gpDesc, HelperClass.FREE, gpLevel, gpInterest);
-
+            Group group = new Group(storage.getId(), gpLocation, null, maxMemberNumber,
+                    duration, gpName, gpDesc, HelperClass.FREE, gpLevel, gpInterest);
             String token = storage.getToken();
-
             Log.i(TAG, getLocalClassName() + " -- createGroup: mGroup >> "
                     + group.toString());
-
-            //CustomProgressDialog.getInstance(this).show();
             if (HelperClass.checkInternetState(this)) {
-                // CustomProgressDialog.getInstance(this).show();
                 groupViewModel.createGroup(group, token)
-                        .observe(this, this::observCreateGroup);
+                        .observe(this, this::observeCreateGroup);
             } else {
                 HelperClass.showAlert(ALERT, HelperClass.checkYourCon, this);
                 CustomProgressDialog.getInstance(this).cancel();
@@ -247,8 +238,8 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     private boolean validGroupData() {
-        Log.i(TAG, getLocalClassName() + " -- vaildGroupData: ");
-        boolean vaild = true;
+        Log.i(TAG, getLocalClassName() + " -- validGroupData: ");
+        boolean valid = true;
         String gpMembersValue = etMaxMembersNumber.getText().toString();
         String gpDurationValue = etGpDuration.getText().toString();
 
@@ -261,16 +252,14 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
-
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
-            vaild = false;
-
+            valid = false;
         }
         else if(gpName.length()<3){
             etGroupName.setError("Min 3 letters");
-            vaild = false;
+            valid = false;
         }
         else {
             etGroupName.setError(null);
@@ -278,68 +267,57 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         // Group Desc
         if (TextUtils.isEmpty(gpDesc)) {
             etGroupDesc.setError("Required");
-            vaild = false;
+            valid = false;
         } else {
             etGroupDesc.setError(null);
         }
         // interests
         if (interestSpinner.getSpItemSelected() == null) {
             spInterests.setError("Required");
-            vaild = false;
+            valid = false;
         } else {
             spInterests.setError(null);
         }
-
         // level
         if (levelsSpinner.getSpItemSelected() == null) {
             spLevels.setError("Required");
-            vaild = false;
+            valid = false;
         } else {
             spLevels.setError(null);
         }
         // Group Member
         if (maxMemberNumber <= 1 ) {
             etErrorMember.setError("At least 2 members");
-            vaild = false;
+            valid = false;
         } else if (maxMemberNumber>200){
             etErrorMember.setError("Max is 200");
-            vaild=false;
+            valid=false;
         }
-
         else {
             etErrorMember.setError(null);
-
         }
-
         // Group Duration
         if (duration == 0) {
             etErrorDuration.setError("atleast 1 weak");
-            vaild = false;
+            valid = false;
         } else if (duration >= 13) {
             etErrorDuration.setError("max numbers 12 weak");
-            vaild = false;
+            valid = false;
         } else {
             etErrorDuration.setError(null);
         }
-
-        return vaild;
+        return valid;
     }
 
-    private void observCreateGroup(GeneralResponse generalRes) {
-        // Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
-        // + generalRes.response);
+    private void observeCreateGroup(GeneralResponse generalRes) {
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
-            Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
-            // 1- Go To Group Screens
-//            userViewModel.clearCreateGroupRes();
+            Log.i(TAG, "AddGroup -- observeCreateGroup: from if Statement");
+
             Toast.makeText(this, generalRes.response, Toast.LENGTH_SHORT).show();
-            Intent goToSingleGroup = new Intent(this, GroupViewPager.class);
-//            startActivity(goToSingleGroup);
             finish();
         } else {
-            Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
-//            showAlert(generalRes.response, this);
+            Log.i(TAG, "AddGroup -- observeCreateGroup: from else Statement");
             showAlert(ALERT,generalRes.response, this);
         }
         // canceled
@@ -424,7 +402,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
                 maxMemberNumber, duration, gpName,
                 gpDesc, HelperClass.FREE, gpLevel, gpInterest);
         String token = storage.getToken();
-        groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
+        groupViewModel.createGroup(group, token).observe(this, this::observeCreateGroup);
 
     }
 }

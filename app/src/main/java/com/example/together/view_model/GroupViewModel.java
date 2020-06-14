@@ -76,7 +76,7 @@ public class GroupViewModel extends ViewModel {
         return groupRepo.getChatMessages(gpID,token);
     }
 
-    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+    public MutableLiveData<GeneralResponse> deleteChatMsg(String msgID, int adminID, String token) {
         return groupRepo.deleteChatMsg(msgID, adminID, token);
     }
 

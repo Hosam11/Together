@@ -55,7 +55,7 @@ public class UploadImageToFireBase {
 //                                    mProgressBar.setProgress(0);
                                 }
                             }, 500);
-                            Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
+                         //   Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
 
                             mStorageRef.child(s).getDownloadUrl()
                                     .addOnSuccessListener(new OnSuccessListener<Uri>() {

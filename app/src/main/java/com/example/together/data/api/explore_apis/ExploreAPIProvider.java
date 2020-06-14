@@ -92,6 +92,7 @@ public class ExploreAPIProvider {
 
             @Override
             public void onFailure(Call<HashMap<String,List<Group>>> call, Throwable t) {
+                groupList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();
@@ -118,6 +119,7 @@ public class ExploreAPIProvider {
 
             @Override
             public void onFailure(Call<HashMap<String,List<Interest>>> call, Throwable t) {
+                interestList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();

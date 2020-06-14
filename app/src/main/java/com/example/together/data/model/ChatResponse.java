@@ -24,11 +24,11 @@ public class ChatResponse {
         private String sender;
         private String content;
         @SerializedName("msg_id")
-        private int msgID;
+        private String msgID;
         @SerializedName("sender_id")
         private int senderID;
 
-        public int getMsgID() {
+        public String getMsgID() {
             return msgID;
         }
 

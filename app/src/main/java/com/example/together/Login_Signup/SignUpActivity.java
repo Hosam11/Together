@@ -159,10 +159,8 @@ public class SignUpActivity extends AppCompatActivity implements
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.male_radio_btn) {
             gender = HelperClass.MALE;
-            Toast.makeText(getApplicationContext(), "Male", Toast.LENGTH_SHORT).show();
         } else {
             gender = HelperClass.FEMALE;
-            Toast.makeText(getApplicationContext(), "Female", Toast.LENGTH_SHORT).show();
         }
 
     }

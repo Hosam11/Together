@@ -63,7 +63,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-/*    private class SentImageHolder extends RecyclerView.ViewHolder {
+    /*    private class SentImageHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
 
@@ -185,8 +185,9 @@ public class MessageAdapter extends RecyclerView.Adapter {
         Log.i(HelperClass.TAG, "removeMsg: he is the admin ");
         try {
             CustomProgressDialog.getInstance(context).show();
-            int msgID = (messages.get(position).getInt(HelperClass.MSG_ID));
-            Log.i(HelperClass.TAG, "removeMsg: msgID >> " + msgID);
+            String msgID = (messages.get(position).getString(HelperClass.MSG_ID));
+            Log.i(HelperClass.TAG, getClass().getSimpleName()
+                    + " -- removeMsg: msgID >> " + msgID);
             groupViewModel.deleteChatMsg(msgID, curGroup.getAdminID(), userStoarge.getToken())
                     .observe((LifecycleOwner) context,
                             generalRes -> deleteMsgObserve(position, generalRes));
@@ -204,10 +205,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
             Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
             messages.remove(position);
             MessageAdapter.this.notifyDataSetChanged();
+            CustomProgressDialog.getInstance(context).cancel();
+
         } else {
+            CustomProgressDialog.getInstance(context).cancel();
             Toast.makeText(context, generalRes.response, Toast.LENGTH_SHORT).show();
+
         }
-        CustomProgressDialog.getInstance(context).cancel();
 
     }
 

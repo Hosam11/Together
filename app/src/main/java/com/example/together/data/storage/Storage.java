@@ -162,8 +162,12 @@ public class Storage {
     }
 
     public void saveKeyword(String keyword, Context context) {
+
         sharedPreferences = context.getSharedPreferences("keyword", MODE_PRIVATE);
-        sharedPreferences.edit().putString("keyword",keyword);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("keyword", keyword);
+        editor.apply();
+
     }
 
     public String getKeyword(Context context) {
