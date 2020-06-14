@@ -54,7 +54,7 @@ public class GroupRepo {
         return groupApiProvider.getChatMessages(gpID,token);
     }
 
-    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+    public MutableLiveData<GeneralResponse> deleteChatMsg(String msgID, int adminID, String token) {
         return groupApiProvider.deleteChatMsg(msgID, adminID, token);
     }
 

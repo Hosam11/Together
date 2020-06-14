@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -96,7 +97,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
             groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
         } else {
-            //   CustomProgressDialog.getInstance(this).cancel();
+               CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon,
                     getContext());
         }
@@ -121,8 +122,9 @@ public class ChatFragment extends Fragment implements TextWatcher {
             Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
             groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
+
         } else {
-            //  CustomProgressDialog.getInstance(getContext()).cancel();
+              CustomProgressDialog.getInstance(getContext()).cancel();
             HelperClass.showAlert("Error", HelperClass.checkYourCon,
                     getContext());
         }
@@ -148,7 +150,9 @@ public class ChatFragment extends Fragment implements TextWatcher {
                 msgJSONObj.put(HelperClass.NAME, msg.getSender());
                 msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
                 msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
+
                 msgJSONObj.put(IS_SEND, userStorage.getId() == msg.getSenderID());
+
 //                msgJSONObj.put(IS_STORED_MESSAGE, userStorage.getId() == msg.getSenderID());
                 Log.i(TAG, "##ChatFragment --  getChatMessagesObserve: msgJSONObj >>  "
                         + msgJSONObj.toString());
@@ -172,7 +176,6 @@ public class ChatFragment extends Fragment implements TextWatcher {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(SERVER_PATH).build();
         webSocket = client.newWebSocket(request, new SocketListener());
-
 
     }
 
@@ -240,15 +243,17 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         view.findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
+            String uniqueID = UUID.randomUUID().toString();
             try {
                 Log.i(TAG, "ChatFragment -- initializeView: " + "" +
-                        "@@ user id  >> " + userStorage.getId() +
-                        " -- @@ groupID >> " + commonStorage.getGroup(getContext()).getGroupID() +
-                        " -- @@ content >> " + messageEdit.getText().toString());
+                        "-- @@ user id  >> " + userStorage.getId() +
+                        "-- @@ groupID >> " + commonStorage.getGroup(getContext()).getGroupID() +
+                        "-- @@ content >> " + messageEdit.getText().toString());
 
                 jsonObject.put(HelperClass.NAME, commonStorage.getUserName(getContext()));
                 jsonObject.put(HelperClass.MESSAGE, messageEdit.getText().toString());
                 jsonObject.put(HelperClass.USER_ID, userStorage.getId());
+                jsonObject.put(HelperClass.MSG_ID, uniqueID);
                 jsonObject.put(HelperClass.GROUP_ID, commonStorage.getGroup(getContext()).getGroupID());
 
                 //jsonObject.put("content", messageEdit.getText().toString());
