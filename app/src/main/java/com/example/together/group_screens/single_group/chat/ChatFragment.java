@@ -27,8 +27,12 @@ import com.example.together.view_model.GroupViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -52,6 +56,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private GroupViewModel groupViewModel;
     private WebSocket webSocket;
     private String SERVER_PATH = "ws://192.168.1.5:3000";
+    int count =0;
 
 
 
@@ -245,7 +250,8 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         view.findViewById(R.id.tv_send_msg).setOnClickListener(v -> {
             JSONObject jsonObject = new JSONObject();
-            String uniqueID = UUID.randomUUID().toString();
+            String uniqueID =getTime();
+
             try {
                 Log.i(TAG, "ChatFragment -- initializeView: " + "" +
                         "-- @@ user id  >> " + userStorage.getId() +
@@ -363,6 +369,12 @@ public class ChatFragment extends Fragment implements TextWatcher {
     }
 
 
+    public String getTime(){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
+        String time = format.format(c.getTime());
+        return time;
+    }
 }
 
 
