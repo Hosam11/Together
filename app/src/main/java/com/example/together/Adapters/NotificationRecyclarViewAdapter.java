@@ -104,7 +104,7 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.not_title.setText(notificationArrayList.get(position).getTitle());
-        holder.not_description.setText(notificationArrayList.get(position).getInfo());
+        holder.not_description.setText(notificationArrayList.get(position).getBody());
         Glide.with(context).load(notificationArrayList.get(position).getImg()).placeholder(R.drawable
                 .together_notification_logo).into(holder.not_image);
         holder.frameLayout.setOnClickListener(new View.OnClickListener() {

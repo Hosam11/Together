@@ -68,10 +68,17 @@ public interface UserAPIInterface {
                                      @Header("Authorization") String token
     );
 
+//
+//    @GET("logout/{id}")
+//    Call<GeneralResponse> logout(@Path("id") int id,
+//                                 @Header("Authorization") String token);
 
-    @GET("logout/{id}")
-    Call<GeneralResponse> logout(@Path("id") int id,
-                                 @Header("Authorization") String token);
+
+
+    @POST("logout/")
+    Call<GeneralResponse> logout(
+                                 @Body String token);
+
 
 
 
