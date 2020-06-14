@@ -55,6 +55,8 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
 
 
+
+
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
