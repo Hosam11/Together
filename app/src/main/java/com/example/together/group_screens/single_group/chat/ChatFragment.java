@@ -73,7 +73,6 @@ public class ChatFragment extends Fragment implements TextWatcher {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
 
@@ -105,7 +104,6 @@ public class ChatFragment extends Fragment implements TextWatcher {
             HelperClass.showAlert("Error", HelperClass.checkYourCon,
                     getContext());
         }
-
         initiateSocketConnection();
         // Inflate the layout for this fragment
         return view;

@@ -27,18 +27,14 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.Interest;
 import com.example.together.data.storage.Storage;
-import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
 import com.example.together.utils.DownLoadImage;
 import com.example.together.utils.HelperClass;
-import com.example.together.utils.TestApis;
 import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UsersViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -250,23 +246,25 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         gpLevel = levelsSpinner.getSpItemSelected();
         gpLocation = locationSpinner.getSpItemSelected();
 
+
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
             valid = false;
-        }
-        else if(gpName.length()<3){
+        } else if (gpName.length() < 3) {
             etGroupName.setError("Min 3 letters");
             valid = false;
-        }
-        else {
+        } else {
             etGroupName.setError(null);
         }
         // Group Desc
         if (TextUtils.isEmpty(gpDesc)) {
             etGroupDesc.setError("Required");
+            valid = false;
+        } else if (gpDesc.length() < 10) {
+            etGroupDesc.setError("Min 10 letters");
             valid = false;
         } else {
             etGroupDesc.setError(null);
@@ -286,14 +284,13 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             spLevels.setError(null);
         }
         // Group Member
-        if (maxMemberNumber <= 1 ) {
+        if (maxMemberNumber <= 1) {
             etErrorMember.setError("At least 2 members");
             valid = false;
-        } else if (maxMemberNumber>200){
+        } else if (maxMemberNumber > 200) {
             etErrorMember.setError("Max is 200");
-            valid=false;
-        }
-        else {
+            valid = false;
+        } else {
             etErrorMember.setError(null);
         }
         // Group Duration
@@ -318,7 +315,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             finish();
         } else {
             Log.i(TAG, "AddGroup -- observeCreateGroup: from else Statement");
-            showAlert(ALERT,generalRes.response, this);
+            showAlert(ALERT, generalRes.response, this);
         }
         // canceled
         CustomProgressDialog.getInstance(this).cancel();
