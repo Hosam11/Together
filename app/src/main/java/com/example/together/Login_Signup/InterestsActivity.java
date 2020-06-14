@@ -68,7 +68,6 @@ public class InterestsActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         newUsersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         signupBtn.setOnClickListener(v -> createAccount());
-        Toast.makeText(getApplicationContext(), "cre", Toast.LENGTH_LONG).show();
         CustomProgressDialog.getInstance(this).show();
         if (HelperClass.checkInternetState(this)) {
             getInterests();

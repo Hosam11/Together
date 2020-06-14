@@ -224,11 +224,8 @@ public class ProfileFragment extends Fragment implements
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     if (userData != null) {
-                        if(userData.getCode()==500){
 
-                            Toast.makeText(getContext(),"SEEMS TO Be Un a",Toast.LENGTH_LONG).show();
-                        }
-                        else {
+
                             Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
                             hideShimmer();
                             user = userData;
@@ -248,7 +245,7 @@ public class ProfileFragment extends Fragment implements
 
                             CustomProgressDialog.getInstance(getContext()).cancel();
                           }
-                    } else {
+                     else {
                         HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
