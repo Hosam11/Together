@@ -74,16 +74,15 @@ public class ViewGroupInfo extends AppCompatActivity {
         }
         tvGroupName.setText(savedGroup.getGroupName());
         tvGroupDesc.setText(savedGroup.getGroupDesc());
+
         if (savedGroup.getLocation() != null) {
             tvGroupLocation.setText(savedGroup.getLocation());
         } else {
-            tvGroupLocation.setText("Not found");
+            tvGroupLocation.setText("This group does't specify a location");
         }
-        if (savedGroup.getInterest() != null) {
-            tvGroupInterest.setText(savedGroup.getInterest());
-        } else {
-            tvGroupLocation.setText("Not found");
-        }
+
+        tvGroupInterest.setText(savedGroup.getInterestName());
+
         tvGroupDuration.setText(String.valueOf(savedGroup.getDuration()));
         tvGroupLevel.setText(savedGroup.getLevelRequired());
 
