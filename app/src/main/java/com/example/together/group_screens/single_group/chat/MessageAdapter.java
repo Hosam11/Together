@@ -23,6 +23,7 @@ import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
+import com.example.together.data.model.MessageId;
 import com.example.together.data.storage.Storage;
 import com.example.together.utils.HelperClass;
 import com.example.together.view_model.GroupViewModel;
@@ -185,7 +186,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         Log.i(HelperClass.TAG, "removeMsg: he is the admin ");
         try {
             CustomProgressDialog.getInstance(context).show();
-            String msgID = (messages.get(position).getString(HelperClass.MSG_ID));
+            MessageId msgID = new MessageId((messages.get(position).getString(HelperClass.MSG_ID)));
             Log.i(HelperClass.TAG, getClass().getSimpleName()
                     + " -- removeMsg: msgID >> " + msgID);
             groupViewModel.deleteChatMsg(msgID, curGroup.getAdminID(), userStoarge.getToken())

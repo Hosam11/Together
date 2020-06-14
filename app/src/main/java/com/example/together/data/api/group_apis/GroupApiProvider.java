@@ -8,6 +8,7 @@ import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.MessageId;
 import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -361,7 +362,7 @@ public class GroupApiProvider {
         return messagesRes;
     }
 
-    MutableLiveData<GeneralResponse> deleteChatMsg (String msgID, int adminID, String token) {
+    MutableLiveData<GeneralResponse> deleteChatMsg (MessageId msgID, int adminID, String token) {
         MutableLiveData<GeneralResponse> deleteMsgData = new MutableLiveData<>();
 
         Call<GeneralResponse> callDeleteMsg = groupAPIInterface.deleteChatMsg(msgID, adminID,
