@@ -51,7 +51,7 @@ public class SearchResultActivity extends AppCompatActivity {
         progressDialog= CustomProgressDialog.getInstance(this);
         progressDialog.show();
         searchKeyword.setText("Search Result for "+ new Storage().getKeyword(this));
-        getGroups();
+      //  getGroups();
         groupsAdapter = new GroupsAdapter(groupList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         groupsRecyclerView.setLayoutManager(mLayoutManager);
@@ -75,7 +75,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                     else {
                         CustomProgressDialog.getInstance(this).cancel();
-                        HelperClass.showAlert("Error",HelperClass.checkYourCon,this);
+                        HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,this);
                     }
                 });
     }

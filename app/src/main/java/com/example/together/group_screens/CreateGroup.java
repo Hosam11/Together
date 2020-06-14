@@ -249,7 +249,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         gpInterest = interestSpinner.getSpItemSelected();
         gpLevel = levelsSpinner.getSpItemSelected();
         gpLocation = locationSpinner.getSpItemSelected();
-        Toast.makeText(getApplicationContext(),gpLocation,Toast.LENGTH_LONG).show();
 
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);

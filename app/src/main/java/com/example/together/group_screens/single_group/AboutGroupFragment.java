@@ -97,7 +97,6 @@ public class AboutGroupFragment extends Fragment  {
 //                    goEditGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     getContext().startActivity(goEditGroup);
 
-                    Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
                 }
             });
         }
