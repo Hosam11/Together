@@ -195,6 +195,7 @@ public class ProfileFragment extends Fragment implements
     public void onResume() {
 
         super.onResume();
+        showShimmer();
         CustomProgressDialog.getInstance(getContext()).show();
 
 
@@ -257,15 +258,17 @@ public class ProfileFragment extends Fragment implements
 
 
     public void displayInterests(List<String> interests) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < interests.size(); i++) {
 
-            builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
+        if(interests!=null) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < interests.size(); i++) {
+
+                builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
 
 
+            }
+            interestTv.setText(Html.fromHtml(builder.toString()));
         }
-        interestTv.setText(Html.fromHtml(builder.toString()));
-
 
     }
 

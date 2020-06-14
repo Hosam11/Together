@@ -67,7 +67,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
                 .centerCrop()
                 .placeholder(R.drawable.default_img)
                 .error(R.drawable.group_image);
-        Glide.with(context).load(groupsList.get(position).getImage()).apply(options).into(holder.image);
+        Glide.with(context).load(groupsList.get(position).getImage()).apply(options).placeholder(R.drawable.group_image).into(holder.image);
         // TODO Hossam Part
         // Storage objects
         userStorage = new Storage(context);
