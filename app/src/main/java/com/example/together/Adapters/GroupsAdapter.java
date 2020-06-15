@@ -132,7 +132,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         else if (generalRes.response.equals(HelperClass.GROUP_FULL)) {
             goViewGroupWithUserGroupStatus(GROUP_FULL);
         } else {
-            showAlert("Error!", generalRes.response, context);
+            showAlert("Error!", HelperClass.SERVER_DOWN, context);
         }
     }
 

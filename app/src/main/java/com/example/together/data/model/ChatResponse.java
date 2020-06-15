@@ -15,8 +15,15 @@ public class ChatResponse {
     public List<MessageContent> getChatMsgList() {
         return chatMsgList;
     }
+private  boolean serverDown=false;
 
+    public boolean isServerDown() {
+        return serverDown;
+    }
 
+    public void setServerDown(boolean serverDown) {
+        this.serverDown = serverDown;
+    }
 
     public static class MessageContent {
         // "sender": "hos",

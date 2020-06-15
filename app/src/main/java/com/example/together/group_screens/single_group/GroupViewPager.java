@@ -122,17 +122,26 @@ public class GroupViewPager extends AppCompatActivity {
             usersViewModel.fetchUserData(storage.getId(), storage.getToken()).observe(this,
                     this::fetchUserDataObserve);
         } else {
-            HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
-            CustomProgressDialog.getInstance(this).cancel();
+//            HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
+               CustomProgressDialog.getInstance(this).cancel();
         }
 
     }
 
     private void fetchUserDataObserve(User user) {
-        storage.saveUserName(user.getName(), this);
-        Log.i(HelperClass.TAG, "GroupViewPager --  fetchUserDataObserve: uNmae >> "
-                + user.getName());
-        CustomProgressDialog.getInstance(this).cancel();
+        if(user!=null) {
+            storage.saveUserName(user.getName(), this);
+            Log.i(HelperClass.TAG, "GroupViewPager --  fetchUserDataObserve: uNmae >> "
+                    + user.getName());
+            CustomProgressDialog.getInstance(this).cancel();
+        }
 
+        else {
+            CustomProgressDialog.getInstance(this).cancel();
+           // HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, this);
+
+
+
+        }
     }
 }

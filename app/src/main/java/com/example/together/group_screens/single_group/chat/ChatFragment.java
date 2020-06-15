@@ -57,14 +57,6 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private WebSocket webSocket;
     private String SERVER_PATH = "ws://192.168.1.2:3000";
     int count =0;
-
-
-
-
-
-
-
-
     private EditText messageEdit;
     private View sendBtn, pickImgBtn;
     private RecyclerView recyclerView;
@@ -102,16 +94,16 @@ public class ChatFragment extends Fragment implements TextWatcher {
 
         initializeView(view);
 
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog.getInstance(getContext()).show();
-            Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
-            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
-                    this::getChatMessagesObserve);
-        } else {
-               CustomProgressDialog.getInstance(getContext()).cancel();
-            HelperClass.showAlert("Error", HelperClass.checkYourCon,
-                    getContext());
-        }
+//        if (HelperClass.checkInternetState(getContext())) {
+//            CustomProgressDialog.getInstance(getContext()).show();
+//            Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
+//            groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
+//                    this::getChatMessagesObserve);
+//        } else {
+//               CustomProgressDialog.getInstance(getContext()).cancel();
+//            HelperClass.showAlert("Error", HelperClass.checkYourCon,
+//                    getContext());
+//        }
         initiateSocketConnection();
         // Inflate the layout for this fragment
         return view;
@@ -126,9 +118,10 @@ public class ChatFragment extends Fragment implements TextWatcher {
     @Override
     public void onResume() {
         super.onResume();
+        CustomProgressDialog.getInstance(getContext()).show();
+
         Log.i(TAG2, "onResume: ");
         if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog.getInstance(getContext()).show();
             Log.i(TAG, "onCreateView: after CustomProgressDialog.show()");
             groupViewModel.getChatMessages(savedGroup.getGroupID(), userStorage.getToken()).observe(this,
                     this::getChatMessagesObserve);
@@ -146,35 +139,43 @@ public class ChatFragment extends Fragment implements TextWatcher {
      * @param chatResponse
      */
     private void getChatMessagesObserve(ChatResponse chatResponse) {
-        messagesJsonList.clear();
-        for (ChatResponse.MessageContent msg : chatResponse.getChatMsgList()) {
-            Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: "
-                    + " @@ msgContent >> " + msg.getContent()
-                    + " @@ userName >> " + msg.getSender()
-                    + " @@ senderID >> " + msg.getSenderID()
-                    + " @@ msgID >>" + msg.getMsgID());
+        if(chatResponse.isServerDown()==false) {
+            messagesJsonList.clear();
+            for (ChatResponse.MessageContent msg : chatResponse.getChatMsgList()) {
+                Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: "
+                        + " @@ msgContent >> " + msg.getContent()
+                        + " @@ userName >> " + msg.getSender()
+                        + " @@ senderID >> " + msg.getSenderID()
+                        + " @@ msgID >>" + msg.getMsgID());
 
-            JSONObject msgJSONObj = new JSONObject();
+                JSONObject msgJSONObj = new JSONObject();
 
-            try {
-                msgJSONObj.put(HelperClass.NAME, msg.getSender());
-                msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
-                msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
+                try {
+                    msgJSONObj.put(HelperClass.NAME, msg.getSender());
+                    msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
+                    msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
 
-                msgJSONObj.put(IS_SEND, userStorage.getId() == msg.getSenderID());
+                    msgJSONObj.put(IS_SEND, userStorage.getId() == msg.getSenderID());
 
 //                msgJSONObj.put(IS_STORED_MESSAGE, userStorage.getId() == msg.getSenderID());
-                Log.i(TAG, "##ChatFragment --  getChatMessagesObserve: msgJSONObj >>  "
-                        + msgJSONObj.toString());
-                messagesJsonList.add(msgJSONObj);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    Log.i(TAG, "##ChatFragment --  getChatMessagesObserve: msgJSONObj >>  "
+                            + msgJSONObj.toString());
+                    messagesJsonList.add(msgJSONObj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+            Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: messagesJsonList.size() >> " + messagesJsonList.size());
+            messageAdapter.setMessages(messagesJsonList);
+            if (!messagesJsonList.isEmpty()) {
+                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+            }
+
         }
-        Log.i(TAG, "##ChatFragment -- getChatMessagesObserve: messagesJsonList.size() >> " + messagesJsonList.size());
-        messageAdapter.setMessages(messagesJsonList);
-        if (!messagesJsonList.isEmpty()) {
-            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+        else {
+            HelperClass.showAlert("Error", HelperClass.SERVER_DOWN,
+                    getContext());
+
         }
         //  messageAdapter.notifyDataSetChanged();
         CustomProgressDialog.getInstance(getContext()).cancel();
