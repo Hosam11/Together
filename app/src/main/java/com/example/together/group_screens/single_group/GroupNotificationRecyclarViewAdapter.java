@@ -111,13 +111,27 @@ public class GroupNotificationRecyclarViewAdapter extends RecyclerView.Adapter<G
         holder.declineRequest.setOnClickListener((e)->{
             rejectReqJoinGroup(requests.get(position).getId());
             requests.remove(position);
+            if(requests.size()==0){
+                joinRequestsFragment.requestsStatus.setVisibility(View.VISIBLE);
+            }
+            else {
+                joinRequestsFragment.requestsStatus.setVisibility(View.INVISIBLE);
+
+            }
             notifyDataSetChanged();
         });
         holder.acceptRequest.setOnClickListener((e)->{
             acceptReqJoinGroup(requests.get(position).getId());
-            joinRequestsFragment.showAllRequestsForGroup();
             requests.remove(position);
+            if(requests.size()==0){
+                joinRequestsFragment.requestsStatus.setVisibility(View.VISIBLE);
+            }
+            else {
+                joinRequestsFragment.requestsStatus.setVisibility(View.INVISIBLE);
+
+            }
             notifyDataSetChanged();
+           // joinRequestsFragment.showAllRequestsForGroup();
         });
 
     }

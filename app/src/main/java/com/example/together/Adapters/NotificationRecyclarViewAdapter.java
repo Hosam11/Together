@@ -49,11 +49,9 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
     ArrayList<Notification>notificationArrayList=new ArrayList<>();
     public Context context;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+
         private TextView not_title;
         private TextView not_description;
         private ImageView not_image;
@@ -72,7 +70,6 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public NotificationRecyclarViewAdapter(ArrayList<Notification> notificationArrayList,Context context) {
 
         this.notificationArrayList=notificationArrayList;
@@ -80,7 +77,6 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
         userStorage = new Storage(context);
         commonStorage = new Storage();
 
-        //Log.i(TAG, "GroupsAdapter -- onBindViewHolder: curGroup >> " + curGroup);
         groupViewModel = new ViewModelProvider((ViewModelStoreOwner) context)
                 .get(GroupViewModel.class);
 
@@ -105,20 +101,21 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.not_title.setText(notificationArrayList.get(position).getTitle());
         holder.not_description.setText(notificationArrayList.get(position).getBody());
-        Glide.with(context).load(notificationArrayList.get(position).getImg()).placeholder(R.drawable
+        Glide.with(context).load(notificationArrayList.get(position).getGroup().getImage()).placeholder(R.drawable
                 .together_notification_logo).into(holder.not_image);
         holder.frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Check notification type
-
                 curGroup = notificationArrayList.get(position).getGroup();
-                Log.i(TAG, "GroupsAdapter -- onBindViewHolder: onClick() curGroup >> " + curGroup);
+
+                Log.i(TAG, "notificationArrayList -- onBindViewHolder: onClick() curGroup >> " + curGroup);
                 CustomProgressDialog.getInstance(context).show();
                 if (HelperClass.checkInternetState(context)) {
                     if(curGroup!=null) {
-                        Log.i(TAG, "GroupsAdapter -- onClick: curGroup.getGroupID() >> " + curGroup.getGroupID()
+                        Log.i(TAG, "notificationArrayList -- onClick: curGroup.getGroupID() >> " + curGroup.getGroupID()
                                 + "\n@@userStorage.getId() >> " + userStorage.getId());
+
                         groupViewModel.userRequestJoinStatus(curGroup.getGroupID(),
                                 userStorage.getId(), userStorage.getToken())
                                 .observe((LifecycleOwner) context,
@@ -166,6 +163,8 @@ public class NotificationRecyclarViewAdapter extends RecyclerView.Adapter<Notifi
             goViewGroupWithUserGroupStatus(USER_WAITING_JOIN_GROUP);
         } // User In Group
         else if (generalRes.response.equals(HelperClass.USER_IN_GROUP)) {
+            commonStorage.saveGroup(curGroup,context);
+
             // go to view pager
             Log.i(HelperClass.TAG, "GroupsAdapter -- observeJoinStatus:  user in group");
             Intent goGroup = new Intent(context, GroupViewPager.class);

@@ -169,6 +169,8 @@ public class AboutGroupFragment extends Fragment  {
 
     }
     public void leaveGroup(Group receivedG){
+        CustomProgressDialog.getInstance(getContext()).show();
+
         if (HelperClass.checkInternetState(getContext())) {
             //TODO:// represents Gid
 
@@ -176,9 +178,10 @@ public class AboutGroupFragment extends Fragment  {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response != null) {
-                        CustomProgressDialog.getInstance(getContext()).show();
 
                         Toast.makeText(getContext(), response.response, Toast.LENGTH_LONG).show();
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
                         Objects.requireNonNull(getActivity()).finish();
                     } else {
                         CustomProgressDialog.getInstance(getContext()).cancel();
