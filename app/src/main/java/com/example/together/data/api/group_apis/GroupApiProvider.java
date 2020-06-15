@@ -9,7 +9,6 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.model.MessageId;
-import com.example.together.utils.HelperClass;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -336,7 +335,7 @@ public class GroupApiProvider {
      * @param gpID group id that you want to get chat of it
      * @return {@link ChatResponse} that carry details of each message
      */
-    MutableLiveData<ChatResponse> getChatMessages(int gpID,String token) {
+    MutableLiveData<ChatResponse> getChatMessages(int gpID, String token) {
         MutableLiveData<ChatResponse> messagesRes = new MutableLiveData<>();
 
         Call<ChatResponse> chatCall = groupAPIInterface.getChatMessages(gpID,
@@ -345,8 +344,8 @@ public class GroupApiProvider {
         chatCall.enqueue(new Callback<ChatResponse>() {
             @Override
             public void onResponse(Call<ChatResponse> call, Response<ChatResponse> res) {
-              Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
-                   + res.body().getChatMsgList().size());
+                Log.i(TAG, "GroupApiProvider  -- getChatMessages() enqueue() a body.size() >> "
+                        + res.body().getChatMsgList().size());
                 messagesRes.setValue(res.body());
             }
 
@@ -362,7 +361,7 @@ public class GroupApiProvider {
         return messagesRes;
     }
 
-    MutableLiveData<GeneralResponse> deleteChatMsg (MessageId msgID, int adminID, String token) {
+    MutableLiveData<GeneralResponse> deleteChatMsg(MessageId msgID, int adminID, String token) {
         MutableLiveData<GeneralResponse> deleteMsgData = new MutableLiveData<>();
 
         Call<GeneralResponse> callDeleteMsg = groupAPIInterface.deleteChatMsg(msgID, adminID,

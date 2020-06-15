@@ -176,6 +176,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
         findViewById(R.id.btn_create_group).setOnClickListener(v -> {
             if (validGroupData()) {
+
                 createGroup();
             }
         });
@@ -294,7 +295,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
             etErrorMember.setError(null);
         }
         // Group Duration
-        if (duration == 0) {
+        if (duration <= 0) {
             etErrorDuration.setError("atleast 1 weak");
             valid = false;
         } else if (duration >= 13) {
@@ -324,7 +325,10 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     public void decrement(EditText tv) {
-        int decrement = Integer.parseInt(tv.getText().toString());
+        String tvValue = tv.getText().toString().replaceAll("\\D+","").trim();
+        Log.i(TAG, "decrement: after replace All" + tvValue);
+
+        int decrement = Integer.parseInt(tvValue);
 //        Log.i(TAG, "AddGroup -- onCreate: decrement" + decrement);
         if (decrement != 0) {
             decrement--;
@@ -334,7 +338,9 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     public void increment(EditText tv, boolean isDuration) {
-        int increment = Integer.parseInt(tv.getText().toString());
+        String tvValue = tv.getText().toString().replaceAll("\\D+","").trim();
+        Log.i(TAG, "increment: after replace All" + tvValue);
+        int increment = Integer.parseInt(tvValue);
 //        Log.i(TAG, "AddGroup -- onCreate: increment" + increment);
         if (isDuration & increment == 12) {
 
