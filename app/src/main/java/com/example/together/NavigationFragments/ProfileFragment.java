@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment implements
         containerLayout = v.findViewById(R.id.container_layout);
         shimmerContainer = v.findViewById(R.id.shimmer_container);
         showShimmer();
-        storage = new Storage(getContext());
 
 
 
@@ -197,12 +196,13 @@ public class ProfileFragment extends Fragment implements
     public void onResume() {
 
         super.onResume();
+        storage = new Storage(getContext());
+
         showShimmer();
         CustomProgressDialog.getInstance(getContext()).show();
 
 
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-
             setProfileDataObservable();
         } else {
 
@@ -216,7 +216,7 @@ public class ProfileFragment extends Fragment implements
 
     private void setProfileDataObservable() {
 
-        Log.i("TOKEN", storage.getToken());
+        Log.i("TOKEN", ""+storage.getId());
 
 
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
