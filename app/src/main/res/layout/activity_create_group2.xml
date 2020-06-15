@@ -192,6 +192,7 @@
 
                 <EditText
                     android:id="@+id/et_show_error_member"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -257,15 +258,15 @@
             </LinearLayout>
 
             <Button
-                android:foreground="?android:selectableItemBackground"
-
                 android:id="@+id/btn_create_group"
+
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_marginLeft="55dp"
                 android:layout_marginRight="55dp"
                 android:layout_marginBottom="55dp"
                 android:background="@drawable/login_signup_shape"
+                android:foreground="?android:selectableItemBackground"
                 android:text="Create Group"
                 android:textColor="#fff" />
 

@@ -156,8 +156,7 @@ public class ChatFragment extends Fragment implements TextWatcher {
             JSONObject msgJSONObj = new JSONObject();
 
             try {
-                msgJSONObj.put(HelperClass.NAME, msg.get
-                               er());
+                msgJSONObj.put(HelperClass.NAME, msg.getSender());
                 msgJSONObj.put(HelperClass.MESSAGE, msg.getContent());
                 msgJSONObj.put(HelperClass.MSG_ID, msg.getMsgID());
 
