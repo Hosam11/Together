@@ -54,9 +54,12 @@ public class ChatFragment extends Fragment implements TextWatcher {
     private Storage userStorage;
     private Storage commonStorage;
     private GroupViewModel groupViewModel;
-    private WebSocket webSocket;
+
     private String SERVER_PATH = "ws://192.168.1.2:3000";
     int count =0;
+
+
+
 
 
 
