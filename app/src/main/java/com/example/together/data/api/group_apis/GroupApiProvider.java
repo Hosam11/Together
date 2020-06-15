@@ -352,6 +352,9 @@ public class GroupApiProvider {
             @Override
             public void onFailure(Call<ChatResponse> call, Throwable t) {
                 t.printStackTrace();
+                ChatResponse chatResponse=new ChatResponse();
+                chatResponse.setServerDown(true);
+                messagesRes.setValue(chatResponse);
                 Log.i(TAG, "GroupApiProvider --  getChatMessages() onFailure: " +
                         t.getMessage());
                 call.cancel();

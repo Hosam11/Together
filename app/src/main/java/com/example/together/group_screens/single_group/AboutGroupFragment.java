@@ -131,19 +131,6 @@ public class AboutGroupFragment extends Fragment  {
 
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog.getInstance(getContext()).show();
-
-
-// represents Gid
-
-
-            getGroupDetails(receivedGroup.getGroupID());
-        } else {
-            CustomProgressDialog.getInstance(getContext()).cancel();
-            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
-
-        }
 
         // Inflate the layout for this fragment
         leaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +146,19 @@ public class AboutGroupFragment extends Fragment  {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (HelperClass.checkInternetState(getContext())) {
+            CustomProgressDialog.getInstance(getContext()).show();
+
+
+
+            getGroupDetails(receivedGroup.getGroupID());
+        } else {
+            CustomProgressDialog.getInstance(getContext()).cancel();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+
+        }
+
 
         receivedGroup = s.getGroup(getContext());
         nameTv.setText(receivedGroup.getGroupName());
