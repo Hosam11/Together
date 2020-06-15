@@ -96,6 +96,7 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        searchEditText.setText("");
         CustomProgressDialog.getInstance(getContext()).show();
         if(HelperClass.checkInternetState(getContext())){
             getInterests();

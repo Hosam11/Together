@@ -54,7 +54,7 @@ public class HandleViewModelProcess {
                 }
                 else {
                     customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,boardFragment.getContext());
 
                 }
             });

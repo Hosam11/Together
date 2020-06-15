@@ -192,11 +192,12 @@
 
                 <EditText
                     android:id="@+id/et_show_error_member"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="#fff"
+                    android:editable="false"
                     android:inputType="none" />
 
 
@@ -253,6 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="#fff"
+                    android:editable="false"
                     android:inputType="none" />
 
             </LinearLayout>

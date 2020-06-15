@@ -146,6 +146,7 @@ public class GroupApiProvider {
 
             @Override
             public void onFailure(Call<List<JoinGroupResponse>> call, Throwable t) {
+                groupResList.setValue(null);
                 t.printStackTrace();
                 Log.i("aaa", "onFailure: " + t.getMessage());
                 call.cancel();
