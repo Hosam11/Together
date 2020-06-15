@@ -20,9 +20,11 @@ import android.widget.ToggleButton;
 import com.example.together.Adapters.NotificationRecyclarViewAdapter;
 import com.example.together.Adapters.POJO;
 import com.example.together.BottomNavigationView;
+import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.JoinGroupResponse;
 import com.example.together.data.storage.Storage;
+import com.example.together.utils.HelperClass;
 import com.example.together.view_model.GroupViewModel;
 
 import java.util.ArrayList;
@@ -70,15 +72,36 @@ public class JoinRequestsFragment extends Fragment {
     }
 
     public void showAllRequestsForGroup() {
+        CustomProgressDialog customProgressDialog = new CustomProgressDialog(getContext());
+        if(HelperClass.checkInternetState(getContext())) {
 
-        groupViewModel.getAllRequestJoinForGroup(s.getGroup(getContext()).getGroupID(),st.getToken()).observe(this, requestsJoinList -> {
-                Log.i("aaa"," -- getAllResponsesForGroup() enqueue() a req >> " + requestsJoinList);
-                requests=requestsJoinList;
-            adapter= new GroupNotificationRecyclarViewAdapter(requests,getContext(),this);
-            adapter.notifyDataSetChanged();
-            recyclerView.setAdapter(adapter);
+            customProgressDialog.show();
+            groupViewModel.getAllRequestJoinForGroup(s.getGroup(getContext()).getGroupID(), st.getToken()).observe(this, requestsJoinList -> {
 
-        });
+                if (requestsJoinList != null) {
+                    Log.i("aaa", " -- getAllResponsesForGroup() enqueue() a req >> " + requestsJoinList);
+                    requests = requestsJoinList;
+                    customProgressDialog.cancel();
+
+                    adapter = new GroupNotificationRecyclarViewAdapter(requests, getContext(), this);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+                }
+                else {
+                    customProgressDialog.cancel();
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
+                }
+
+
+
+            });
+        }
+        else {
+            customProgressDialog.cancel();
+
+            HelperClass.showAlert("Error",HelperClass.checkYourCon,getContext());
+
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@
 
 package com.example.together.ToDoListPachage;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolder> {
 
@@ -85,6 +87,15 @@ public class ItemAdapter extends DragItemAdapter<ListTask, ItemAdapter.ViewHolde
         holder.title.setText(mItemList.get(position).getTitle());
         holder.description.setText(mItemList.get(position).getDescription());
         holder.itemView.setTag(mItemList.get(position));
+        holder.description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(holder.description.getText());
+                Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         if(isAdmin) {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
