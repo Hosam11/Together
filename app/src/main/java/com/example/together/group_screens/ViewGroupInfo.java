@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.GeneralResponse;
@@ -44,7 +45,7 @@ public class ViewGroupInfo extends AppCompatActivity {
     Storage commonStorage;
     Group savedGroup;
     // TODO 10 is fixed for now
-    int groupID = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +64,33 @@ public class ViewGroupInfo extends AppCompatActivity {
         //
         actionToGroup = findViewById(R.id.btn_action_group);
 
-        // FixMe i need group id here
-        // dummy data just for test
-        // Hint only groupID and adminID that will be real to test
-        String gpName = "Android fro begginers";
-        String desc = "android desc";
-        String gpInterest = "java";
-        String gpDuration = "3 weeks";
-        String loation = "Egypt"; // may be null
-        String gpLevel = "Begginer";
-
         commonStorage = new Storage();
+        userStorage = new Storage(this);
 
+        savedGroup = commonStorage.getGroup(this);
+        Log.i(HelperClass.TAG, "ViewGroupInfo -- onCreate: >> " + savedGroup);
+        if (savedGroup.getImage() != null) {
+            Glide.with(this).load(savedGroup.getImage()).into(ivGroupImg);
+        }
+        tvGroupName.setText(savedGroup.getGroupName());
+        tvGroupDesc.setText(savedGroup.getGroupDesc());
+        if (savedGroup.getLocation() != null) {
+            tvGroupLocation.setText(savedGroup.getLocation());
+        } else {
+            tvGroupLocation.setText("Null");
+        }
+        if (savedGroup.getInterest() != null) {
+            tvGroupInterest.setText(savedGroup.getInterest());
+        } else {
+            tvGroupLocation.setText("Null");
+        }
+        tvGroupDuration.setText(String.valueOf(savedGroup.getDuration()));
+        tvGroupLevel.setText(savedGroup.getLevelRequired());
 
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
-        userStorage = new Storage(this);
         Log.i(HelperClass.TAG, "ViewGroup -- onCreate: btnIsEnable >> " + actionToGroup.isEnabled());
 
-        savedGroup = commonStorage.getGroup(this);
 
         // see if user wait or group full
         checkUserStatusGroup(savedGroup.getUserGroupStatus());
@@ -90,7 +99,7 @@ public class ViewGroupInfo extends AppCompatActivity {
             // [show] dialoge of user join
             CustomProgressDialog.getInstance(this).show();
             if (HelperClass.checkInternetState(this)) {
-                groupViewModel.requestJoinGroup(groupID, userStorage.getId(), userStorage.getToken())
+                groupViewModel.requestJoinGroup(savedGroup.getGroupID(), userStorage.getId(), userStorage.getToken())
                         .observe(this, this::observeSendJoinGroup);
             } else {
                 CustomProgressDialog.getInstance(this).cancel();
@@ -102,13 +111,14 @@ public class ViewGroupInfo extends AppCompatActivity {
     }
 
     private void checkUserStatusGroup(String userGroupStatus) {
-        if (userGroupStatus.equals(PENDING)) {
+        //This user waiting for admin of group to accept his request of join
+        if (userGroupStatus.equals(HelperClass.USER_WAITING_JOIN_GROUP)) {
             Log.i(HelperClass.TAG, "ViewGroup -- observeJoinStatus: user waitting to response");
             disabledButton(PENDING);
         } else if (userGroupStatus.equals(GROUP_FULL)) {
             disabledButton("Sorry Group Is Full..");
         } else {
-            Log.i(HelperClass.TAG, "checkUserStatusGroup: userGroupStatus >> else statment"
+            Log.i(HelperClass.TAG, "checkUserStatusGroup: userGroupStatus >> else statment  "
                     + userGroupStatus);
         }
     }

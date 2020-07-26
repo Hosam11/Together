@@ -219,7 +219,7 @@ public class EditProfile extends AppCompatActivity
         Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                 Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
                 .setTypeFilter(TypeFilter.ADDRESS)
-                .setCountries(Arrays.asList("EG"))
+//                .setCountries(Arrays.asList("EG"))
                 .build(getApplicationContext());
         startActivityForResult(i, AUTOCOMPLETE_REQUEST_CODE);
 

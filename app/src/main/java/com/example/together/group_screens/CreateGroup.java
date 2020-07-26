@@ -42,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import id.zelory.compressor.Compressor;
@@ -135,10 +137,25 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         interests = new ArrayList<>();
         locations = new ArrayList<>();
 
-
-        locations.add("egypt");
-        locations.add("german");
-        locations.add("spain");
+        locations.addAll(Arrays.asList(getResources().getStringArray(R.array.countries)));
+        Collections.sort(locations);
+/*
+        locations.add("Austria");
+        locations.add("Brazil");
+        locations.add("China");
+        locations.add("Egypt");
+        locations.add("France");
+        locations.add("German");
+        locations.add("Spain");
+        locations.add("Italy");
+        locations.add("Romania");
+        locations.add("Oman");
+        locations.add("Mexico");
+        locations.add("Maldives");
+        locations.add("Portugal");
+        locations.add("Russia");
+        locations.add("Turkey");
+        locations.add("Saudi Arabia");*/
 
         levels.add("Beginner");
         levels.add("Intermediate");
