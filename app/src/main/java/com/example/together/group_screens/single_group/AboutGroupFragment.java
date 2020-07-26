@@ -44,6 +44,8 @@ public class AboutGroupFragment extends Fragment  {
     ImageView groupImgView;
     TextView nameTv;
     TextView groupDescriptionTv;
+    TextView groupLevelTv;
+    TextView groupInterestTv;
     TextView editGroupTv;
     Button leaveBtn;
     UsersViewModel userViewModel;
@@ -78,6 +80,8 @@ public class AboutGroupFragment extends Fragment  {
         groupImgView = view.findViewById(R.id.group_img_tv);
         nameTv = view.findViewById(R.id.name_tv);
         groupDescriptionTv = view.findViewById(R.id.group_description_tv);
+        groupLevelTv=view.findViewById(R.id.group_level_tv);
+        groupInterestTv=view.findViewById(R.id.group_interest_tv);
         editGroupTv = view.findViewById(R.id.edit_group_tv);
         leaveBtn = view.findViewById(R.id.leave_btn);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -97,7 +101,6 @@ public class AboutGroupFragment extends Fragment  {
 //                    goEditGroup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     getContext().startActivity(goEditGroup);
 
-                    Toast.makeText(getContext(), "Here", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -118,11 +121,9 @@ public class AboutGroupFragment extends Fragment  {
 
         nameTv.setText(receivedGroup.getGroupName());
         groupDescriptionTv.setText(receivedGroup.getGroupDesc());
-        //  groupImgView TODO HERE Getting Image
+        groupLevelTv.setText(receivedGroup.getLevelRequired());
 
         if (receivedGroup.getImage() != null) {
-//        groupImgView.setImageBitmap(HelperClass.decodeBase64(receivedGroup.getPhoto()));
-
             Glide.with(getContext()).load(receivedGroup.getImage()).into(groupImgView);
             Log.i(TAG, "AboutGroupFragment onCreateView: imgUrl" + receivedGroup.getImage());
         }
@@ -130,19 +131,6 @@ public class AboutGroupFragment extends Fragment  {
 
         userViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
-        if (HelperClass.checkInternetState(getContext())) {
-            CustomProgressDialog.getInstance(getContext()).show();
-
-
-// represents Gid
-
-
-            getGroupDetails(receivedGroup.getGroupID());
-        } else {
-            CustomProgressDialog.getInstance(getContext()).cancel();
-            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
-
-        }
 
         // Inflate the layout for this fragment
         leaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +147,19 @@ public class AboutGroupFragment extends Fragment  {
     public void onResume() {
         super.onResume();
 
+        if (HelperClass.checkInternetState(getContext())) {
+            CustomProgressDialog.getInstance(getContext()).show();
+
+
+
+            getGroupDetails(receivedGroup.getGroupID());
+        } else {
+            CustomProgressDialog.getInstance(getContext()).cancel();
+            HelperClass.showAlert("Error", HelperClass.checkYourCon, getContext());
+
+        }
+
+
         receivedGroup = s.getGroup(getContext());
         nameTv.setText(receivedGroup.getGroupName());
         groupDescriptionTv.setText(receivedGroup.getGroupDesc());
@@ -168,6 +169,8 @@ public class AboutGroupFragment extends Fragment  {
 
     }
     public void leaveGroup(Group receivedG){
+        CustomProgressDialog.getInstance(getContext()).show();
+
         if (HelperClass.checkInternetState(getContext())) {
             //TODO:// represents Gid
 
@@ -175,9 +178,10 @@ public class AboutGroupFragment extends Fragment  {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response != null) {
-                        CustomProgressDialog.getInstance(getContext()).show();
 
                         Toast.makeText(getContext(), response.response, Toast.LENGTH_LONG).show();
+                        CustomProgressDialog.getInstance(getContext()).cancel();
+
                         Objects.requireNonNull(getActivity()).finish();
                     } else {
                         CustomProgressDialog.getInstance(getContext()).cancel();
@@ -231,6 +235,7 @@ public class AboutGroupFragment extends Fragment  {
                     @Override
                     public void onChanged(Group groupDetails) {
                         if (groupDetails != null) {
+                            groupInterestTv.setText(groupDetails.getInterest());
                             groupMembersList.clear();
                             groupMembersList.addAll(groupDetails.getMembers());
                             adapter.notifyDataSetChanged();

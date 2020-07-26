@@ -92,7 +92,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Group join requrst"
+                            android:text=""
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             android:textColor="@color/majorColor"
                             android:textSize="16sp"

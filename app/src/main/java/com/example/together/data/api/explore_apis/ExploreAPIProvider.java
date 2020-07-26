@@ -92,6 +92,7 @@ public class ExploreAPIProvider {
 
             @Override
             public void onFailure(Call<HashMap<String,List<Group>>> call, Throwable t) {
+                groupList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();
@@ -110,14 +111,18 @@ public class ExploreAPIProvider {
             @Override
             public void onResponse(Call <HashMap<String,List<Interest>>> call,
                                    Response<HashMap<String,List<Interest>>> res) {
+                if(res.body()!=null) {
 
-                Log.i(TAG, "ExploreApiProvider  -- getInterests() response --"
-                        + res.body());
-                interestList.setValue(res.body().get("data"));
+                    Log.i(TAG, "ExploreApiProvider  -- getInterests() response --"
+                            + res.body());
+                    interestList.setValue(res.body().get("data"));
+                }
+                else {interestList.setValue(null);}
             }
 
             @Override
             public void onFailure(Call<HashMap<String,List<Interest>>> call, Throwable t) {
+                interestList.setValue(null);
                 t.printStackTrace();
                 Log.i(TAG, "onFailure: " + t.getMessage());
                 call.cancel();

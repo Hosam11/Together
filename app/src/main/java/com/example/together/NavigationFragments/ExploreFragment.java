@@ -73,28 +73,30 @@ public class ExploreFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         gridView.setAdapter(interestAdapter);
         progressDialog.show();
-        getInterests();
 
     }
 
     private void getInterests() {
         Storage storage = new Storage(getContext());
         exploreViewModel.getInterests(storage.getToken()).observe(this, interestsList -> {
-            if(interestsList!=null){
+            if(interestsList==null){
+                CustomProgressDialog.getInstance(getContext()).cancel();
+                HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());
+
+            }
+            else {
                 interests.clear();
                 interests.addAll(interestsList);
                 interestAdapter.notifyDataSetChanged();
                 CustomProgressDialog.getInstance(getContext()).cancel();
-            }
-            else {
-                CustomProgressDialog.getInstance(getContext()).cancel();
-                HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,getContext());}
+               }
         });
 
     }
     @Override
     public void onResume() {
         super.onResume();
+        searchEditText.setText("");
         CustomProgressDialog.getInstance(getContext()).show();
         if(HelperClass.checkInternetState(getContext())){
             getInterests();
@@ -116,6 +118,7 @@ public class ExploreFragment extends Fragment {
     private void search(String word){
         Log.i("search", "search: "+word.length()+(word==null));
         if(!word.isEmpty()) {
+
             new Storage().saveKeyword(word, getActivity());
             Intent intent = new Intent(getActivity(), SearchResultActivity.class);
             startActivity(intent);

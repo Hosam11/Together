@@ -3,7 +3,7 @@
     <string name="group_image">group image</string>
     <string name="hint_type_group_name">type group name</string>
     <string name="hint_type_group_description">type group description</string>
-    <string name="interest">Interest</string>
+    <string name="interesta">Interest:</string>
     <string name="required_level">Required Level</string>
     <string name="max_number_of_members">Max number of members</string>
     <string name="members_number">Members number</string>
@@ -81,6 +81,11 @@
 
     <string name="empty_search">No Results Found Try Different Keywords</string>
     <string name="empty_interest">This No Groups in This Category</string>
+    <string name="You_don_t_have_any_requests_to_be_displayed" />
+    <string name="search_result_for_keyword">Search Result For Keyword</string>
+    <string name="no_results_found_try_different_keywords">No Results Found Try Different Keywords</string>
+    <string name="level">Level:</string>
+    <string name="interest">Interest</string>
 
 
     <string-array name="countries">

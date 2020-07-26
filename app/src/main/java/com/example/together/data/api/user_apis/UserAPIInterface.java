@@ -51,15 +51,13 @@ public interface UserAPIInterface {
 
     @GET("show/{groupid}")
     Call<Group> getSpecificGroupDetails(@Path("groupid") int groupid,
-                                               @Header("Authorization") String header);
+                                        @Header("Authorization") String header);
 
     @GET("remove/{groupId}/{id}?")
     Call<GeneralResponse> removeMemberFromGroup(@Path("groupId") int groupId,
                                                 @Path("id") int id,
                                                 @Query("current_user_id") int adminId,
                                                 @Header("Authorization") String header);
-
-
 
 
     @GET("leave/{groupid}/{id}")
@@ -69,10 +67,8 @@ public interface UserAPIInterface {
     );
 
 
-    @GET("logout/{id}")
-    Call<GeneralResponse> logout(@Path("id") int id,
-                                 @Header("Authorization") String token);
-
+    @POST("logout/")
+    Call<GeneralResponse> logout(@Body String token);
 
 
     //update user device token

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:background="#f9f9f9"
         android:orientation="vertical">
-        <!--  CreateGroup Head -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,8 @@
                 style="@style/create_group_common_et"
                 android:layout_marginBottom="0dp"
                 android:hint="group name"
-                android:text="gp name"
+                android:maxLength="255"
+                android:text=""
                 android:textCursorDrawable="@drawable/cursor_color" />
 
             <View style="@style/create_group_view_edit_text" />
@@ -100,8 +101,9 @@
                 android:id="@+id/et_edit_group_desc"
                 style="@style/create_group_common_et"
                 android:hint="group description"
+                android:maxLength="255"
                 android:maxLines="3"
-                android:text="gp desc"
+                android:text=""
                 android:textCursorDrawable="@drawable/cursor_color" />
 
             <View style="@style/create_group_view_edit_text" />

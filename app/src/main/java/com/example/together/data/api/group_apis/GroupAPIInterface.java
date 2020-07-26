@@ -4,6 +4,7 @@ import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.MessageId;
 
 import java.util.List;
 
@@ -63,8 +64,8 @@ public interface GroupAPIInterface {
     Call<ChatResponse> getChatMessages(@Path("groupId") int gpID,
                                        @Header("Authorization") String token);
 
-    @GET("deleteMessage/{msgID}?")
-    Call<GeneralResponse> deleteChatMsg(@Path("msgID") int msgID,
+    @POST("deleteMessage/?")
+    Call<GeneralResponse> deleteChatMsg(@Body MessageId messageId,
                                         @Query("current_user_id") int adminID,
                                         @Header("Authorization") String token);
 

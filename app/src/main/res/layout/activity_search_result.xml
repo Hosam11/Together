@@ -1,62 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".groups.SearchResultActivity"
-    android:background="#f9f9f9">
-    <TextView
-        android:id="@+id/groupsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#1a1a1a"
-        android:text="@string/groups"
-        android:layout_margin="16dp"
-        android:textSize="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <TextView
-        android:id="@+id/keyword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#9f9f9f"
-        android:text="Search Result For keyword"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@id/groupsText"
-        app:layout_constraintTop_toBottomOf="@id/groupsText"
-        />
-    <TextView
-        android:id="@+id/tv_no_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/empty_search"
-        android:textAppearance="?android:textAppearanceMedium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@color/primaryColor"
-        android:visibility="gone" />
+    android:background="#f9f9f9"
+    android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/groups"
-        android:layout_marginTop="28dp"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyword" />
+        android:layout_height="wrap_content"
+        android:weightSum="10">
 
-    <include
-        android:id="@+id/btn_create_group_fragment"
-        layout="@layout/add_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="80dp"
-        android:layout_height="100dp" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/groupsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="22dp"
+                android:text="@string/groups"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/search_result_for_keyword"
+                android:textColor="#000000"
+                android:textSize="13sp"
+
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include
+            android:id="@+id/btn_create_group_fragment"
+            layout="@layout/add_button"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:id="@+id/alert_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_results_found_try_different_keywords"
+            android:textAlignment="center"
+            android:textColor="@color/majorColor"
+            android:textSize="14dp"
+            />
+
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/groups"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f9f9f9" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

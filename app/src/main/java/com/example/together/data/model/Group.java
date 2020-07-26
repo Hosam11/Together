@@ -35,9 +35,18 @@ public class Group {
     private int groupID;
     //added last
 
+    @SerializedName("interest_name")
+    private  String interestName;
+    public String getInterestName() {
+        return interestName;
+    }
+
+    public void setInterestName(String interestName) {
+        this.interestName = interestName;
+    }
+
     //as a group id in get request
     // private int  id;
-
 
     @SerializedName("members")
     private ArrayList<User> members = new ArrayList<>();
@@ -248,7 +257,7 @@ public class Group {
                         "\nduration: " + duration +
                         "\nstatus: " + status +
                         "\nlevel: " + levelRequired +
-                        "\ninterest : " + interest +
+                        "\ninterest_name : " + interestName +
                         "\nimage : " + image
 
         );

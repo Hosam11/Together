@@ -69,12 +69,13 @@ public class UsersRepo {
     }
 
     // :Logout
-    public MutableLiveData<GeneralResponse> logout(int id, String token){
-        return userAPIProvider.logout(id, token);
+
+
+    public MutableLiveData<GeneralResponse> logout( String token){
+        return userAPIProvider.logout(token);
 
 
     }
-
 
 
 

@@ -59,9 +59,7 @@ public class ViewGroupInfo extends AppCompatActivity {
         tvGroupDuration = findViewById(R.id.tv_view_gp_duration);
         tvGroupLocation = findViewById(R.id.tv_view_gp_location);
         tvGroupLevel = findViewById(R.id.tv_view_gp_level);
-        //
         ivGroupImg = findViewById(R.id.iv_view_gp);
-        //
         actionToGroup = findViewById(R.id.btn_action_group);
 
         commonStorage = new Storage();
@@ -74,16 +72,15 @@ public class ViewGroupInfo extends AppCompatActivity {
         }
         tvGroupName.setText(savedGroup.getGroupName());
         tvGroupDesc.setText(savedGroup.getGroupDesc());
+
         if (savedGroup.getLocation() != null) {
             tvGroupLocation.setText(savedGroup.getLocation());
         } else {
-            tvGroupLocation.setText("Null");
+            tvGroupLocation.setText("This group does't specify a location");
         }
-        if (savedGroup.getInterest() != null) {
-            tvGroupInterest.setText(savedGroup.getInterest());
-        } else {
-            tvGroupLocation.setText("Null");
-        }
+
+        tvGroupInterest.setText(savedGroup.getInterestName());
+
         tvGroupDuration.setText(String.valueOf(savedGroup.getDuration()));
         tvGroupLevel.setText(savedGroup.getLevelRequired());
 

@@ -54,7 +54,7 @@ public class HandleViewModelProcess {
                 }
                 else {
                     customProgressDialog.cancel();
-                    HelperClass.showAlert("Error","Invalid request, please try again later",boardFragment.getContext());
+                    HelperClass.showAlert("Error",HelperClass.SERVER_DOWN,boardFragment.getContext());
 
                 }
             });
@@ -270,7 +270,7 @@ public class HandleViewModelProcess {
                     boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.red));
 
                 }
-                else if(percentage>33&&percentage<66){
+                else if(percentage>=33&&percentage<66){
                     boardFragment.b.setProgressDrawable(boardFragment.getContext().getResources().getDrawable(R.drawable.progress_bar_group_custom_view_yellow));
                     boardFragment.percentageView.setTextColor(boardFragment.getContext().getResources().getColor(R.color.yellow));
 

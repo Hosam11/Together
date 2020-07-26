@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -87,6 +88,7 @@ public class ProfileFragment extends Fragment implements
         showShimmer();
 
 
+
         usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
 
 
@@ -115,7 +117,7 @@ public class ProfileFragment extends Fragment implements
       
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
 
-            usersViewModel.logout(storage.getId(), storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
+            usersViewModel.logout(storage.getToken()).observe(getViewLifecycleOwner(), new Observer<GeneralResponse>() {
                 @Override
                 public void onChanged(GeneralResponse response) {
                     if (response != null) {
@@ -194,11 +196,13 @@ public class ProfileFragment extends Fragment implements
     public void onResume() {
 
         super.onResume();
+        storage = new Storage(getContext());
+
+        showShimmer();
         CustomProgressDialog.getInstance(getContext()).show();
 
 
         if (HelperClass.checkInternetState(Objects.requireNonNull(getContext()))) {
-
             setProfileDataObservable();
         } else {
 
@@ -212,8 +216,7 @@ public class ProfileFragment extends Fragment implements
 
     private void setProfileDataObservable() {
 
-        storage = new Storage(getContext());
-        Log.i("TOKEN", storage.getToken());
+        Log.i("TOKEN", ""+storage.getId());
 
 
         Log.i(TAG, "ProfileFragment -- setProfileDataObservable: storage.getId()"
@@ -223,26 +226,28 @@ public class ProfileFragment extends Fragment implements
                     // TODO Ghrabawi userData object that carry all info about user
                     //  set UI here with values
                     if (userData != null) {
-                        Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
-                        hideShimmer();
-                        user = userData;
-
-                        nameTv.setText(userData.getName());
-                        emailTv.setText(userData.getEmail());
-                        addressEt.setText(userData.getAddress());
-                        dateEt.setText(userData.getBirthDate());
-                        genderEt.setText(userData.getGender());
-
-                        Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
-                                .user_image).into(profileImage);
 
 
-                        displayInterests(userData.getInterests());
+                            Log.i(TAG, "ProfileFragment -- setProfileDataObservable: userData >>  " + userData);
+                            hideShimmer();
+                            user = userData;
+
+                            nameTv.setText(userData.getName());
+                            emailTv.setText(userData.getEmail());
+                            addressEt.setText(userData.getAddress());
+                            dateEt.setText(userData.getBirthDate());
+                            genderEt.setText(userData.getGender());
+
+                            Glide.with(getContext()).load(userData.getImage()).placeholder(R.drawable
+                                    .user_image).into(profileImage);
 
 
-                        CustomProgressDialog.getInstance(getContext()).cancel();
+                            displayInterests(userData.getInterests());
 
-                    } else {
+
+                            CustomProgressDialog.getInstance(getContext()).cancel();
+                          }
+                     else {
                         HelperClass.showAlert("Error", HelperClass.SERVER_DOWN, getContext());
                         CustomProgressDialog.getInstance(getContext()).cancel();
 
@@ -254,15 +259,17 @@ public class ProfileFragment extends Fragment implements
 
 
     public void displayInterests(List<String> interests) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < interests.size(); i++) {
 
-            builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
+        if(interests!=null) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < interests.size(); i++) {
+
+                builder.append("●   " + "<span> &nbsp; </span>" + "<span style=\"color:black;\">" + interests.get(i) + "</span>" + "<br/> ");
 
 
+            }
+            interestTv.setText(Html.fromHtml(builder.toString()));
         }
-        interestTv.setText(Html.fromHtml(builder.toString()));
-
 
     }
 

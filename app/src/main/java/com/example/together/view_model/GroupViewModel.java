@@ -8,6 +8,7 @@ import com.example.together.data.model.ChatResponse;
 import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.JoinGroupResponse;
+import com.example.together.data.model.MessageId;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class GroupViewModel extends ViewModel {
         return groupRepo.getChatMessages(gpID,token);
     }
 
-    public MutableLiveData<GeneralResponse> deleteChatMsg(int msgID, int adminID, String token) {
+    public MutableLiveData<GeneralResponse> deleteChatMsg(MessageId msgID, int adminID, String token) {
         return groupRepo.deleteChatMsg(msgID, adminID, token);
     }
 

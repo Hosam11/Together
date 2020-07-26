@@ -15,8 +15,15 @@ public class ChatResponse {
     public List<MessageContent> getChatMsgList() {
         return chatMsgList;
     }
+private  boolean serverDown=false;
 
+    public boolean isServerDown() {
+        return serverDown;
+    }
 
+    public void setServerDown(boolean serverDown) {
+        this.serverDown = serverDown;
+    }
 
     public static class MessageContent {
         // "sender": "hos",
@@ -24,11 +31,11 @@ public class ChatResponse {
         private String sender;
         private String content;
         @SerializedName("msg_id")
-        private int msgID;
+        private String msgID;
         @SerializedName("sender_id")
         private int senderID;
 
-        public int getMsgID() {
+        public String getMsgID() {
             return msgID;
         }
 

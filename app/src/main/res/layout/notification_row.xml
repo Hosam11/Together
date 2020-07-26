@@ -12,6 +12,7 @@
     android:layout_marginTop="8dp">
 
     <FrameLayout
+        android:id="@+id/notiFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
@@ -42,13 +43,12 @@
                     android:weightSum="10">
 
 
-
                     <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        app:cardElevation="0dp"
-                        app:cardCornerRadius="4dp"
                         android:layout_gravity="center"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp"
 
                         >
 
@@ -74,7 +74,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Learn Android"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             android:textColor="@color/majorColor"
                             android:textSize="16sp"
@@ -85,16 +84,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:maxLines="1"
-                            android:text="We are groups that does some thing in some time and try"
+                            android:maxLines="2"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary"
 
                             android:textSize="15dp" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

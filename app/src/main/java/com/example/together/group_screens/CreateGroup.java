@@ -27,11 +27,9 @@ import com.example.together.data.model.GeneralResponse;
 import com.example.together.data.model.Group;
 import com.example.together.data.model.Interest;
 import com.example.together.data.storage.Storage;
-import com.example.together.group_screens.single_group.GroupViewPager;
 import com.example.together.utils.CommonSpinner;
 import com.example.together.utils.DownLoadImage;
 import com.example.together.utils.HelperClass;
-import com.example.together.utils.TestApis;
 import com.example.together.utils.UploadImageToFireBase;
 import com.example.together.view_model.GroupViewModel;
 import com.example.together.view_model.UsersViewModel;
@@ -125,11 +123,11 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         etErrorDuration = findViewById(R.id.et_show_error_duration);
         tvAddImg = findViewById(R.id.tv_add_image);
         groupImg = findViewById(R.id.iv_group_img);
-        groupImg.setOnClickListener(v -> {
-            // TODO reomve that when finishing
-            Intent testApis = new Intent(this, TestApis.class);
-            startActivity(testApis);
-        });
+//        groupImg.setOnClickListener(v -> {
+//            // TODO reomve that when finishing
+//            Intent testApis = new Intent(this, TestApis.class);
+//            startActivity(testApis);
+//        });
 
 
         FixedDBValues dbValues = new FixedDBValues();
@@ -178,6 +176,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
         findViewById(R.id.btn_create_group).setOnClickListener(v -> {
             if (validGroupData()) {
+
                 createGroup();
             }
         });
@@ -207,7 +206,6 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     public void createGroup() {
-        // FirstShow >> canceled in observCreateGroup()
         CustomProgressDialog.getInstance(this).show();
         if (imageUri != null) {
             UploadImageToFireBase imgToFireBase = new UploadImageToFireBase(this);
@@ -218,24 +216,16 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
                 HelperClass.showAlert("Error", HelperClass.checkYourCon, this);
                 CustomProgressDialog.getInstance(this).cancel();
             }
-
         } else {
             // create group
-            Group group = new Group(
-                    storage.getId(), gpLocation, null,
-                    maxMemberNumber, duration, gpName,
-                    gpDesc, HelperClass.FREE, gpLevel, gpInterest);
-
+            Group group = new Group(storage.getId(), gpLocation, null, maxMemberNumber,
+                    duration, gpName, gpDesc, HelperClass.FREE, gpLevel, gpInterest);
             String token = storage.getToken();
-
             Log.i(TAG, getLocalClassName() + " -- createGroup: mGroup >> "
                     + group.toString());
-
-            //CustomProgressDialog.getInstance(this).show();
             if (HelperClass.checkInternetState(this)) {
-                // CustomProgressDialog.getInstance(this).show();
                 groupViewModel.createGroup(group, token)
-                        .observe(this, this::observCreateGroup);
+                        .observe(this, this::observeCreateGroup);
             } else {
                 HelperClass.showAlert(ALERT, HelperClass.checkYourCon, this);
                 CustomProgressDialog.getInstance(this).cancel();
@@ -245,8 +235,8 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     private boolean validGroupData() {
-        Log.i(TAG, getLocalClassName() + " -- vaildGroupData: ");
-        boolean vaild = true;
+        Log.i(TAG, getLocalClassName() + " -- validGroupData: ");
+        boolean valid = true;
         String gpMembersValue = etMaxMembersNumber.getText().toString();
         String gpDurationValue = etGpDuration.getText().toString();
 
@@ -257,77 +247,76 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
         gpLevel = levelsSpinner.getSpItemSelected();
         gpLocation = locationSpinner.getSpItemSelected();
 
+
         maxMemberNumber = Integer.parseInt(gpMembersValue);
         duration = Integer.parseInt(gpDurationValue);
-
         // Group Name
         if (TextUtils.isEmpty(gpName)) {
             etGroupName.setError("Required");
-            vaild = false;
+            valid = false;
+        } else if (gpName.length() < 3) {
+            etGroupName.setError("Min 3 letters");
+            valid = false;
         } else {
             etGroupName.setError(null);
         }
         // Group Desc
         if (TextUtils.isEmpty(gpDesc)) {
             etGroupDesc.setError("Required");
-            vaild = false;
+            valid = false;
+        } else if (gpDesc.length() < 10) {
+            etGroupDesc.setError("Min 10 letters");
+            valid = false;
         } else {
             etGroupDesc.setError(null);
         }
         // interests
         if (interestSpinner.getSpItemSelected() == null) {
             spInterests.setError("Required");
-            vaild = false;
+            valid = false;
         } else {
             spInterests.setError(null);
         }
-
         // level
         if (levelsSpinner.getSpItemSelected() == null) {
             spLevels.setError("Required");
-            vaild = false;
+            valid = false;
         } else {
             spLevels.setError(null);
         }
         // Group Member
         if (maxMemberNumber <= 1) {
-            etErrorMember.setError("atleast 2 members");
-            vaild = false;
+            etErrorMember.setError("At least 2 members");
+            valid = false;
+        } else if (maxMemberNumber > 200) {
+            etErrorMember.setError("Max is 200");
+            valid = false;
         } else {
             etErrorMember.setError(null);
-
         }
-
         // Group Duration
-        if (duration == 0) {
+        if (duration <= 0) {
             etErrorDuration.setError("atleast 1 weak");
-            vaild = false;
+            valid = false;
         } else if (duration >= 13) {
             etErrorDuration.setError("max numbers 12 weak");
-            vaild = false;
+            valid = false;
         } else {
             etErrorDuration.setError(null);
         }
-
-        return vaild;
+        return valid;
     }
 
-    private void observCreateGroup(GeneralResponse generalRes) {
-        // Log.i(TAG, getLocalClassName() + " -- observCreateGroup: generalRes.res >> "
-        // + generalRes.response);
+    private void observeCreateGroup(GeneralResponse generalRes) {
 
         if (generalRes.response.equals(HelperClass.CREATE_GROUP_SUCCESS)) {
-            Log.i(TAG, "AddGroup -- observCreateGroup: from if Statment");
-            // 1- Go To Group Screens
-//            userViewModel.clearCreateGroupRes();
+            Log.i(TAG, "AddGroup -- observeCreateGroup: from if Statement");
+
             Toast.makeText(this, generalRes.response, Toast.LENGTH_SHORT).show();
-            Intent goToSingleGroup = new Intent(this, GroupViewPager.class);
-//            startActivity(goToSingleGroup);
             finish();
         } else {
-            Log.i(TAG, "AddGroup -- observCreateGroup: from else statmet");
-//            showAlert(generalRes.response, this);
-            showAlert(ALERT,generalRes.response, this);
+            Log.i(TAG, "AddGroup -- observeCreateGroup: from else Statement");
+            showAlert(ALERT, generalRes.response, this);
         }
         // canceled
         CustomProgressDialog.getInstance(this).cancel();
@@ -336,7 +325,10 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
 
 
     public void decrement(EditText tv) {
-        int decrement = Integer.parseInt(tv.getText().toString());
+        String tvValue = tv.getText().toString().replaceAll("\\D+","").trim();
+        Log.i(TAG, "decrement: after replace All" + tvValue);
+
+        int decrement = Integer.parseInt(tvValue);
 //        Log.i(TAG, "AddGroup -- onCreate: decrement" + decrement);
         if (decrement != 0) {
             decrement--;
@@ -346,7 +338,9 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
     }
 
     public void increment(EditText tv, boolean isDuration) {
-        int increment = Integer.parseInt(tv.getText().toString());
+        String tvValue = tv.getText().toString().replaceAll("\\D+","").trim();
+        Log.i(TAG, "increment: after replace All" + tvValue);
+        int increment = Integer.parseInt(tvValue);
 //        Log.i(TAG, "AddGroup -- onCreate: increment" + increment);
         if (isDuration & increment == 12) {
 
@@ -411,7 +405,7 @@ public class CreateGroup extends AppCompatActivity implements DownLoadImage {
                 maxMemberNumber, duration, gpName,
                 gpDesc, HelperClass.FREE, gpLevel, gpInterest);
         String token = storage.getToken();
-        groupViewModel.createGroup(group, token).observe(this, this::observCreateGroup);
+        groupViewModel.createGroup(group, token).observe(this, this::observeCreateGroup);
 
     }
 }

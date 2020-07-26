@@ -166,6 +166,7 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
                 Log.i(TAG, "EditGroupInfo -- onActivityResult: ");
 
                 this.imageUri = result.getUri();
+
                 File thumm_filepath = new File(imageUri.getPath());
                 try {
                     Bitmap thumb_Bitmab = new Compressor(this)
@@ -188,7 +189,7 @@ public class EditGroupInfo extends AppCompatActivity implements DownLoadImage {
     public void onFinishedDownloadListener(String imgUrl) {
         savedGroup.setImage(imgUrl);
         Log.i(TAG, "editGroupInfo: userID: "
-                + userStorage.getId() +"adminId: " + savedGroup.getAdminID());
+                + userStorage.getId() +"adminId: " + savedGroup.getAdminID()+"img"+imgUrl);
         groupViewModel.updateGroupInfo(savedGroup.getGroupID(), userStorage.getId(),
                 savedGroup, userStorage.getToken()).observe(this, this::editGroupObserv);
 
