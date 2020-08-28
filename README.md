@@ -4,7 +4,7 @@
 - Group is the umbrella where group members start learning something and monitor their productivity through group todo list and communicate using group chat.   
 
 ## Demo for the Application
-<a href="https://drive.google.com/file/d/1RIhbQ_UpqT8Q3XMosOVDEV6HqsroSOqs/view?usp=sharing" target="_blank">**Together App Demo**</a> 
+<a href="https://drive.google.com/file/d/1RIhbQ_UpqT8Q3XMosOVDEV6HqsroSOqs/view?usp=sharing" target="_blank">**Together App Demo Vedio**</a> 
 
 
 ## How To Use
