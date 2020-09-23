@@ -12,14 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.together.Adapters.NotificationRecyclarViewAdapter;
-import com.example.together.Adapters.POJO;
-import com.example.together.BottomNavigationView;
 import com.example.together.CustomProgressDialog;
 import com.example.together.R;
 import com.example.together.data.model.JoinGroupResponse;
@@ -29,8 +24,6 @@ import com.example.together.view_model.GroupViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.together.utils.HelperClass.TAG;
 
 public class JoinRequestsFragment extends Fragment {
 
